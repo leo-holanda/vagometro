@@ -5,7 +5,7 @@ import { Observable, first, map } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class StatisticService {
+export class StatisticsService {
 
   constructor(private jobService: JobService) { }
 

@@ -1,10 +1,10 @@
 {
-    "overrides": [
-      {
-        "files": "*.html",
-        "options": {
-          "parser": "angular"
-        }
+  "overrides": [
+    {
+      "files": "*.html",
+      "options": {
+        "parser": "angular"
       }
-    ]
-  }
+    }
+  ]
+}

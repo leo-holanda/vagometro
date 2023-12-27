@@ -3,6 +3,7 @@ import { JobService } from '../job/job.service';
 import { Observable, map } from 'rxjs';
 import { CityData } from './cities-rank/cities-rank.model';
 import { WorkplaceData } from './workplace-rank/workplace-rank.model';
+import { TypeData } from './type-rank/type-rank.model';
 
 @Injectable({
   providedIn: 'root',
@@ -71,6 +72,32 @@ export class StatisticsService {
 
         const sortedObjects = sortedEntries.map(([key, value]) => ({
           type: key,
+          count: value,
+        }));
+
+        return sortedObjects;
+      })
+    );
+  }
+
+  getTypeRank(): Observable<TypeData[]> {
+    return this.jobService.jobs$.pipe(
+      map((jobs) => {
+        const typeMap = new Map<string, number>();
+
+        jobs.forEach((job) => {
+          if (job.type == '') return;
+
+          const currentWorkplaceCount = typeMap.get(job.type) || 0;
+          typeMap.set(job.type, currentWorkplaceCount + 1);
+        });
+
+        const sortedEntries = Array.from(typeMap.entries()).sort(
+          (a, b) => b[1] - a[1]
+        );
+
+        const sortedObjects = sortedEntries.map(([key, value]) => ({
+          name: key,
           count: value,
         }));
 

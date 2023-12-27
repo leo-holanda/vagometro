@@ -4,7 +4,7 @@
   "editor.formatOnType": false, // required
   "editor.formatOnSave": true, // optional
   "editor.formatOnSaveMode": "file", // required to format on save
-  "files.autoSave": "onFocusChange", // optional but recommended
+  "files.autoSave": "off", // optional but recommended
   "vs-code-prettier-eslint.prettierLast": "false",
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"

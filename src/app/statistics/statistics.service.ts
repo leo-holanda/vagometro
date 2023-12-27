@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { JobService } from '../job/job.service';
-import { Observable, map } from 'rxjs';
+import { Observable, filter, map } from 'rxjs';
 import { CityData } from './cities-rank/cities-rank.model';
 import { WorkplaceData } from './workplace-rank/workplace-rank.model';
 import { TypeData } from './type-rank/type-rank.model';
 import { CompanyData } from './companies-rank/companies-rank.model';
+import { Job } from '../job/job.model';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +15,8 @@ export class StatisticsService {
 
   getCitiesRank(): Observable<CityData[]> {
     return this.jobService.jobs$.pipe(
+      filter((jobs): jobs is Job[] => jobs != undefined),
+
       map((jobs) => {
         const citiesMap = new Map<string, number>();
 
@@ -41,6 +44,8 @@ export class StatisticsService {
     const today = new Date();
 
     return this.jobService.jobs$.pipe(
+      filter((jobs): jobs is Job[] => jobs != undefined),
+
       map((jobs) => {
         return jobs.filter((job) => {
           const jobPublishedDate = new Date(job.publishedDate);
@@ -53,6 +58,8 @@ export class StatisticsService {
 
   getWorkplaceRank(): Observable<WorkplaceData[]> {
     return this.jobService.jobs$.pipe(
+      filter((jobs): jobs is Job[] => jobs != undefined),
+
       map((jobs) => {
         const workplaceMap = new Map<string, number>();
 
@@ -83,6 +90,8 @@ export class StatisticsService {
 
   getTypeRank(): Observable<TypeData[]> {
     return this.jobService.jobs$.pipe(
+      filter((jobs): jobs is Job[] => jobs != undefined),
+
       map((jobs) => {
         const typeMap = new Map<string, number>();
 
@@ -109,6 +118,8 @@ export class StatisticsService {
 
   getCompanyRank(): Observable<CompanyData[]> {
     return this.jobService.jobs$.pipe(
+      filter((jobs): jobs is Job[] => jobs != undefined),
+
       map((jobs) => {
         const companyMap = new Map<string, number>();
 

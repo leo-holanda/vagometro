@@ -23,6 +23,8 @@
     "@aws-sdk/client-dynamodb": "^3.478.0",
     "@aws-sdk/credential-providers": "^3.478.0",
     "@aws-sdk/lib-dynamodb": "^3.478.0",
+    "@types/echarts": "^4.9.22",
+    "echarts": "^5.4.3",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.0"

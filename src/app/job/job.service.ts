@@ -7,7 +7,7 @@ import { BehaviorSubject, Observable, first, map, take } from 'rxjs';
   providedIn: 'root',
 })
 export class JobService {
-  private _jobs$ = new BehaviorSubject<Job[]>([]);
+  private _jobs$ = new BehaviorSubject<Job[] | undefined>(undefined);
   jobs$ = this._jobs$.asObservable();
 
   constructor(private dynamoService: DynamoService) {

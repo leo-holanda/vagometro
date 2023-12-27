@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { JobService } from '../job/job.service';
 import { Observable, map } from 'rxjs';
+import { CityData } from './cities-rank/cities-rank.model';
 
 @Injectable({
   providedIn: 'root',
@@ -8,17 +9,27 @@ import { Observable, map } from 'rxjs';
 export class StatisticsService {
   constructor(private jobService: JobService) {}
 
-  getCitiesRank(): Observable<Map<string, number>> {
+  getCitiesRank(): Observable<CityData[]> {
     return this.jobService.jobs$.pipe(
       map((jobs) => {
         const citiesMap = new Map<string, number>();
 
         jobs.forEach((job) => {
+          if (job.city == '') return;
           const currentCityCount = citiesMap.get(job.city) || 0;
           citiesMap.set(job.city, currentCityCount + 1);
         });
 
-        return citiesMap;
+        const sortedEntries = Array.from(citiesMap.entries()).sort(
+          (a, b) => b[1] - a[1]
+        );
+
+        const sortedObjects = sortedEntries.map(([key, value]) => ({
+          name: key,
+          count: value,
+        }));
+
+        return sortedObjects;
       })
     );
   }

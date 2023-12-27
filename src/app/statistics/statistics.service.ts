@@ -4,6 +4,7 @@ import { Observable, map } from 'rxjs';
 import { CityData } from './cities-rank/cities-rank.model';
 import { WorkplaceData } from './workplace-rank/workplace-rank.model';
 import { TypeData } from './type-rank/type-rank.model';
+import { CompanyData } from './companies-rank/companies-rank.model';
 
 @Injectable({
   providedIn: 'root',
@@ -93,6 +94,32 @@ export class StatisticsService {
         });
 
         const sortedEntries = Array.from(typeMap.entries()).sort(
+          (a, b) => b[1] - a[1]
+        );
+
+        const sortedObjects = sortedEntries.map(([key, value]) => ({
+          name: key,
+          count: value,
+        }));
+
+        return sortedObjects;
+      })
+    );
+  }
+
+  getCompanyRank(): Observable<CompanyData[]> {
+    return this.jobService.jobs$.pipe(
+      map((jobs) => {
+        const companyMap = new Map<string, number>();
+
+        jobs.forEach((job) => {
+          if (job.careerPageName == '') return;
+
+          const currentCompanyCount = companyMap.get(job.careerPageName) || 0;
+          companyMap.set(job.careerPageName, currentCompanyCount + 1);
+        });
+
+        const sortedEntries = Array.from(companyMap.entries()).sort(
           (a, b) => b[1] - a[1]
         );
 

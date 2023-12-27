@@ -4,6 +4,7 @@ import { JobCountComponent } from './job-count/job-count.component';
 import { CitiesRankComponent } from './cities-rank/cities-rank.component';
 import { WorkplaceRankComponent } from './workplace-rank/workplace-rank.component';
 import { TypeRankComponent } from './type-rank/type-rank.component';
+import { CompaniesRankComponent } from './companies-rank/companies-rank.component';
 
 @Component({
   selector: 'vgm-statistics',
@@ -14,6 +15,7 @@ import { TypeRankComponent } from './type-rank/type-rank.component';
     CitiesRankComponent,
     WorkplaceRankComponent,
     TypeRankComponent,
+    CompaniesRankComponent,
   ],
   templateUrl: './statistics.component.html',
   styleUrls: ['./statistics.component.scss'],

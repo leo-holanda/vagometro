@@ -1,0 +1,29 @@
+<div class="card w-96 bg-base-100 shadow-xl">
+  <div class="card-body">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-1">
+        <i class="bx bxs-city"></i>
+        <h2 class="card-title">Rank de modalidades</h2>
+      </div>
+      <span>Ver mais</span>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Modalidade</th>
+            <th>Vagas</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let workplace of workplaceRank | async; index as i">
+            <th>{{ i + 1 }}</th>
+            <td>{{ workplace.type | titlecase }}</td>
+            <td>{{ workplace.count }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

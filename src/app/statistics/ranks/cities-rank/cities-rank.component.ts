@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { StatisticsService } from '../../statistics.service';
 import { CityData } from './cities-rank.model';
 import { Observable, map } from 'rxjs';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'vgm-cities-rank',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './cities-rank.component.html',
   styleUrls: ['./cities-rank.component.scss'],
 })

@@ -37,22 +37,14 @@ export class CitiesOverviewComponent implements OnInit {
   selectedState: string = 'São Paulo';
   translations = translations;
 
-  constructor(
-    private jobService: JobService,
-    private statisticsService: StatisticsService
-  ) {}
+  constructor(private jobService: JobService) {}
 
   ngOnInit(): void {
     this.jobsByState$ = this.jobService.getJobsByState(this.selectedState);
-    this.typeRank$ = this.statisticsService.getTypesRank(this.jobsByState$);
-    this.citiesRank$ = this.statisticsService.getCitiesRank(this.jobsByState$);
   }
 
   onStateClicked(state: string): void {
     this.selectedState = state;
     this.jobsByState$ = this.jobService.getJobsByState(this.selectedState);
-
-    this.typeRank$ = this.statisticsService.getTypesRank(this.jobsByState$);
-    this.citiesRank$ = this.statisticsService.getCitiesRank(this.jobsByState$);
   }
 }

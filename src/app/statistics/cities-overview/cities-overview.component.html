@@ -7,6 +7,24 @@
       <h3>Cidades com mais vagas</h3>
       <h3>Tecnologias em alta</h3>
       <h3>Tipos de vagas</h3>
+      <div class="overflow-x-auto">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Tipo</th>
+              <th>Vagas</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let type of typeRank$ | async; index as i">
+              <th>{{ i + 1 }}</th>
+              <td>{{ translations[type.name] | titlecase }}</td>
+              <td>{{ type.count }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>

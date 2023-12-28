@@ -88,8 +88,10 @@ export class StatisticsService {
     );
   }
 
-  getTypeRank(): Observable<TypeData[]> {
-    return this.jobService.jobs$.pipe(
+  getTypeRank(
+    jobs$: Observable<Job[] | undefined> = this.jobService.jobs$
+  ): Observable<TypeData[]> {
+    return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
 
       map((jobs) => {

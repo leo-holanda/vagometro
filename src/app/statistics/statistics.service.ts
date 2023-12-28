@@ -142,6 +142,9 @@ export class StatisticsService {
         const sortedObjects = sortedEntries.map(([key, value]) => ({
           name: key,
           count: value,
+          link:
+            jobs.find((job) => job.careerPageName == key)?.careerPageUrl ||
+            'https://portal.gupy.io/en',
         }));
 
         return sortedObjects;

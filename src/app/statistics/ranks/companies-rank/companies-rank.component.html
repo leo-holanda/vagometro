@@ -19,7 +19,11 @@
         <tbody>
           <tr *ngFor="let company of companyRank | async; index as i">
             <th>{{ i + 1 }}</th>
-            <td>{{ company.name | titlecase }}</td>
+            <td>
+              <a class="link" [href]="company.link" target="_blank">{{
+                company.name | titlecase
+              }}</a>
+            </td>
             <td>{{ company.count }}</td>
           </tr>
         </tbody>

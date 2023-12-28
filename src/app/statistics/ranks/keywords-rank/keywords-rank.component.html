@@ -1,0 +1,28 @@
+<ng-container *ngIf="keywordsRank$ | async as keywordsRank; else loading">
+  <div class="overflow-x-auto w-full">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Empresa</th>
+          <th>Vagas</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let keyword of keywordsRank; index as i">
+          <th>{{ i + 1 }}</th>
+          <td>
+            {{ keyword.word | titlecase }}
+          </td>
+          <td>{{ keyword.count }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</ng-container>
+
+<ng-template #loading>
+  <div class="flex items-center justify-center">
+    <span class="loading loading-spinner loading-lg"></span>
+  </div>
+</ng-template>

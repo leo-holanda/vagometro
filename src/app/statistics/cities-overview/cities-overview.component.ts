@@ -9,11 +9,13 @@ import { TypeData } from '../ranks/type-rank/type-rank.model';
 import { translations } from '../ranks/type-rank/type-rank.translations';
 import { KeywordData } from '../ranks/keywords-rank/keywords-rank.model';
 import { CityData } from '../ranks/cities-rank/cities-rank.model';
+import { KeywordsRankComponent } from '../ranks/keywords-rank/keywords-rank.component';
+import { Job } from 'src/app/job/job.model';
 
 @Component({
   selector: 'vgm-cities-overview',
   standalone: true,
-  imports: [CommonModule, BrazilMapComponent],
+  imports: [CommonModule, BrazilMapComponent, KeywordsRankComponent],
   templateUrl: './cities-overview.component.html',
   styleUrls: ['./cities-overview.component.scss'],
 })
@@ -21,6 +23,7 @@ export class CitiesOverviewComponent implements OnInit {
   typeRank$!: Observable<TypeData[]>;
   keywordsRank$!: Observable<KeywordData[]>;
   citiesRank$!: Observable<CityData[]>;
+  jobsByState$!: Observable<Job[]>;
 
   selectedState: string = 'São Paulo';
   translations = translations;
@@ -31,19 +34,16 @@ export class CitiesOverviewComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const jobsByState = this.jobService.getJobsByState(this.selectedState);
-
-    this.typeRank$ = this.statisticsService.getTypeRank(jobsByState);
-    this.keywordsRank$ = this.statisticsService.getKeywordsRank(jobsByState);
-    this.citiesRank$ = this.statisticsService.getCitiesRank(jobsByState);
+    this.jobsByState$ = this.jobService.getJobsByState(this.selectedState);
+    this.typeRank$ = this.statisticsService.getTypeRank(this.jobsByState$);
+    this.citiesRank$ = this.statisticsService.getCitiesRank(this.jobsByState$);
   }
 
   onStateClicked(state: string): void {
     this.selectedState = state;
-    const jobsByState = this.jobService.getJobsByState(this.selectedState);
+    this.jobsByState$ = this.jobService.getJobsByState(this.selectedState);
 
-    this.typeRank$ = this.statisticsService.getTypeRank(jobsByState);
-    this.keywordsRank$ = this.statisticsService.getKeywordsRank(jobsByState);
-    this.citiesRank$ = this.statisticsService.getCitiesRank(jobsByState);
+    this.typeRank$ = this.statisticsService.getTypeRank(this.jobsByState$);
+    this.citiesRank$ = this.statisticsService.getCitiesRank(this.jobsByState$);
   }
 }

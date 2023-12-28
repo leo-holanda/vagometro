@@ -6,6 +6,7 @@ import { WorkplaceRankComponent } from './ranks/workplace-rank/workplace-rank.co
 import { TypeRankComponent } from './ranks/type-rank/type-rank.component';
 import { CompaniesRankComponent } from './ranks/companies-rank/companies-rank.component';
 import { PublicationChartComponent } from './charts/publication-chart/publication-chart.component';
+import { KeywordsRankComponent } from './ranks/keywords-rank/keywords-rank.component';
 
 @Component({
   selector: 'vgm-statistics',
@@ -18,6 +19,7 @@ import { PublicationChartComponent } from './charts/publication-chart/publicatio
     TypeRankComponent,
     CompaniesRankComponent,
     PublicationChartComponent,
+    KeywordsRankComponent,
   ],
   templateUrl: './statistics.component.html',
   styleUrls: ['./statistics.component.scss'],

@@ -1,18 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BrazilMapComponent } from '../maps/brazil-map/brazil-map.component';
 import { JobService } from 'src/app/job/job.service';
-import { StatisticsService } from '../statistics.service';
-import { TypeRankComponent } from '../ranks/type-rank/type-rank.component';
 import { Observable } from 'rxjs';
-import { TypeData } from '../ranks/type-rank/type-rank.model';
-import { translations } from '../ranks/type-rank/type-rank.translations';
-import { KeywordData } from '../ranks/keywords-rank/keywords-rank.model';
-import { CityData } from '../ranks/cities-rank/cities-rank.model';
-import { KeywordsRankComponent } from '../ranks/keywords-rank/keywords-rank.component';
 import { Job } from 'src/app/job/job.model';
-import { CitiesRankComponent } from '../ranks/cities-rank/cities-rank.component';
-import { CompaniesRankComponent } from '../ranks/companies-rank/companies-rank.component';
+import { BrazilMapComponent } from '../../maps/brazil-map/brazil-map.component';
+import { CitiesRankComponent } from '../../ranks/cities-rank/cities-rank.component';
+import { CityData } from '../../ranks/cities-rank/cities-rank.model';
+import { CompaniesRankComponent } from '../../ranks/companies-rank/companies-rank.component';
+import { KeywordsRankComponent } from '../../ranks/keywords-rank/keywords-rank.component';
+import { KeywordData } from '../../ranks/keywords-rank/keywords-rank.model';
+import { TypeRankComponent } from '../../ranks/type-rank/type-rank.component';
+import { TypeData } from '../../ranks/type-rank/type-rank.model';
+import { translations } from '../../ranks/type-rank/type-rank.translations';
 
 @Component({
   selector: 'vgm-cities-overview',

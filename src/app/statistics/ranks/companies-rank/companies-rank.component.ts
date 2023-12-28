@@ -20,15 +20,26 @@ import { Job } from 'src/app/job/job.model';
 })
 export class CompaniesRankComponent implements OnInit, OnChanges {
   @Input() jobs$?: Observable<Job[]>;
-  companyRank$!: Observable<CompanyData[]>;
+  @Input() rankSize: number | undefined;
+
+  companiesRank$!: Observable<CompanyData[]>;
 
   constructor(private statisticsService: StatisticsService) {}
 
   ngOnInit(): void {
-    this.companyRank$ = this.statisticsService.getCompanyRank(this.jobs$);
+    this.companiesRank$ = this.statisticsService.getCompanyRank(this.jobs$);
+    if (this.rankSize)
+      this.companiesRank$ = this.companiesRank$.pipe(
+        map((companiesRank) => companiesRank.slice(0, this.rankSize))
+      );
   }
 
   ngOnChanges(): void {
-    this.companyRank$ = this.statisticsService.getCompanyRank(this.jobs$);
+    this.companiesRank$ = this.statisticsService.getCompanyRank(this.jobs$);
+
+    if (this.rankSize)
+      this.companiesRank$ = this.companiesRank$.pipe(
+        map((companiesRank) => companiesRank.slice(0, this.rankSize))
+      );
   }
 }

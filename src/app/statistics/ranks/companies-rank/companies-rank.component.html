@@ -1,4 +1,4 @@
-<ng-container *ngIf="companyRank$ | async as companyRank; else loading">
+<ng-container *ngIf="companiesRank$ | async as companiesRank; else loading">
   <div class="overflow-x-auto w-full">
     <table class="table">
       <thead>
@@ -9,7 +9,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let company of companyRank; index as i">
+        <tr *ngFor="let company of companiesRank; index as i">
           <th>{{ i + 1 }}</th>
           <td>
             <a class="link" [href]="company.link" target="_blank">{{

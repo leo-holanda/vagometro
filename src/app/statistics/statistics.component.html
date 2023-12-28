@@ -1,9 +1,9 @@
-<div class="flex align-center justify-center flex-col">
+<div class="flex align-center justify-center flex-col mb-4">
   <vgm-job-count></vgm-job-count>
   <vgm-publication-chart></vgm-publication-chart>
 
-  <div class="flex items-start justify-center gap-2 flex-col 2xl:flex-row">
-    <div class="card w-96 bg-base-100 shadow-xl">
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 m-2">
+    <div class="card w-full bg-base-100 shadow-xl">
       <div class="card-body">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-1">
@@ -16,7 +16,7 @@
       </div>
     </div>
 
-    <div class="card w-96 bg-base-100 shadow-xl">
+    <div class="card w-full bg-base-100 shadow-xl">
       <div class="card-body">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-1">
@@ -29,20 +29,20 @@
       </div>
     </div>
 
-    <div class="card w-96 bg-base-100 shadow-xl">
+    <div class="card w-full bg-base-100 shadow-xl">
       <div class="card-body">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-1">
-            <i class="bx bxs-briefcase"></i>
-            <h2 class="card-title">Rank de tipos</h2>
+            <i class="bx bxs-chip"></i>
+            <h2 class="card-title">Rank de tecnologias</h2>
           </div>
           <span>Ver mais</span>
         </div>
-        <vgm-type-rank></vgm-type-rank>
+        <vgm-keywords-rank [rankSize]="5"></vgm-keywords-rank>
       </div>
     </div>
 
-    <div class="card w-96 bg-base-100 shadow-xl">
+    <div class="card w-full bg-base-100 shadow-xl">
       <div class="card-body">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-1">
@@ -55,16 +55,16 @@
       </div>
     </div>
 
-    <div class="card w-96 bg-base-100 shadow-xl">
+    <div class="card w-full bg-base-100 shadow-xl">
       <div class="card-body">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-1">
-            <i class="bx bxs-chip"></i>
-            <h2 class="card-title">Rank de tecnologias</h2>
+            <i class="bx bxs-briefcase"></i>
+            <h2 class="card-title">Rank de tipos</h2>
           </div>
           <span>Ver mais</span>
         </div>
-        <vgm-keywords-rank [rankSize]="5"></vgm-keywords-rank>
+        <vgm-type-rank></vgm-type-rank>
       </div>
     </div>
   </div>

@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { JobService } from '../job/job.service';
 import { Observable, filter, map } from 'rxjs';
-import { CityData } from './cities-rank/cities-rank.model';
-import { WorkplaceData } from './workplace-rank/workplace-rank.model';
-import { TypeData } from './type-rank/type-rank.model';
-import { CompanyData } from './companies-rank/companies-rank.model';
+import { CityData } from './ranks/cities-rank/cities-rank.model';
+import { WorkplaceData } from './ranks/workplace-rank/workplace-rank.model';
+import { TypeData } from './ranks/type-rank/type-rank.model';
+import { CompanyData } from './ranks/companies-rank/companies-rank.model';
 import { Job } from '../job/job.model';
 
 @Injectable({

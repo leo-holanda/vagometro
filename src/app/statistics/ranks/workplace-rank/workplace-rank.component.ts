@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule, TitleCasePipe } from '@angular/common';
-import { StatisticsService } from '../statistics.service';
+import { StatisticsService } from '../../statistics.service';
 import { WorkplaceData } from './workplace-rank.model';
 import { Observable } from 'rxjs';
 

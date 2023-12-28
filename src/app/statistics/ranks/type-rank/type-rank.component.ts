@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { StatisticsService } from '../statistics.service';
+import { StatisticsService } from '../../statistics.service';
 import { Translations, TypeData } from './type-rank.model';
 import { Observable, map } from 'rxjs';
 

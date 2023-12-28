@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable, map } from 'rxjs';
 import { CompanyData } from './companies-rank.model';
-import { StatisticsService } from '../statistics.service';
+import { StatisticsService } from '../../statistics.service';
 
 @Component({
   selector: 'vgm-companies-rank',

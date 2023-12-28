@@ -6,6 +6,8 @@ import { WorkplaceData } from './ranks/workplace-rank/workplace-rank.model';
 import { TypeData } from './ranks/type-rank/type-rank.model';
 import { CompanyData } from './ranks/companies-rank/companies-rank.model';
 import { Job } from '../job/job.model';
+import { KeywordData } from './ranks/keywords-rank/keywords-rank.model';
+import { keywords } from './ranks/keywords-rank/keywords-rank.data';
 
 @Injectable({
   providedIn: 'root',
@@ -138,6 +140,42 @@ export class StatisticsService {
 
         const sortedObjects = sortedEntries.map(([key, value]) => ({
           name: key,
+          count: value,
+        }));
+
+        return sortedObjects;
+      })
+    );
+  }
+
+  getKeywordsRank(
+    jobs$: Observable<Job[] | undefined> = this.jobService.jobs$
+  ): Observable<KeywordData[]> {
+    return jobs$.pipe(
+      filter((jobs): jobs is Job[] => jobs != undefined),
+      map((jobs) => {
+        const keywordsMap = new Map<string, number>();
+
+        jobs.forEach((job) => {
+          job.description.split(' ').forEach((word) => {
+            const matchedKeyword = keywords.find(
+              (keyword) =>
+                keyword.toLowerCase() == word.toLowerCase().replaceAll(',', '')
+            );
+
+            if (matchedKeyword) {
+              const currentKeywordCount = keywordsMap.get(matchedKeyword)! | 0;
+              keywordsMap.set(matchedKeyword, currentKeywordCount + 1);
+            }
+          });
+        });
+
+        const sortedEntries = Array.from(keywordsMap.entries())
+          .filter((keyword) => keyword[1] != 0)
+          .sort((a, b) => b[1] - a[1]);
+
+        const sortedObjects = sortedEntries.map(([key, value]) => ({
+          word: key,
           count: value,
         }));
 

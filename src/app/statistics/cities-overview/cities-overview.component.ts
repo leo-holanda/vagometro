@@ -7,6 +7,7 @@ import { TypeRankComponent } from '../ranks/type-rank/type-rank.component';
 import { Observable } from 'rxjs';
 import { TypeData } from '../ranks/type-rank/type-rank.model';
 import { translations } from '../ranks/type-rank/type-rank.translations';
+import { KeywordData } from '../ranks/keywords-rank/keywords-rank.model';
 
 @Component({
   selector: 'vgm-cities-overview',
@@ -16,8 +17,10 @@ import { translations } from '../ranks/type-rank/type-rank.translations';
   styleUrls: ['./cities-overview.component.scss'],
 })
 export class CitiesOverviewComponent implements OnInit {
-  selectedState: string = 'São Paulo';
   typeRank$!: Observable<TypeData[]>;
+  keywordsRank$!: Observable<KeywordData[]>;
+
+  selectedState: string = 'São Paulo';
   translations = translations;
 
   constructor(
@@ -26,15 +29,17 @@ export class CitiesOverviewComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.typeRank$ = this.statisticsService.getTypeRank(
-      this.jobService.getJobsByState(this.selectedState)
-    );
+    const jobsByState = this.jobService.getJobsByState(this.selectedState);
+
+    this.typeRank$ = this.statisticsService.getTypeRank(jobsByState);
+    this.keywordsRank$ = this.statisticsService.getKeywordsRank(jobsByState);
   }
 
   onStateClicked(state: string): void {
     this.selectedState = state;
-    this.typeRank$ = this.statisticsService.getTypeRank(
-      this.jobService.getJobsByState(this.selectedState)
-    );
+    const jobsByState = this.jobService.getJobsByState(this.selectedState);
+
+    this.typeRank$ = this.statisticsService.getTypeRank(jobsByState);
+    this.keywordsRank$ = this.statisticsService.getKeywordsRank(jobsByState);
   }
 }

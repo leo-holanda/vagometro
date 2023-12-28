@@ -1,1 +1,12 @@
-<vgm-brazil-map></vgm-brazil-map>
+<h1 class="text-2xl mb-4">Dados dos estados</h1>
+<div class="grid grid-cols-2 gap-8">
+  <vgm-brazil-map (stateClicked)="onStateClicked($event)"></vgm-brazil-map>
+  <div class="card w-full bg-base-100 shadow-xl">
+    <div class="card-body">
+      <h2 class="card-title">{{ selectedState }}</h2>
+      <h3>Cidades com mais vagas</h3>
+      <h3>Tecnologias em alta</h3>
+      <h3>Tipos de vagas</h3>
+    </div>
+  </div>
+</div>

@@ -2,7 +2,9 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  EventEmitter,
   OnInit,
+  Output,
   ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -18,6 +20,7 @@ import * as echarts from 'echarts';
 })
 export class BrazilMapComponent implements AfterViewInit {
   @ViewChild('mapwrapper') mapWrapper!: ElementRef<HTMLElement>;
+  @Output() stateClicked = new EventEmitter<string>();
 
   constructor(private mapDataService: MapDataService) {}
 
@@ -68,6 +71,10 @@ export class BrazilMapComponent implements AfterViewInit {
           },
         ],
       });
+    });
+
+    map.on('click', (params: any) => {
+      this.stateClicked.emit(params.name);
     });
   }
 }

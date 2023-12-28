@@ -1,1 +1,26 @@
-<p>workplaces-overview works!</p>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-4 m-4 h-full">
+  <vgm-workplaces-chart
+    (workplaceClicked)="onWorkplaceClick($event)"
+  ></vgm-workplaces-chart>
+
+  <div class="card w-full bg-base-100 shadow-xl">
+    <div class="card-body">
+      <h1>{{ selectedWorkplace | titlecase }}</h1>
+
+      <section>
+        <h3>Empresas que mais contratam</h3>
+        <vgm-companies-rank [jobs$]="jobsByWorkplace$"></vgm-companies-rank>
+      </section>
+
+      <section>
+        <h3>Tecnologias em alta</h3>
+        <vgm-keywords-rank [jobs$]="jobsByWorkplace$"></vgm-keywords-rank>
+      </section>
+
+      <section>
+        <h3>Tipos de vagas</h3>
+        <vgm-type-rank [jobs$]="jobsByWorkplace$"></vgm-type-rank>
+      </section>
+    </div>
+  </div>
+</div>

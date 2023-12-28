@@ -28,4 +28,13 @@ export class JobService {
       })
     );
   }
+
+  getJobsByWorkplace(workplace: string): Observable<Job[]> {
+    return this.jobs$.pipe(
+      filter((jobs): jobs is Job[] => jobs != undefined),
+      map((jobs) => {
+        return jobs.filter((job) => job.workplaceType == workplace);
+      })
+    );
+  }
 }

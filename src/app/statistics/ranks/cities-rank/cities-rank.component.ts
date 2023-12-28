@@ -5,11 +5,12 @@ import { CityData } from './cities-rank.model';
 import { Observable, map } from 'rxjs';
 import { RouterModule } from '@angular/router';
 import { Job } from 'src/app/job/job.model';
+import { StateAbbreviationPipe } from '../../../shared/pipes/state-abbreviation.pipe';
 
 @Component({
   selector: 'vgm-cities-rank',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, StateAbbreviationPipe],
   templateUrl: './cities-rank.component.html',
   styleUrls: ['./cities-rank.component.scss'],
 })

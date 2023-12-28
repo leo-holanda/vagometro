@@ -35,6 +35,7 @@ export class StatisticsService {
 
         const sortedObjects = sortedEntries.map(([key, value]) => ({
           name: key,
+          state: jobs.find((job) => key == job.city)?.state || 'Desconhecido',
           count: value,
         }));
 

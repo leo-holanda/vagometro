@@ -6,7 +6,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { KeywordData } from './keywords-rank.model';
 import { StatisticsService } from '../../statistics.service';
 import { Job } from 'src/app/job/job.model';
@@ -20,15 +20,27 @@ import { Job } from 'src/app/job/job.model';
 })
 export class KeywordsRankComponent implements OnInit, OnChanges {
   @Input() jobs$?: Observable<Job[]>;
+  @Input() rankSize: number | undefined;
+
   keywordsRank$!: Observable<KeywordData[]>;
 
   constructor(private statisticsService: StatisticsService) {}
 
   ngOnInit(): void {
     this.keywordsRank$ = this.statisticsService.getKeywordsRank(this.jobs$);
+
+    if (this.rankSize)
+      this.keywordsRank$ = this.keywordsRank$.pipe(
+        map((keywordsRank) => keywordsRank.slice(0, this.rankSize))
+      );
   }
 
   ngOnChanges(): void {
     this.keywordsRank$ = this.statisticsService.getKeywordsRank(this.jobs$);
+
+    if (this.rankSize)
+      this.keywordsRank$ = this.keywordsRank$.pipe(
+        map((keywordsRank) => keywordsRank.slice(0, this.rankSize))
+      );
   }
 }

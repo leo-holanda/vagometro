@@ -15,15 +15,25 @@ import { Job } from 'src/app/job/job.model';
 })
 export class CitiesRankComponent implements OnInit, OnChanges {
   @Input() jobs$?: Observable<Job[]>;
+  @Input() rankSize: number | undefined;
+
   citiesRank$!: Observable<CityData[]>;
 
   constructor(private statisticsService: StatisticsService) {}
 
   ngOnInit(): void {
     this.citiesRank$ = this.statisticsService.getCitiesRank(this.jobs$);
+    if (this.rankSize)
+      this.citiesRank$ = this.citiesRank$.pipe(
+        map((citiesRank) => citiesRank.slice(0, this.rankSize))
+      );
   }
 
   ngOnChanges(): void {
     this.citiesRank$ = this.statisticsService.getCitiesRank(this.jobs$);
+    if (this.rankSize)
+      this.citiesRank$ = this.citiesRank$.pipe(
+        map((citiesRank) => citiesRank.slice(0, this.rankSize))
+      );
   }
 }

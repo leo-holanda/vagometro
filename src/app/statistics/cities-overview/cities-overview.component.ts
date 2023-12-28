@@ -12,6 +12,7 @@ import { CityData } from '../ranks/cities-rank/cities-rank.model';
 import { KeywordsRankComponent } from '../ranks/keywords-rank/keywords-rank.component';
 import { Job } from 'src/app/job/job.model';
 import { CitiesRankComponent } from '../ranks/cities-rank/cities-rank.component';
+import { CompaniesRankComponent } from '../ranks/companies-rank/companies-rank.component';
 
 @Component({
   selector: 'vgm-cities-overview',
@@ -21,6 +22,7 @@ import { CitiesRankComponent } from '../ranks/cities-rank/cities-rank.component'
     BrazilMapComponent,
     KeywordsRankComponent,
     CitiesRankComponent,
+    CompaniesRankComponent,
   ],
   templateUrl: './cities-overview.component.html',
   styleUrls: ['./cities-overview.component.scss'],

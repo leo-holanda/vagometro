@@ -121,8 +121,10 @@ export class StatisticsService {
     );
   }
 
-  getCompanyRank(): Observable<CompanyData[]> {
-    return this.jobService.jobs$.pipe(
+  getCompanyRank(
+    jobs$: Observable<Job[] | undefined> = this.jobService.jobs$
+  ): Observable<CompanyData[]> {
+    return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
 
       map((jobs) => {

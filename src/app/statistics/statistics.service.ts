@@ -93,7 +93,7 @@ export class StatisticsService {
     );
   }
 
-  getTypeRank(
+  getTypesRank(
     jobs$: Observable<Job[] | undefined> = this.jobService.jobs$
   ): Observable<TypeData[]> {
     return jobs$.pipe(

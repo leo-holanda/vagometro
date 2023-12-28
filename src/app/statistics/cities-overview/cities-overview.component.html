@@ -1,6 +1,8 @@
 <h1 class="text-2xl mb-4">Dados dos estados</h1>
+
 <div class="grid grid-cols-2 gap-8">
   <vgm-brazil-map (stateClicked)="onStateClicked($event)"></vgm-brazil-map>
+
   <div class="card w-full bg-base-100 shadow-xl">
     <div class="card-body">
       <h2 class="card-title">{{ selectedState }}</h2>
@@ -20,25 +22,10 @@
         <vgm-companies-rank [jobs$]="jobsByState$"></vgm-companies-rank>
       </section>
 
-      <h3>Tipos de vagas</h3>
-      <div class="overflow-x-auto">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Tipo</th>
-              <th>Vagas</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let type of typeRank$ | async; index as i">
-              <th>{{ i + 1 }}</th>
-              <td>{{ translations[type.name] | titlecase }}</td>
-              <td>{{ type.count }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <section>
+        <h3>Tipos de vagas</h3>
+        <vgm-type-rank [jobs$]="jobsByState$"></vgm-type-rank>
+      </section>
     </div>
   </div>
 </div>

@@ -23,6 +23,7 @@ import { CompaniesRankComponent } from '../ranks/companies-rank/companies-rank.c
     KeywordsRankComponent,
     CitiesRankComponent,
     CompaniesRankComponent,
+    TypeRankComponent,
   ],
   templateUrl: './cities-overview.component.html',
   styleUrls: ['./cities-overview.component.scss'],
@@ -43,7 +44,7 @@ export class CitiesOverviewComponent implements OnInit {
 
   ngOnInit(): void {
     this.jobsByState$ = this.jobService.getJobsByState(this.selectedState);
-    this.typeRank$ = this.statisticsService.getTypeRank(this.jobsByState$);
+    this.typeRank$ = this.statisticsService.getTypesRank(this.jobsByState$);
     this.citiesRank$ = this.statisticsService.getCitiesRank(this.jobsByState$);
   }
 
@@ -51,7 +52,7 @@ export class CitiesOverviewComponent implements OnInit {
     this.selectedState = state;
     this.jobsByState$ = this.jobService.getJobsByState(this.selectedState);
 
-    this.typeRank$ = this.statisticsService.getTypeRank(this.jobsByState$);
+    this.typeRank$ = this.statisticsService.getTypesRank(this.jobsByState$);
     this.citiesRank$ = this.statisticsService.getCitiesRank(this.jobsByState$);
   }
 }

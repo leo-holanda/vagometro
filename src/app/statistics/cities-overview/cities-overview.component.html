@@ -4,25 +4,11 @@
   <div class="card w-full bg-base-100 shadow-xl">
     <div class="card-body">
       <h2 class="card-title">{{ selectedState }}</h2>
-      <h3>Cidades com mais vagas</h3>
-      <div class="overflow-x-auto">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Nome</th>
-              <th>Vagas</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let city of citiesRank$ | async; index as i">
-              <th>{{ i + 1 }}</th>
-              <td>{{ city.name }}</td>
-              <td>{{ city.count }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+
+      <section>
+        <h3>Cidades com mais vagas</h3>
+        <vgm-cities-rank [jobs$]="jobsByState$"></vgm-cities-rank>
+      </section>
 
       <section>
         <h3>Tecnologias em alta</h3>

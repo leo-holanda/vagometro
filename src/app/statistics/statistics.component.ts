@@ -7,6 +7,7 @@ import { TypeRankComponent } from './ranks/type-rank/type-rank.component';
 import { CompaniesRankComponent } from './ranks/companies-rank/companies-rank.component';
 import { PublicationChartComponent } from './charts/publication-chart/publication-chart.component';
 import { KeywordsRankComponent } from './ranks/keywords-rank/keywords-rank.component';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'vgm-statistics',
@@ -20,6 +21,7 @@ import { KeywordsRankComponent } from './ranks/keywords-rank/keywords-rank.compo
     CompaniesRankComponent,
     PublicationChartComponent,
     KeywordsRankComponent,
+    RouterModule,
   ],
   templateUrl: './statistics.component.html',
   styleUrls: ['./statistics.component.scss'],

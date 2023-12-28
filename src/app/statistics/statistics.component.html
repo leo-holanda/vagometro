@@ -2,7 +2,19 @@
   <vgm-job-count></vgm-job-count>
   <vgm-publication-chart></vgm-publication-chart>
   <div class="flex items-start justify-center gap-2 flex-col 2xl:flex-row">
-    <vgm-cities-rank></vgm-cities-rank>
+    <div class="card w-96 bg-base-100 shadow-xl">
+      <div class="card-body">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-1">
+            <i class="bx bxs-map"></i>
+            <h2 class="card-title">Rank de cidades</h2>
+          </div>
+          <a class="link" [routerLink]="['/cidades']">Ver mais</a>
+        </div>
+        <vgm-cities-rank></vgm-cities-rank>
+      </div>
+    </div>
+
     <vgm-workplace-rank></vgm-workplace-rank>
     <vgm-type-rank></vgm-type-rank>
 

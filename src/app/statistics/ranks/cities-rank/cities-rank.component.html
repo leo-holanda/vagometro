@@ -1,29 +1,26 @@
-<div class="card w-96 bg-base-100 shadow-xl">
-  <div class="card-body">
-    <div class="flex items-center justify-between">
-      <div class="flex items-center gap-1">
-        <i class="bx bxs-map"></i>
-        <h2 class="card-title">Rank de cidades</h2>
-      </div>
-      <a class="link" [routerLink]="['/cidades']">Ver mais</a>
-    </div>
-    <div class="overflow-x-auto">
-      <table class="table">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Nome</th>
-            <th>Vagas</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let city of citiesRank | async; index as i">
-            <th>{{ i + 1 }}</th>
-            <td>{{ city.name }}</td>
-            <td>{{ city.count }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+<ng-container *ngIf="citiesRank$ | async as citiesRank; else loading">
+  <div class="overflow-x-auto w-full">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Nome</th>
+          <th>Vagas</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let city of citiesRank; index as i">
+          <th>{{ i + 1 }}</th>
+          <td>{{ city.name }}</td>
+          <td>{{ city.count }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-</div>
+</ng-container>
+
+<ng-template #loading>
+  <div class="flex items-center justify-center">
+    <span class="loading loading-spinner loading-lg"></span>
+  </div>
+</ng-template>

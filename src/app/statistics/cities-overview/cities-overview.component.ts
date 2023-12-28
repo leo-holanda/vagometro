@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import { TypeData } from '../ranks/type-rank/type-rank.model';
 import { translations } from '../ranks/type-rank/type-rank.translations';
 import { KeywordData } from '../ranks/keywords-rank/keywords-rank.model';
+import { CityData } from '../ranks/cities-rank/cities-rank.model';
 
 @Component({
   selector: 'vgm-cities-overview',
@@ -19,6 +20,7 @@ import { KeywordData } from '../ranks/keywords-rank/keywords-rank.model';
 export class CitiesOverviewComponent implements OnInit {
   typeRank$!: Observable<TypeData[]>;
   keywordsRank$!: Observable<KeywordData[]>;
+  citiesRank$!: Observable<CityData[]>;
 
   selectedState: string = 'São Paulo';
   translations = translations;
@@ -33,6 +35,7 @@ export class CitiesOverviewComponent implements OnInit {
 
     this.typeRank$ = this.statisticsService.getTypeRank(jobsByState);
     this.keywordsRank$ = this.statisticsService.getKeywordsRank(jobsByState);
+    this.citiesRank$ = this.statisticsService.getCitiesRank(jobsByState);
   }
 
   onStateClicked(state: string): void {
@@ -41,5 +44,6 @@ export class CitiesOverviewComponent implements OnInit {
 
     this.typeRank$ = this.statisticsService.getTypeRank(jobsByState);
     this.keywordsRank$ = this.statisticsService.getKeywordsRank(jobsByState);
+    this.citiesRank$ = this.statisticsService.getCitiesRank(jobsByState);
   }
 }

@@ -15,10 +15,11 @@ import { keywords } from './ranks/keywords-rank/keywords-rank.data';
 export class StatisticsService {
   constructor(private jobService: JobService) {}
 
-  getCitiesRank(): Observable<CityData[]> {
-    return this.jobService.jobs$.pipe(
+  getCitiesRank(
+    jobs$: Observable<Job[] | undefined> = this.jobService.jobs$
+  ): Observable<CityData[]> {
+    return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
-
       map((jobs) => {
         const citiesMap = new Map<string, number>();
 

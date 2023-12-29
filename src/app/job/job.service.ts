@@ -47,6 +47,15 @@ export class JobService {
     );
   }
 
+  getJobsByCompany(companyName: string): Observable<Job[]> {
+    return this.jobs$.pipe(
+      filter((jobs): jobs is Job[] => jobs != undefined),
+      map((jobs) => {
+        return jobs.filter((job) => job.careerPageName == companyName);
+      })
+    );
+  }
+
   private jobHasKeyword(job: Job, keyword: string): boolean {
     const splittedDescription = job.description.split(' ');
     return splittedDescription.some(

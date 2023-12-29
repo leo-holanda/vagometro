@@ -11,11 +11,12 @@ import { StatisticsService } from '../statistics.service';
   styleUrls: ['./job-count.component.scss'],
 })
 export class JobCountComponent implements OnInit {
-  jobsPublishedInCurrentMonthCount!: Observable<number>;
+  jobsPublishedInCurrentMonthCount$!: Observable<number>;
+
   constructor(private statisticsService: StatisticsService) {}
 
   ngOnInit(): void {
-    this.jobsPublishedInCurrentMonthCount =
+    this.jobsPublishedInCurrentMonthCount$ =
       this.statisticsService.getJobsPublishedInCurrentMonthCount();
   }
 }

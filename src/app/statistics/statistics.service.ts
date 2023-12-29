@@ -49,7 +49,6 @@ export class StatisticsService {
 
     return this.jobService.jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
-
       map((jobs) => {
         return jobs.filter((job) => {
           const jobPublishedDate = new Date(job.publishedDate);

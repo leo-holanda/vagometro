@@ -27,14 +27,11 @@ export class PublicationChartComponent implements AfterViewInit {
       textColor: 'white',
     });
 
-    this.chartService
-      .getPublicationSeries()
-      .pipe(first())
-      .subscribe((publicationSeries) => {
-        this.publicationSeries = publicationSeries;
-        this.publicationChart.hideLoading();
-        this.drawChart();
-      });
+    this.chartService.getPublicationSeries().subscribe((publicationSeries) => {
+      this.publicationSeries = publicationSeries;
+      this.publicationChart.hideLoading();
+      this.drawChart();
+    });
 
     fromEvent(window, 'resize')
       .pipe(debounceTime(250))

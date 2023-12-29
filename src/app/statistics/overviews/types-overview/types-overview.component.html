@@ -1,0 +1,60 @@
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-4 m-4 h-full">
+  <div class="card w-full bg-base-100 shadow-xl flex flex-col gap-4">
+    <div class="card-body">
+      <h1 class="font-bold text-lg mb-4">Rank de tipos</h1>
+      <button
+        class="btn btn-ghost"
+        *ngFor="let type of typesRank$ | async; index as i"
+        (click)="onTypeClick(type.name)"
+      >
+        <div class="w-full flex justify-between">
+          <span>{{
+            i + 1 + ". " + typesTranslations[type.name] | titlecase
+          }}</span>
+          <span>{{ type.count }}</span>
+        </div>
+        <progress
+          class="progress w-full"
+          [value]="type.count"
+          [max]="typesQuantity"
+        ></progress>
+      </button>
+    </div>
+  </div>
+
+  <div class="card w-full bg-base-100 shadow-xl">
+    <div class="card-body">
+      <h1 class="font-bold text-lg mb-4">
+        Sobre a tipo {{ typesTranslations[selectedType] | titlecase }}
+      </h1>
+
+      <section>
+        <div class="flex items-center gap-2 mb-2">
+          <i class="bx bxs-chip"></i>
+          <h3>Tecnologias mais frequentes</h3>
+        </div>
+        <vgm-keywords-rank [jobs$]="jobsByType$"></vgm-keywords-rank>
+      </section>
+
+      <div class="divider"></div>
+
+      <section>
+        <div class="flex items-center gap-2 mb-2">
+          <i class="bx bxs-business"></i>
+          <h3>Empresas que mais contratam</h3>
+        </div>
+        <vgm-companies-rank [jobs$]="jobsByType$"></vgm-companies-rank>
+      </section>
+
+      <div class="divider"></div>
+
+      <section>
+        <div class="flex items-center gap-2 mb-2">
+          <i class="bx bxs-home"></i>
+          <h3>Modalidades mais frequentes</h3>
+        </div>
+        <vgm-workplace-rank [jobs$]="jobsByType$"></vgm-workplace-rank>
+      </section>
+    </div>
+  </div>
+</div>

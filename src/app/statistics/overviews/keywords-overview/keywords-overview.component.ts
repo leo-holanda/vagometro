@@ -8,6 +8,7 @@ import { Job } from 'src/app/job/job.model';
 import { CompaniesRankComponent } from '../../ranks/companies-rank/companies-rank.component';
 import { WorkplaceRankComponent } from '../../ranks/workplace-rank/workplace-rank.component';
 import { TypeRankComponent } from '../../ranks/type-rank/type-rank.component';
+import { PublicationChartComponent } from '../../charts/publication-chart/publication-chart.component';
 
 @Component({
   selector: 'vgm-keywords-overview',
@@ -17,6 +18,7 @@ import { TypeRankComponent } from '../../ranks/type-rank/type-rank.component';
     CompaniesRankComponent,
     WorkplaceRankComponent,
     TypeRankComponent,
+    PublicationChartComponent,
   ],
   templateUrl: './keywords-overview.component.html',
   styleUrls: ['./keywords-overview.component.scss'],

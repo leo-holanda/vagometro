@@ -1,33 +1,58 @@
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 m-4 h-full">
-  <div class="card w-full bg-base-100 shadow-xl flex flex-col gap-4">
-    <div class="card-body">
-      <h1 class="font-bold text-lg mb-4">
-        Vagas que pedem {{ selectedKeyword }} também pedem...
-      </h1>
-      <button
-        class="btn btn-ghost"
-        *ngFor="let keyword of keywordsRank$ | async; index as i"
-        (click)="onKeywordClick(keyword.word)"
+  <div class="flex flex-col gap-4 h-min">
+    <div
+      class="card card-bordered card-compact w-full bg-base-100 shadow-xl flex flex-col gap-4"
+    >
+      <div class="card-title">
+        <h1 class="font-bold text-lg p-4">
+          Vagas que pedem {{ selectedKeyword }} também pedem...
+        </h1>
+      </div>
+
+      <div class="card-body">
+        <button
+          class="btn btn-ghost"
+          *ngFor="let keyword of keywordsRank$ | async; index as i"
+          (click)="onKeywordClick(keyword.word)"
+        >
+          <div class="w-full flex justify-between">
+            <span>{{ i + 1 + ". " + keyword.word }}</span>
+            <span>{{ keyword.count }}</span>
+          </div>
+          <progress
+            class="progress w-full"
+            [value]="keyword.count"
+            [max]="keywordsQuantity"
+          ></progress>
+        </button>
+      </div>
+
+      <div
+        class="card card-bordered card-compact w-full bg-base-100 shadow-xl flex flex-col gap-4 h-min"
       >
-        <div class="w-full flex justify-between">
-          <span>{{ i + 1 + ". " + keyword.word }}</span>
-          <span>{{ keyword.count }}</span>
+        <div class="card-title">
+          <h1 class="font-bold text-lg p-4">
+            Vagas publicadas ao longo do tempo
+          </h1>
         </div>
-        <progress
-          class="progress w-full"
-          [value]="keyword.count"
-          [max]="keywordsQuantity"
-        ></progress>
-      </button>
+
+        <div class="card-body">
+          <vgm-publication-chart
+            [jobs$]="jobsByKeyword$"
+          ></vgm-publication-chart>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div class="card w-full bg-base-100 shadow-xl">
-    <div class="card-body">
-      <h1 class="font-bold text-lg mb-4">
+  <div class="card card-bordered card-compact w-full bg-base-100 shadow-xl">
+    <div class="card-title">
+      <h1 class="font-bold text-lg p-4">
         Sobre as vagas que pedem {{ selectedKeyword }}
       </h1>
+    </div>
 
+    <div class="card-body">
       <section>
         <div class="flex items-center gap-2 mb-2">
           <i class="bx bxs-business"></i>

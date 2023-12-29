@@ -19,3 +19,53 @@
     </button>
   </div>
 </div>
+
+<div class="w-full flex items-center justify-center gap-2 m-4">
+  <button
+    [ngClass]="{ 'btn-active': selectedTimeWindows == timeWindows.day }"
+    (click)="filterJobs(timeWindows.day)"
+    class="btn btn-outline"
+  >
+    24h
+  </button>
+
+  <button
+    [ngClass]="{ 'btn-active': selectedTimeWindows == timeWindows.week }"
+    (click)="filterJobs(timeWindows.week)"
+    class="btn btn-outline"
+  >
+    Semana
+  </button>
+
+  <button
+    [ngClass]="{ 'btn-active': selectedTimeWindows == timeWindows.month }"
+    (click)="filterJobs(timeWindows.month)"
+    class="btn btn-outline"
+  >
+    Mês
+  </button>
+
+  <button
+    [ngClass]="{ 'btn-active': selectedTimeWindows == timeWindows['6months'] }"
+    (click)="filterJobs(timeWindows['6months'])"
+    class="btn btn-outline"
+  >
+    6 meses
+  </button>
+
+  <button
+    [ngClass]="{ 'btn-active': selectedTimeWindows == timeWindows.year }"
+    (click)="filterJobs(timeWindows.year)"
+    class="btn btn-outline"
+  >
+    1 ano
+  </button>
+
+  <button
+    [ngClass]="{ 'btn-active': selectedTimeWindows == timeWindows.all }"
+    (click)="filterJobs(timeWindows.all)"
+    class="btn btn-outline"
+  >
+    Sempre
+  </button>
+</div>

@@ -25,3 +25,12 @@ export type Job = {
 export type Badges = {
   friendlyBadge: boolean;
 };
+
+export enum TimeWindows {
+  'day',
+  'week',
+  'month',
+  '6months',
+  'year',
+  'all',
+}

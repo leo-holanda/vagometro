@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable, filter, map } from 'rxjs';
+import { Observable, combineLatest, filter, map } from 'rxjs';
 import { JobService } from 'src/app/job/job.service';
-import { Job } from 'src/app/job/job.model';
+import { Job, TimeWindows } from 'src/app/job/job.model';
 
 @Injectable({
   providedIn: 'root',
@@ -12,14 +12,12 @@ export class ChartService {
   getPublicationSeries(
     jobs$: Observable<Job[] | undefined> = this.jobService.jobs$
   ): Observable<any> {
-    return jobs$.pipe(
-      filter((jobs): jobs is Job[] => jobs != undefined),
-      map((jobs) => {
-        let minDate = new Date();
-        jobs.forEach((job) => {
-          const publishedDate = new Date(job.publishedDate);
-          if (minDate > publishedDate) minDate = publishedDate;
-        });
+    return combineLatest([jobs$, this.jobService.currentTimeWindow$]).pipe(
+      filter(
+        (params): params is [Job[], TimeWindows] => params[0] != undefined
+      ),
+      map(([jobs, currentTimeWindow]) => {
+        let minDate = this.jobService.createDateByTimeWindow(currentTimeWindow);
 
         const publicationMap = new Map<string, number>();
         publicationMap.set(minDate.toDateString(), 0);

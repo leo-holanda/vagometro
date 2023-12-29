@@ -82,7 +82,7 @@ export class JobService {
     this._jobs$.next(jobs);
   }
 
-  private createDateByTimeWindow(timeWindow: TimeWindows): Date {
+  createDateByTimeWindow(timeWindow: TimeWindows): Date {
     let minDate = new Date();
     const today = new Date();
 
@@ -107,8 +107,8 @@ export class JobService {
         minDate.setDate(today.getDate() - 365);
         break;
 
-      case TimeWindows.day:
-        minDate = new Date(0);
+      case TimeWindows.all:
+        minDate = new Date('12/19/2023');
         break;
     }
 

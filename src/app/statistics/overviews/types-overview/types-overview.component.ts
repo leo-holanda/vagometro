@@ -9,6 +9,7 @@ import { KeywordsRankComponent } from '../../ranks/keywords-rank/keywords-rank.c
 import { CompaniesRankComponent } from '../../ranks/companies-rank/companies-rank.component';
 import { WorkplaceRankComponent } from '../../ranks/workplace-rank/workplace-rank.component';
 import { translations } from '../../ranks/type-rank/type-rank.translations';
+import { PublicationChartComponent } from '../../charts/publication-chart/publication-chart.component';
 
 @Component({
   selector: 'vgm-types-overview',
@@ -18,6 +19,7 @@ import { translations } from '../../ranks/type-rank/type-rank.translations';
     KeywordsRankComponent,
     CompaniesRankComponent,
     WorkplaceRankComponent,
+    PublicationChartComponent,
   ],
   templateUrl: './types-overview.component.html',
   styleUrls: ['./types-overview.component.scss'],

@@ -9,6 +9,7 @@ import { KeywordsRankComponent } from '../../ranks/keywords-rank/keywords-rank.c
 import { TypeRankComponent } from '../../ranks/type-rank/type-rank.component';
 import { StatisticsService } from '../../statistics.service';
 import { WorkplaceData } from '../../ranks/workplace-rank/workplace-rank.model';
+import { PublicationChartComponent } from '../../charts/publication-chart/publication-chart.component';
 
 @Component({
   selector: 'vgm-workplaces-overview',
@@ -19,6 +20,7 @@ import { WorkplaceData } from '../../ranks/workplace-rank/workplace-rank.model';
     CompaniesRankComponent,
     KeywordsRankComponent,
     TypeRankComponent,
+    PublicationChartComponent,
   ],
   templateUrl: './workplaces-overview.component.html',
   styleUrls: ['./workplaces-overview.component.scss'],

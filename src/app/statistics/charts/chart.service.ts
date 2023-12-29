@@ -9,8 +9,10 @@ import { Job } from 'src/app/job/job.model';
 export class ChartService {
   constructor(private jobService: JobService) {}
 
-  getPublicationSeries(): Observable<any> {
-    return this.jobService.jobs$.pipe(
+  getPublicationSeries(
+    jobs$: Observable<Job[] | undefined> = this.jobService.jobs$
+  ): Observable<any> {
+    return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
         let minDate = new Date();

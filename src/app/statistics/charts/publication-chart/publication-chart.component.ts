@@ -1,9 +1,17 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Input,
+  OnChanges,
+  ViewChild,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import * as echarts from 'echarts';
 import { PublicationSeries } from './publication-chart.model';
 import { Observable, debounceTime, first, fromEvent, map } from 'rxjs';
 import { ChartService } from '../chart.service';
+import { Job } from 'src/app/job/job.model';
 
 @Component({
   selector: 'vgm-publication-chart',
@@ -12,8 +20,10 @@ import { ChartService } from '../chart.service';
   templateUrl: './publication-chart.component.html',
   styleUrls: ['./publication-chart.component.scss'],
 })
-export class PublicationChartComponent implements AfterViewInit {
+export class PublicationChartComponent implements AfterViewInit, OnChanges {
+  @Input() jobs$?: Observable<Job[]>;
   @ViewChild('chartwrapper') chartWrapper!: ElementRef<HTMLElement>;
+
   private publicationSeries!: PublicationSeries;
   private publicationChart!: echarts.EChartsType;
 
@@ -27,16 +37,28 @@ export class PublicationChartComponent implements AfterViewInit {
       textColor: 'white',
     });
 
-    this.chartService.getPublicationSeries().subscribe((publicationSeries) => {
-      this.publicationSeries = publicationSeries;
-      this.publicationChart.hideLoading();
-      this.drawChart();
-    });
+    this.chartService
+      .getPublicationSeries(this.jobs$)
+      .subscribe((publicationSeries) => {
+        this.publicationSeries = publicationSeries;
+        this.publicationChart.hideLoading();
+        this.drawChart();
+      });
 
     fromEvent(window, 'resize')
       .pipe(debounceTime(250))
       .subscribe(() => {
         this.publicationChart.resize();
+      });
+  }
+
+  ngOnChanges(): void {
+    this.chartService
+      .getPublicationSeries(this.jobs$)
+      .subscribe((publicationSeries) => {
+        this.publicationSeries = publicationSeries;
+        this.publicationChart.hideLoading();
+        this.drawChart();
       });
   }
 

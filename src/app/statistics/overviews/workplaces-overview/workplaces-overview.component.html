@@ -1,28 +1,53 @@
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-4 m-4 h-full">
-  <div class="card w-full bg-base-100 shadow-xl flex flex-col gap-4">
-    <div class="card-body">
-      <button
-        class="btn btn-ghost"
-        *ngFor="let workplace of workplacesRank$ | async; index as i"
-        (click)="onWorkplaceClick(workplace.type)"
-      >
-        <div class="w-full flex justify-between">
-          <span>{{ i + 1 + ". " + workplace.type | titlecase }}</span>
-          <span>{{ workplace.count }}</span>
-        </div>
-        <progress
-          class="progress w-full"
-          [value]="workplace.count"
-          [max]="workplacesQuantity"
-        ></progress>
-      </button>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-4 m-4">
+  <div class="flex flex-col gap-4 h-min">
+    <div
+      class="card card-bordered card-compact w-full bg-base-100 shadow-xl flex flex-col gap-4 h-min"
+    >
+      <div class="card-title">
+        <h1 class="font-bold text-lg p-4">Rank de modalidades</h1>
+      </div>
+
+      <div class="card-body">
+        <button
+          class="btn btn-ghost"
+          *ngFor="let workplace of workplacesRank$ | async; index as i"
+          (click)="onWorkplaceClick(workplace.type)"
+        >
+          <div class="w-full flex justify-between">
+            <span>{{ i + 1 + ". " + workplace.type | titlecase }}</span>
+            <span>{{ workplace.count }}</span>
+          </div>
+
+          <progress
+            class="progress w-full"
+            [value]="workplace.count"
+            [max]="workplacesQuantity"
+          ></progress>
+        </button>
+      </div>
+    </div>
+
+    <div
+      class="card card-bordered card-compact w-full bg-base-100 shadow-xl flex flex-col gap-4 h-min"
+    >
+      <div class="card-title">
+        <h1 class="font-bold text-lg p-4">
+          Vagas publicadas ao longo do tempo
+        </h1>
+      </div>
+
+      <div class="card-body">
+        <vgm-publication-chart
+          [jobs$]="jobsByWorkplace$"
+        ></vgm-publication-chart>
+      </div>
     </div>
   </div>
 
-  <div class="card w-full bg-base-100 shadow-xl">
+  <div class="card card-bordered card-compact w-full bg-base-100 shadow-xl">
     <div class="card-body">
       <h1 class="font-bold text-lg mb-4">
-        {{ selectedWorkplace | titlecase }}
+        Sobre vagas na modalidade {{ selectedWorkplace | titlecase }}
       </h1>
 
       <section>

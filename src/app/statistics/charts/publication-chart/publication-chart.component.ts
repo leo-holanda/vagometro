@@ -69,6 +69,7 @@ export class PublicationChartComponent implements AfterViewInit, OnChanges {
       },
       xAxis: {
         type: 'time',
+        axisLabel: { showMaxLabel: true },
       },
 
       yAxis: {

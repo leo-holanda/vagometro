@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { DynamoService } from '../dynamo/dynamo.service';
 import { Job, TimeWindows } from './job.model';
-import { BehaviorSubject, Observable, filter, first, map } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, filter, first, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -10,6 +10,11 @@ export class JobService {
   private originalJobs: Job[] = [];
   private _jobs$ = new BehaviorSubject<Job[] | undefined>(undefined);
   jobs$ = this._jobs$.asObservable();
+
+  private _currentTimeWindow$ = new BehaviorSubject<TimeWindows>(
+    TimeWindows.all
+  );
+  currentTimeWindow$ = this._currentTimeWindow$.asObservable();
 
   constructor(private dynamoService: DynamoService) {
     this.dynamoService
@@ -70,6 +75,7 @@ export class JobService {
   }
 
   filterJobsByTime(timeWindow: TimeWindows): void {
+    this._currentTimeWindow$.next(timeWindow);
     let jobs = this.originalJobs;
     const minDate = this.createDateByTimeWindow(timeWindow);
     jobs = jobs.filter((job) => new Date(job.publishedDate) > minDate);

@@ -27,10 +27,10 @@ export type Badges = {
 };
 
 export enum TimeWindows {
-  'day',
-  'week',
-  'month',
-  '6months',
-  'year',
-  'all',
+  'day' = 'day',
+  'week' = 'week',
+  'month' = 'month',
+  '6months' = '6months',
+  'year' = 'year',
+  'all' = 'all',
 }

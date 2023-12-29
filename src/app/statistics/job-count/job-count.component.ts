@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 import { StatisticsService } from '../statistics.service';
+import { JobService } from 'src/app/job/job.service';
+import { TimeWindows } from 'src/app/job/job.model';
 
 @Component({
   selector: 'vgm-job-count',
@@ -13,9 +15,17 @@ import { StatisticsService } from '../statistics.service';
 export class JobCountComponent implements OnInit {
   jobsPublishedInCurrentMonthCount$!: Observable<number>;
 
-  constructor(private statisticsService: StatisticsService) {}
+  currentTimeWindow$!: Observable<TimeWindows>;
+  timeWindows = TimeWindows;
+
+  constructor(
+    private statisticsService: StatisticsService,
+    private jobService: JobService
+  ) {}
 
   ngOnInit(): void {
+    this.currentTimeWindow$ = this.jobService.currentTimeWindow$;
+
     this.jobsPublishedInCurrentMonthCount$ =
       this.statisticsService.getJobsPublishedInCurrentMonthCount();
   }

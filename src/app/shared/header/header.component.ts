@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { JobService } from 'src/app/job/job.service';
 import { TimeWindows } from 'src/app/job/job.model';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'vgm-header',
@@ -13,12 +14,13 @@ import { TimeWindows } from 'src/app/job/job.model';
 })
 export class HeaderComponent {
   timeWindows = TimeWindows;
-  selectedTimeWindows = TimeWindows.all;
+  currentTimeWindow$: Observable<TimeWindows>;
 
-  constructor(private jobService: JobService) {}
+  constructor(private jobService: JobService) {
+    this.currentTimeWindow$ = this.jobService.currentTimeWindow$;
+  }
 
-  filterJobs(timeWindow: TimeWindows): void {
-    this.selectedTimeWindows = timeWindow;
+  onTimeWindowClick(timeWindow: TimeWindows): void {
     this.jobService.filterJobsByTime(timeWindow);
   }
 }

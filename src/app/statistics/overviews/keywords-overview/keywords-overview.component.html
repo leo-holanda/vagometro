@@ -1,0 +1,59 @@
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-4 m-4 h-full">
+  <div class="card w-full bg-base-100 shadow-xl flex flex-col gap-4">
+    <div class="card-body">
+      <h1 class="font-bold text-lg mb-4">
+        Vagas que pedem {{ selectedKeyword }} também pedem...
+      </h1>
+      <button
+        class="btn btn-ghost"
+        *ngFor="let keyword of keywordsRank$ | async; index as i"
+        (click)="onKeywordClick(keyword.word)"
+      >
+        <div class="w-full flex justify-between">
+          <span>{{ i + 1 + ". " + keyword.word }}</span>
+          <span>{{ keyword.count }}</span>
+        </div>
+        <progress
+          class="progress w-full"
+          [value]="keyword.count"
+          [max]="keywordsQuantity"
+        ></progress>
+      </button>
+    </div>
+  </div>
+
+  <div class="card w-full bg-base-100 shadow-xl">
+    <div class="card-body">
+      <h1 class="font-bold text-lg mb-4">
+        Sobre as vagas que pedem {{ selectedKeyword }}
+      </h1>
+
+      <section>
+        <div class="flex items-center gap-2 mb-2">
+          <i class="bx bxs-business"></i>
+          <h3>Empresas que mais contratam</h3>
+        </div>
+        <vgm-companies-rank [jobs$]="jobsByKeyword$"></vgm-companies-rank>
+      </section>
+
+      <div class="divider"></div>
+
+      <section>
+        <div class="flex items-center gap-2 mb-2">
+          <i class="bx bxs-home"></i>
+          <h3>Modalidades mais frequentes</h3>
+        </div>
+        <vgm-workplace-rank [jobs$]="jobsByKeyword$"></vgm-workplace-rank>
+      </section>
+      <div class="divider"></div>
+
+      <section>
+        <div class="flex items-center gap-2 mb-2">
+          <i class="bx bxs-briefcase"></i>
+          <h3>Tipos de vagas</h3>
+        </div>
+        <vgm-type-rank [jobs$]="jobsByKeyword$"></vgm-type-rank>
+      </section>
+    </div>
+  </div>
+</div>

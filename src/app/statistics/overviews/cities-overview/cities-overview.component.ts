@@ -12,6 +12,7 @@ import { KeywordData } from '../../ranks/keywords-rank/keywords-rank.model';
 import { TypeRankComponent } from '../../ranks/type-rank/type-rank.component';
 import { TypeData } from '../../ranks/type-rank/type-rank.model';
 import { translations } from '../../ranks/type-rank/type-rank.translations';
+import { PublicationChartComponent } from '../../charts/publication-chart/publication-chart.component';
 
 @Component({
   selector: 'vgm-cities-overview',
@@ -23,6 +24,7 @@ import { translations } from '../../ranks/type-rank/type-rank.translations';
     CitiesRankComponent,
     CompaniesRankComponent,
     TypeRankComponent,
+    PublicationChartComponent,
   ],
   templateUrl: './cities-overview.component.html',
   styleUrls: ['./cities-overview.component.scss'],

@@ -21,12 +21,18 @@ export class PublicationChartComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.publicationChart = echarts.init(this.chartWrapper.nativeElement);
+    this.publicationChart.showLoading('default', {
+      maskColor: 'rgba(0, 0, 0, 0)',
+      text: 'Carregando...',
+      textColor: 'white',
+    });
 
     this.chartService
       .getPublicationSeries()
       .pipe(first())
       .subscribe((publicationSeries) => {
         this.publicationSeries = publicationSeries;
+        this.publicationChart.hideLoading();
         this.drawChart();
       });
 

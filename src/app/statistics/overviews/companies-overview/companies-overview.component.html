@@ -1,33 +1,58 @@
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 m-4 h-full">
-  <div class="card w-full bg-base-100 shadow-xl flex flex-col gap-4">
-    <div class="card-body">
-      <button
-        class="btn btn-ghost"
-        *ngFor="let company of companiesRank$ | async; index as i"
-        (click)="onCompanyClick(company.name)"
-      >
-        <div class="w-full flex justify-between">
-          <span>{{ i + 1 + ". " + company.name }}</span>
-          <span>{{ company.count }}</span>
-        </div>
-        <progress
-          class="progress w-full"
-          [value]="company.count"
-          [max]="companiesQuantity"
-        ></progress>
-      </button>
+  <div class="flex flex-col gap-4 h-min">
+    <div
+      class="card card-bordered card-compact w-full bg-base-100 shadow-xl flex flex-col"
+    >
+      <div class="card-title p-4">
+        <i class="bx bxs-business"></i>
+        <h1 class="font-bold text-lg">Rank de empresas</h1>
+      </div>
+
+      <div class="card-body gap-2">
+        <button
+          class="btn btn-ghost"
+          *ngFor="let company of companiesRank$ | async; index as i"
+          (click)="onCompanyClick(company.name)"
+        >
+          <div class="w-full flex justify-between">
+            <span>{{ i + 1 + ". " + company.name }}</span>
+            <span>{{ company.count }}</span>
+          </div>
+          <progress
+            class="progress w-full"
+            [value]="company.count"
+            [max]="companiesQuantity"
+          ></progress>
+        </button>
+      </div>
+    </div>
+
+    <div
+      class="card card-bordered card-compact w-full bg-base-100 shadow-xl flex flex-col gap-4 h-min"
+    >
+      <div class="card-title">
+        <h1 class="font-bold text-lg p-4">
+          Vagas da {{ selectedCompany }} publicadas ao longo do tempo
+        </h1>
+      </div>
+
+      <div class="card-body">
+        <vgm-publication-chart [jobs$]="jobsByCompany$"></vgm-publication-chart>
+      </div>
     </div>
   </div>
 
-  <div class="card w-full bg-base-100 shadow-xl">
-    <div class="card-body">
-      <h1 class="font-bold text-lg mb-4">
+  <div class="card card-bordered card-compact w-full bg-base-100 shadow-xl">
+    <div class="card-title">
+      <h1 class="font-bold text-lg p-4">
         Sobre a empresa {{ selectedCompany }}
       </h1>
+    </div>
 
+    <div class="card-body">
       <section>
         <div class="flex items-center gap-2 mb-2">
-          <i class="bx bxs-business"></i>
+          <i class="bx bxs-chip"></i>
           <h3>Tecnologias mais frequentes</h3>
         </div>
         <vgm-keywords-rank [jobs$]="jobsByCompany$"></vgm-keywords-rank>

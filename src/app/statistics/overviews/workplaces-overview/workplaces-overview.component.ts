@@ -7,6 +7,8 @@ import { Observable } from 'rxjs';
 import { Job } from 'src/app/job/job.model';
 import { KeywordsRankComponent } from '../../ranks/keywords-rank/keywords-rank.component';
 import { TypeRankComponent } from '../../ranks/type-rank/type-rank.component';
+import { StatisticsService } from '../../statistics.service';
+import { WorkplaceData } from '../../ranks/workplace-rank/workplace-rank.model';
 
 @Component({
   selector: 'vgm-workplaces-overview',
@@ -23,15 +25,31 @@ import { TypeRankComponent } from '../../ranks/type-rank/type-rank.component';
 })
 export class WorkplacesOverviewComponent implements OnInit {
   selectedWorkplace: string = 'remoto';
-  jobsByWorkplace$!: Observable<Job[]>;
 
-  constructor(private jobService: JobService) {}
+  jobsByWorkplace$: Observable<Job[]>;
+  workplacesRank$: Observable<WorkplaceData[]>;
+  workplacesQuantity: number = 0;
 
-  ngOnInit(): void {
+  constructor(
+    private jobService: JobService,
+    private statisticsService: StatisticsService
+  ) {
+    this.workplacesRank$ = this.statisticsService.getWorkplaceRank();
+
+    this.workplacesRank$.subscribe((workplacesRank) => {
+      this.selectedWorkplace = workplacesRank[0].type;
+      this.workplacesQuantity = workplacesRank.reduce(
+        (acc, workplace) => acc + workplace.count,
+        0
+      );
+    });
+
     this.jobsByWorkplace$ = this.jobService.getJobsByWorkplace(
       this.selectedWorkplace
     );
   }
+
+  ngOnInit(): void {}
 
   onWorkplaceClick(workplace: string): void {
     this.selectedWorkplace = workplace;

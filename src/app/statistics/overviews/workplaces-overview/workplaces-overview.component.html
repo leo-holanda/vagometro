@@ -1,24 +1,55 @@
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 m-4 h-full">
-  <vgm-workplaces-chart
-    (workplaceClicked)="onWorkplaceClick($event)"
-  ></vgm-workplaces-chart>
+  <div class="card w-full bg-base-100 shadow-xl flex flex-col gap-4">
+    <div class="card-body">
+      <button
+        class="btn btn-ghost"
+        *ngFor="let workplace of workplacesRank$ | async; index as i"
+        (click)="onWorkplaceClick(workplace.type)"
+      >
+        <div class="w-full flex justify-between">
+          <span>{{ i + 1 + ". " + workplace.type | titlecase }}</span>
+          <span>{{ workplace.count }}</span>
+        </div>
+        <progress
+          class="progress w-full"
+          [value]="workplace.count"
+          [max]="workplacesQuantity"
+        ></progress>
+      </button>
+    </div>
+  </div>
 
   <div class="card w-full bg-base-100 shadow-xl">
     <div class="card-body">
-      <h1>{{ selectedWorkplace | titlecase }}</h1>
+      <h1 class="font-bold text-lg mb-4">
+        {{ selectedWorkplace | titlecase }}
+      </h1>
 
       <section>
-        <h3>Empresas que mais contratam</h3>
+        <div class="flex items-center gap-2 mb-2">
+          <i class="bx bxs-business"></i>
+          <h3>Empresas que mais contratam</h3>
+        </div>
         <vgm-companies-rank [jobs$]="jobsByWorkplace$"></vgm-companies-rank>
       </section>
 
+      <div class="divider"></div>
+
       <section>
-        <h3>Tecnologias em alta</h3>
+        <div class="flex items-center gap-2 mb-2">
+          <i class="bx bxs-chip"></i>
+          <h3>Tecnologias mais frequentes</h3>
+        </div>
         <vgm-keywords-rank [jobs$]="jobsByWorkplace$"></vgm-keywords-rank>
       </section>
 
+      <div class="divider"></div>
+
       <section>
-        <h3>Tipos de vagas</h3>
+        <div class="flex items-center gap-2 mb-2">
+          <i class="bx bxs-briefcase"></i>
+          <h3>Tipos de vagas</h3>
+        </div>
         <vgm-type-rank [jobs$]="jobsByWorkplace$"></vgm-type-rank>
       </section>
     </div>

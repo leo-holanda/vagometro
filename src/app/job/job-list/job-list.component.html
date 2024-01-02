@@ -7,6 +7,7 @@
           <th>Empresa</th>
           <th>Nível de experiência</th>
           <th>Modalidade</th>
+          <th>Local</th>
           <th>Tipo</th>
           <th>Data de publicação</th>
           <th>PCD</th>
@@ -25,6 +26,13 @@
           </td>
           <td>{{ job.experienceLevel }}</td>
           <td>{{ job.workplaceType | titlecase }}</td>
+          <td>
+            {{
+              job.city
+                ? job.city + ", " + (job.state | stateAbbreviation)
+                : "N/A"
+            }}
+          </td>
           <td>{{ typeTranslations[job.type] | titlecase }}</td>
           <td>{{ job.publishedDate | date : "dd/MM/yyyy" }}</td>
           <td>

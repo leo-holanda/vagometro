@@ -10,6 +10,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { MapDataService } from '../map-data.service';
 import * as echarts from 'echarts';
+import { fromEvent, debounceTime } from 'rxjs';
 
 @Component({
   selector: 'vgm-brazil-map',
@@ -76,5 +77,11 @@ export class BrazilMapComponent implements AfterViewInit {
     map.on('click', (params: any) => {
       this.stateClicked.emit(params.name);
     });
+
+    fromEvent(window, 'resize')
+      .pipe(debounceTime(250))
+      .subscribe(() => {
+        map.resize();
+      });
   }
 }

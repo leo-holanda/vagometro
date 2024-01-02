@@ -13,7 +13,7 @@ export const translations: Translations = {
   vacancy_type_outsource: 'terceirizado',
   vacancy_type_trainee: 'estagiário',
   vacancy_type_volunteer: 'voluntário',
-  vacancy_legal_entity: 'entidade legal',
+  vacancy_legal_entity: 'pessoa jurídica',
   vacancy_type_lecturer: 'palestrante',
   vacancy_type_freelancer: 'freelancer',
   vacancy_type_autonomous: 'autônomo',

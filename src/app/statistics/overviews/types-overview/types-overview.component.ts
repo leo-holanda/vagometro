@@ -11,6 +11,7 @@ import { WorkplaceRankComponent } from '../../ranks/workplace-rank/workplace-ran
 import { translations } from '../../ranks/type-rank/type-rank.translations';
 import { PublicationChartComponent } from '../../charts/publication-chart/publication-chart.component';
 import { JobListComponent } from 'src/app/job/job-list/job-list.component';
+import { ExperienceLevelsRankComponent } from '../../ranks/experience-levels-rank/experience-levels-rank.component';
 
 @Component({
   selector: 'vgm-types-overview',
@@ -22,6 +23,7 @@ import { JobListComponent } from 'src/app/job/job-list/job-list.component';
     WorkplaceRankComponent,
     PublicationChartComponent,
     JobListComponent,
+    ExperienceLevelsRankComponent,
   ],
   templateUrl: './types-overview.component.html',
   styleUrls: ['./types-overview.component.scss'],

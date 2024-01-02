@@ -68,6 +68,18 @@
 
       <section>
         <div class="flex items-center gap-2 mb-2">
+          <i class="bx bxs-user-detail"></i>
+          <h3>Níveis de experiência mais requisitados</h3>
+        </div>
+        <vgm-experience-levels-rank
+          [jobs$]="jobsByState$"
+        ></vgm-experience-levels-rank>
+      </section>
+
+      <div class="divider"></div>
+
+      <section>
+        <div class="flex items-center gap-2 mb-2">
           <i class="bx bxs-briefcase"></i>
           <h3>Tipos de vagas</h3>
         </div>

@@ -45,7 +45,7 @@
   <div class="card card-bordered card-compact w-full bg-base-100 shadow-xl">
     <div class="card-body">
       <h1 class="font-bold text-lg mb-4">
-        Sobre a tipo {{ typesTranslations[selectedType] | titlecase }}
+        Sobre o tipo {{ typesTranslations[selectedType] | titlecase }}
       </h1>
 
       <section>
@@ -74,6 +74,18 @@
           <h3>Modalidades mais frequentes</h3>
         </div>
         <vgm-workplace-rank [jobs$]="jobsByType$"></vgm-workplace-rank>
+      </section>
+
+      <div class="divider"></div>
+
+      <section>
+        <div class="flex items-center gap-2 mb-2">
+          <i class="bx bxs-user-detail"></i>
+          <h3>Níveis de experiência mais requisitados</h3>
+        </div>
+        <vgm-experience-levels-rank
+          [jobs$]="jobsByType$"
+        ></vgm-experience-levels-rank>
       </section>
     </div>
   </div>

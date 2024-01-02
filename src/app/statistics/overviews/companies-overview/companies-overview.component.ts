@@ -10,6 +10,7 @@ import { KeywordsRankComponent } from '../../ranks/keywords-rank/keywords-rank.c
 import { TypeRankComponent } from '../../ranks/type-rank/type-rank.component';
 import { PublicationChartComponent } from '../../charts/publication-chart/publication-chart.component';
 import { JobListComponent } from 'src/app/job/job-list/job-list.component';
+import { ExperienceLevelsRankComponent } from '../../ranks/experience-levels-rank/experience-levels-rank.component';
 
 @Component({
   selector: 'vgm-companies-overview',
@@ -21,6 +22,7 @@ import { JobListComponent } from 'src/app/job/job-list/job-list.component';
     TypeRankComponent,
     PublicationChartComponent,
     JobListComponent,
+    ExperienceLevelsRankComponent,
   ],
   templateUrl: './companies-overview.component.html',
   styleUrls: ['./companies-overview.component.scss'],

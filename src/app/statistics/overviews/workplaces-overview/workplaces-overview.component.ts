@@ -11,6 +11,7 @@ import { StatisticsService } from '../../statistics.service';
 import { WorkplaceData } from '../../ranks/workplace-rank/workplace-rank.model';
 import { PublicationChartComponent } from '../../charts/publication-chart/publication-chart.component';
 import { JobListComponent } from 'src/app/job/job-list/job-list.component';
+import { ExperienceLevelsRankComponent } from '../../ranks/experience-levels-rank/experience-levels-rank.component';
 
 @Component({
   selector: 'vgm-workplaces-overview',
@@ -23,6 +24,7 @@ import { JobListComponent } from 'src/app/job/job-list/job-list.component';
     TypeRankComponent,
     PublicationChartComponent,
     JobListComponent,
+    ExperienceLevelsRankComponent,
   ],
   templateUrl: './workplaces-overview.component.html',
   styleUrls: ['./workplaces-overview.component.scss'],

@@ -14,6 +14,7 @@ import { TypeData } from '../../ranks/type-rank/type-rank.model';
 import { translations } from '../../ranks/type-rank/type-rank.translations';
 import { PublicationChartComponent } from '../../charts/publication-chart/publication-chart.component';
 import { JobListComponent } from 'src/app/job/job-list/job-list.component';
+import { ExperienceLevelsRankComponent } from '../../ranks/experience-levels-rank/experience-levels-rank.component';
 
 @Component({
   selector: 'vgm-cities-overview',
@@ -27,6 +28,7 @@ import { JobListComponent } from 'src/app/job/job-list/job-list.component';
     TypeRankComponent,
     PublicationChartComponent,
     JobListComponent,
+    ExperienceLevelsRankComponent,
   ],
   templateUrl: './cities-overview.component.html',
   styleUrls: ['./cities-overview.component.scss'],

@@ -13,6 +13,7 @@
         <button
           class="btn btn-ghost"
           *ngFor="let keyword of keywordsRank$ | async; index as i"
+          [ngClass]="{ 'btn-active': selectedKeyword == keyword.word }"
           (click)="onKeywordClick(keyword.word)"
         >
           <div class="w-full flex justify-between">

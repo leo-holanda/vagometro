@@ -11,6 +11,7 @@
         <button
           class="btn btn-ghost"
           *ngFor="let workplace of workplacesRank$ | async; index as i"
+          [ngClass]="{ 'btn-active': selectedWorkplace == workplace.type }"
           (click)="onWorkplaceClick(workplace.type)"
         >
           <div class="w-full flex justify-between">

@@ -12,6 +12,7 @@
         <button
           class="btn btn-ghost"
           *ngFor="let company of companiesRank$ | async; index as i"
+          [ngClass]="{ 'btn-active': selectedCompany == company.name }"
           (click)="onCompanyClick(company.name)"
         >
           <div class="w-full flex justify-between">

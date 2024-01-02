@@ -11,6 +11,7 @@
         <button
           class="btn btn-ghost"
           *ngFor="let type of typesRank$ | async; index as i"
+          [ngClass]="{ 'btn-active': selectedType == type.name }"
           (click)="onTypeClick(type.name)"
         >
           <div class="w-full flex justify-between">

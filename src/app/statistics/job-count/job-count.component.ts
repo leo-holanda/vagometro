@@ -13,7 +13,7 @@ import { TimeWindows } from 'src/app/job/job.model';
   styleUrls: ['./job-count.component.scss'],
 })
 export class JobCountComponent implements OnInit {
-  jobsPublishedInCurrentMonthCount$!: Observable<number>;
+  jobsCount$!: Observable<number>;
 
   currentTimeWindow$!: Observable<TimeWindows>;
   timeWindows = TimeWindows;
@@ -25,8 +25,6 @@ export class JobCountComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentTimeWindow$ = this.jobService.currentTimeWindow$;
-
-    this.jobsPublishedInCurrentMonthCount$ =
-      this.statisticsService.getJobsPublishedInCurrentMonthCount();
+    this.jobsCount$ = this.statisticsService.getJobsCount();
   }
 }

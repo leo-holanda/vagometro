@@ -1,14 +1,8 @@
-<ng-container
-  *ngIf="
-    jobsPublishedInCurrentMonthCount$
-      | async as jobsPublishedInCurrentMonthCount;
-    else loading
-  "
->
+<ng-container *ngIf="jobsCount$ | async as jobsCount; else loading">
   <div class="stats shadow m-4">
     <div class="stat place-items-center">
       <div class="stat-value text-8xl">
-        {{ jobsPublishedInCurrentMonthCount }}
+        {{ jobsCount }}
       </div>
 
       <div [ngSwitch]="currentTimeWindow$ | async">

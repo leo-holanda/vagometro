@@ -44,17 +44,9 @@ export class StatisticsService {
     );
   }
 
-  getJobsPublishedInCurrentMonthCount(): Observable<number> {
-    const today = new Date();
-
+  getJobsCount(): Observable<number> {
     return this.jobService.jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
-      map((jobs) => {
-        return jobs.filter((job) => {
-          const jobPublishedDate = new Date(job.publishedDate);
-          return this.haveSameMonth(jobPublishedDate, today);
-        });
-      }),
       map((jobs) => jobs.length)
     );
   }

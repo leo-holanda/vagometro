@@ -1,0 +1,54 @@
+<ng-container *ngIf="jobs$ | async as jobs; else loading">
+  <div class="overflow-auto w-full">
+    <table class="table table-zebra">
+      <thead>
+        <tr>
+          <th>Título</th>
+          <th>Empresa</th>
+          <th>Modalidade</th>
+          <th>Tipo</th>
+          <th>PCD</th>
+          <th>Link</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="hover" *ngFor="let job of jobs; index as i">
+          <td>
+            {{ job.name }}
+          </td>
+          <td>
+            <a class="link" [href]="job.careerPageUrl">{{
+              job.careerPageName
+            }}</a>
+          </td>
+          <td>{{ job.workplaceType | titlecase }}</td>
+          <td>{{ typeTranslations[job.type] | titlecase }}</td>
+          <td>
+            <i
+              class="bx"
+              [ngClass]="{
+                'bx-check': job.disabilities,
+                'bx-x': !job.disabilities || false
+              }"
+            ></i>
+          </td>
+          <td>
+            <a [href]="job.jobUrl" target="_blank">
+              <i class="bx bx-link-external"></i>
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</ng-container>
+
+<ng-template #loading>
+  <div class="flex flex-col w-full gap-4 mt-4">
+    <div class="skeleton h-8 w-full"></div>
+    <div class="skeleton h-8 w-full"></div>
+    <div class="skeleton h-8 w-full"></div>
+    <div class="skeleton h-8 w-full"></div>
+    <div class="skeleton h-8 w-full"></div>
+  </div>
+</ng-template>

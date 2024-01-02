@@ -1,35 +1,45 @@
 <ng-container *ngIf="jobsCount$ | async as jobsCount; else loading">
   <div class="stats shadow m-4">
     <div class="stat place-items-center">
-      <div class="stat-value text-8xl">
+      <div class="stat-value text-6xl lg:text-8xl">
         {{ jobsCount }}
       </div>
 
       <div [ngSwitch]="currentTimeWindow$ | async">
         <div *ngSwitchCase="timeWindows.day">
-          <div class="stat-desc text-xl">vagas publicadas no dia anterior</div>
+          <div class="stat-desc text-center text-lg lg:text-xl text-wrap">
+            vagas publicadas no dia anterior
+          </div>
         </div>
 
         <div *ngSwitchCase="timeWindows.week">
-          <div class="stat-desc text-xl">vagas publicadas nesta semana</div>
+          <div class="stat-desc text-center text-lg lg:text-xl text-wrap">
+            vagas publicadas nesta semana
+          </div>
         </div>
 
         <div *ngSwitchCase="timeWindows.month">
-          <div class="stat-desc text-xl">vagas publicadas neste mês</div>
+          <div class="stat-desc text-center text-lg lg:text-xl text-wrap">
+            vagas publicadas neste mês
+          </div>
         </div>
 
         <div *ngSwitchCase="timeWindows['6months']">
-          <div class="stat-desc text-xl">
+          <div class="stat-desc text-center text-lg lg:text-xl text-wrap">
             vagas publicadas nos últimos 6 meses
           </div>
         </div>
 
         <div *ngSwitchCase="timeWindows.year">
-          <div class="stat-desc text-xl">vagas publicadas no último ano</div>
+          <div class="stat-desc text-center text-lg lg:text-xl text-wrap">
+            vagas publicadas no último ano
+          </div>
         </div>
 
         <div *ngSwitchCase="timeWindows.all">
-          <div class="stat-desc text-xl">vagas publicadas desde 19/12/2023</div>
+          <div class="stat-desc text-center text-lg lg:text-xl text-wrap">
+            vagas publicadas desde 19/12/2023
+          </div>
         </div>
 
         <div *ngSwitchDefault>output2</div>

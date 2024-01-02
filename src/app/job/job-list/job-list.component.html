@@ -7,6 +7,7 @@
           <th>Empresa</th>
           <th>Modalidade</th>
           <th>Tipo</th>
+          <th>Data de publicação</th>
           <th>PCD</th>
           <th>Link</th>
         </tr>
@@ -23,6 +24,7 @@
           </td>
           <td>{{ job.workplaceType | titlecase }}</td>
           <td>{{ typeTranslations[job.type] | titlecase }}</td>
+          <td>{{ job.publishedDate | date : "dd/MM/yyyy" }}</td>
           <td>
             <i
               class="bx"

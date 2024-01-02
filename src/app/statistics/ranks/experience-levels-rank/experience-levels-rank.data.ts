@@ -5,14 +5,33 @@ export const juniorLevelRelatedTypes = [
   'vacancy_type_trainee',
 ];
 
-export const juniorLevelRelatedTerms = ['junior', 'jr', 'i', 'l'];
+export const juniorLevelRelatedTerms = [
+  'trainee',
+  'júnior',
+  'junior',
+  'jr',
+  'jr.',
+  'i',
+  'l',
+];
 
-export const midLevelRelatedTerms = ['pleno', 'pl', 'ii', 'll'];
+export const midLevelRelatedTerms = [
+  'pleno',
+  'pleno/sênior',
+  'pleno/senior',
+  'pl/sr',
+  'pl',
+  'pl.',
+  'pl/sr.',
+  'ii',
+  'll',
+];
 
 export const seniorLevelRelatedTerms = [
   'sênior',
   'senior',
   'sr',
+  'sr.',
   'especialista',
   'iii',
   'lll',

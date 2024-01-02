@@ -13,6 +13,7 @@ import { TypeRankComponent } from '../../ranks/type-rank/type-rank.component';
 import { TypeData } from '../../ranks/type-rank/type-rank.model';
 import { translations } from '../../ranks/type-rank/type-rank.translations';
 import { PublicationChartComponent } from '../../charts/publication-chart/publication-chart.component';
+import { JobListComponent } from 'src/app/job/job-list/job-list.component';
 
 @Component({
   selector: 'vgm-cities-overview',
@@ -25,6 +26,7 @@ import { PublicationChartComponent } from '../../charts/publication-chart/public
     CompaniesRankComponent,
     TypeRankComponent,
     PublicationChartComponent,
+    JobListComponent,
   ],
   templateUrl: './cities-overview.component.html',
   styleUrls: ['./cities-overview.component.scss'],

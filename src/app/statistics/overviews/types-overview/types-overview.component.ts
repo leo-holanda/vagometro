@@ -10,6 +10,7 @@ import { CompaniesRankComponent } from '../../ranks/companies-rank/companies-ran
 import { WorkplaceRankComponent } from '../../ranks/workplace-rank/workplace-rank.component';
 import { translations } from '../../ranks/type-rank/type-rank.translations';
 import { PublicationChartComponent } from '../../charts/publication-chart/publication-chart.component';
+import { JobListComponent } from 'src/app/job/job-list/job-list.component';
 
 @Component({
   selector: 'vgm-types-overview',
@@ -20,6 +21,7 @@ import { PublicationChartComponent } from '../../charts/publication-chart/public
     CompaniesRankComponent,
     WorkplaceRankComponent,
     PublicationChartComponent,
+    JobListComponent,
   ],
   templateUrl: './types-overview.component.html',
   styleUrls: ['./types-overview.component.scss'],

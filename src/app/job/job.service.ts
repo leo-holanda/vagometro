@@ -1,7 +1,15 @@
 import { Injectable } from '@angular/core';
 import { DynamoService } from '../dynamo/dynamo.service';
 import { Job, TimeWindows } from './job.model';
-import { BehaviorSubject, Observable, Subject, filter, first, map } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  Subject,
+  filter,
+  first,
+  map,
+  tap,
+} from 'rxjs';
 import { ExperienceLevels } from '../statistics/ranks/experience-levels-rank/experience-levels-rank.model';
 import {
   juniorLevelRelatedTerms,
@@ -28,7 +36,12 @@ export class JobService {
       .scanJobs()
       .pipe(
         first(),
-        map((output) => output.Items as Job[])
+        map((output) => output.Items as Job[]),
+        tap((jobs) =>
+          jobs.forEach(
+            (job) => (job.experienceLevel = this.findExperienceLevel(job))
+          )
+        )
       )
       .subscribe((jobs) => {
         this.originalJobs = jobs;
@@ -77,6 +90,17 @@ export class JobService {
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
         return jobs.filter((job) => job.type == typeName);
+      })
+    );
+  }
+
+  getJobsByExperienceLevel(
+    experienceLevel: ExperienceLevels
+  ): Observable<Job[]> {
+    return this.jobs$.pipe(
+      filter((jobs): jobs is Job[] => jobs != undefined),
+      map((jobs) => {
+        return jobs.filter((job) => job.experienceLevel == experienceLevel);
       })
     );
   }

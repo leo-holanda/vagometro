@@ -1,3 +1,5 @@
+import { ExperienceLevels } from '../statistics/ranks/experience-levels-rank/experience-levels-rank.model';
+
 export type Job = {
   careerPageUrl: string;
   jobUrl: string;
@@ -20,6 +22,8 @@ export type Job = {
   id: number;
   publishedDate: string;
   type: string;
+  //Attributes below are added by me
+  experienceLevel: ExperienceLevels;
 };
 
 export type Badges = {

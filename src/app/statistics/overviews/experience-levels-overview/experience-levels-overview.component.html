@@ -1,0 +1,109 @@
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-4 m-4 h-full">
+  <div class="flex flex-col gap-4 h-min">
+    <div class="card card-bordered card-compact w-full bg-base-100 shadow-xl">
+      <div class="card-title">
+        <h1 class="font-bold text-lg p-4">Rank de níveis de experiência</h1>
+      </div>
+
+      <div class="card-body max-h-96 overflow-y-auto">
+        <button
+          class="btn btn-ghost"
+          *ngFor="
+            let experienceLevel of experienceLevelsRank$ | async;
+            index as i
+          "
+          [ngClass]="{ 'btn-active': selectedLevel == experienceLevel.level }"
+          (click)="onExperienceLevelClick(experienceLevel.level)"
+        >
+          <div class="w-full flex justify-between">
+            <span>{{ i + 1 + ". " + experienceLevel.level }}</span>
+            <span>{{ experienceLevel.count }}</span>
+          </div>
+          <progress
+            class="progress w-full"
+            [value]="experienceLevel.count"
+            [max]="jobsQuantity"
+          ></progress>
+        </button>
+      </div>
+    </div>
+
+    <div
+      class="card card-bordered card-compact w-full bg-base-100 shadow-xl flex flex-col gap-4 h-min"
+    >
+      <div class="card-title">
+        <h1 class="font-bold text-lg p-4">
+          Vagas publicadas ao longo do tempo
+        </h1>
+      </div>
+
+      <div class="card-body">
+        <vgm-publication-chart
+          [jobs$]="jobsByExperienceLevel$"
+        ></vgm-publication-chart>
+      </div>
+    </div>
+  </div>
+
+  <div class="card card-bordered card-compact w-full bg-base-100 shadow-xl">
+    <div class="card-body">
+      <h1 class="font-bold text-lg mb-4">
+        Sobre as vagas de nível {{ selectedLevel | titlecase }}
+      </h1>
+
+      <section>
+        <div class="flex items-center gap-2 mb-2">
+          <i class="bx bxs-chip"></i>
+          <h3>Tecnologias mais frequentes</h3>
+        </div>
+        <vgm-keywords-rank [jobs$]="jobsByExperienceLevel$"></vgm-keywords-rank>
+      </section>
+
+      <div class="divider"></div>
+
+      <section>
+        <div class="flex items-center gap-2 mb-2">
+          <i class="bx bxs-business"></i>
+          <h3>Empresas que mais contratam</h3>
+        </div>
+        <vgm-companies-rank
+          [jobs$]="jobsByExperienceLevel$"
+        ></vgm-companies-rank>
+      </section>
+
+      <div class="divider"></div>
+
+      <section>
+        <div class="flex items-center gap-2 mb-2">
+          <i class="bx bxs-home"></i>
+          <h3>Modalidades mais frequentes</h3>
+        </div>
+        <vgm-workplace-rank
+          [jobs$]="jobsByExperienceLevel$"
+        ></vgm-workplace-rank>
+      </section>
+
+      <div class="divider"></div>
+
+      <section>
+        <div class="flex items-center gap-2 mb-2">
+          <i class="bx bxs-home"></i>
+          <h3>Tipos mais frequentes</h3>
+        </div>
+        <vgm-type-rank> [jobs$]="jobsByExperienceLevel$" ></vgm-type-rank>
+      </section>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<div class="card card-bordered card-compact w-full bg-base-100 shadow-xl mb-4">
+  <div class="card-title">
+    <h1 class="font-bold text-lg p-4">Vagas consideradas nos dados acima</h1>
+  </div>
+
+  <div class="card-body max-h-96 overflow-y-auto">
+    <vgm-job-list [jobs$]="jobsByExperienceLevel$"></vgm-job-list>
+  </div>
+</div>

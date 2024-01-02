@@ -12,6 +12,7 @@ import { JobListComponent } from '../job/job-list/job-list.component';
 import { JobService } from '../job/job.service';
 import { Observable } from 'rxjs';
 import { Job } from '../job/job.model';
+import { ExperienceLevelsRankComponent } from './ranks/experience-levels-rank/experience-levels-rank.component';
 
 @Component({
   selector: 'vgm-statistics',
@@ -27,6 +28,7 @@ import { Job } from '../job/job.model';
     KeywordsRankComponent,
     RouterModule,
     JobListComponent,
+    ExperienceLevelsRankComponent,
   ],
   templateUrl: './statistics.component.html',
   styleUrls: ['./statistics.component.scss'],

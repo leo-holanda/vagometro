@@ -2,6 +2,13 @@ import { Injectable } from '@angular/core';
 import { DynamoService } from '../dynamo/dynamo.service';
 import { Job, TimeWindows } from './job.model';
 import { BehaviorSubject, Observable, Subject, filter, first, map } from 'rxjs';
+import { ExperienceLevels } from '../statistics/ranks/experience-levels-rank/experience-levels-rank.model';
+import {
+  juniorLevelRelatedTerms,
+  juniorLevelRelatedTypes,
+  midLevelRelatedTerms,
+  seniorLevelRelatedTerms,
+} from '../statistics/ranks/experience-levels-rank/experience-levels-rank.data';
 
 @Injectable({
   providedIn: 'root',
@@ -113,6 +120,46 @@ export class JobService {
     }
 
     return minDate;
+  }
+
+  findExperienceLevel(job: Job): ExperienceLevels {
+    if (juniorLevelRelatedTypes.includes(job.type))
+      return ExperienceLevels.junior;
+
+    const experienceLevelInTitle = this.matchExperienceLevelTerms(job.name);
+    if (experienceLevelInTitle) return experienceLevelInTitle;
+
+    const experienceLevelInDescription = this.matchExperienceLevelTerms(
+      job.description
+    );
+    if (experienceLevelInDescription) return experienceLevelInDescription;
+
+    return ExperienceLevels.unknown;
+  }
+
+  private matchExperienceLevelTerms(
+    content: string
+  ): ExperienceLevels | undefined {
+    const splittedContent = content
+      .split(' ')
+      .map((word) => word.toLowerCase());
+
+    const hasJuniorLevelRelatedTerms = juniorLevelRelatedTerms.some((term) =>
+      splittedContent.includes(term)
+    );
+    if (hasJuniorLevelRelatedTerms) return ExperienceLevels.junior;
+
+    const hasMidLevelRelatedTerms = midLevelRelatedTerms.some((term) =>
+      splittedContent.includes(term)
+    );
+    if (hasMidLevelRelatedTerms) return ExperienceLevels.mid;
+
+    const hasSeniorLevelRelatedTerms = seniorLevelRelatedTerms.some((term) =>
+      splittedContent.includes(term)
+    );
+    if (hasSeniorLevelRelatedTerms) return ExperienceLevels.senior;
+
+    return undefined;
   }
 
   private jobHasKeyword(job: Job, keyword: string): boolean {

@@ -8,6 +8,10 @@ import { CompanyData } from './ranks/companies-rank/companies-rank.model';
 import { Job } from '../job/job.model';
 import { KeywordData } from './ranks/keywords-rank/keywords-rank.model';
 import { keywords } from './ranks/keywords-rank/keywords-rank.data';
+import {
+  ExperienceLevelData,
+  ExperienceLevels,
+} from './ranks/experience-levels-rank/experience-levels-rank.model';
 
 @Injectable({
   providedIn: 'root',
@@ -178,6 +182,42 @@ export class StatisticsService {
           word: key,
           count: value,
         }));
+
+        return sortedObjects;
+      })
+    );
+  }
+
+  getExperienceLevelsRank(
+    jobs$: Observable<Job[] | undefined> = this.jobService.jobs$
+  ): Observable<ExperienceLevelData[]> {
+    return jobs$.pipe(
+      filter((jobs): jobs is Job[] => jobs != undefined),
+      map((jobs) => {
+        const experienceLevelsMap = new Map<string, number>();
+
+        jobs.forEach((job) => {
+          const experienceLevel = this.jobService.findExperienceLevel(job);
+
+          const currentExperienceLevelCount =
+            experienceLevelsMap.get(experienceLevel) || 0;
+
+          experienceLevelsMap.set(
+            experienceLevel,
+            currentExperienceLevelCount + 1
+          );
+        });
+
+        const sortedEntries = Array.from(experienceLevelsMap.entries()).sort(
+          (a, b) => b[1] - a[1]
+        );
+
+        const sortedObjects = sortedEntries.map(
+          ([key, value]): ExperienceLevelData => ({
+            level: key as ExperienceLevels,
+            count: value,
+          })
+        );
 
         return sortedObjects;
       })

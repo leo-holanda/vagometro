@@ -4,9 +4,18 @@
     <a [routerLink]="['']" class="btn btn-ghost text-xl">vagometro</a>
   </div>
   <div class="navbar-end">
-    <button class="btn btn-ghost btn-circle">
-      <i class="bx bxs-moon"></i>
-    </button>
+    <label class="btn btn-ghost btn-circle swap swap-rotate">
+      <input type="checkbox" class="theme-controller" value="light" />
+
+      <div class="swap-on">
+        <i class="bx bxs-moon"></i>
+      </div>
+
+      <div class="swap-off">
+        <i class="bx bxs-sun"></i>
+      </div>
+    </label>
+
     <a
       class="btn btn-ghost btn-circle"
       href="https://github.com/leo-holanda/vagometro"
@@ -14,6 +23,7 @@
     >
       <i class="bx bxl-github"></i>
     </a>
+
     <button class="btn btn-ghost btn-circle">
       <i class="bx bxs-help-circle"></i>
     </button>

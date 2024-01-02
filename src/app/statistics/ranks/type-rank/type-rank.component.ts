@@ -21,6 +21,8 @@ import { Job } from 'src/app/job/job.model';
 })
 export class TypeRankComponent implements OnInit, OnChanges {
   @Input() jobs$?: Observable<Job[]>;
+  @Input() rankSize: number | undefined;
+
   typesRank$!: Observable<TypeData[]>;
 
   translations = translations;
@@ -29,9 +31,19 @@ export class TypeRankComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.typesRank$ = this.statisticsService.getTypesRank(this.jobs$);
+
+    if (this.rankSize)
+      this.typesRank$ = this.typesRank$.pipe(
+        map((typesRank) => typesRank.slice(0, this.rankSize))
+      );
   }
 
   ngOnChanges(): void {
     this.typesRank$ = this.statisticsService.getTypesRank(this.jobs$);
+
+    if (this.rankSize)
+      this.typesRank$ = this.typesRank$.pipe(
+        map((typesRank) => typesRank.slice(0, this.rankSize))
+      );
   }
 }

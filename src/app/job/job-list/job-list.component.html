@@ -5,6 +5,7 @@
         <tr>
           <th>Título</th>
           <th>Empresa</th>
+          <th>Nível de experiência</th>
           <th>Modalidade</th>
           <th>Tipo</th>
           <th>Data de publicação</th>
@@ -22,6 +23,7 @@
               job.careerPageName
             }}</a>
           </td>
+          <td>{{ job.experienceLevel }}</td>
           <td>{{ job.workplaceType | titlecase }}</td>
           <td>{{ typeTranslations[job.type] | titlecase }}</td>
           <td>{{ job.publishedDate | date : "dd/MM/yyyy" }}</td>

@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Observable, of } from 'rxjs';
+import { Observable, filter, first, of } from 'rxjs';
 import { Job } from '../job.model';
 import { translations } from 'src/app/statistics/ranks/type-rank/type-rank.translations';
 import { StateAbbreviationPipe } from 'src/app/shared/pipes/state-abbreviation.pipe';
@@ -15,7 +15,7 @@ import { stringToBooleanMap } from './job-list.types';
   templateUrl: './job-list.component.html',
   styleUrls: ['./job-list.component.scss'],
 })
-export class JobListComponent implements OnInit {
+export class JobListComponent implements OnInit, OnChanges {
   @Input() jobs$: Observable<Job[] | undefined> = of([]);
   jobs: Job[] | undefined = undefined;
   filteredJobs: Job[] | undefined = undefined;
@@ -54,10 +54,27 @@ export class JobListComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    this.jobs$.subscribe((jobs) => {
-      this.jobs = jobs;
-      this.filteredJobs = jobs;
-    });
+    this.jobs$
+      .pipe(
+        filter((jobs) => jobs != undefined),
+        first()
+      )
+      .subscribe((jobs) => {
+        this.jobs = jobs;
+        this.filteredJobs = jobs;
+      });
+  }
+
+  ngOnChanges(): void {
+    this.jobs$
+      .pipe(
+        filter((jobs) => jobs != undefined),
+        first()
+      )
+      .subscribe((jobs) => {
+        this.jobs = jobs;
+        this.filteredJobs = jobs;
+      });
   }
 
   filterJobs(): void {

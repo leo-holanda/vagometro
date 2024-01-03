@@ -7,22 +7,36 @@
       </div>
 
       <div class="card-body gap-2 max-h-96 overflow-y-auto">
-        <button
-          class="btn btn-ghost"
-          *ngFor="let company of companiesRank$ | async; index as i"
-          [ngClass]="{ 'btn-active': selectedCompany == company.name }"
-          (click)="onCompanyClick(company.name)"
+        <ng-container
+          *ngIf="companiesRank$ | async as companiesRank; else loading"
         >
-          <div class="w-full flex justify-between">
-            <span>{{ i + 1 + ". " + company.name }}</span>
-            <span>{{ company.count }}</span>
+          <button
+            class="btn btn-ghost"
+            *ngFor="let company of companiesRank; index as i"
+            [ngClass]="{ 'btn-active': selectedCompany == company.name }"
+            (click)="onCompanyClick(company.name)"
+          >
+            <div class="w-full flex justify-between">
+              <span>{{ i + 1 + ". " + company.name }}</span>
+              <span>{{ company.count }}</span>
+            </div>
+            <progress
+              class="progress w-full"
+              [value]="company.count"
+              [max]="companiesQuantity"
+            ></progress>
+          </button>
+        </ng-container>
+
+        <ng-template #loading>
+          <div class="flex flex-col w-full gap-4 mt-4">
+            <div class="skeleton h-8 w-full"></div>
+            <div class="skeleton h-8 w-full"></div>
+            <div class="skeleton h-8 w-full"></div>
+            <div class="skeleton h-8 w-full"></div>
+            <div class="skeleton h-8 w-full"></div>
           </div>
-          <progress
-            class="progress w-full"
-            [value]="company.count"
-            [max]="companiesQuantity"
-          ></progress>
-        </button>
+        </ng-template>
       </div>
     </div>
 

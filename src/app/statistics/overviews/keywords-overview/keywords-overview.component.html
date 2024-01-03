@@ -8,22 +8,36 @@
       </div>
 
       <div class="card-body max-h-96 overflow-y-auto">
-        <button
-          class="btn btn-ghost"
-          *ngFor="let keyword of keywordsRank$ | async; index as i"
-          [ngClass]="{ 'btn-active': selectedKeyword == keyword.word }"
-          (click)="onKeywordClick(keyword.word)"
+        <ng-container
+          *ngIf="keywordsRank$ | async as keywordsRank; else loading"
         >
-          <div class="w-full flex justify-between">
-            <span>{{ i + 1 + ". " + keyword.word }}</span>
-            <span>{{ keyword.count }}</span>
+          <button
+            class="btn btn-ghost"
+            *ngFor="let keyword of keywordsRank; index as i"
+            [ngClass]="{ 'btn-active': selectedKeyword == keyword.word }"
+            (click)="onKeywordClick(keyword.word)"
+          >
+            <div class="w-full flex justify-between">
+              <span>{{ i + 1 + ". " + keyword.word }}</span>
+              <span>{{ keyword.count }}</span>
+            </div>
+            <progress
+              class="progress w-full"
+              [value]="keyword.count"
+              [max]="keywordsQuantity"
+            ></progress>
+          </button>
+        </ng-container>
+
+        <ng-template #loading>
+          <div class="flex flex-col w-full gap-4 mt-4">
+            <div class="skeleton h-8 w-full"></div>
+            <div class="skeleton h-8 w-full"></div>
+            <div class="skeleton h-8 w-full"></div>
+            <div class="skeleton h-8 w-full"></div>
+            <div class="skeleton h-8 w-full"></div>
           </div>
-          <progress
-            class="progress w-full"
-            [value]="keyword.count"
-            [max]="keywordsQuantity"
-          ></progress>
-        </button>
+        </ng-template>
       </div>
     </div>
 

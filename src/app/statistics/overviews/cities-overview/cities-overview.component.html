@@ -7,9 +7,15 @@
         <h1 class="font-bold text-lg p-4">Vagas por estado</h1>
       </div>
       <div class="card-body">
-        <vgm-brazil-map
-          (stateClicked)="onStateClicked($event)"
-        ></vgm-brazil-map>
+        <ng-container *ngIf="jobsByState$ | async; else loading">
+          <vgm-brazil-map
+            (stateClicked)="onStateClicked($event)"
+          ></vgm-brazil-map>
+        </ng-container>
+
+        <ng-template #loading>
+          <div class="skeleton h-96 w-full"></div>
+        </ng-template>
       </div>
     </div>
 

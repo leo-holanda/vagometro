@@ -6,23 +6,35 @@
       </div>
 
       <div class="card-body max-h-96 overflow-y-auto">
-        <button
-          class="btn btn-ghost"
-          *ngFor="let workplace of workplacesRank$ | async; index as i"
-          [ngClass]="{ 'btn-active': selectedWorkplace == workplace.type }"
-          (click)="onWorkplaceClick(workplace.type)"
+        <ng-container
+          *ngIf="workplacesRank$ | async as workplacesRank; else loading"
         >
-          <div class="w-full flex justify-between">
-            <span>{{ i + 1 + ". " + workplace.type | titlecase }}</span>
-            <span>{{ workplace.count }}</span>
-          </div>
+          <button
+            class="btn btn-ghost"
+            *ngFor="let workplace of workplacesRank; index as i"
+            [ngClass]="{ 'btn-active': selectedWorkplace == workplace.type }"
+            (click)="onWorkplaceClick(workplace.type)"
+          >
+            <div class="w-full flex justify-between">
+              <span>{{ i + 1 + ". " + workplace.type | titlecase }}</span>
+              <span>{{ workplace.count }}</span>
+            </div>
 
-          <progress
-            class="progress w-full"
-            [value]="workplace.count"
-            [max]="workplacesQuantity"
-          ></progress>
-        </button>
+            <progress
+              class="progress w-full"
+              [value]="workplace.count"
+              [max]="workplacesQuantity"
+            ></progress>
+          </button>
+        </ng-container>
+
+        <ng-template #loading>
+          <div class="flex flex-col w-full gap-4 mt-4">
+            <div class="skeleton h-8 w-full"></div>
+            <div class="skeleton h-8 w-full"></div>
+            <div class="skeleton h-8 w-full"></div>
+          </div>
+        </ng-template>
       </div>
     </div>
 

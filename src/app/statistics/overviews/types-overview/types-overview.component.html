@@ -6,24 +6,36 @@
       </div>
 
       <div class="card-body max-h-96 overflow-y-auto">
-        <button
-          class="btn btn-ghost"
-          *ngFor="let type of typesRank$ | async; index as i"
-          [ngClass]="{ 'btn-active': selectedType == type.name }"
-          (click)="onTypeClick(type.name)"
-        >
-          <div class="w-full flex justify-between">
-            <span>{{
-              i + 1 + ". " + typesTranslations[type.name] | titlecase
-            }}</span>
-            <span>{{ type.count }}</span>
+        <ng-container *ngIf="typesRank$ | async as typesRank; else loading">
+          <button
+            class="btn btn-ghost"
+            *ngFor="let type of typesRank; index as i"
+            [ngClass]="{ 'btn-active': selectedType == type.name }"
+            (click)="onTypeClick(type.name)"
+          >
+            <div class="w-full flex justify-between">
+              <span>{{
+                i + 1 + ". " + typesTranslations[type.name] | titlecase
+              }}</span>
+              <span>{{ type.count }}</span>
+            </div>
+            <progress
+              class="progress w-full"
+              [value]="type.count"
+              [max]="typesQuantity"
+            ></progress>
+          </button>
+        </ng-container>
+
+        <ng-template #loading>
+          <div class="flex flex-col w-full gap-4 mt-4">
+            <div class="skeleton h-8 w-full"></div>
+            <div class="skeleton h-8 w-full"></div>
+            <div class="skeleton h-8 w-full"></div>
+            <div class="skeleton h-8 w-full"></div>
+            <div class="skeleton h-8 w-full"></div>
           </div>
-          <progress
-            class="progress w-full"
-            [value]="type.count"
-            [max]="typesQuantity"
-          ></progress>
-        </button>
+        </ng-template>
       </div>
     </div>
 

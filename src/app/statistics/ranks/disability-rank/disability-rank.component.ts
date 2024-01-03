@@ -21,7 +21,10 @@ export class DisabilityRankComponent {
   constructor(private statisticsService: StatisticsService) {}
 
   ngOnInit(): void {
-    this.disabilityRank$ = this.statisticsService.getDisabilityRank(this.jobs$);
+    this.disabilityRank$ = this.statisticsService.getDisabilityStatusesRank(
+      this.jobs$
+    );
+
     if (this.rankSize)
       this.disabilityRank$ = this.disabilityRank$.pipe(
         map((disabilityRank) => disabilityRank.slice(0, this.rankSize))
@@ -29,7 +32,10 @@ export class DisabilityRankComponent {
   }
 
   ngOnChanges(): void {
-    this.disabilityRank$ = this.statisticsService.getDisabilityRank(this.jobs$);
+    this.disabilityRank$ = this.statisticsService.getDisabilityStatusesRank(
+      this.jobs$
+    );
+
     if (this.rankSize)
       this.disabilityRank$ = this.disabilityRank$.pipe(
         map((disabilityRank) => disabilityRank.slice(0, this.rankSize))

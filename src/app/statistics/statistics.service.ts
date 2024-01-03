@@ -12,7 +12,10 @@ import {
   ExperienceLevelData,
   ExperienceLevels,
 } from './ranks/experience-levels-rank/experience-levels-rank.model';
-import { DisabilityData } from './ranks/disability-rank/disability-rank.model';
+import {
+  DisabilityData,
+  DisabilityStatuses,
+} from './ranks/disability-rank/disability-rank.model';
 
 @Injectable({
   providedIn: 'root',
@@ -225,16 +228,19 @@ export class StatisticsService {
     );
   }
 
-  getDisabilityRank(
+  getDisabilityStatusesRank(
     jobs$: Observable<Job[] | undefined> = this.jobService.jobs$
   ): Observable<DisabilityData[]> {
     return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
-        const disabilitiesMap = new Map<string, number>();
+        const disabilitiesMap = new Map<DisabilityStatuses, number>();
 
         jobs.forEach((job) => {
-          const jobDisabilityStatus = job.disabilities ? 'PCD' : 'Não-PCD';
+          const jobDisabilityStatus = job.disabilities
+            ? DisabilityStatuses.PCD
+            : DisabilityStatuses.nonPCD;
+
           const currentDisabilityCount =
             disabilitiesMap.get(jobDisabilityStatus) || 0;
           disabilitiesMap.set(jobDisabilityStatus, currentDisabilityCount + 1);

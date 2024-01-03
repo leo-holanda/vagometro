@@ -17,6 +17,7 @@ import {
   midLevelRelatedTerms,
   seniorLevelRelatedTerms,
 } from '../statistics/ranks/experience-levels-rank/experience-levels-rank.data';
+import { DisabilityStatuses } from '../statistics/ranks/disability-rank/disability-rank.model';
 
 @Injectable({
   providedIn: 'root',
@@ -159,6 +160,18 @@ export class JobService {
     if (experienceLevelInDescription) return experienceLevelInDescription;
 
     return ExperienceLevels.unknown;
+  }
+
+  getJobsByDisabilityStatus(
+    disabilityStatus: DisabilityStatuses
+  ): Observable<Job[]> {
+    return this.jobs$.pipe(
+      filter((jobs): jobs is Job[] => jobs != undefined),
+      map((jobs) => {
+        const shouldFilterPCD = disabilityStatus == DisabilityStatuses.PCD;
+        return jobs.filter((job) => job.disabilities == shouldFilterPCD);
+      })
+    );
   }
 
   private matchExperienceLevelTerms(

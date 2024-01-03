@@ -6,6 +6,7 @@ import { KeywordsOverviewComponent } from './statistics/overviews/keywords-overv
 import { CompaniesOverviewComponent } from './statistics/overviews/companies-overview/companies-overview.component';
 import { TypesOverviewComponent } from './statistics/overviews/types-overview/types-overview.component';
 import { ExperienceLevelsOverviewComponent } from './statistics/overviews/experience-levels-overview/experience-levels-overview.component';
+import { DisabilityStatusesOverviewComponent } from './statistics/overviews/disability-statuses-overview/disability-statuses-overview.component';
 
 export const routes: Routes = [
   {
@@ -35,6 +36,10 @@ export const routes: Routes = [
   {
     path: 'niveis',
     component: ExperienceLevelsOverviewComponent,
+  },
+  {
+    path: 'pcd',
+    component: DisabilityStatusesOverviewComponent,
   },
   {
     path: '**',

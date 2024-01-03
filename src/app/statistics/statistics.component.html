@@ -101,8 +101,9 @@
   <div class="divider"></div>
 
   <div class="card card-bordered card-compact w-full bg-base-100 shadow-xl">
-    <div class="card-title">
-      <h1 class="font-bold text-lg p-4">Vagas consideradas nos dados acima</h1>
+    <div class="card-title justify-between p-4">
+      <h1>Vagas consideradas nos dados acima</h1>
+      <span>Total: {{ ((jobs$ | async) || []).length }} vagas</span>
     </div>
 
     <div class="card-body max-h-96 overflow-y-auto">

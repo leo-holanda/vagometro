@@ -3,7 +3,7 @@
     <div class="card card-bordered card-compact w-full bg-base-100 shadow-xl">
       <div class="card-title items-center p-4">
         <i class="bx bxs-user-detail"></i>
-        <h1 class="font-bold text-lg">Rank de níveis de experiência</h1>
+        <h1>Rank de níveis de experiência</h1>
       </div>
 
       <div class="card-body max-h-96 overflow-y-auto">
@@ -48,7 +48,7 @@
     >
       <div class="card-title items-center p-4">
         <i class="bx bxs-calendar"></i>
-        <h1 class="font-bold text-lg">Vagas publicadas ao longo do tempo</h1>
+        <h1>Vagas publicadas ao longo do tempo</h1>
       </div>
 
       <div class="card-body">
@@ -113,8 +113,11 @@
 <div class="divider"></div>
 
 <div class="card card-bordered card-compact w-full bg-base-100 shadow-xl mb-4">
-  <div class="card-title">
-    <h1 class="font-bold text-lg p-4">Vagas consideradas nos dados acima</h1>
+  <div class="card-title justify-between p-4">
+    <h1>Vagas consideradas nos dados acima</h1>
+    <span
+      >Total: {{ ((jobsByExperienceLevel$ | async) || []).length }} vagas</span
+    >
   </div>
 
   <div class="card-body max-h-96 overflow-y-auto">

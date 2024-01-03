@@ -12,6 +12,7 @@ import {
   ExperienceLevelData,
   ExperienceLevels,
 } from './ranks/experience-levels-rank/experience-levels-rank.model';
+import { DisabilityData } from './ranks/disability-rank/disability-rank.model';
 
 @Injectable({
   providedIn: 'root',
@@ -215,6 +216,37 @@ export class StatisticsService {
         const sortedObjects = sortedEntries.map(
           ([key, value]): ExperienceLevelData => ({
             level: key as ExperienceLevels,
+            count: value,
+          })
+        );
+
+        return sortedObjects;
+      })
+    );
+  }
+
+  getDisabilityRank(
+    jobs$: Observable<Job[] | undefined> = this.jobService.jobs$
+  ): Observable<DisabilityData[]> {
+    return jobs$.pipe(
+      filter((jobs): jobs is Job[] => jobs != undefined),
+      map((jobs) => {
+        const disabilitiesMap = new Map<string, number>();
+
+        jobs.forEach((job) => {
+          const jobDisabilityStatus = job.disabilities ? 'PCD' : 'Não-PCD';
+          const currentDisabilityCount =
+            disabilitiesMap.get(jobDisabilityStatus) || 0;
+          disabilitiesMap.set(jobDisabilityStatus, currentDisabilityCount + 1);
+        });
+
+        const sortedEntries = Array.from(disabilitiesMap.entries()).sort(
+          (a, b) => b[1] - a[1]
+        );
+
+        const sortedObjects = sortedEntries.map(
+          ([key, value]): DisabilityData => ({
+            name: key,
             count: value,
           })
         );

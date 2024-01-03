@@ -3,14 +3,150 @@
     <table class="table table-zebra">
       <thead>
         <tr>
-          <th>Título</th>
-          <th>Empresa</th>
-          <th>Nível de experiência</th>
-          <th>Modalidade</th>
-          <th>Local</th>
-          <th>Tipo</th>
-          <th>Data de publicação</th>
-          <th>PCD</th>
+          <th>
+            <button
+              (mouseenter)="sortIconShowMap.jobTitle = true"
+              (mouseleave)="sortIconShowMap.jobTitle = false"
+              (click)="sortJobs('name')"
+              class="btn btn-ghost w-full flex items-center justify-between flex-nowrap"
+            >
+              <span>Título</span>
+              <i
+                *ngIf="sortIconShowMap.jobTitle"
+                class="bx"
+                [ngClass]="{
+                  'bx-sort-up': sortOrder == 'asc',
+                  'bx-sort-down': sortOrder == 'desc'
+                }"
+              ></i>
+            </button>
+          </th>
+          <th>
+            <button
+              (mouseenter)="sortIconShowMap.companyName = true"
+              (mouseleave)="sortIconShowMap.companyName = false"
+              (click)="sortJobs('careerPageName')"
+              class="btn btn-ghost w-full flex items-center justify-between flex-nowrap"
+            >
+              <span>Empresa</span>
+              <i
+                *ngIf="sortIconShowMap.companyName"
+                class="bx"
+                [ngClass]="{
+                  'bx-sort-up': sortOrder == 'asc',
+                  'bx-sort-down': sortOrder == 'desc'
+                }"
+              ></i>
+            </button>
+          </th>
+          <th>
+            <button
+              (mouseenter)="sortIconShowMap.experienceLevel = true"
+              (mouseleave)="sortIconShowMap.experienceLevel = false"
+              (click)="sortJobs('experienceLevel')"
+              class="btn btn-ghost w-full flex items-center justify-between flex-nowrap"
+            >
+              <span>Nível de experiência</span>
+              <i
+                *ngIf="sortIconShowMap.experienceLevel"
+                class="bx"
+                [ngClass]="{
+                  'bx-sort-up': sortOrder == 'asc',
+                  'bx-sort-down': sortOrder == 'desc'
+                }"
+              ></i>
+            </button>
+          </th>
+          <th>
+            <button
+              (mouseenter)="sortIconShowMap.workplaceType = true"
+              (mouseleave)="sortIconShowMap.workplaceType = false"
+              (click)="sortJobs('workplaceType')"
+              class="btn btn-ghost w-full flex items-center justify-between flex-nowrap"
+            >
+              <span>Modalidade</span>
+              <i
+                *ngIf="sortIconShowMap.workplaceType"
+                class="bx"
+                [ngClass]="{
+                  'bx-sort-up': sortOrder == 'asc',
+                  'bx-sort-down': sortOrder == 'desc'
+                }"
+              ></i>
+            </button>
+          </th>
+          <th>
+            <button
+              (mouseenter)="sortIconShowMap.jobLocation = true"
+              (mouseleave)="sortIconShowMap.jobLocation = false"
+              (click)="sortJobs('city')"
+              class="btn btn-ghost w-full flex items-center justify-between flex-nowrap"
+            >
+              <span>Local</span>
+              <i
+                *ngIf="sortIconShowMap.jobLocation"
+                class="bx"
+                [ngClass]="{
+                  'bx-sort-up': sortOrder == 'asc',
+                  'bx-sort-down': sortOrder == 'desc'
+                }"
+              ></i>
+            </button>
+          </th>
+          <th>
+            <button
+              (mouseenter)="sortIconShowMap.jobType = true"
+              (mouseleave)="sortIconShowMap.jobType = false"
+              (click)="sortJobs('type')"
+              class="btn btn-ghost w-full flex items-center justify-between flex-nowrap"
+            >
+              <span>Tipo</span>
+              <i
+                *ngIf="sortIconShowMap.jobType"
+                class="bx"
+                [ngClass]="{
+                  'bx-sort-up': sortOrder == 'asc',
+                  'bx-sort-down': sortOrder == 'desc'
+                }"
+              ></i>
+            </button>
+          </th>
+          <th>
+            <button
+              (mouseenter)="sortIconShowMap.publishedDate = true"
+              (mouseleave)="sortIconShowMap.publishedDate = false"
+              (click)="sortJobs('publishedDate')"
+              class="btn btn-ghost w-full flex items-center justify-between flex-nowrap"
+            >
+              <span>Data de publicação</span>
+              <i
+                *ngIf="sortIconShowMap.publishedDate"
+                class="bx"
+                [ngClass]="{
+                  'bx-sort-up': sortOrder == 'asc',
+                  'bx-sort-down': sortOrder == 'desc'
+                }"
+              ></i>
+            </button>
+          </th>
+          <th>
+            <button
+              (mouseenter)="sortIconShowMap.acceptsDisabledPersons = true"
+              (mouseleave)="sortIconShowMap.acceptsDisabledPersons = false"
+              (click)="sortJobs('disabilities')"
+              class="btn btn-ghost w-full flex items-center justify-between flex-nowrap"
+            >
+              <span>PCD</span>
+              <i
+                *ngIf="sortIconShowMap.acceptsDisabledPersons"
+                class="bx"
+                [ngClass]="{
+                  'bx-sort-up': sortOrder == 'asc',
+                  'bx-sort-down': sortOrder == 'desc'
+                }"
+              ></i>
+            </button>
+          </th>
           <th>Link</th>
         </tr>
       </thead>

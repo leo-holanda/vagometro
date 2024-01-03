@@ -1,13 +1,6 @@
-import {
-  AfterViewInit,
-  Component,
-  Input,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { JobService } from '../job.service';
-import { Observable, filter, map, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Job } from '../job.model';
 import { translations } from 'src/app/statistics/ranks/type-rank/type-rank.translations';
 import { StateAbbreviationPipe } from 'src/app/shared/pipes/state-abbreviation.pipe';
@@ -41,7 +34,19 @@ export class JobListComponent implements OnInit {
     acceptsDisabledPersons: 'undefined',
   };
 
+  sortIconShowMap = {
+    jobTitle: false,
+    companyName: false,
+    experienceLevel: false,
+    workplaceType: false,
+    jobLocation: false,
+    jobType: false,
+    publishedDate: false,
+    acceptsDisabledPersons: false,
+  };
+
   today = new Date();
+  sortOrder: 'asc' | 'desc' = 'asc';
 
   private stringToBooleanMap: stringToBooleanMap = {
     true: true,
@@ -123,5 +128,27 @@ export class JobListComponent implements OnInit {
         });
       }
     }
+  }
+
+  sortJobs(field: keyof Job): void {
+    this.sortOrder = this.sortOrder == 'asc' ? 'desc' : 'asc';
+    this.filteredJobs = this.filteredJobs?.sort((a, b) => {
+      let valueA = a[field];
+      let valueB = b[field];
+
+      if (typeof valueA == 'string' && typeof valueB == 'string') {
+        valueA = valueA.toString().toLowerCase();
+        valueB = valueB.toString().toLowerCase();
+      }
+
+      if (valueA instanceof Date && valueB instanceof Date) {
+        valueA = new Date(valueA).getTime();
+        valueB = new Date(valueB).getTime();
+      }
+
+      if (a[field] == b[field]) return 0;
+      if (this.sortOrder == 'asc') return a[field] > b[field] ? 1 : -1;
+      return a[field] < b[field] ? 1 : -1;
+    });
   }
 }

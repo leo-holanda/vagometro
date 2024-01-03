@@ -45,7 +45,7 @@ export class JobListComponent implements OnInit {
     acceptsDisabledPersons: false,
   };
 
-  today = new Date();
+  inputMaxDate = new Date().toISOString().slice(0, 10);
   sortOrder: 'asc' | 'desc' = 'asc';
 
   private stringToBooleanMap: stringToBooleanMap = {

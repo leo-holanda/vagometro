@@ -1,4 +1,4 @@
-<ng-container *ngIf="jobs$ | async as jobs; else loading">
+<ng-container *ngIf="jobs$ | async; else loading">
   <div class="overflow-auto w-full">
     <table class="table table-zebra">
       <thead>
@@ -14,18 +14,134 @@
           <th>Link</th>
         </tr>
       </thead>
+
       <tbody>
-        <tr class="hover" *ngFor="let job of jobs; index as i">
+        <tr>
+          <td>
+            <input
+              [(ngModel)]="filters.jobTitle"
+              (ngModelChange)="filterJobs()"
+              id="jobTitle"
+              name="jobTitle"
+              type="text"
+              class="input input-bordered input-sm w-full max-w-xs"
+            />
+          </td>
+
+          <td>
+            <input
+              [(ngModel)]="filters.companyName"
+              (ngModelChange)="filterJobs()"
+              id="companyName"
+              name="companyName"
+              type="text"
+              class="input input-bordered input-sm w-full max-w-xs"
+            />
+          </td>
+
+          <td>
+            <select
+              [(ngModel)]="filters.experienceLevel"
+              (ngModelChange)="filterJobs()"
+              id="experienceLevel"
+              name="experienceLevel"
+              class="select select-bordered select-sm w-full max-w-xs"
+            >
+              <option value=""></option>
+              <option
+                *ngFor="let experienceLevel of experienceLevels | keyvalue"
+              >
+                {{ experienceLevel.value }}
+              </option>
+            </select>
+          </td>
+
+          <td>
+            <select
+              [(ngModel)]="filters.workplaceType"
+              (ngModelChange)="filterJobs()"
+              id="workplaceType"
+              name="workplaceType"
+              class="select select-bordered select-sm w-full max-w-xs"
+            >
+              <option selected></option>
+              <option value="remoto">Remoto</option>
+              <option value="híbrido">Híbrido</option>
+              <option value="presencial">Presencial</option>
+            </select>
+          </td>
+
+          <td>
+            <input
+              [(ngModel)]="filters.jobLocation"
+              (ngModelChange)="filterJobs()"
+              id="jobLocation"
+              name="jobLocation"
+              type="text"
+              class="input input-bordered input-sm w-full max-w-xs"
+            />
+          </td>
+
+          <td>
+            <select
+              [(ngModel)]="filters.jobType"
+              (ngModelChange)="filterJobs()"
+              id="jobType"
+              name="jobType"
+              class="select select-bordered select-sm w-full max-w-xs"
+            >
+              <option selected></option>
+              <option
+                *ngFor="let typeTranslation of typeTranslations | keyvalue"
+                [value]="typeTranslation.key"
+              >
+                {{ typeTranslation.value | titlecase }}
+              </option>
+            </select>
+          </td>
+
+          <td>
+            <input
+              [(ngModel)]="filters.publishedDate"
+              (ngModelChange)="filterJobs()"
+              id="publishedDate"
+              name="publishedDate"
+              type="date"
+              class="input input-bordered input-sm w-full max-w-xs"
+              [max]="today"
+            />
+          </td>
+
+          <td>
+            <select
+              [(ngModel)]="filters.acceptsDisabledPersons"
+              (ngModelChange)="filterJobs()"
+              id="acceptsDisabledPersons"
+              name="acceptsDisabledPersons"
+              class="select select-bordered select-sm w-full max-w-xs"
+            >
+              <option [value]="undefined" selected></option>
+              <option [value]="true">Sim</option>
+              <option [value]="false">Não</option>
+            </select>
+          </td>
+        </tr>
+
+        <tr class="hover" *ngFor="let job of filteredJobs">
           <td>
             {{ job.name }}
           </td>
+
           <td>
             <a class="link" [href]="job.careerPageUrl">{{
               job.careerPageName
             }}</a>
           </td>
+
           <td>{{ job.experienceLevel }}</td>
+
           <td>{{ job.workplaceType | titlecase }}</td>
+
           <td>
             {{
               job.city
@@ -33,8 +149,11 @@
                 : "N/A"
             }}
           </td>
+
           <td>{{ typeTranslations[job.type] | titlecase }}</td>
+
           <td>{{ job.publishedDate | date : "dd/MM/yyyy" }}</td>
+
           <td>
             <i
               class="bx"
@@ -44,6 +163,7 @@
               }"
             ></i>
           </td>
+
           <td>
             <a [href]="job.jobUrl" target="_blank">
               <i class="bx bx-link-external"></i>

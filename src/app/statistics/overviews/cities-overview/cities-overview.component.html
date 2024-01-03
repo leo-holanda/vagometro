@@ -3,8 +3,9 @@
     <div
       class="card card-bordered card-compact w-full bg-base-100 shadow-xl h-min"
     >
-      <div class="card-title">
-        <h1 class="font-bold text-lg p-4">Vagas por estado</h1>
+      <div class="card-title items-center p-4">
+        <i class="bx bxs-map-alt"></i>
+        <h1 class="font-bold text-lg">Vagas por estado</h1>
       </div>
       <div class="card-body">
         <ng-container *ngIf="jobsByState$ | async; else loading">

@@ -32,7 +32,7 @@
       <i class="bx bxl-github"></i>
     </a>
 
-    <button class="btn btn-ghost btn-circle">
+    <button class="btn btn-ghost btn-circle" onclick="my_modal_1.showModal()">
       <i class="bx bxs-help-circle"></i>
     </button>
   </div>
@@ -99,3 +99,38 @@
     Sempre
   </button>
 </div>
+
+<dialog id="my_modal_1" class="modal">
+  <div class="modal-box">
+    <section class="p-4">
+      <h1 class="font-bold text-lg">O que é o vagômetro?</h1>
+      <p class="pt-2">
+        O vagômetro é um projeto open-source que reúne dados sobre as vagas de
+        emprego da área de tecnologia publicadas na plataforma Gupy.
+      </p>
+
+      <p class="pt-2">
+        Seu objetivo é apresentar tais dados de forma a ajudar profissionais em
+        busca de emprego a encontrarem vagas de seu interesse com mais
+        facilidade.
+      </p>
+    </section>
+
+    <section class="p-4">
+      <h1 class="font-bold text-lg">Aviso importante</h1>
+      <p class="pt-2">
+        O escopo das análises realizadas pelo vagômetro limitam-se apenas às
+        vagas publicadas na Gupy. Qualquer conclusão a respeito do mercado de TI
+        como um todo é desencorajada devido ao tamanho restrito da amostra de
+        dados.
+      </p>
+    </section>
+
+    <div class="modal-action">
+      <form method="dialog">
+        <!-- if there is a button in form, it will close the modal -->
+        <button class="btn">Close</button>
+      </form>
+    </div>
+  </div>
+</dialog>

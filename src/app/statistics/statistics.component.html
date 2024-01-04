@@ -7,15 +7,12 @@
       <div class="card-body">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-1">
-            <i class="bx bxs-map"></i>
-            <h2 class="card-title">Rank de cidades</h2>
+            <i class="bx bxs-user-detail"></i>
+            <h2 class="card-title">Rank de níveis de experiência</h2>
           </div>
-          <a class="link" [routerLink]="['/cidades']">Ver mais</a>
+          <a class="link" [routerLink]="['/niveis']">Ver mais</a>
         </div>
-        <vgm-cities-rank [rankSize]="5"></vgm-cities-rank>
-        <p class="text-xs text-slate-500">
-          Considerando apenas vagas presenciais e híbridas
-        </p>
+        <vgm-experience-levels-rank [rankSize]="5"></vgm-experience-levels-rank>
       </div>
     </div>
 
@@ -75,12 +72,12 @@
       <div class="card-body">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-1">
-            <i class="bx bxs-user-detail"></i>
-            <h2 class="card-title">Rank de níveis de experiência</h2>
+            <i class="bx bx-accessibility"></i>
+            <h2 class="card-title">Quantidade de vagas PCD</h2>
           </div>
-          <a class="link" [routerLink]="['/niveis']">Ver mais</a>
+          <a class="link" [routerLink]="['/pcd']">Ver mais</a>
         </div>
-        <vgm-experience-levels-rank></vgm-experience-levels-rank>
+        <vgm-disability-rank></vgm-disability-rank>
       </div>
     </div>
 
@@ -88,12 +85,15 @@
       <div class="card-body">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-1">
-            <i class="bx bx-accessibility"></i>
-            <h2 class="card-title">Quantidade de vagas PCD</h2>
+            <i class="bx bxs-map"></i>
+            <h2 class="card-title">Rank de cidades</h2>
           </div>
-          <a class="link" [routerLink]="['/pcd']">Ver mais</a>
+          <a class="link" [routerLink]="['/cidades']">Ver mais</a>
         </div>
-        <vgm-disability-rank></vgm-disability-rank>
+        <vgm-cities-rank [rankSize]="5"></vgm-cities-rank>
+        <p class="text-xs text-slate-500">
+          Considerando apenas vagas presenciais e híbridas
+        </p>
       </div>
     </div>
   </div>

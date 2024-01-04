@@ -220,6 +220,14 @@ export class JobService {
   }
 
   private jobHasKeyword(job: Job, keyword: string): boolean {
+    const splittedTitle = job.name.split(' ');
+    const hasKeywordInTitle = splittedTitle.some(
+      (substring) =>
+        substring.replace(',', '').toLowerCase() == keyword.toLowerCase()
+    );
+
+    if (hasKeywordInTitle) return true;
+
     const splittedDescription = job.description.split(' ');
     return splittedDescription.some(
       (substring) =>

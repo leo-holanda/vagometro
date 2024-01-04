@@ -1,12 +1,13 @@
+export const internLevelRelatedTypes = ['vacancy_type_internship'];
+export const traineeLevelRelatedTypes = ['vacancy_type_trainee'];
 export const juniorLevelRelatedTypes = [
   'vacancy_type_apprentice',
   'vacancy_type_associate',
-  'vacancy_type_internship',
-  'vacancy_type_trainee',
 ];
 
+export const internLevelRelatedTerms = ['estagiario'];
+export const traineeLevelRelatedTerms = ['trainee'];
 export const juniorLevelRelatedTerms = [
-  'trainee',
   'júnior',
   'junior',
   'jr',

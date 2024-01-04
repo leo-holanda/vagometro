@@ -12,10 +12,14 @@ import {
 } from 'rxjs';
 import { ExperienceLevels } from '../statistics/ranks/experience-levels-rank/experience-levels-rank.model';
 import {
+  internLevelRelatedTerms,
+  internLevelRelatedTypes,
   juniorLevelRelatedTerms,
   juniorLevelRelatedTypes,
   midLevelRelatedTerms,
   seniorLevelRelatedTerms,
+  traineeLevelRelatedTerms,
+  traineeLevelRelatedTypes,
 } from '../statistics/ranks/experience-levels-rank/experience-levels-rank.data';
 import { DisabilityStatuses } from '../statistics/ranks/disability-rank/disability-rank.model';
 
@@ -148,6 +152,12 @@ export class JobService {
   }
 
   findExperienceLevel(job: Job): ExperienceLevels {
+    if (internLevelRelatedTypes.includes(job.type))
+      return ExperienceLevels.intern;
+
+    if (traineeLevelRelatedTypes.includes(job.type))
+      return ExperienceLevels.trainee;
+
     if (juniorLevelRelatedTypes.includes(job.type))
       return ExperienceLevels.junior;
 
@@ -180,6 +190,16 @@ export class JobService {
     const splittedContent = content
       .split(' ')
       .map((word) => word.toLowerCase());
+
+    const hasInternLevelRelatedTerms = internLevelRelatedTerms.some((term) =>
+      splittedContent.includes(term)
+    );
+    if (hasInternLevelRelatedTerms) return ExperienceLevels.intern;
+
+    const hasTraineeLevelRelatedTerms = traineeLevelRelatedTerms.some((term) =>
+      splittedContent.includes(term)
+    );
+    if (hasTraineeLevelRelatedTerms) return ExperienceLevels.intern;
 
     const hasJuniorLevelRelatedTerms = juniorLevelRelatedTerms.some((term) =>
       splittedContent.includes(term)

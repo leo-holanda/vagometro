@@ -11,6 +11,7 @@ import { TypeData } from './type-rank.model';
 import { Observable, map } from 'rxjs';
 import { translations } from './type-rank.translations';
 import { Job } from 'src/app/job/job.model';
+import { trackByType } from 'src/app/shared/track-by-functions';
 
 @Component({
   selector: 'vgm-type-rank',
@@ -26,6 +27,7 @@ export class TypeRankComponent implements OnInit, OnChanges {
   typesRank$!: Observable<TypeData[]>;
 
   translations = translations;
+  trackByType = trackByType;
 
   constructor(private statisticsService: StatisticsService) {}
 

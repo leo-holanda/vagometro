@@ -12,6 +12,7 @@ import { translations } from '../../ranks/type-rank/type-rank.translations';
 import { PublicationChartComponent } from '../../charts/publication-chart/publication-chart.component';
 import { JobListComponent } from 'src/app/job/job-list/job-list.component';
 import { ExperienceLevelsRankComponent } from '../../ranks/experience-levels-rank/experience-levels-rank.component';
+import { trackByType } from 'src/app/shared/track-by-functions';
 
 @Component({
   selector: 'vgm-types-overview',
@@ -35,6 +36,7 @@ export class TypesOverviewComponent implements OnInit {
   jobsByType$!: Observable<Job[]>;
 
   typesTranslations = translations;
+  trackByType = trackByType;
 
   constructor(
     private statisticsService: StatisticsService,

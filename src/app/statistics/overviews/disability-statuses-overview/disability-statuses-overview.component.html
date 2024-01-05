@@ -12,7 +12,11 @@
         >
           <button
             class="btn btn-ghost"
-            *ngFor="let disabilityStatus of disabilityRank; index as i"
+            *ngFor="
+              let disabilityStatus of disabilityRank;
+              index as i;
+              trackBy: trackByDisabilityStatus
+            "
             [ngClass]="{
               'btn-active': selectedDisabilityStatus == disabilityStatus.name
             }"

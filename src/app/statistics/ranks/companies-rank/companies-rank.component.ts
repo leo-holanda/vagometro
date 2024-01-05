@@ -10,6 +10,7 @@ import { Observable, map } from 'rxjs';
 import { CompanyData } from './companies-rank.model';
 import { StatisticsService } from '../../statistics.service';
 import { Job } from 'src/app/job/job.model';
+import { trackByCompany } from 'src/app/shared/track-by-functions';
 
 @Component({
   selector: 'vgm-companies-rank',
@@ -23,6 +24,8 @@ export class CompaniesRankComponent implements OnInit, OnChanges {
   @Input() rankSize: number | undefined;
 
   companiesRank$!: Observable<CompanyData[]>;
+
+  trackByCompany = trackByCompany;
 
   constructor(private statisticsService: StatisticsService) {}
 

@@ -9,7 +9,13 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let keyword of keywordsRank; index as i">
+        <tr
+          *ngFor="
+            let keyword of keywordsRank;
+            index as i;
+            trackBy: trackByKeyword
+          "
+        >
           <th>{{ i + 1 }}</th>
           <td>
             {{ keyword.word }}

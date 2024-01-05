@@ -12,7 +12,11 @@
         >
           <button
             class="btn btn-ghost"
-            *ngFor="let workplace of workplacesRank; index as i"
+            *ngFor="
+              let workplace of workplacesRank;
+              index as i;
+              trackBy: trackByWorkplace
+            "
             [ngClass]="{ 'btn-active': selectedWorkplace == workplace.type }"
             (click)="onWorkplaceClick(workplace.type)"
           >

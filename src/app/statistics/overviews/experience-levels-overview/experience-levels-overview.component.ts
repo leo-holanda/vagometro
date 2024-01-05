@@ -14,6 +14,7 @@ import { KeywordsRankComponent } from '../../ranks/keywords-rank/keywords-rank.c
 import { WorkplaceRankComponent } from '../../ranks/workplace-rank/workplace-rank.component';
 import { JobListComponent } from 'src/app/job/job-list/job-list.component';
 import { TypeRankComponent } from '../../ranks/type-rank/type-rank.component';
+import { trackByExperienceLevel } from 'src/app/shared/track-by-functions';
 
 @Component({
   selector: 'vgm-experience-levels-overview',
@@ -35,6 +36,8 @@ export class ExperienceLevelsOverviewComponent {
   jobsQuantity!: number;
   selectedLevel!: ExperienceLevels;
   jobsByExperienceLevel$!: Observable<Job[]>;
+
+  trackByExperienceLevel = trackByExperienceLevel;
 
   constructor(
     private statisticsService: StatisticsService,

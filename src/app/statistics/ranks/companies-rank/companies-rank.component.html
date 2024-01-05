@@ -9,7 +9,13 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let company of companiesRank; index as i">
+        <tr
+          *ngFor="
+            let company of companiesRank;
+            index as i;
+            trackBy: trackByCompany
+          "
+        >
           <th>{{ i + 1 }}</th>
           <td>
             <a class="link" [href]="company.link" target="_blank">{{

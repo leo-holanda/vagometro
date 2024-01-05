@@ -5,6 +5,7 @@ import { Job } from 'src/app/job/job.model';
 import { StatisticsService } from '../../statistics.service';
 import { CompanyData } from '../companies-rank/companies-rank.model';
 import { ExperienceLevelData } from './experience-levels-rank.model';
+import { trackByExperienceLevel } from 'src/app/shared/track-by-functions';
 
 @Component({
   selector: 'vgm-experience-levels-rank',
@@ -18,6 +19,8 @@ export class ExperienceLevelsRankComponent {
   @Input() rankSize: number | undefined;
 
   experienceLevelsRank$!: Observable<ExperienceLevelData[]>;
+
+  trackByExperienceLevel = trackByExperienceLevel;
 
   constructor(private statisticsService: StatisticsService) {}
 

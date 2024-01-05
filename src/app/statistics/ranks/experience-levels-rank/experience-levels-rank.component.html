@@ -11,7 +11,13 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let experienceLevel of experienceLevelsRank; index as i">
+        <tr
+          *ngFor="
+            let experienceLevel of experienceLevelsRank;
+            index as i;
+            trackBy: trackByExperienceLevel
+          "
+        >
           <th>{{ i + 1 }}</th>
           <td>
             {{ experienceLevel.level }}

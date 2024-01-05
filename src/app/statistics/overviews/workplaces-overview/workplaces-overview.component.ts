@@ -12,6 +12,7 @@ import { WorkplaceData } from '../../ranks/workplace-rank/workplace-rank.model';
 import { PublicationChartComponent } from '../../charts/publication-chart/publication-chart.component';
 import { JobListComponent } from 'src/app/job/job-list/job-list.component';
 import { ExperienceLevelsRankComponent } from '../../ranks/experience-levels-rank/experience-levels-rank.component';
+import { trackByWorkplace } from 'src/app/shared/track-by-functions';
 
 @Component({
   selector: 'vgm-workplaces-overview',
@@ -35,6 +36,8 @@ export class WorkplacesOverviewComponent implements OnInit {
   jobsByWorkplace$: Observable<Job[]>;
   workplacesRank$: Observable<WorkplaceData[]>;
   workplacesQuantity: number = 0;
+
+  trackByWorkplace = trackByWorkplace;
 
   constructor(
     private jobService: JobService,

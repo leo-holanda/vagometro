@@ -10,7 +10,7 @@
         <ng-container *ngIf="typesRank$ | async as typesRank; else loading">
           <button
             class="btn btn-ghost"
-            *ngFor="let type of typesRank; index as i"
+            *ngFor="let type of typesRank; index as i; trackBy: trackByType"
             [ngClass]="{ 'btn-active': selectedType == type.name }"
             (click)="onTypeClick(type.name)"
           >

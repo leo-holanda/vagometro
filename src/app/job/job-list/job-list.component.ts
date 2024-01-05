@@ -7,6 +7,7 @@ import { StateAbbreviationPipe } from 'src/app/shared/pipes/state-abbreviation.p
 import { ExperienceLevels } from 'src/app/statistics/ranks/experience-levels-rank/experience-levels-rank.model';
 import { FormsModule } from '@angular/forms';
 import { stringToBooleanMap } from './job-list.types';
+import { trackByJobId } from 'src/app/shared/track-by-functions';
 
 @Component({
   selector: 'vgm-job-list',
@@ -47,6 +48,7 @@ export class JobListComponent implements OnInit, OnChanges {
 
   inputMaxDate = new Date().toISOString().slice(0, 10);
   sortOrder: 'asc' | 'desc' = 'asc';
+  trackByJobId = trackByJobId;
 
   private stringToBooleanMap: stringToBooleanMap = {
     true: true,

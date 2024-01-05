@@ -12,7 +12,11 @@
         >
           <button
             class="btn btn-ghost"
-            *ngFor="let keyword of keywordsRank; index as i"
+            *ngFor="
+              let keyword of keywordsRank;
+              index as i;
+              trackBy: trackByKeyword
+            "
             [ngClass]="{ 'btn-active': selectedKeyword == keyword.word }"
             (click)="onKeywordClick(keyword.word)"
           >

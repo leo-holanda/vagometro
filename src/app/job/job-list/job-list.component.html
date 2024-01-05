@@ -237,7 +237,7 @@
       </thead>
 
       <tbody>
-        <tr class="hover" *ngFor="let job of filteredJobs">
+        <tr class="hover" *ngFor="let job of filteredJobs; trackBy: trackByJobId">
           <td>
             {{ job.name }}
           </td>

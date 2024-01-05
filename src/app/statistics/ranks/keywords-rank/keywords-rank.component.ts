@@ -10,6 +10,7 @@ import { Observable, map } from 'rxjs';
 import { KeywordData } from './keywords-rank.model';
 import { StatisticsService } from '../../statistics.service';
 import { Job } from 'src/app/job/job.model';
+import { trackByKeyword } from 'src/app/shared/track-by-functions';
 
 @Component({
   selector: 'vgm-keywords-rank',
@@ -23,6 +24,8 @@ export class KeywordsRankComponent implements OnInit, OnChanges {
   @Input() rankSize: number | undefined;
 
   keywordsRank$!: Observable<KeywordData[]>;
+
+  trackByKeyword = trackByKeyword;
 
   constructor(private statisticsService: StatisticsService) {}
 

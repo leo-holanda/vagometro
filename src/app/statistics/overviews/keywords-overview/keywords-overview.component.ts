@@ -11,6 +11,7 @@ import { TypeRankComponent } from '../../ranks/type-rank/type-rank.component';
 import { PublicationChartComponent } from '../../charts/publication-chart/publication-chart.component';
 import { JobListComponent } from 'src/app/job/job-list/job-list.component';
 import { ExperienceLevelsRankComponent } from '../../ranks/experience-levels-rank/experience-levels-rank.component';
+import { trackByKeyword } from 'src/app/shared/track-by-functions';
 
 @Component({
   selector: 'vgm-keywords-overview',
@@ -32,6 +33,8 @@ export class KeywordsOverviewComponent implements OnInit {
   keywordsQuantity!: number;
   selectedKeyword: string = 'JavaScript';
   jobsByKeyword$!: Observable<Job[]>;
+
+  trackByKeyword = trackByKeyword;
 
   constructor(
     private statisticsService: StatisticsService,

@@ -11,6 +11,7 @@ import { TypeRankComponent } from '../../ranks/type-rank/type-rank.component';
 import { PublicationChartComponent } from '../../charts/publication-chart/publication-chart.component';
 import { JobListComponent } from 'src/app/job/job-list/job-list.component';
 import { ExperienceLevelsRankComponent } from '../../ranks/experience-levels-rank/experience-levels-rank.component';
+import { trackByCompany } from 'src/app/shared/track-by-functions';
 
 @Component({
   selector: 'vgm-companies-overview',
@@ -32,6 +33,8 @@ export class CompaniesOverviewComponent implements OnInit {
   companiesQuantity!: number;
   selectedCompany!: string;
   jobsByCompany$!: Observable<Job[]>;
+
+  trackByCompany = trackByCompany;
 
   constructor(
     private statisticsService: StatisticsService,

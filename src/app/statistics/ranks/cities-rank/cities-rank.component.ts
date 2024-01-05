@@ -6,6 +6,7 @@ import { Observable, map } from 'rxjs';
 import { RouterModule } from '@angular/router';
 import { Job } from 'src/app/job/job.model';
 import { StateAbbreviationPipe } from '../../../shared/pipes/state-abbreviation.pipe';
+import { trackByCity } from 'src/app/shared/track-by-functions';
 
 @Component({
   selector: 'vgm-cities-rank',
@@ -19,6 +20,8 @@ export class CitiesRankComponent implements OnInit, OnChanges {
   @Input() rankSize: number | undefined;
 
   citiesRank$!: Observable<CityData[]>;
+
+  trackByCity = trackByCity;
 
   constructor(private statisticsService: StatisticsService) {}
 

@@ -4,6 +4,7 @@ import { DisabilityData } from './disability-rank.model';
 import { Observable, map } from 'rxjs';
 import { Job } from 'src/app/job/job.model';
 import { StatisticsService } from '../../statistics.service';
+import { trackByDisabilityStatus } from 'src/app/shared/track-by-functions';
 
 @Component({
   selector: 'vgm-disability-rank',
@@ -17,6 +18,8 @@ export class DisabilityRankComponent {
   @Input() rankSize: number | undefined;
 
   disabilityRank$!: Observable<DisabilityData[]>;
+
+  trackByDisabilityStatus = trackByDisabilityStatus;
 
   constructor(private statisticsService: StatisticsService) {}
 

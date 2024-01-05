@@ -15,6 +15,7 @@ import { WorkplaceRankComponent } from '../../ranks/workplace-rank/workplace-ran
 import { JobListComponent } from 'src/app/job/job-list/job-list.component';
 import { ExperienceLevelsRankComponent } from '../../ranks/experience-levels-rank/experience-levels-rank.component';
 import { PublicationChartComponent } from '../../charts/publication-chart/publication-chart.component';
+import { trackByDisabilityStatus } from 'src/app/shared/track-by-functions';
 
 @Component({
   selector: 'vgm-disability-statuses-overview',
@@ -37,6 +38,8 @@ export class DisabilityStatusesOverviewComponent {
   jobsQuantity!: number;
   selectedDisabilityStatus = DisabilityStatuses.PCD;
   jobsByDisabilityStatus$!: Observable<Job[]>;
+
+  trackByDisabilityStatus = trackByDisabilityStatus;
 
   constructor(
     private statisticsService: StatisticsService,

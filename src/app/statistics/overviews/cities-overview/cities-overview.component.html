@@ -95,13 +95,15 @@
 
 <div class="divider"></div>
 
-<div class="card card-bordered card-compact w-full bg-base-100 shadow-xl mb-4">
-  <div class="card-title justify-between p-4">
-    <h1>Vagas consideradas nos dados acima</h1>
-    <span>Total: {{ ((jobsByState$ | async) || []).length }} vagas</span>
-  </div>
+<div class="flex items-center justify-center">
+  <div class="card card-bordered card-compact w-min bg-base-100 shadow-xl">
+    <div class="card-title justify-between p-4">
+      <h1>Vagas consideradas nos dados acima</h1>
+      <span>Total: {{ ((jobsByState$ | async) || []).length }} vagas</span>
+    </div>
 
-  <div class="card-body max-h-96 overflow-y-auto">
-    <vgm-job-list [jobs$]="jobsByState$"></vgm-job-list>
+    <div class="card-body overflow-y-hidden">
+      <vgm-job-list [jobs$]="jobsByState$"></vgm-job-list>
+    </div>
   </div>
 </div>

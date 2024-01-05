@@ -1,244 +1,257 @@
 <ng-container *ngIf="jobs$ | async; else loading">
-  <section class="flex gap-2">
-    <div>
-      <button
-        (mouseenter)="sortIconShowMap.jobTitle = true"
-        (mouseleave)="sortIconShowMap.jobTitle = false"
-        (click)="sortJobs('name')"
-        class="btn btn-ghost w-full flex items-center justify-between flex-nowrap"
-      >
-        <span>Título</span>
-        <i
-          *ngIf="sortIconShowMap.jobTitle"
-          class="bx"
-          [ngClass]="{
-            'bx-sort-up': sortOrder == 'asc',
-            'bx-sort-down': sortOrder == 'desc'
-          }"
-        ></i>
-      </button>
-      <input
-        [(ngModel)]="filters.jobTitle"
-        (ngModelChange)="filterJobs()"
-        id="jobTitle"
-        name="jobTitle"
-        type="text"
-        class="input input-bordered input-sm w-full max-w-xs"
-      />
-    </div>
+  <section class="flex justify-end">
+    <button class="btn" (click)="filterAndSortModal.showModal()">
+      Filtrar e ordenar
+    </button>
+    <dialog #filterAndSortModal class="modal">
+      <div class="modal-box flex flex-col gap-4">
+        <div>
+          <button
+            (mouseenter)="sortIconShowMap.jobTitle = true"
+            (mouseleave)="sortIconShowMap.jobTitle = false"
+            (click)="sortJobs('name')"
+            class="btn btn-ghost rounded-b-none w-full flex items-center justify-between flex-nowrap"
+          >
+            <span>Título</span>
+            <i
+              *ngIf="sortIconShowMap.jobTitle"
+              class="bx"
+              [ngClass]="{
+                'bx-sort-up': sortOrder == 'asc',
+                'bx-sort-down': sortOrder == 'desc'
+              }"
+            ></i>
+          </button>
+          <input
+            [(ngModel)]="filters.jobTitle"
+            (ngModelChange)="filterJobs()"
+            id="jobTitle"
+            name="jobTitle"
+            type="text"
+            class="input input-bordered input-sm rounded-t-none w-full"
+          />
+        </div>
 
-    <div>
-      <button
-        (mouseenter)="sortIconShowMap.companyName = true"
-        (mouseleave)="sortIconShowMap.companyName = false"
-        (click)="sortJobs('careerPageName')"
-        class="btn btn-ghost w-full flex items-center justify-between flex-nowrap"
-      >
-        <span>Empresa</span>
-        <i
-          *ngIf="sortIconShowMap.companyName"
-          class="bx"
-          [ngClass]="{
-            'bx-sort-up': sortOrder == 'asc',
-            'bx-sort-down': sortOrder == 'desc'
-          }"
-        ></i>
-      </button>
-      <input
-        [(ngModel)]="filters.companyName"
-        (ngModelChange)="filterJobs()"
-        id="companyName"
-        name="companyName"
-        type="text"
-        class="input input-bordered input-sm w-full max-w-xs"
-      />
-    </div>
+        <div>
+          <button
+            (mouseenter)="sortIconShowMap.companyName = true"
+            (mouseleave)="sortIconShowMap.companyName = false"
+            (click)="sortJobs('careerPageName')"
+            class="btn btn-ghost rounded-b-none w-full flex items-center justify-between flex-nowrap"
+          >
+            <span>Empresa</span>
+            <i
+              *ngIf="sortIconShowMap.companyName"
+              class="bx"
+              [ngClass]="{
+                'bx-sort-up': sortOrder == 'asc',
+                'bx-sort-down': sortOrder == 'desc'
+              }"
+            ></i>
+          </button>
+          <input
+            [(ngModel)]="filters.companyName"
+            (ngModelChange)="filterJobs()"
+            id="companyName"
+            name="companyName"
+            type="text"
+            class="input input-bordered input-sm rounded-t-none w-full"
+          />
+        </div>
 
-    <div>
-      <button
-        (mouseenter)="sortIconShowMap.experienceLevel = true"
-        (mouseleave)="sortIconShowMap.experienceLevel = false"
-        (click)="sortJobs('experienceLevel')"
-        class="btn btn-ghost w-full flex items-center justify-between flex-nowrap"
-      >
-        <span>Nível de experiência</span>
-        <i
-          *ngIf="sortIconShowMap.experienceLevel"
-          class="bx"
-          [ngClass]="{
-            'bx-sort-up': sortOrder == 'asc',
-            'bx-sort-down': sortOrder == 'desc'
-          }"
-        ></i>
-      </button>
-      <select
-        [(ngModel)]="filters.experienceLevel"
-        (ngModelChange)="filterJobs()"
-        id="experienceLevel"
-        name="experienceLevel"
-        class="select select-bordered select-sm w-full max-w-xs"
-      >
-        <option value=""></option>
-        <option *ngFor="let experienceLevel of experienceLevels | keyvalue">
-          {{ experienceLevel.value }}
-        </option>
-      </select>
-    </div>
+        <div>
+          <button
+            (mouseenter)="sortIconShowMap.experienceLevel = true"
+            (mouseleave)="sortIconShowMap.experienceLevel = false"
+            (click)="sortJobs('experienceLevel')"
+            class="btn btn-ghost rounded-b-none w-full flex items-center justify-between flex-nowrap"
+          >
+            <span>Nível de experiência</span>
+            <i
+              *ngIf="sortIconShowMap.experienceLevel"
+              class="bx"
+              [ngClass]="{
+                'bx-sort-up': sortOrder == 'asc',
+                'bx-sort-down': sortOrder == 'desc'
+              }"
+            ></i>
+          </button>
+          <select
+            [(ngModel)]="filters.experienceLevel"
+            (ngModelChange)="filterJobs()"
+            id="experienceLevel"
+            name="experienceLevel"
+            class="select select-bordered select-sm rounded-t-none w-full"
+          >
+            <option value=""></option>
+            <option *ngFor="let experienceLevel of experienceLevels | keyvalue">
+              {{ experienceLevel.value }}
+            </option>
+          </select>
+        </div>
 
-    <div>
-      <button
-        (mouseenter)="sortIconShowMap.workplaceType = true"
-        (mouseleave)="sortIconShowMap.workplaceType = false"
-        (click)="sortJobs('workplaceType')"
-        class="btn btn-ghost w-full flex items-center justify-between flex-nowrap"
-      >
-        <span>Modalidade</span>
-        <i
-          *ngIf="sortIconShowMap.workplaceType"
-          class="bx"
-          [ngClass]="{
-            'bx-sort-up': sortOrder == 'asc',
-            'bx-sort-down': sortOrder == 'desc'
-          }"
-        ></i>
-      </button>
-      <select
-        [(ngModel)]="filters.workplaceType"
-        (ngModelChange)="filterJobs()"
-        id="workplaceType"
-        name="workplaceType"
-        class="select select-bordered select-sm w-full max-w-xs"
-      >
-        <option selected></option>
-        <option value="remoto">Remoto</option>
-        <option value="híbrido">Híbrido</option>
-        <option value="presencial">Presencial</option>
-      </select>
-    </div>
+        <div>
+          <button
+            (mouseenter)="sortIconShowMap.workplaceType = true"
+            (mouseleave)="sortIconShowMap.workplaceType = false"
+            (click)="sortJobs('workplaceType')"
+            class="btn btn-ghost rounded-b-none w-full flex items-center justify-between flex-nowrap"
+          >
+            <span>Modalidade</span>
+            <i
+              *ngIf="sortIconShowMap.workplaceType"
+              class="bx"
+              [ngClass]="{
+                'bx-sort-up': sortOrder == 'asc',
+                'bx-sort-down': sortOrder == 'desc'
+              }"
+            ></i>
+          </button>
+          <select
+            [(ngModel)]="filters.workplaceType"
+            (ngModelChange)="filterJobs()"
+            id="workplaceType"
+            name="workplaceType"
+            class="select select-bordered select-sm rounded-t-none w-full"
+          >
+            <option selected></option>
+            <option value="remoto">Remoto</option>
+            <option value="híbrido">Híbrido</option>
+            <option value="presencial">Presencial</option>
+          </select>
+        </div>
 
-    <div>
-      <button
-        (mouseenter)="sortIconShowMap.jobLocation = true"
-        (mouseleave)="sortIconShowMap.jobLocation = false"
-        (click)="sortJobs('city')"
-        class="btn btn-ghost w-full flex items-center justify-between flex-nowrap"
-      >
-        <span>Local</span>
-        <i
-          *ngIf="sortIconShowMap.jobLocation"
-          class="bx"
-          [ngClass]="{
-            'bx-sort-up': sortOrder == 'asc',
-            'bx-sort-down': sortOrder == 'desc'
-          }"
-        ></i>
-      </button>
-      <input
-        [(ngModel)]="filters.jobLocation"
-        (ngModelChange)="filterJobs()"
-        id="jobLocation"
-        name="jobLocation"
-        type="text"
-        class="input input-bordered input-sm w-full max-w-xs"
-      />
-    </div>
+        <div>
+          <button
+            (mouseenter)="sortIconShowMap.jobLocation = true"
+            (mouseleave)="sortIconShowMap.jobLocation = false"
+            (click)="sortJobs('city')"
+            class="btn btn-ghost rounded-b-none w-full flex items-center justify-between flex-nowrap"
+          >
+            <span>Local</span>
+            <i
+              *ngIf="sortIconShowMap.jobLocation"
+              class="bx"
+              [ngClass]="{
+                'bx-sort-up': sortOrder == 'asc',
+                'bx-sort-down': sortOrder == 'desc'
+              }"
+            ></i>
+          </button>
+          <input
+            [(ngModel)]="filters.jobLocation"
+            (ngModelChange)="filterJobs()"
+            id="jobLocation"
+            name="jobLocation"
+            type="text"
+            class="input input-bordered input-sm rounded-t-none w-full"
+          />
+        </div>
 
-    <div>
-      <button
-        (mouseenter)="sortIconShowMap.jobType = true"
-        (mouseleave)="sortIconShowMap.jobType = false"
-        (click)="sortJobs('type')"
-        class="btn btn-ghost w-full flex items-center justify-between flex-nowrap"
-      >
-        <span>Tipo</span>
-        <i
-          *ngIf="sortIconShowMap.jobType"
-          class="bx"
-          [ngClass]="{
-            'bx-sort-up': sortOrder == 'asc',
-            'bx-sort-down': sortOrder == 'desc'
-          }"
-        ></i>
-      </button>
-      <select
-        [(ngModel)]="filters.jobType"
-        (ngModelChange)="filterJobs()"
-        id="jobType"
-        name="jobType"
-        class="select select-bordered select-sm w-full max-w-xs"
-      >
-        <option selected></option>
-        <option
-          *ngFor="let typeTranslation of typeTranslations | keyvalue"
-          [value]="typeTranslation.key"
-        >
-          {{ typeTranslation.value | titlecase }}
-        </option>
-      </select>
-    </div>
+        <div>
+          <button
+            (mouseenter)="sortIconShowMap.jobType = true"
+            (mouseleave)="sortIconShowMap.jobType = false"
+            (click)="sortJobs('type')"
+            class="btn btn-ghost rounded-b-none w-full flex items-center justify-between flex-nowrap"
+          >
+            <span>Tipo</span>
+            <i
+              *ngIf="sortIconShowMap.jobType"
+              class="bx"
+              [ngClass]="{
+                'bx-sort-up': sortOrder == 'asc',
+                'bx-sort-down': sortOrder == 'desc'
+              }"
+            ></i>
+          </button>
+          <select
+            [(ngModel)]="filters.jobType"
+            (ngModelChange)="filterJobs()"
+            id="jobType"
+            name="jobType"
+            class="select select-bordered select-sm rounded-t-none w-full"
+          >
+            <option selected></option>
+            <option
+              *ngFor="let typeTranslation of typeTranslations | keyvalue"
+              [value]="typeTranslation.key"
+            >
+              {{ typeTranslation.value | titlecase }}
+            </option>
+          </select>
+        </div>
 
-    <div>
-      <button
-        (mouseenter)="sortIconShowMap.publishedDate = true"
-        (mouseleave)="sortIconShowMap.publishedDate = false"
-        (click)="sortJobs('publishedDate')"
-        class="btn btn-ghost w-full flex items-center justify-between flex-nowrap"
-      >
-        <span>Data de publicação</span>
-        <i
-          *ngIf="sortIconShowMap.publishedDate"
-          class="bx"
-          [ngClass]="{
-            'bx-sort-up': sortOrder == 'asc',
-            'bx-sort-down': sortOrder == 'desc'
-          }"
-        ></i>
-      </button>
-      <input
-        [(ngModel)]="filters.publishedDate"
-        (ngModelChange)="filterJobs()"
-        id="publishedDate"
-        name="publishedDate"
-        type="date"
-        class="input input-bordered input-sm w-full max-w-xs"
-        [max]="inputMaxDate"
-      />
-    </div>
+        <div>
+          <button
+            (mouseenter)="sortIconShowMap.publishedDate = true"
+            (mouseleave)="sortIconShowMap.publishedDate = false"
+            (click)="sortJobs('publishedDate')"
+            class="btn btn-ghost rounded-b-none w-full flex items-center justify-between flex-nowrap"
+          >
+            <span>Data de publicação</span>
+            <i
+              *ngIf="sortIconShowMap.publishedDate"
+              class="bx"
+              [ngClass]="{
+                'bx-sort-up': sortOrder == 'asc',
+                'bx-sort-down': sortOrder == 'desc'
+              }"
+            ></i>
+          </button>
+          <input
+            [(ngModel)]="filters.publishedDate"
+            (ngModelChange)="filterJobs()"
+            id="publishedDate"
+            name="publishedDate"
+            type="date"
+            class="input input-bordered input-sm rounded-t-none w-full"
+            [max]="inputMaxDate"
+          />
+        </div>
 
-    <div>
-      <button
-        (mouseenter)="sortIconShowMap.acceptsDisabledPersons = true"
-        (mouseleave)="sortIconShowMap.acceptsDisabledPersons = false"
-        (click)="sortJobs('disabilities')"
-        class="btn btn-ghost w-full flex items-center justify-between flex-nowrap"
-      >
-        <span>PCD</span>
-        <i
-          *ngIf="sortIconShowMap.acceptsDisabledPersons"
-          class="bx"
-          [ngClass]="{
-            'bx-sort-up': sortOrder == 'asc',
-            'bx-sort-down': sortOrder == 'desc'
-          }"
-        ></i>
-      </button>
-      <select
-        [(ngModel)]="filters.acceptsDisabledPersons"
-        (ngModelChange)="filterJobs()"
-        id="acceptsDisabledPersons"
-        name="acceptsDisabledPersons"
-        class="select select-bordered select-sm w-full max-w-xs"
-      >
-        <option [value]="undefined" selected></option>
-        <option [value]="true">Sim</option>
-        <option [value]="false">Não</option>
-      </select>
-    </div>
+        <div>
+          <button
+            (mouseenter)="sortIconShowMap.acceptsDisabledPersons = true"
+            (mouseleave)="sortIconShowMap.acceptsDisabledPersons = false"
+            (click)="sortJobs('disabilities')"
+            class="btn btn-ghost rounded-b-none w-full flex items-center justify-between flex-nowrap"
+          >
+            <span>PCD</span>
+            <i
+              *ngIf="sortIconShowMap.acceptsDisabledPersons"
+              class="bx"
+              [ngClass]="{
+                'bx-sort-up': sortOrder == 'asc',
+                'bx-sort-down': sortOrder == 'desc'
+              }"
+            ></i>
+          </button>
+          <select
+            [(ngModel)]="filters.acceptsDisabledPersons"
+            (ngModelChange)="filterJobs()"
+            id="acceptsDisabledPersons"
+            name="acceptsDisabledPersons"
+            class="select select-bordered select-sm rounded-t-none w-full"
+          >
+            <option [value]="undefined" selected></option>
+            <option [value]="true">Sim</option>
+            <option [value]="false">Não</option>
+          </select>
+        </div>
+
+        <div class="modal-action">
+          <form method="dialog">
+            <button class="btn">Voltar</button>
+          </form>
+        </div>
+      </div>
+    </dialog>
   </section>
 
   <section class="flex flex-col gap-4 mt-4 max-h-96 overflow-y-auto">
     <div
-      class="card card-bordered card-compact bg-base-100 shadow-xl max-h-96"
+      class="card card-bordered card-compact bg-base-100 shadow-xl"
       *ngFor="let job of filteredJobs; trackBy: trackByJobId"
     >
       <header class="card-title flex flex-col items-start pt-4 px-4">
@@ -255,13 +268,13 @@
       </header>
 
       <div class="card-body">
-        <div *ngIf="job.keywords.length > 0" class="flex pb-4 gap-2">
+        <div *ngIf="job.keywords.length > 0" class="flex flex-wrap pb-4 gap-2">
           <div class="badge badge-neutral" *ngFor="let keyword of job.keywords">
             {{ keyword }}
           </div>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-2">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <div>
             <div class="flex items-center gap-1">
               <i class="bx bxs-user-detail"></i>

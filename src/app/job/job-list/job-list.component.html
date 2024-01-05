@@ -1,8 +1,8 @@
 <ng-container *ngIf="jobs$ | async; else loading">
-  <div class="overflow-auto w-full">
-    <table class="table table-zebra">
+  <div class="w-full">
+    <table class="table table-zebra table-pin-rows">
       <thead>
-        <tr>
+        <tr class="header-row">
           <th>
             <button
               (mouseenter)="sortIconShowMap.jobTitle = true"
@@ -20,6 +20,14 @@
                 }"
               ></i>
             </button>
+            <input
+              [(ngModel)]="filters.jobTitle"
+              (ngModelChange)="filterJobs()"
+              id="jobTitle"
+              name="jobTitle"
+              type="text"
+              class="input input-bordered input-sm w-full max-w-xs"
+            />
           </th>
           <th>
             <button
@@ -38,6 +46,14 @@
                 }"
               ></i>
             </button>
+            <input
+              [(ngModel)]="filters.companyName"
+              (ngModelChange)="filterJobs()"
+              id="companyName"
+              name="companyName"
+              type="text"
+              class="input input-bordered input-sm w-full max-w-xs"
+            />
           </th>
           <th>
             <button
@@ -56,6 +72,20 @@
                 }"
               ></i>
             </button>
+            <select
+              [(ngModel)]="filters.experienceLevel"
+              (ngModelChange)="filterJobs()"
+              id="experienceLevel"
+              name="experienceLevel"
+              class="select select-bordered select-sm w-full max-w-xs"
+            >
+              <option value=""></option>
+              <option
+                *ngFor="let experienceLevel of experienceLevels | keyvalue"
+              >
+                {{ experienceLevel.value }}
+              </option>
+            </select>
           </th>
           <th>
             <button
@@ -74,6 +104,18 @@
                 }"
               ></i>
             </button>
+            <select
+              [(ngModel)]="filters.workplaceType"
+              (ngModelChange)="filterJobs()"
+              id="workplaceType"
+              name="workplaceType"
+              class="select select-bordered select-sm w-full max-w-xs"
+            >
+              <option selected></option>
+              <option value="remoto">Remoto</option>
+              <option value="híbrido">Híbrido</option>
+              <option value="presencial">Presencial</option>
+            </select>
           </th>
           <th>
             <button
@@ -92,6 +134,14 @@
                 }"
               ></i>
             </button>
+            <input
+              [(ngModel)]="filters.jobLocation"
+              (ngModelChange)="filterJobs()"
+              id="jobLocation"
+              name="jobLocation"
+              type="text"
+              class="input input-bordered input-sm w-full max-w-xs"
+            />
           </th>
           <th>
             <button
@@ -110,6 +160,21 @@
                 }"
               ></i>
             </button>
+            <select
+              [(ngModel)]="filters.jobType"
+              (ngModelChange)="filterJobs()"
+              id="jobType"
+              name="jobType"
+              class="select select-bordered select-sm w-full max-w-xs"
+            >
+              <option selected></option>
+              <option
+                *ngFor="let typeTranslation of typeTranslations | keyvalue"
+                [value]="typeTranslation.key"
+              >
+                {{ typeTranslation.value | titlecase }}
+              </option>
+            </select>
           </th>
           <th>
             <button
@@ -128,6 +193,15 @@
                 }"
               ></i>
             </button>
+            <input
+              [(ngModel)]="filters.publishedDate"
+              (ngModelChange)="filterJobs()"
+              id="publishedDate"
+              name="publishedDate"
+              type="date"
+              class="input input-bordered input-sm w-full max-w-xs"
+              [max]="inputMaxDate"
+            />
           </th>
           <th>
             <button
@@ -146,109 +220,6 @@
                 }"
               ></i>
             </button>
-          </th>
-          <th>Link</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <tr>
-          <td>
-            <input
-              [(ngModel)]="filters.jobTitle"
-              (ngModelChange)="filterJobs()"
-              id="jobTitle"
-              name="jobTitle"
-              type="text"
-              class="input input-bordered input-sm w-full max-w-xs"
-            />
-          </td>
-
-          <td>
-            <input
-              [(ngModel)]="filters.companyName"
-              (ngModelChange)="filterJobs()"
-              id="companyName"
-              name="companyName"
-              type="text"
-              class="input input-bordered input-sm w-full max-w-xs"
-            />
-          </td>
-
-          <td>
-            <select
-              [(ngModel)]="filters.experienceLevel"
-              (ngModelChange)="filterJobs()"
-              id="experienceLevel"
-              name="experienceLevel"
-              class="select select-bordered select-sm w-full max-w-xs"
-            >
-              <option value=""></option>
-              <option
-                *ngFor="let experienceLevel of experienceLevels | keyvalue"
-              >
-                {{ experienceLevel.value }}
-              </option>
-            </select>
-          </td>
-
-          <td>
-            <select
-              [(ngModel)]="filters.workplaceType"
-              (ngModelChange)="filterJobs()"
-              id="workplaceType"
-              name="workplaceType"
-              class="select select-bordered select-sm w-full max-w-xs"
-            >
-              <option selected></option>
-              <option value="remoto">Remoto</option>
-              <option value="híbrido">Híbrido</option>
-              <option value="presencial">Presencial</option>
-            </select>
-          </td>
-
-          <td>
-            <input
-              [(ngModel)]="filters.jobLocation"
-              (ngModelChange)="filterJobs()"
-              id="jobLocation"
-              name="jobLocation"
-              type="text"
-              class="input input-bordered input-sm w-full max-w-xs"
-            />
-          </td>
-
-          <td>
-            <select
-              [(ngModel)]="filters.jobType"
-              (ngModelChange)="filterJobs()"
-              id="jobType"
-              name="jobType"
-              class="select select-bordered select-sm w-full max-w-xs"
-            >
-              <option selected></option>
-              <option
-                *ngFor="let typeTranslation of typeTranslations | keyvalue"
-                [value]="typeTranslation.key"
-              >
-                {{ typeTranslation.value | titlecase }}
-              </option>
-            </select>
-          </td>
-
-          <td>
-            <input
-              [(ngModel)]="filters.publishedDate"
-              (ngModelChange)="filterJobs()"
-              id="publishedDate"
-              name="publishedDate"
-              type="date"
-              class="input input-bordered input-sm w-full max-w-xs"
-              [max]="inputMaxDate"
-            />
-          </td>
-
-          <td>
             <select
               [(ngModel)]="filters.acceptsDisabledPersons"
               (ngModelChange)="filterJobs()"
@@ -260,9 +231,12 @@
               <option [value]="true">Sim</option>
               <option [value]="false">Não</option>
             </select>
-          </td>
+          </th>
+          <th>Link</th>
         </tr>
+      </thead>
 
+      <tbody>
         <tr class="hover" *ngFor="let job of filteredJobs">
           <td>
             {{ job.name }}

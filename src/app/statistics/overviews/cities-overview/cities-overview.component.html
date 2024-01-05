@@ -8,22 +8,29 @@
           <i class="bx bxs-map-alt"></i>
           <h1>Vagas por {{ dataTypeTranslations[dataType] }}</h1>
         </div>
-        <details class="dropdown">
-          <summary class="m-1 btn">Mudar visualização</summary>
-          <div
-            class="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52"
+        <div class="flex flex-wrap gap-2">
+          <button
+            (click)="changeDataType('city')"
+            class="btn"
+            [ngClass]="{ 'btn-active': dataType == 'city' }"
           >
-            <button (click)="changeDataType('city')" class="btn btn-ghost">
-              Cidades
-            </button>
-            <button (click)="changeDataType('state')" class="btn btn-ghost">
-              Estados
-            </button>
-            <button (click)="changeDataType('map')" class="btn btn-ghost">
-              Mapa nacional
-            </button>
-          </div>
-        </details>
+            Ver por cidades
+          </button>
+          <button
+            (click)="changeDataType('state')"
+            class="btn"
+            [ngClass]="{ 'btn-active': dataType == 'state' }"
+          >
+            Ver por estados
+          </button>
+          <button
+            (click)="changeDataType('map')"
+            class="btn"
+            [ngClass]="{ 'btn-active': dataType == 'map' }"
+          >
+            Ver mapa nacional
+          </button>
+        </div>
       </div>
 
       <ng-container [ngSwitch]="dataType">

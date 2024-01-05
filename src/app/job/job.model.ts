@@ -22,8 +22,9 @@ export type Job = {
   id: number;
   publishedDate: string;
   type: string;
-  //Attributes below are added by me
+  //Attributes below were added by me
   experienceLevel: ExperienceLevels;
+  keywords: string[];
 };
 
 export type Badges = {

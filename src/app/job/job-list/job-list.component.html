@@ -254,89 +254,97 @@
         </div>
       </header>
 
-      <div class="card-body grid grid-cols-1 lg:grid-cols-2 overflow-y-auto">
-        <div>
-          <div class="flex items-center gap-1">
-            <i class="bx bxs-user-detail"></i>
-            <span> Nível de experiência </span>
+      <div class="card-body">
+        <div *ngIf="job.keywords.length > 0" class="flex pb-4 gap-2">
+          <div class="badge badge-neutral" *ngFor="let keyword of job.keywords">
+            {{ keyword }}
           </div>
-
-          <span class="font-bold">
-            {{ job.experienceLevel }}
-          </span>
         </div>
 
-        <div>
-          <div class="flex items-center gap-1">
-            <i class="bx bxs-home"></i>
-            <span>Modalidade</span>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-2">
+          <div>
+            <div class="flex items-center gap-1">
+              <i class="bx bxs-user-detail"></i>
+              <span> Nível de experiência </span>
+            </div>
+
+            <span class="font-bold">
+              {{ job.experienceLevel }}
+            </span>
           </div>
 
-          <span class="font-bold">
-            {{ job.workplaceType | titlecase }}
-          </span>
-        </div>
+          <div>
+            <div class="flex items-center gap-1">
+              <i class="bx bxs-home"></i>
+              <span>Modalidade</span>
+            </div>
 
-        <div>
-          <div class="flex items-center gap-1">
-            <i class="bx bxs-briefcase"></i>
-            <span>Tipo</span>
+            <span class="font-bold">
+              {{ job.workplaceType | titlecase }}
+            </span>
           </div>
 
-          <span class="font-bold">
-            {{ typeTranslations[job.type] | titlecase }}
-          </span>
-        </div>
+          <div>
+            <div class="flex items-center gap-1">
+              <i class="bx bxs-briefcase"></i>
+              <span>Tipo</span>
+            </div>
 
-        <div>
-          <div class="flex items-center gap-1">
-            <i class="bx bxs-map"></i>
-            <span>Local</span>
+            <span class="font-bold">
+              {{ typeTranslations[job.type] | titlecase }}
+            </span>
           </div>
 
-          <span class="font-bold">
-            {{
-              job.city
-                ? job.city + ", " + (job.state | stateAbbreviation)
-                : "N/A"
-            }}
-          </span>
-        </div>
+          <div>
+            <div class="flex items-center gap-1">
+              <i class="bx bxs-map"></i>
+              <span>Local</span>
+            </div>
 
-        <div>
-          <div class="flex items-center gap-1">
-            <i class="bx bxs-calendar"></i>
-            <span>Data de publicação</span>
+            <span class="font-bold">
+              {{
+                job.city
+                  ? job.city + ", " + (job.state | stateAbbreviation)
+                  : "N/A"
+              }}
+            </span>
           </div>
 
-          <span class="font-bold">
-            {{ job.publishedDate | date : "dd/MM/yyyy" }}
-          </span>
-        </div>
+          <div>
+            <div class="flex items-center gap-1">
+              <i class="bx bxs-calendar"></i>
+              <span>Data de publicação</span>
+            </div>
 
-        <div>
-          <div class="flex items-center gap-1">
-            <i class="bx bx-accessibility"></i>
-            <span>Inclusão</span>
+            <span class="font-bold">
+              {{ job.publishedDate | date : "dd/MM/yyyy" }}
+            </span>
           </div>
 
-          <span class="font-bold">
-            {{ job.disabilities ? "Também para PCD" : "Não-PCD" }}
-          </span>
-        </div>
-      </div>
+          <div>
+            <div class="flex items-center gap-1">
+              <i class="bx bx-accessibility"></i>
+              <span>Inclusão</span>
+            </div>
 
-      <div class="card-actions pb-4 px-4">
-        <button class="btn w-full">
-          <a
-            class="flex items-center gap-2"
-            [href]="job.jobUrl"
-            target="_blank"
-          >
-            <i class="bx bx-link-external"></i>
-            <span>Acessar vaga</span>
-          </a>
-        </button>
+            <span class="font-bold">
+              {{ job.disabilities ? "Também para PCD" : "Não-PCD" }}
+            </span>
+          </div>
+        </div>
+
+        <div class="card-actions">
+          <button class="btn w-full">
+            <a
+              class="flex items-center gap-2"
+              [href]="job.jobUrl"
+              target="_blank"
+            >
+              <i class="bx bx-link-external"></i>
+              <span>Acessar vaga</span>
+            </a>
+          </button>
+        </div>
       </div>
     </div>
   </section>

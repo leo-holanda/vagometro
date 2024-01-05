@@ -22,6 +22,7 @@ import {
   traineeLevelRelatedTypes,
 } from '../statistics/ranks/experience-levels-rank/experience-levels-rank.data';
 import { DisabilityStatuses } from '../statistics/ranks/disability-rank/disability-rank.model';
+import { keywords } from '../statistics/ranks/keywords-rank/keywords-rank.data';
 
 @Injectable({
   providedIn: 'root',
@@ -43,9 +44,12 @@ export class JobService {
         first(),
         map((output) => output.Items as Job[]),
         tap((jobs) =>
-          jobs.forEach(
-            (job) => (job.experienceLevel = this.findExperienceLevel(job))
-          )
+          jobs.forEach((job) => {
+            job.experienceLevel = this.findExperienceLevel(job);
+            job.keywords = keywords.filter((keyword) =>
+              this.jobHasKeyword(job, keyword)
+            );
+          })
         )
       )
       .subscribe((jobs) => {

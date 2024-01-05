@@ -77,6 +77,7 @@ export class PublicationChartComponent implements AfterViewInit, OnChanges {
         splitLine: {
           show: false,
         },
+        boundaryGap: ['0%', '10%'],
       },
       series: [
         {

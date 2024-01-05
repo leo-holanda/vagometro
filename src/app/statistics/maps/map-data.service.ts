@@ -25,6 +25,10 @@ export class MapDataService {
       map((jobs) => {
         const statesMap = new Map<string, number>();
 
+        this.mapGeoJson.features.forEach((feature: any) => {
+          statesMap.set(feature.properties.name, 0);
+        });
+
         jobs.forEach((job) => {
           if (!job.state) return;
           const currentStateCount = statesMap.get(job.state) || 0;

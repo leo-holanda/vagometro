@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
 import { MapDataService } from '../map-data.service';
 import * as echarts from 'echarts';
 import { fromEvent, debounceTime } from 'rxjs';
+import { StatesData } from './brazil-map.model';
 
 @Component({
   selector: 'vgm-brazil-map',
@@ -35,33 +36,25 @@ export class BrazilMapComponent implements AfterViewInit {
           trigger: 'item',
           showDelay: 0,
           transitionDuration: 0.2,
+          formatter: (stateData: any) => {
+            return `<strong>${stateData.name || 'Desconhecido'}</strong></br>${
+              stateData.value || 0
+            } vagas publicadas`;
+          },
         },
         visualMap: {
-          left: 'right',
           min: 0,
+          max: this.getMaxJobQuantity(statesData),
           inRange: {
-            color: [
-              '#313695',
-              '#4575b4',
-              '#74add1',
-              '#abd9e9',
-              '#e0f3f8',
-              '#ffffbf',
-              '#fee090',
-              '#fdae61',
-              '#f46d43',
-              '#d73027',
-              '#a50026',
-            ],
+            color: ['#ffffcc', '#a1dab4', '#41b6c4', '#2c7fb8', '#253494'],
           },
-          text: ['Muitas', 'Poucas'],
+          text: ['Muitas vagas', 'Poucas vagas'],
           calculable: true,
         },
         series: [
           {
-            name: 'States Job Data',
+            name: 'Vagas por estado',
             type: 'map',
-            roam: true,
             map: 'brazil',
             emphasis: {
               label: {
@@ -83,5 +76,12 @@ export class BrazilMapComponent implements AfterViewInit {
       .subscribe(() => {
         map.resize();
       });
+  }
+
+  getMaxJobQuantity(statesData: StatesData[]): number {
+    return statesData.reduce((acc, item) => {
+      if (item.value > acc) acc = item.value;
+      return acc;
+    }, 0);
   }
 }

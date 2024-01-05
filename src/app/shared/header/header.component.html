@@ -1,104 +1,247 @@
-<div class="navbar bg-base-100 p-4">
-  <div class="navbar-start">
-    <a [routerLink]="['']" class="btn btn-ghost text-xl">vagômetro</a>
-  </div>
-  <div class="navbar-center gap-2">
-    <div class="btn btn-xs btn-ghost btn-active">dev</div>
-    <div class="btn btn-xs btn-ghost btn-outline btn-disabled">ui/ux</div>
-    <div class="btn btn-xs btn-ghost btn-outline btn-disabled">devops</div>
-    <div class="btn btn-xs btn-ghost btn-outline btn-disabled">
-      product manager
+<ng-container *ngIf="matchesSmallBreakpoint$ | async; else desktopTemplate">
+  <div class="navbar bg-base-100 p-4">
+    <div class="navbar-start">
+      <a [routerLink]="['']" class="btn btn-ghost text-xl">vagômetro</a>
     </div>
-    <div class="btn btn-xs btn-ghost btn-outline btn-disabled">dados</div>
+
+    <div class="navbar-center gap-2"></div>
+
+    <div class="navbar-end">
+      <button class="btn btn-ghost" (click)="menuModal.showModal()">
+        <i class="bx bx-menu"></i>
+      </button>
+
+      <dialog #menuModal id="menuModal" class="modal modal-top">
+        <div class="modal-box flex flex-col gap-4">
+          <section class="flex flex-col gap-2">
+            <h1>Seletor de vagas por mercado</h1>
+            <div class="flex flex-wrap gap-2">
+              <div class="btn btn-xs btn-ghost btn-active">dev</div>
+              <div class="btn btn-xs btn-ghost btn-outline btn-disabled">
+                ui/ux
+              </div>
+              <div class="btn btn-xs btn-ghost btn-outline btn-disabled">
+                devops
+              </div>
+              <div class="btn btn-xs btn-ghost btn-outline btn-disabled">
+                product manager
+              </div>
+              <div class="btn btn-xs btn-ghost btn-outline btn-disabled">
+                dados
+              </div>
+            </div>
+          </section>
+
+          <section class="flex flex-col gap-2">
+            <h1>Seletor de janela de tempo</h1>
+            <div class="flex flex-wrap gap-2">
+              <button
+                [ngClass]="{
+                  'btn-active': (currentTimeWindow$ | async) == timeWindows.day
+                }"
+                (click)="onTimeWindowClick(timeWindows.day)"
+                class="btn btn-outline"
+              >
+                Ontem
+              </button>
+
+              <button
+                [ngClass]="{
+                  'btn-active': (currentTimeWindow$ | async) == timeWindows.week
+                }"
+                (click)="onTimeWindowClick(timeWindows.week)"
+                class="btn btn-outline"
+              >
+                Semana
+              </button>
+
+              <button
+                [ngClass]="{
+                  'btn-active':
+                    (currentTimeWindow$ | async) == timeWindows.month
+                }"
+                (click)="onTimeWindowClick(timeWindows.month)"
+                class="btn btn-outline"
+              >
+                Mês
+              </button>
+
+              <button
+                [ngClass]="{
+                  'btn-active':
+                    (currentTimeWindow$ | async) == timeWindows['6months']
+                }"
+                (click)="onTimeWindowClick(timeWindows['6months'])"
+                class="btn btn-outline"
+              >
+                6 meses
+              </button>
+
+              <button
+                [ngClass]="{
+                  'btn-active': (currentTimeWindow$ | async) == timeWindows.year
+                }"
+                (click)="onTimeWindowClick(timeWindows.year)"
+                class="btn btn-outline"
+              >
+                1 ano
+              </button>
+
+              <button
+                [ngClass]="{
+                  'btn-active': (currentTimeWindow$ | async) == timeWindows.all
+                }"
+                (click)="onTimeWindowClick(timeWindows.all)"
+                class="btn btn-outline"
+              >
+                Sempre
+              </button>
+            </div>
+          </section>
+
+          <section class="flex flex-wrap gap-2">
+            <label class="btn btn-ghost btn-circle swap swap-rotate">
+              <input type="checkbox" class="theme-controller" value="light" />
+
+              <div class="swap-on">
+                <i class="bx bxs-moon"></i>
+              </div>
+
+              <div class="swap-off">
+                <i class="bx bxs-sun"></i>
+              </div>
+            </label>
+
+            <a
+              class="btn btn-ghost btn-circle"
+              href="https://github.com/leo-holanda/vagometro"
+              target="_blank"
+            >
+              <i class="bx bxl-github"></i>
+            </a>
+
+            <button
+              class="btn btn-ghost btn-circle"
+              onclick="my_modal_1.showModal()"
+            >
+              <i class="bx bxs-help-circle"></i>
+            </button>
+          </section>
+
+          <section class="modal-action">
+            <form class="w-full" method="dialog">
+              <button class="btn w-full">Fechar</button>
+            </form>
+          </section>
+        </div>
+      </dialog>
+    </div>
   </div>
-  <div class="navbar-end">
-    <label class="btn btn-ghost btn-circle swap swap-rotate">
-      <input type="checkbox" class="theme-controller" value="light" />
+</ng-container>
 
-      <div class="swap-on">
-        <i class="bx bxs-moon"></i>
+<ng-template #desktopTemplate>
+  <div class="navbar bg-base-100 p-4">
+    <div class="navbar-start">
+      <a [routerLink]="['']" class="btn btn-ghost text-xl">vagômetro</a>
+    </div>
+    <div class="navbar-center gap-2">
+      <div class="btn btn-xs btn-ghost btn-active">dev</div>
+      <div class="btn btn-xs btn-ghost btn-outline btn-disabled">ui/ux</div>
+      <div class="btn btn-xs btn-ghost btn-outline btn-disabled">devops</div>
+      <div class="btn btn-xs btn-ghost btn-outline btn-disabled">
+        product manager
       </div>
+      <div class="btn btn-xs btn-ghost btn-outline btn-disabled">dados</div>
+    </div>
+    <div class="navbar-end">
+      <label class="btn btn-ghost btn-circle swap swap-rotate">
+        <input type="checkbox" class="theme-controller" value="light" />
 
-      <div class="swap-off">
-        <i class="bx bxs-sun"></i>
-      </div>
-    </label>
+        <div class="swap-on">
+          <i class="bx bxs-moon"></i>
+        </div>
 
-    <a
-      class="btn btn-ghost btn-circle"
-      href="https://github.com/leo-holanda/vagometro"
-      target="_blank"
+        <div class="swap-off">
+          <i class="bx bxs-sun"></i>
+        </div>
+      </label>
+
+      <a
+        class="btn btn-ghost btn-circle"
+        href="https://github.com/leo-holanda/vagometro"
+        target="_blank"
+      >
+        <i class="bx bxl-github"></i>
+      </a>
+
+      <button class="btn btn-ghost btn-circle" onclick="my_modal_1.showModal()">
+        <i class="bx bxs-help-circle"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="flex flex-wrap items-center justify-center gap-2 m-4 mb-8">
+    <button
+      [ngClass]="{
+        'btn-active': (currentTimeWindow$ | async) == timeWindows.day
+      }"
+      (click)="onTimeWindowClick(timeWindows.day)"
+      class="btn btn-outline"
     >
-      <i class="bx bxl-github"></i>
-    </a>
+      Ontem
+    </button>
 
-    <button class="btn btn-ghost btn-circle" onclick="my_modal_1.showModal()">
-      <i class="bx bxs-help-circle"></i>
+    <button
+      [ngClass]="{
+        'btn-active': (currentTimeWindow$ | async) == timeWindows.week
+      }"
+      (click)="onTimeWindowClick(timeWindows.week)"
+      class="btn btn-outline"
+    >
+      Semana
+    </button>
+
+    <button
+      [ngClass]="{
+        'btn-active': (currentTimeWindow$ | async) == timeWindows.month
+      }"
+      (click)="onTimeWindowClick(timeWindows.month)"
+      class="btn btn-outline"
+    >
+      Mês
+    </button>
+
+    <button
+      [ngClass]="{
+        'btn-active': (currentTimeWindow$ | async) == timeWindows['6months']
+      }"
+      (click)="onTimeWindowClick(timeWindows['6months'])"
+      class="btn btn-outline"
+    >
+      6 meses
+    </button>
+
+    <button
+      [ngClass]="{
+        'btn-active': (currentTimeWindow$ | async) == timeWindows.year
+      }"
+      (click)="onTimeWindowClick(timeWindows.year)"
+      class="btn btn-outline"
+    >
+      1 ano
+    </button>
+
+    <button
+      [ngClass]="{
+        'btn-active': (currentTimeWindow$ | async) == timeWindows.all
+      }"
+      (click)="onTimeWindowClick(timeWindows.all)"
+      class="btn btn-outline"
+    >
+      Sempre
     </button>
   </div>
-</div>
-
-<div class="flex flex-wrap items-center justify-center gap-2 m-4 mb-8">
-  <button
-    [ngClass]="{
-      'btn-active': (currentTimeWindow$ | async) == timeWindows.day
-    }"
-    (click)="onTimeWindowClick(timeWindows.day)"
-    class="btn btn-outline"
-  >
-    Ontem
-  </button>
-
-  <button
-    [ngClass]="{
-      'btn-active': (currentTimeWindow$ | async) == timeWindows.week
-    }"
-    (click)="onTimeWindowClick(timeWindows.week)"
-    class="btn btn-outline"
-  >
-    Semana
-  </button>
-
-  <button
-    [ngClass]="{
-      'btn-active': (currentTimeWindow$ | async) == timeWindows.month
-    }"
-    (click)="onTimeWindowClick(timeWindows.month)"
-    class="btn btn-outline"
-  >
-    Mês
-  </button>
-
-  <button
-    [ngClass]="{
-      'btn-active': (currentTimeWindow$ | async) == timeWindows['6months']
-    }"
-    (click)="onTimeWindowClick(timeWindows['6months'])"
-    class="btn btn-outline"
-  >
-    6 meses
-  </button>
-
-  <button
-    [ngClass]="{
-      'btn-active': (currentTimeWindow$ | async) == timeWindows.year
-    }"
-    (click)="onTimeWindowClick(timeWindows.year)"
-    class="btn btn-outline"
-  >
-    1 ano
-  </button>
-
-  <button
-    [ngClass]="{
-      'btn-active': (currentTimeWindow$ | async) == timeWindows.all
-    }"
-    (click)="onTimeWindowClick(timeWindows.all)"
-    class="btn btn-outline"
-  >
-    Sempre
-  </button>
-</div>
+</ng-template>
 
 <dialog id="my_modal_1" class="modal">
   <div class="modal-box">

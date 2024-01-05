@@ -1,5 +1,8 @@
 import { Job } from '../job/job.model';
-import { CityData } from '../statistics/ranks/cities-rank/cities-rank.model';
+import {
+  CityData,
+  StateData,
+} from '../statistics/ranks/cities-rank/cities-rank.model';
 import { CompanyData } from '../statistics/ranks/companies-rank/companies-rank.model';
 import { DisabilityData } from '../statistics/ranks/disability-rank/disability-rank.model';
 import { ExperienceLevelData } from '../statistics/ranks/experience-levels-rank/experience-levels-rank.model';
@@ -38,6 +41,10 @@ export function trackByCompany(index: number, item: CompanyData): string {
 }
 
 export function trackByCity(index: number, item: CityData): string {
+  return item.name;
+}
+
+export function trackByState(index: number, item: StateData): string {
   return item.name;
 }
 

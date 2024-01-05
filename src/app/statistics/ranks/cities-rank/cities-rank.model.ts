@@ -3,3 +3,8 @@ export type CityData = {
   state: string;
   count: number;
 };
+
+export type StateData = {
+  name: string;
+  count: number;
+};

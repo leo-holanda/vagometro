@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { JobService } from '../job/job.service';
 import { Observable, filter, map } from 'rxjs';
-import { CityData } from './ranks/cities-rank/cities-rank.model';
+import { CityData, StateData } from './ranks/cities-rank/cities-rank.model';
 import { WorkplaceData } from './ranks/workplace-rank/workplace-rank.model';
 import { TypeData } from './ranks/type-rank/type-rank.model';
 import { CompanyData } from './ranks/companies-rank/companies-rank.model';
@@ -44,6 +44,34 @@ export class StatisticsService {
         const sortedObjects = sortedEntries.map(([key, value]) => ({
           name: key,
           state: jobs.find((job) => key == job.city)?.state || 'Desconhecido',
+          count: value,
+        }));
+
+        return sortedObjects;
+      })
+    );
+  }
+
+  getStatesRank(
+    jobs$: Observable<Job[] | undefined> = this.jobService.jobs$
+  ): Observable<StateData[]> {
+    return jobs$.pipe(
+      filter((jobs): jobs is Job[] => jobs != undefined),
+      map((jobs) => {
+        const statesMap = new Map<string, number>();
+
+        jobs.forEach((job) => {
+          if (job.state == '') return;
+          const currentStateCount = statesMap.get(job.state) || 0;
+          statesMap.set(job.state, currentStateCount + 1);
+        });
+
+        const sortedEntries = Array.from(statesMap.entries()).sort(
+          (a, b) => b[1] - a[1]
+        );
+
+        const sortedObjects = sortedEntries.map(([key, value]) => ({
+          name: key,
           count: value,
         }));
 

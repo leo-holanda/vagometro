@@ -3,21 +3,99 @@
     <div
       class="card card-bordered card-compact w-full bg-base-100 shadow-xl h-min"
     >
-      <div class="card-title items-center p-4">
-        <i class="bx bxs-map-alt"></i>
-        <h1>Vagas por estado</h1>
+      <div class="card-title items-center justify-between p-4">
+        <div class="flex items-center gap-2">
+          <i class="bx bxs-map-alt"></i>
+          <h1>Vagas por {{ dataTypeTranslations[dataType] }}</h1>
+        </div>
+        <details class="dropdown">
+          <summary class="m-1 btn">Mudar visualização</summary>
+          <div
+            class="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52"
+          >
+            <button (click)="changeDataType('city')" class="btn btn-ghost">
+              Cidades
+            </button>
+            <button (click)="changeDataType('state')" class="btn btn-ghost">
+              Estados
+            </button>
+            <button (click)="changeDataType('map')" class="btn btn-ghost">
+              Mapa nacional
+            </button>
+          </div>
+        </details>
       </div>
-      <div class="card-body">
-        <ng-container *ngIf="jobsByState$ | async; else loading">
-          <vgm-brazil-map
-            (stateClicked)="onStateClicked($event)"
-          ></vgm-brazil-map>
-        </ng-container>
 
-        <ng-template #loading>
-          <div class="skeleton h-96 w-full"></div>
-        </ng-template>
-      </div>
+      <ng-container [ngSwitch]="dataType">
+        <div class="card-body">
+          <ng-container *ngSwitchCase="'map'" #nationalMap>
+            <vgm-brazil-map
+              (stateClicked)="onStateClicked($event)"
+            ></vgm-brazil-map>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="'city'" #citiesList>
+            <div class="card-body gap-2 max-h-96 overflow-y-auto">
+              <button
+                class="btn btn-ghost"
+                *ngFor="
+                  let city of citiesRank$ | async;
+                  index as i;
+                  trackBy: trackByCity
+                "
+                [ngClass]="{ 'btn-active': selectedCity == city.name }"
+                (click)="onCityClicked(city.name)"
+              >
+                <div class="w-full flex justify-between">
+                  <span>{{
+                    i +
+                      1 +
+                      ". " +
+                      city.name +
+                      ", " +
+                      (city.state | stateAbbreviation)
+                  }}</span>
+                  <span>{{ city.count }}</span>
+                </div>
+                <progress
+                  class="progress w-full"
+                  [value]="city.count"
+                  [max]="citiesQuantity"
+                ></progress>
+              </button>
+            </div>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="'state'" #statesList>
+            <div class="card-body gap-2 max-h-96 overflow-y-auto">
+              <button
+                class="btn btn-ghost"
+                *ngFor="
+                  let state of statesRank$ | async;
+                  index as i;
+                  trackBy: trackByState
+                "
+                [ngClass]="{ 'btn-active': selectedState == state.name }"
+                (click)="onStateClicked(state.name)"
+              >
+                <div class="w-full flex justify-between">
+                  <span>{{ i + 1 + ". " + state.name }}</span>
+                  <span>{{ state.count }}</span>
+                </div>
+                <progress
+                  class="progress w-full"
+                  [value]="state.count"
+                  [max]="statesQuantity"
+                ></progress>
+              </button>
+            </div>
+          </ng-container>
+
+          <ng-container *ngSwitchDefault #loading>
+            <div class="skeleton h-96 w-full"></div>
+          </ng-container>
+        </div>
+      </ng-container>
     </div>
 
     <div
@@ -25,22 +103,31 @@
     >
       <div class="card-title items-center p-4">
         <i class="bx bxs-calendar"></i>
-        <h1>Vagas publicadas em {{ selectedState }} ao longo do tempo</h1>
+        <h1>
+          Vagas publicadas em
+          {{ dataType == "city" ? selectedCity : selectedState }} ao longo do
+          tempo
+        </h1>
       </div>
 
       <div class="card-body">
-        <vgm-publication-chart [jobs$]="jobsByState$"></vgm-publication-chart>
+        <vgm-publication-chart
+          [jobs$]="dataType == 'city' ? jobsByCity$ : jobsByState$"
+        ></vgm-publication-chart>
       </div>
     </div>
   </div>
 
   <div class="card card-bordered card-compact w-full bg-base-100 shadow-xl">
     <div class="card-title p-4">
-      <h1>Sobre as vagas em {{ selectedState }}</h1>
+      <h1>
+        Sobre as vagas em
+        {{ dataType == "city" ? selectedCity : selectedState }}
+      </h1>
     </div>
 
     <div class="card-body">
-      <section>
+      <section *ngIf="dataType != 'city'">
         <div class="flex items-center gap-2 mb-2">
           <i class="bx bxs-map"></i>
           <h3>Cidades com mais vagas</h3>
@@ -48,14 +135,16 @@
         <vgm-cities-rank [jobs$]="jobsByState$"></vgm-cities-rank>
       </section>
 
-      <div class="divider"></div>
+      <div *ngIf="dataType != 'city'" class="divider"></div>
 
       <section>
         <div class="flex items-center gap-2 mb-2">
           <i class="bx bxs-chip"></i>
           <h3>Tecnologias em alta</h3>
         </div>
-        <vgm-keywords-rank [jobs$]="jobsByState$"></vgm-keywords-rank>
+        <vgm-keywords-rank
+          [jobs$]="dataType == 'city' ? jobsByCity$ : jobsByState$"
+        ></vgm-keywords-rank>
       </section>
 
       <div class="divider"></div>
@@ -65,7 +154,9 @@
           <i class="bx bxs-business"></i>
           <h3>Empresas que mais contratam</h3>
         </div>
-        <vgm-companies-rank [jobs$]="jobsByState$"></vgm-companies-rank>
+        <vgm-companies-rank
+          [jobs$]="dataType == 'city' ? jobsByCity$ : jobsByState$"
+        ></vgm-companies-rank>
       </section>
 
       <div class="divider"></div>
@@ -76,7 +167,7 @@
           <h3>Níveis de experiência mais requisitados</h3>
         </div>
         <vgm-experience-levels-rank
-          [jobs$]="jobsByState$"
+          [jobs$]="dataType == 'city' ? jobsByCity$ : jobsByState$"
         ></vgm-experience-levels-rank>
       </section>
 
@@ -87,7 +178,9 @@
           <i class="bx bxs-briefcase"></i>
           <h3>Tipos de vagas</h3>
         </div>
-        <vgm-type-rank [jobs$]="jobsByState$"></vgm-type-rank>
+        <vgm-type-rank
+          [jobs$]="dataType == 'city' ? jobsByCity$ : jobsByState$"
+        ></vgm-type-rank>
       </section>
     </div>
   </div>
@@ -99,11 +192,20 @@
   <div class="card card-bordered card-compact w-min bg-base-100 shadow-xl">
     <div class="card-title justify-between p-4">
       <h1>Vagas consideradas nos dados acima</h1>
-      <span>Total: {{ ((jobsByState$ | async) || []).length }} vagas</span>
+      <span
+        >Total:
+        {{
+          (((dataType == "city" ? jobsByCity$ : jobsByState$) | async) || [])
+            .length
+        }}
+        vagas</span
+      >
     </div>
 
     <div class="card-body overflow-y-hidden">
-      <vgm-job-list [jobs$]="jobsByState$"></vgm-job-list>
+      <vgm-job-list
+        [jobs$]="dataType == 'city' ? jobsByCity$ : jobsByState$"
+      ></vgm-job-list>
     </div>
   </div>
 </div>

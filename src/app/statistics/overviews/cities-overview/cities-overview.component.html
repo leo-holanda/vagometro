@@ -33,7 +33,17 @@
         </div>
       </div>
 
-      <ng-container [ngSwitch]="dataType">
+      <ng-container *ngIf="!(citiesRank$ | async); else content">
+        <div class="flex flex-col w-full gap-4 p-4">
+          <div class="skeleton h-8 w-full"></div>
+          <div class="skeleton h-8 w-full"></div>
+          <div class="skeleton h-8 w-full"></div>
+          <div class="skeleton h-8 w-full"></div>
+          <div class="skeleton h-8 w-full"></div>
+        </div>
+      </ng-container>
+
+      <ng-template [ngSwitch]="dataType" #content>
         <div class="card-body">
           <ng-container *ngSwitchCase="'map'" #nationalMap>
             <vgm-brazil-map
@@ -97,12 +107,12 @@
               </button>
             </div>
           </ng-container>
-
-          <ng-container *ngSwitchDefault #loading>
-            <div class="skeleton h-96 w-full"></div>
-          </ng-container>
         </div>
-      </ng-container>
+      </ng-template>
+
+      <p class="text-xs text-slate-500 p-4">
+        Considerando apenas vagas presenciais e híbridas
+      </p>
     </div>
 
     <div

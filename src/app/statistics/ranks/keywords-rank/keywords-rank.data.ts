@@ -25,6 +25,7 @@ export const keywords = [
   'Enzyme',
   'Cypress',
   //BACKEND
+  'Kotlin',
   'Node.js',
   'Node',
   'Express.js',
@@ -41,6 +42,7 @@ export const keywords = [
   '.NET',
   'C#',
   'Go',
+  'Golang',
   'Flask',
   'FastAPI',
   'Database Management',
@@ -59,4 +61,8 @@ export const keywords = [
   'OAuth',
   'JWT',
   'Security Best Practices',
+  //MOBILE
+  'Android',
+  'iOS',
+  'Swift',
 ];

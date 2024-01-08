@@ -1,27 +1,60 @@
-# Vagometro
+# LogCharts
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.1.8.
+> A website that gathers and analyse data about dev jobs in Brazil
 
-## Development server
+<img src="demo.png" width="100%" />
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+🌐 Check it at [vagometro.vercel.app/](vagometro.vercel.app/).
 
-## Code scaffolding
+## Contents
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- [Features](#features)
+- [Installation](#installation)
+- [Contributing](#contributing)
+- [Built with](#built-with)
+- [Deployed at](#deployed-at)
+- [Acknowledgements](#acknowledgements)
+- [License](#contributing)
 
-## Build
+## Features
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+- Gathers daily data about dev jobs in Brazil
+- Analyses the data to provide insights for better decision-making
+- Allows to see data in different time windows
 
-## Running unit tests
+## Installation
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+**Clone this project**
 
-## Running end-to-end tests
+`git clone https://github.com/leo-holanda/vagometro`
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+**Install dev dependencies**
 
-## Further help
+`npm i`
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+**Start the web server**
+
+`npm run start`
+
+You need @angular/cli to run the dev server. The version used was 16.1.8.
+
+## Contributing
+
+Feel free to submit any issues or enhancement requests! I will do my best to fix or implement it. Already have a solution? Pull requests are also welcome!
+
+## Built with
+
+- TypeScript
+- Angular
+- Tailwind
+- DaisyUI
+- Apache ECharts
+
+## Deployed at
+
+- Vercel
+- AWS
+
+## License
+
+[GPL-3.0](https://choosealicense.com/licenses/gpl-3.0/)

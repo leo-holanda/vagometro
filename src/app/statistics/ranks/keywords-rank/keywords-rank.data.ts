@@ -167,4 +167,6 @@ export const keywords: Keywords = {
   linux: 'Linux',
   jira: 'Jira',
   maven: 'Maven',
+  wordpress: 'WordPress',
+  //Design Patterns - multi-word keyword
 };

@@ -1,4 +1,4 @@
-# LogCharts
+# vagômetro
 
 > A website that gathers and analyse data about dev jobs in Brazil
 
@@ -13,7 +13,6 @@
 - [Contributing](#contributing)
 - [Built with](#built-with)
 - [Deployed at](#deployed-at)
-- [Acknowledgements](#acknowledgements)
 - [License](#contributing)
 
 ## Features

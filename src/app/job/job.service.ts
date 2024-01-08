@@ -46,9 +46,7 @@ export class JobService {
         tap((jobs) =>
           jobs.forEach((job) => {
             job.experienceLevel = this.findExperienceLevel(job);
-            job.keywords = keywords.filter((keyword) =>
-              this.jobHasKeyword(job, keyword)
-            );
+            job.keywords = this.getJobKeywords(job);
           })
         )
       )
@@ -195,6 +193,42 @@ export class JobService {
         return jobs.filter((job) => job.disabilities == shouldFilterPCD);
       })
     );
+  }
+
+  getJobKeywords(job: Job): any {
+    const jobKeywords: string[] = [];
+
+    const splittedTitle = job.name
+      .replaceAll('/', ' ')
+      .replaceAll(',', ' ')
+      .replaceAll('(', ' ')
+      .replaceAll(')', ' ')
+      .split(' ')
+      .map((substring) => substring.toLowerCase());
+
+    splittedTitle.forEach((substring: string) => {
+      if (keywords[substring]) jobKeywords.push(keywords[substring]);
+    });
+
+    const splittedDescription = job.description
+      .replaceAll('/', ' ')
+      .replaceAll(',', ' ')
+      .replaceAll('(', ' ')
+      .replaceAll(')', ' ')
+      .split(' ')
+      .map((substring) => substring.toLowerCase());
+
+    splittedDescription.forEach((substring: string) => {
+      if (keywords[substring]) jobKeywords.push(keywords[substring]);
+    });
+
+    return this.getUniqueStrings(jobKeywords);
+  }
+
+  private getUniqueStrings(strings: string[]) {
+    const uniqueSet = new Set(strings);
+    const uniqueArray = Array.from(uniqueSet);
+    return uniqueArray;
   }
 
   private matchExperienceLevelTerms(

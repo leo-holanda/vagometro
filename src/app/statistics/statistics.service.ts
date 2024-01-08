@@ -193,16 +193,9 @@ export class StatisticsService {
         const keywordsMap = new Map<string, number>();
 
         jobs.forEach((job) => {
-          job.description.split(' ').forEach((word) => {
-            const matchedKeyword = keywords.find(
-              (keyword) =>
-                keyword.toLowerCase() == word.toLowerCase().replaceAll(',', '')
-            );
-
-            if (matchedKeyword) {
-              const currentKeywordCount = keywordsMap.get(matchedKeyword)! | 0;
-              keywordsMap.set(matchedKeyword, currentKeywordCount + 1);
-            }
+          job.keywords.forEach((keyword) => {
+            const currentKeywordCount = keywordsMap.get(keyword)! | 0;
+            keywordsMap.set(keyword, currentKeywordCount + 1);
           });
         });
 

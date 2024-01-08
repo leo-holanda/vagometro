@@ -1,4 +1,11 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable, Subject, filter, takeUntil } from 'rxjs';
 import { Job } from '../job.model';
@@ -16,7 +23,7 @@ import { trackByJobId } from 'src/app/shared/track-by-functions';
   templateUrl: './job-list.component.html',
   styleUrls: ['./job-list.component.scss'],
 })
-export class JobListComponent implements OnInit, OnDestroy {
+export class JobListComponent implements OnInit, OnDestroy, OnChanges {
   @Input() jobs$!: Observable<Job[] | undefined>;
   jobs: Job[] | undefined = undefined;
   filteredJobs: Job[] | undefined = undefined;
@@ -47,7 +54,7 @@ export class JobListComponent implements OnInit, OnDestroy {
   };
 
   inputMaxDate = new Date().toISOString().slice(0, 10);
-  sortOrder: 'asc' | 'desc' = 'asc';
+  sortOrder: 'asc' | 'desc' = 'desc';
   trackByJobId = trackByJobId;
 
   private stringToBooleanMap: stringToBooleanMap = {
@@ -58,6 +65,19 @@ export class JobListComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
   ngOnInit(): void {
+    this.jobs$
+      .pipe(
+        filter((jobs) => jobs != undefined),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((jobs) => {
+        this.jobs = jobs;
+        this.filteredJobs = jobs;
+        this.sortJobs('publishedDate');
+      });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
     this.jobs$
       .pipe(
         filter((jobs) => jobs != undefined),

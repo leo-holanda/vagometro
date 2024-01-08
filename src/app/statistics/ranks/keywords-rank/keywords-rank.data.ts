@@ -69,6 +69,7 @@ export const keywords: Keywords = {
   'c++': 'C++',
   C: 'C',
   soap: 'SOAP',
+  rabbitmq: 'RabbitMQ',
   //DATABASE
   sql: 'SQL',
   nosql: 'NoSQL',
@@ -94,6 +95,8 @@ export const keywords: Keywords = {
   'web servers': 'Web Servers',
   nginx: 'Nginx',
   apache: 'Apache',
+  docker: 'Docker',
+  kafka: 'Kafka',
   //TESTING,
   junit: 'JUnit',
   mockito: 'Mockito',

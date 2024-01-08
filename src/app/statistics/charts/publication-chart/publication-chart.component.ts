@@ -71,7 +71,6 @@ export class PublicationChartComponent implements AfterViewInit, OnChanges {
         type: 'time',
         axisLabel: { showMaxLabel: true },
       },
-
       yAxis: {
         type: 'value',
         splitLine: {
@@ -82,6 +81,7 @@ export class PublicationChartComponent implements AfterViewInit, OnChanges {
       series: [
         {
           type: 'line',
+          name: 'Vagas publicadas',
           data: this.publicationSeries,
           areaStyle: {},
           smooth: true,

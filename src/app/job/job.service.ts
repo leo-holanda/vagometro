@@ -87,7 +87,7 @@ export class JobService {
     return this.jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
-        return jobs.filter((job) => this.jobHasKeyword(job, keyword));
+        return jobs.filter((job) => job.keywords.includes(keyword));
       })
     );
   }
@@ -264,21 +264,5 @@ export class JobService {
     if (hasSeniorLevelRelatedTerms) return ExperienceLevels.senior;
 
     return undefined;
-  }
-
-  private jobHasKeyword(job: Job, keyword: string): boolean {
-    const splittedTitle = job.name.replace('/', ' ').split(' ');
-    const hasKeywordInTitle = splittedTitle.some(
-      (substring) =>
-        substring.replace(',', '').toLowerCase() == keyword.toLowerCase()
-    );
-
-    if (hasKeywordInTitle) return true;
-
-    const splittedDescription = job.description.split(' ');
-    return splittedDescription.some(
-      (substring) =>
-        substring.replace(',', '').toLowerCase() == keyword.toLowerCase()
-    );
   }
 }

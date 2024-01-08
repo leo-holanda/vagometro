@@ -195,7 +195,7 @@ export class JobService {
     );
   }
 
-  getJobKeywords(job: Job): any {
+  getJobKeywords(job: Job): string[] {
     const jobKeywords: string[] = [];
 
     const splittedTitle = job.name
@@ -225,7 +225,7 @@ export class JobService {
     return this.getUniqueStrings(jobKeywords);
   }
 
-  private getUniqueStrings(strings: string[]) {
+  private getUniqueStrings(strings: string[]): string[] {
     const uniqueSet = new Set(strings);
     const uniqueArray = Array.from(uniqueSet);
     return uniqueArray;

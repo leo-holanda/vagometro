@@ -29,13 +29,21 @@
 
 **Install dev dependencies**
 
+`npm install -g @angular/cli`
+
+The Angular CLI version used was 16.1.8.
+
 `npm i`
+
+**Generate the enviroment files**
+
+You need to generate the enviroment files with `ng generate environments`. Then, add a key named IDENTITY_POOL_ID whose value is provided by AWS Cognito to connect anonymously with DynamoDB.
+
+Easier instructions will be provided in the next versions.
 
 **Start the web server**
 
 `npm run start`
-
-You need @angular/cli to run the dev server. The version used was 16.1.8.
 
 ## Contributing
 

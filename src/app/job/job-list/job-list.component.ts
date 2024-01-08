@@ -1,6 +1,6 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Observable, filter, first, of } from 'rxjs';
+import { Observable, Subject, filter, takeUntil } from 'rxjs';
 import { Job } from '../job.model';
 import { translations } from 'src/app/statistics/ranks/type-rank/type-rank.translations';
 import { StateAbbreviationPipe } from 'src/app/shared/pipes/state-abbreviation.pipe';
@@ -16,8 +16,8 @@ import { trackByJobId } from 'src/app/shared/track-by-functions';
   templateUrl: './job-list.component.html',
   styleUrls: ['./job-list.component.scss'],
 })
-export class JobListComponent implements OnInit, OnChanges {
-  @Input() jobs$: Observable<Job[] | undefined> = of([]);
+export class JobListComponent implements OnInit, OnDestroy {
+  @Input() jobs$!: Observable<Job[] | undefined>;
   jobs: Job[] | undefined = undefined;
   filteredJobs: Job[] | undefined = undefined;
 
@@ -55,28 +55,24 @@ export class JobListComponent implements OnInit, OnChanges {
     false: false,
   };
 
+  private destroy$ = new Subject<void>();
+
   ngOnInit(): void {
     this.jobs$
       .pipe(
         filter((jobs) => jobs != undefined),
-        first()
+        takeUntil(this.destroy$)
       )
       .subscribe((jobs) => {
         this.jobs = jobs;
         this.filteredJobs = jobs;
+        this.sortJobs('publishedDate');
       });
   }
 
-  ngOnChanges(): void {
-    this.jobs$
-      .pipe(
-        filter((jobs) => jobs != undefined),
-        first()
-      )
-      .subscribe((jobs) => {
-        this.jobs = jobs;
-        this.filteredJobs = jobs;
-      });
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   filterJobs(): void {

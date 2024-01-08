@@ -198,11 +198,13 @@ export class JobService {
   getJobKeywords(job: Job): string[] {
     const jobKeywords: string[] = [];
 
+    //TODO: Consider replace replaceAll with Regex
     const splittedTitle = job.name
       .replaceAll('/', ' ')
       .replaceAll(',', ' ')
       .replaceAll('(', ' ')
       .replaceAll(')', ' ')
+      .replaceAll(';', ' ')
       .split(' ')
       .map((substring) => substring.toLowerCase());
 
@@ -215,6 +217,7 @@ export class JobService {
       .replaceAll(',', ' ')
       .replaceAll('(', ' ')
       .replaceAll(')', ' ')
+      .replaceAll(';', ' ')
       .split(' ')
       .map((substring) => substring.toLowerCase());
 

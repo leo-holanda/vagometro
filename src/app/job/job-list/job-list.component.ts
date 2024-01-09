@@ -73,7 +73,6 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
       .subscribe((jobs) => {
         this.jobs = jobs;
         this.filteredJobs = jobs;
-        this.sortJobs('publishedDate');
       });
   }
 
@@ -86,7 +85,6 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
       .subscribe((jobs) => {
         this.jobs = jobs;
         this.filteredJobs = jobs;
-        this.sortJobs('publishedDate');
       });
   }
 

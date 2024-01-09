@@ -43,12 +43,13 @@ export class JobService {
       .pipe(
         first(),
         map((output) => output.Items as Job[]),
-        tap((jobs) =>
+        tap((jobs) => {
+          jobs.sort((a, b) => (a.publishedDate > b.publishedDate ? -1 : 1));
           jobs.forEach((job) => {
             job.experienceLevel = this.findExperienceLevel(job);
             job.keywords = this.getJobKeywords(job);
-          })
-        )
+          });
+        })
       )
       .subscribe((jobs) => {
         this.originalJobs = jobs;

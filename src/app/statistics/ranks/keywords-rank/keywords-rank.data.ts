@@ -50,6 +50,7 @@ export const keywords: Keywords = {
   leafletjs: 'Leaflet',
   //Styled Components - multi-work keyword
   relay: 'Relay',
+  figma: 'Figma',
   //BACKEND
   kotlin: 'Kotlin',
   'node.js': 'Node.js',

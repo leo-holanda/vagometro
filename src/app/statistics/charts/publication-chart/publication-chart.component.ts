@@ -70,6 +70,9 @@ export class PublicationChartComponent implements AfterViewInit, OnChanges {
       xAxis: {
         type: 'time',
         axisLabel: { showMaxLabel: true },
+        name: 'Data de publicação',
+        nameLocation: 'center',
+        nameGap: 30,
       },
       yAxis: {
         type: 'value',
@@ -77,6 +80,9 @@ export class PublicationChartComponent implements AfterViewInit, OnChanges {
           show: false,
         },
         boundaryGap: ['0%', '10%'],
+        name: 'Vagas publicadas',
+        nameLocation: 'center',
+        nameGap: 30,
       },
       series: [
         {

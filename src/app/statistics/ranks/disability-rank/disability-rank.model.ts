@@ -1,5 +1,5 @@
 export enum DisabilityStatuses {
-  PCD = 'PCD',
+  PCD = 'Também para PCD',
   nonPCD = 'Não-PCD',
 }
 

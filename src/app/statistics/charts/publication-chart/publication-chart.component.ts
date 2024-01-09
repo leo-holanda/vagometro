@@ -57,7 +57,6 @@ export class PublicationChartComponent implements AfterViewInit, OnChanges {
       .getPublicationSeries(this.jobs$)
       .subscribe((publicationSeries) => {
         this.publicationSeries = publicationSeries;
-        this.publicationChart.hideLoading();
         this.drawChart();
       });
   }

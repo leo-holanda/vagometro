@@ -99,6 +99,13 @@ export const keywords: Keywords = {
   insomnia: 'Insomnia',
   apollo: 'Apollo',
   entity: 'Entity Framework',
+  elixir: 'Elixir',
+  haskell: 'Haskell',
+  sqs: 'Amazon SQS',
+  mq: 'IBM MQ',
+  nestjs: 'NestJS',
+  nest: 'NestJS',
+  'nest.js': 'NestJS',
   //DATABASE
   sql: 'SQL',
   nosql: 'NoSQL',
@@ -108,6 +115,7 @@ export const keywords: Keywords = {
   elasticsearch: 'Elasticsearch',
   oracle: 'Oracle',
   redis: 'Redis',
+  plsql: 'PL/SQL',
   //MOBILE
   android: 'Android',
   ios: 'iOS',
@@ -115,6 +123,7 @@ export const keywords: Keywords = {
   ionic: 'Ionic',
   cordova: 'Cordova',
   'apache cordova': 'Cordova',
+  flutter: 'Flutter',
   //TODO: Search for multi-words keywords first, then split and search without multi-words keywords.
   native: 'React Native',
   xamarin: 'Xamarin',
@@ -140,6 +149,7 @@ export const keywords: Keywords = {
   kubernetes: 'Kubernetes',
   kubernets: 'Kubernetes', //sic
   firebase: 'Firebase',
+  tomcat: 'Tomcat',
   //TESTING,
   junit: 'JUnit',
   mockito: 'Mockito',
@@ -169,5 +179,6 @@ export const keywords: Keywords = {
   jira: 'Jira',
   maven: 'Maven',
   wordpress: 'WordPress',
+  shell: 'Shell',
   //Design Patterns - multi-word keyword
 };

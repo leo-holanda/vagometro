@@ -1,0 +1,33 @@
+<ng-container *ngIf="!isCountdownFinished; else countdownFinishedTemplate">
+  <div class="flex flex-col gap-4 m-4">
+    <p>A próxima atualização ocorrerá em</p>
+
+    <div class="grid grid-flow-col gap-5 text-center auto-cols-max">
+      <div class="flex flex-col">
+        <span class="countdown font-mono text-5xl">
+          <span [ngStyle]="{ '--value': hours }"></span>
+        </span>
+        horas
+      </div>
+      <div class="flex flex-col">
+        <span class="countdown font-mono text-5xl">
+          <span [ngStyle]="{ '--value': minutes }"></span>
+        </span>
+        minutos
+      </div>
+      <div class="flex flex-col">
+        <span class="countdown font-mono text-5xl">
+          <span [ngStyle]="{ '--value': seconds }"></span>
+        </span>
+        segundos
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<ng-template #countdownFinishedTemplate>
+  <p class="text-lg">
+    A contagem regressiva se encerrou. Recarregue a página para receber os novos
+    dados!
+  </p>
+</ng-template>

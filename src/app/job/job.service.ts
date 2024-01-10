@@ -1,15 +1,7 @@
 import { Injectable } from '@angular/core';
 import { DynamoService } from '../dynamo/dynamo.service';
 import { Job, TimeWindows } from './job.model';
-import {
-  BehaviorSubject,
-  Observable,
-  Subject,
-  filter,
-  first,
-  map,
-  tap,
-} from 'rxjs';
+import { BehaviorSubject, Observable, filter, map } from 'rxjs';
 import { ExperienceLevels } from '../statistics/ranks/experience-levels-rank/experience-levels-rank.model';
 import {
   internLevelRelatedTerms,
@@ -41,17 +33,17 @@ export class JobService {
     this.dynamoService
       .scanJobs()
       .pipe(
-        first(),
-        map((output) => output.Items as Job[]),
-        tap((jobs) => {
-          jobs.sort((a, b) => (a.publishedDate > b.publishedDate ? -1 : 1));
-          jobs.forEach((job) => {
-            job.experienceLevel = this.findExperienceLevel(job);
-            job.keywords = this.getJobKeywords(job);
-          });
-        })
+        map((output) =>
+          output.map((response) => response.Items as Job[]).flat()
+        )
       )
       .subscribe((jobs) => {
+        jobs.sort((a, b) => (a.publishedDate > b.publishedDate ? -1 : 1));
+        jobs.forEach((job) => {
+          job.experienceLevel = this.findExperienceLevel(job);
+          job.keywords = this.getJobKeywords(job);
+        });
+
         this.originalJobs = jobs;
         this._jobs$.next(jobs);
       });

@@ -6,7 +6,15 @@ import {
   ScanCommand,
   ScanCommandOutput,
 } from '@aws-sdk/lib-dynamodb';
-import { Observable, asyncScheduler, scheduled } from 'rxjs';
+import {
+  Observable,
+  asyncScheduler,
+  expand,
+  of,
+  scan,
+  scheduled,
+  takeWhile,
+} from 'rxjs';
 import { environment } from 'src/environments/environment.development';
 
 @Injectable({
@@ -27,11 +35,25 @@ export class DynamoService {
     this.documentClient = DynamoDBDocumentClient.from(client);
   }
 
-  scanJobs(): Observable<ScanCommandOutput> {
+  scanJobs(): Observable<ScanCommandOutput[]> {
     const command = new ScanCommand({
       TableName: 'jobs',
     });
 
-    return scheduled(this.documentClient.send(command), asyncScheduler);
+    return scheduled(this.documentClient.send(command), asyncScheduler).pipe(
+      expand((response) => {
+        if (response.LastEvaluatedKey) {
+          const command = new ScanCommand({
+            TableName: 'jobs',
+            ExclusiveStartKey: response.LastEvaluatedKey,
+          });
+
+          return scheduled(this.documentClient.send(command), asyncScheduler);
+        }
+        return of(response);
+      }),
+      takeWhile((response) => response.LastEvaluatedKey != undefined, true),
+      scan((acc, response) => [...acc, response], [] as ScanCommandOutput[])
+    );
   }
 }

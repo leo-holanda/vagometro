@@ -15,6 +15,7 @@ import {
 } from '../statistics/ranks/experience-levels-rank/experience-levels-rank.data';
 import { DisabilityStatuses } from '../statistics/ranks/disability-rank/disability-rank.model';
 import { keywords } from '../statistics/ranks/keywords-rank/keywords-rank.data';
+import { educationRelatedTerms } from '../statistics/ranks/education-rank/education-rank.data';
 
 @Injectable({
   providedIn: 'root',
@@ -220,6 +221,13 @@ export class JobService {
     });
 
     return this.getUniqueStrings(jobKeywords);
+  }
+
+  doesJobMentionsHigherEducation(job: Job): string[] {
+    const jobDescription = job.description.toLowerCase();
+    return educationRelatedTerms
+      .filter((term) => jobDescription.includes(term.termForMatching))
+      .map((term) => term.termForListing);
   }
 
   private getUniqueStrings(strings: string[]): string[] {

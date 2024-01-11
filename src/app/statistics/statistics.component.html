@@ -96,6 +96,28 @@
         </p>
       </div>
     </div>
+
+    <div class="card card-bordered card-compact w-full bg-base-100 shadow-xl">
+      <div class="card-body">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-1">
+            <i class="bx bxs-graduation"></i>
+            <h2 class="card-title">Menciona ensino superior?</h2>
+          </div>
+          <div class="flex items-center gap-2">
+            <div
+              class="tooltip flex items-center"
+              data-tip="Esse rank é gerado por uma abordagem simples de match de termos relacionados ao ensino superior que podem se confundir com os benefícios da vaga. Recomenda-se cautela ao tirar conclusões."
+            >
+              <i class="bx bxs-error"></i>
+            </div>
+
+            <a class="link" [routerLink]="['/education']">Ver mais</a>
+          </div>
+        </div>
+        <vgm-education-rank [rankSize]="5"></vgm-education-rank>
+      </div>
+    </div>
   </div>
 
   <div class="divider"></div>

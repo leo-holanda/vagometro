@@ -16,6 +16,7 @@ import {
   DisabilityData,
   DisabilityStatuses,
 } from './ranks/disability-rank/disability-rank.model';
+import { EducationData } from './ranks/education-rank/education-rank.types';
 
 @Injectable({
   providedIn: 'root',
@@ -273,6 +274,45 @@ export class StatisticsService {
 
         const sortedObjects = sortedEntries.map(
           ([key, value]): DisabilityData => ({
+            name: key,
+            count: value,
+          })
+        );
+
+        return sortedObjects;
+      })
+    );
+  }
+
+  getEducationRank(
+    jobs$: Observable<Job[] | undefined> = this.jobService.jobs$
+  ): Observable<EducationData[]> {
+    return jobs$.pipe(
+      filter((jobs): jobs is Job[] => jobs != undefined),
+      map((jobs) => {
+        const educationMap = new Map<string, number>();
+
+        jobs.forEach((job) => {
+          const mentionsHigherEducation =
+            this.jobService.doesJobMentionsHigherEducation(job);
+
+          if (mentionsHigherEducation.length == 0) {
+            const currentEducationCount = educationMap.get('Não menciona') || 0;
+            educationMap.set('Não menciona', currentEducationCount + 1);
+          }
+
+          mentionsHigherEducation.forEach((mention) => {
+            const currentEducationCount = educationMap.get(mention) || 0;
+            educationMap.set(mention, currentEducationCount + 1);
+          });
+        });
+
+        const sortedEntries = Array.from(educationMap.entries()).sort(
+          (a, b) => b[1] - a[1]
+        );
+
+        const sortedObjects = sortedEntries.map(
+          ([key, value]): EducationData => ({
             name: key,
             count: value,
           })

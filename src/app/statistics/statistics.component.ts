@@ -14,6 +14,7 @@ import { Observable } from 'rxjs';
 import { Job } from '../job/job.model';
 import { ExperienceLevelsRankComponent } from './ranks/experience-levels-rank/experience-levels-rank.component';
 import { DisabilityRankComponent } from './ranks/disability-rank/disability-rank.component';
+import { EducationRankComponent } from './ranks/education-rank/education-rank.component';
 
 @Component({
   selector: 'vgm-statistics',
@@ -31,6 +32,7 @@ import { DisabilityRankComponent } from './ranks/disability-rank/disability-rank
     JobListComponent,
     ExperienceLevelsRankComponent,
     DisabilityRankComponent,
+    EducationRankComponent,
   ],
   templateUrl: './statistics.component.html',
   styleUrls: ['./statistics.component.scss'],

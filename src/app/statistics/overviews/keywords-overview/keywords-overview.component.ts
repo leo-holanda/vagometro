@@ -12,6 +12,7 @@ import { PublicationChartComponent } from '../../charts/publication-chart/public
 import { JobListComponent } from 'src/app/job/job-list/job-list.component';
 import { ExperienceLevelsRankComponent } from '../../ranks/experience-levels-rank/experience-levels-rank.component';
 import { trackByKeyword } from 'src/app/shared/track-by-functions';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'vgm-keywords-overview',
@@ -24,6 +25,7 @@ import { trackByKeyword } from 'src/app/shared/track-by-functions';
     PublicationChartComponent,
     JobListComponent,
     ExperienceLevelsRankComponent,
+    FormsModule,
   ],
   templateUrl: './keywords-overview.component.html',
   styleUrls: ['./keywords-overview.component.scss'],
@@ -33,6 +35,9 @@ export class KeywordsOverviewComponent implements OnInit {
   keywordsQuantity!: number;
   selectedKeyword: string = '';
   jobsByKeyword$!: Observable<Job[]>;
+
+  filteredKeywords$!: Observable<KeywordData[]>;
+  keywordSearchString = '';
 
   trackByKeyword = trackByKeyword;
 
@@ -47,6 +52,7 @@ export class KeywordsOverviewComponent implements OnInit {
     );
 
     this.keywordsRank$ = this.statisticsService.getKeywordsRank();
+    this.filteredKeywords$ = this.keywordsRank$;
 
     this.keywordsRank$.subscribe((keywordsRank) => {
       this.keywordsQuantity = keywordsRank.reduce(
@@ -65,6 +71,18 @@ export class KeywordsOverviewComponent implements OnInit {
 
     this.keywordsRank$ = this.statisticsService.getKeywordsRank(
       this.jobsByKeyword$
+    );
+  }
+
+  filterKeywords(): void {
+    this.filteredKeywords$ = this.keywordsRank$.pipe(
+      map((keywordsRank) =>
+        keywordsRank.filter((keywordData) =>
+          keywordData.word
+            .toLowerCase()
+            .includes(this.keywordSearchString.toLowerCase())
+        )
+      )
     );
   }
 }

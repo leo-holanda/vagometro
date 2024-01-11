@@ -129,7 +129,7 @@
 </div>
 
 <ng-template #unselectedKeywordTemplate>
-  <main class="w-full flex items-center justify-center m-4">
+  <main class="h-full flex items-center justify-center m-4">
     <section
       class="card card-bordered card-compact w-1/2 bg-base-100 shadow-xl"
     >
@@ -138,9 +138,24 @@
         <h1>Selecione uma tecnologia para acessar as vagas</h1>
       </header>
 
+      <label class="form-control w-full px-4 pb-4">
+        <div class="label">
+          <span class="label-text">Buscar por tecnologia</span>
+        </div>
+        <input
+          [(ngModel)]="keywordSearchString"
+          (ngModelChange)="filterKeywords()"
+          id="keywordSearchString"
+          name="keywordSearchString"
+          type="text"
+          placeholder="JavaScript"
+          class="input input-bordered w-full"
+        />
+      </label>
+
       <section class="card-body max-h-96 overflow-y-auto">
         <ng-container
-          *ngIf="keywordsRank$ | async as keywordsRank; else loading"
+          *ngIf="filteredKeywords$ | async as keywordsRank; else loading"
         >
           <button
             class="btn btn-ghost"

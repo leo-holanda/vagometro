@@ -249,117 +249,133 @@
     </dialog>
   </section>
 
-  <section class="flex flex-col gap-4 mt-4 overflow-y-auto card-section">
-    <div
-      class="card card-bordered card-compact bg-base-100 shadow-xl mr-4"
-      *ngFor="let job of filteredJobs; trackBy: trackByJobId"
+  <section class="mt-4">
+    <cdk-virtual-scroll-viewport
+      class="virtual-scroll-viewport"
+      itemSize="500"
+      minBufferPx="1000"
+      maxBufferPx="2000"
+      [appendOnly]="true"
     >
-      <header class="card-title flex flex-col items-start pt-4 px-4">
-        <div>
-          <h1>{{ job.name }}</h1>
-
-          <div class="flex items-center gap-2">
-            <i class="bx bxs-business"></i>
-            <a class="text-slate-300 text-sm link" [href]="job.careerPageUrl">{{
-              job.careerPageName
-            }}</a>
-          </div>
-        </div>
-      </header>
-
-      <div class="card-body">
-        <div *ngIf="job.keywords.length > 0" class="flex flex-wrap pb-4 gap-2">
-          <div class="badge badge-neutral" *ngFor="let keyword of job.keywords">
-            {{ keyword }}
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div
+        class="card card-bordered card-compact bg-base-100 shadow-xl mr-4"
+        *cdkVirtualFor="let job of filteredJobs; trackBy: trackByJobId"
+      >
+        <header class="card-title flex flex-col items-start pt-4 px-4">
           <div>
-            <div class="flex items-center gap-1">
-              <i class="bx bxs-user-detail"></i>
-              <span> Nível de experiência </span>
+            <h1>{{ job.name }}</h1>
+
+            <div class="flex items-center gap-2">
+              <i class="bx bxs-business"></i>
+              <a
+                class="text-slate-300 text-sm link"
+                [href]="job.careerPageUrl"
+                >{{ job.careerPageName }}</a
+              >
             </div>
-
-            <span class="font-bold">
-              {{ job.experienceLevel }}
-            </span>
           </div>
+        </header>
 
-          <div>
-            <div class="flex items-center gap-1">
-              <i class="bx bxs-home"></i>
-              <span>Modalidade</span>
-            </div>
-
-            <span class="font-bold">
-              {{ job.workplaceType | titlecase }}
-            </span>
-          </div>
-
-          <div>
-            <div class="flex items-center gap-1">
-              <i class="bx bxs-briefcase"></i>
-              <span>Tipo</span>
-            </div>
-
-            <span class="font-bold">
-              {{ typeTranslations[job.type] | titlecase }}
-            </span>
-          </div>
-
-          <div>
-            <div class="flex items-center gap-1">
-              <i class="bx bxs-map"></i>
-              <span>Local</span>
-            </div>
-
-            <span class="font-bold">
-              {{
-                job.city
-                  ? job.city + ", " + (job.state | stateAbbreviation)
-                  : "N/A"
-              }}
-            </span>
-          </div>
-
-          <div>
-            <div class="flex items-center gap-1">
-              <i class="bx bxs-calendar"></i>
-              <span>Data de publicação</span>
-            </div>
-
-            <span class="font-bold">
-              {{ job.publishedDate | date : "dd/MM/yyyy" }}
-            </span>
-          </div>
-
-          <div>
-            <div class="flex items-center gap-1">
-              <i class="bx bx-accessibility"></i>
-              <span>Inclusão</span>
-            </div>
-
-            <span class="font-bold">
-              {{ job.disabilities ? "Também para PCD" : "Não-PCD" }}
-            </span>
-          </div>
-        </div>
-
-        <div class="card-actions mt-2">
-          <a
-            class="flex items-center gap-2 w-full"
-            [href]="job.jobUrl"
-            target="_blank"
+        <div class="card-body">
+          <div
+            *ngIf="job.keywords.length > 0"
+            class="flex flex-wrap pb-4 gap-2"
           >
-            <button class="btn w-full">
-              <i class="bx bx-link-external"></i>
-              <span>Acessar vaga</span>
-            </button>
-          </a>
+            <div
+              class="badge badge-neutral"
+              *ngFor="let keyword of job.keywords"
+            >
+              {{ keyword }}
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div>
+              <div class="flex items-center gap-1">
+                <i class="bx bxs-user-detail"></i>
+                <span> Nível de experiência </span>
+              </div>
+
+              <span class="font-bold">
+                {{ job.experienceLevel }}
+              </span>
+            </div>
+
+            <div>
+              <div class="flex items-center gap-1">
+                <i class="bx bxs-home"></i>
+                <span>Modalidade</span>
+              </div>
+
+              <span class="font-bold">
+                {{ job.workplaceType | titlecase }}
+              </span>
+            </div>
+
+            <div>
+              <div class="flex items-center gap-1">
+                <i class="bx bxs-briefcase"></i>
+                <span>Tipo</span>
+              </div>
+
+              <span class="font-bold">
+                {{ typeTranslations[job.type] | titlecase }}
+              </span>
+            </div>
+
+            <div>
+              <div class="flex items-center gap-1">
+                <i class="bx bxs-map"></i>
+                <span>Local</span>
+              </div>
+
+              <span class="font-bold">
+                {{
+                  job.city
+                    ? job.city + ", " + (job.state | stateAbbreviation)
+                    : "N/A"
+                }}
+              </span>
+            </div>
+
+            <div>
+              <div class="flex items-center gap-1">
+                <i class="bx bxs-calendar"></i>
+                <span>Data de publicação</span>
+              </div>
+
+              <span class="font-bold">
+                {{ job.publishedDate | date : "dd/MM/yyyy" }}
+              </span>
+            </div>
+
+            <div>
+              <div class="flex items-center gap-1">
+                <i class="bx bx-accessibility"></i>
+                <span>Inclusão</span>
+              </div>
+
+              <span class="font-bold">
+                {{ job.disabilities ? "Também para PCD" : "Não-PCD" }}
+              </span>
+            </div>
+          </div>
+
+          <div class="card-actions mt-2">
+            <a
+              class="flex items-center gap-2 w-full"
+              [href]="job.jobUrl"
+              target="_blank"
+            >
+              <button class="btn w-full">
+                <i class="bx bx-link-external"></i>
+                <span>Acessar vaga</span>
+              </button>
+            </a>
+          </div>
         </div>
       </div>
-    </div>
+    </cdk-virtual-scroll-viewport>
   </section>
 </ng-container>
 

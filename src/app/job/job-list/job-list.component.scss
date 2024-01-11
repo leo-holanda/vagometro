@@ -1,7 +1,17 @@
-.header-row {
-  top: -16px;
+.virtual-scroll-viewport {
+  height: 100dvh;
+
+  @media (min-width: 768px) {
+    height: 50dvh;
+  }
 }
 
-.card-section {
-  max-height: 48rem;
+:host ::ng-deep .cdk-virtual-scroll-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.header-row {
+  top: -16px;
 }

@@ -15,11 +15,12 @@ import { ExperienceLevels } from 'src/app/statistics/ranks/experience-levels-ran
 import { FormsModule } from '@angular/forms';
 import { stringToBooleanMap } from './job-list.types';
 import { trackByJobId } from 'src/app/shared/track-by-functions';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @Component({
   selector: 'vgm-job-list',
   standalone: true,
-  imports: [CommonModule, StateAbbreviationPipe, FormsModule],
+  imports: [CommonModule, StateAbbreviationPipe, FormsModule, ScrollingModule],
   templateUrl: './job-list.component.html',
   styleUrls: ['./job-list.component.scss'],
 })

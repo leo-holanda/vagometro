@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { DynamoService } from '../dynamo/dynamo.service';
 import { Job, TimeWindows } from './job.model';
-import { BehaviorSubject, Observable, filter, map } from 'rxjs';
+import { BehaviorSubject, Observable, filter, last, map } from 'rxjs';
 import { ExperienceLevels } from '../statistics/ranks/experience-levels-rank/experience-levels-rank.model';
 import {
   internLevelRelatedTerms,
@@ -33,6 +33,7 @@ export class JobService {
     this.dynamoService
       .scanJobs()
       .pipe(
+        last(),
         map((output) =>
           output.map((response) => response.Items as Job[]).flat()
         )

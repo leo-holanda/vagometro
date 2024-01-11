@@ -106,6 +106,7 @@ export const keywords: Keywords = {
   nestjs: 'NestJS',
   nest: 'NestJS',
   'nest.js': 'NestJS',
+  hibernate: 'Hibernate',
   //DATABASE
   sql: 'SQL',
   nosql: 'NoSQL',

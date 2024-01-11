@@ -234,30 +234,30 @@ export class JobService {
       .split(' ')
       .map((word) => word.toLowerCase());
 
-    const hasInternLevelRelatedTerms = internLevelRelatedTerms.some((term) =>
+    const hasSeniorLevelRelatedTerms = seniorLevelRelatedTerms.some((term) =>
       splittedContent.includes(term)
     );
-    if (hasInternLevelRelatedTerms) return ExperienceLevels.intern;
-
-    const hasTraineeLevelRelatedTerms = traineeLevelRelatedTerms.some((term) =>
-      splittedContent.includes(term)
-    );
-    if (hasTraineeLevelRelatedTerms) return ExperienceLevels.intern;
-
-    const hasJuniorLevelRelatedTerms = juniorLevelRelatedTerms.some((term) =>
-      splittedContent.includes(term)
-    );
-    if (hasJuniorLevelRelatedTerms) return ExperienceLevels.junior;
+    if (hasSeniorLevelRelatedTerms) return ExperienceLevels.senior;
 
     const hasMidLevelRelatedTerms = midLevelRelatedTerms.some((term) =>
       splittedContent.includes(term)
     );
     if (hasMidLevelRelatedTerms) return ExperienceLevels.mid;
 
-    const hasSeniorLevelRelatedTerms = seniorLevelRelatedTerms.some((term) =>
+    const hasJuniorLevelRelatedTerms = juniorLevelRelatedTerms.some((term) =>
       splittedContent.includes(term)
     );
-    if (hasSeniorLevelRelatedTerms) return ExperienceLevels.senior;
+    if (hasJuniorLevelRelatedTerms) return ExperienceLevels.junior;
+
+    const hasTraineeLevelRelatedTerms = traineeLevelRelatedTerms.some((term) =>
+      splittedContent.includes(term)
+    );
+    if (hasTraineeLevelRelatedTerms) return ExperienceLevels.intern;
+
+    const hasInternLevelRelatedTerms = internLevelRelatedTerms.some((term) =>
+      splittedContent.includes(term)
+    );
+    if (hasInternLevelRelatedTerms) return ExperienceLevels.intern;
 
     return undefined;
   }

@@ -138,14 +138,14 @@
 <ng-template #unselectedKeywordTemplate>
   <main class="h-full flex items-center justify-center m-4">
     <section
-      class="card card-bordered card-compact w-1/2 bg-base-100 shadow-xl"
+      class="card card-bordered card-compact w-full lg:w-1/2 bg-base-100 shadow-xl"
     >
       <header class="card-title items-center p-4">
-        <i class="bx bxs-chip"></i>
+        <i class="bx bxs-hand-up"></i>
         <h1>Selecione uma tecnologia para acessar as vagas</h1>
       </header>
 
-      <label class="form-control w-full px-4 pb-4">
+      <label class="form-control w-full px-4 pr-6 pb-2">
         <div class="label">
           <span class="label-text">Buscar por tecnologia</span>
         </div>
@@ -165,7 +165,7 @@
           *ngIf="filteredKeywords$ | async as keywordsRank; else loading"
         >
           <button
-            class="btn btn-ghost"
+            class="btn btn-ghost p-2"
             *ngFor="
               let keyword of keywordsRank;
               index as i;

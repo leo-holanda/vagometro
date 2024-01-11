@@ -31,7 +31,7 @@ import { trackByKeyword } from 'src/app/shared/track-by-functions';
 export class KeywordsOverviewComponent implements OnInit {
   keywordsRank$!: Observable<KeywordData[]>;
   keywordsQuantity!: number;
-  selectedKeyword: string = 'JavaScript';
+  selectedKeyword: string = '';
   jobsByKeyword$!: Observable<Job[]>;
 
   trackByKeyword = trackByKeyword;
@@ -46,9 +46,7 @@ export class KeywordsOverviewComponent implements OnInit {
       this.selectedKeyword
     );
 
-    this.keywordsRank$ = this.statisticsService.getKeywordsRank(
-      this.jobsByKeyword$
-    );
+    this.keywordsRank$ = this.statisticsService.getKeywordsRank();
 
     this.keywordsRank$.subscribe((keywordsRank) => {
       this.keywordsQuantity = keywordsRank.reduce(

@@ -1,12 +1,144 @@
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-4 m-4 h-full">
-  <div class="flex flex-col gap-4 h-min">
-    <div class="card card-bordered card-compact w-full bg-base-100 shadow-xl">
-      <div class="card-title items-center p-4">
-        <i class="bx bxs-chip"></i>
-        <h1>Vagas que pedem {{ selectedKeyword }} também pedem...</h1>
+<div *ngIf="selectedKeyword; else unselectedKeywordTemplate">
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 m-4 h-full">
+    <div class="flex flex-col gap-4 h-min">
+      <div class="card card-bordered card-compact w-full bg-base-100 shadow-xl">
+        <div class="card-title items-center p-4">
+          <i class="bx bxs-chip"></i>
+          <h1>Vagas que pedem {{ selectedKeyword }} também pedem...</h1>
+        </div>
+
+        <div class="card-body max-h-96 overflow-y-auto">
+          <ng-container
+            *ngIf="keywordsRank$ | async as keywordsRank; else loading"
+          >
+            <button
+              class="btn btn-ghost"
+              *ngFor="
+                let keyword of keywordsRank;
+                index as i;
+                trackBy: trackByKeyword
+              "
+              [ngClass]="{ 'btn-active': selectedKeyword == keyword.word }"
+              (click)="onKeywordClick(keyword.word)"
+            >
+              <div class="w-full flex justify-between">
+                <span>{{ i + 1 + ". " + keyword.word }}</span>
+                <span>{{ keyword.count }}</span>
+              </div>
+              <progress
+                class="progress w-full"
+                [value]="keyword.count"
+                [max]="keywordsQuantity"
+              ></progress>
+            </button>
+          </ng-container>
+
+          <ng-template #loading>
+            <div class="flex flex-col w-full gap-4 mt-4">
+              <div class="skeleton h-8 w-full"></div>
+              <div class="skeleton h-8 w-full"></div>
+              <div class="skeleton h-8 w-full"></div>
+              <div class="skeleton h-8 w-full"></div>
+              <div class="skeleton h-8 w-full"></div>
+            </div>
+          </ng-template>
+        </div>
       </div>
 
-      <div class="card-body max-h-96 overflow-y-auto">
+      <div
+        class="card card-bordered card-compact w-full bg-base-100 shadow-xl flex flex-col gap-4 h-min"
+      >
+        <div class="card-title items-center p-4">
+          <i class="bx bxs-calendar"></i>
+          <h1>Vagas publicadas ao longo do tempo</h1>
+        </div>
+
+        <div class="card-body">
+          <vgm-publication-chart
+            [jobs$]="jobsByKeyword$"
+          ></vgm-publication-chart>
+        </div>
+      </div>
+    </div>
+
+    <div class="card card-bordered card-compact w-full bg-base-100 shadow-xl">
+      <div class="card-title p-4">
+        <h1>Sobre as vagas que pedem {{ selectedKeyword }}</h1>
+      </div>
+
+      <div class="card-body">
+        <section>
+          <div class="flex items-center gap-2 mb-2">
+            <i class="bx bxs-business"></i>
+            <h3>Empresas que mais contratam</h3>
+          </div>
+          <vgm-companies-rank [jobs$]="jobsByKeyword$"></vgm-companies-rank>
+        </section>
+
+        <div class="divider"></div>
+
+        <section>
+          <div class="flex items-center gap-2 mb-2">
+            <i class="bx bxs-home"></i>
+            <h3>Modalidades mais frequentes</h3>
+          </div>
+          <vgm-workplace-rank [jobs$]="jobsByKeyword$"></vgm-workplace-rank>
+        </section>
+
+        <div class="divider"></div>
+
+        <section>
+          <div class="flex items-center gap-2 mb-2">
+            <i class="bx bxs-user-detail"></i>
+            <h3>Níveis de experiência mais requisitados</h3>
+          </div>
+          <vgm-experience-levels-rank
+            [jobs$]="jobsByKeyword$"
+          ></vgm-experience-levels-rank>
+        </section>
+
+        <div class="divider"></div>
+
+        <section>
+          <div class="flex items-center gap-2 mb-2">
+            <i class="bx bxs-briefcase"></i>
+            <h3>Tipos de vagas</h3>
+          </div>
+          <vgm-type-rank [jobs$]="jobsByKeyword$"></vgm-type-rank>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="flex items-center justify-center mb-4">
+    <div
+      class="card card-bordered card-compact w-full lg:w-1/2 bg-base-100 shadow-xl"
+    >
+      <div class="card-title justify-between p-4">
+        <h1>Vagas consideradas nos dados acima</h1>
+        <span>Total: {{ ((jobsByKeyword$ | async) || []).length }} vagas</span>
+      </div>
+
+      <div class="card-body overflow-y-hidden">
+        <vgm-job-list [jobs$]="jobsByKeyword$"></vgm-job-list>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #unselectedKeywordTemplate>
+  <main class="w-full flex items-center justify-center m-4">
+    <section
+      class="card card-bordered card-compact w-1/2 bg-base-100 shadow-xl"
+    >
+      <header class="card-title items-center p-4">
+        <i class="bx bxs-chip"></i>
+        <h1>Selecione uma tecnologia para acessar as vagas</h1>
+      </header>
+
+      <section class="card-body max-h-96 overflow-y-auto">
         <ng-container
           *ngIf="keywordsRank$ | async as keywordsRank; else loading"
         >
@@ -41,85 +173,7 @@
             <div class="skeleton h-8 w-full"></div>
           </div>
         </ng-template>
-      </div>
-    </div>
-
-    <div
-      class="card card-bordered card-compact w-full bg-base-100 shadow-xl flex flex-col gap-4 h-min"
-    >
-      <div class="card-title items-center p-4">
-        <i class="bx bxs-calendar"></i>
-        <h1>Vagas publicadas ao longo do tempo</h1>
-      </div>
-
-      <div class="card-body">
-        <vgm-publication-chart [jobs$]="jobsByKeyword$"></vgm-publication-chart>
-      </div>
-    </div>
-  </div>
-
-  <div class="card card-bordered card-compact w-full bg-base-100 shadow-xl">
-    <div class="card-title p-4">
-      <h1>Sobre as vagas que pedem {{ selectedKeyword }}</h1>
-    </div>
-
-    <div class="card-body">
-      <section>
-        <div class="flex items-center gap-2 mb-2">
-          <i class="bx bxs-business"></i>
-          <h3>Empresas que mais contratam</h3>
-        </div>
-        <vgm-companies-rank [jobs$]="jobsByKeyword$"></vgm-companies-rank>
       </section>
-
-      <div class="divider"></div>
-
-      <section>
-        <div class="flex items-center gap-2 mb-2">
-          <i class="bx bxs-home"></i>
-          <h3>Modalidades mais frequentes</h3>
-        </div>
-        <vgm-workplace-rank [jobs$]="jobsByKeyword$"></vgm-workplace-rank>
-      </section>
-
-      <div class="divider"></div>
-
-      <section>
-        <div class="flex items-center gap-2 mb-2">
-          <i class="bx bxs-user-detail"></i>
-          <h3>Níveis de experiência mais requisitados</h3>
-        </div>
-        <vgm-experience-levels-rank
-          [jobs$]="jobsByKeyword$"
-        ></vgm-experience-levels-rank>
-      </section>
-
-      <div class="divider"></div>
-
-      <section>
-        <div class="flex items-center gap-2 mb-2">
-          <i class="bx bxs-briefcase"></i>
-          <h3>Tipos de vagas</h3>
-        </div>
-        <vgm-type-rank [jobs$]="jobsByKeyword$"></vgm-type-rank>
-      </section>
-    </div>
-  </div>
-</div>
-
-<div class="divider"></div>
-
-<div class="flex items-center justify-center mb-4">
-  <div
-    class="card card-bordered card-compact w-full lg:w-1/2 bg-base-100 shadow-xl"
-  >
-    <div class="card-title justify-between p-4">
-      <h1>Vagas consideradas nos dados acima</h1>
-      <span>Total: {{ ((jobsByKeyword$ | async) || []).length }} vagas</span>
-    </div>
-
-    <div class="card-body overflow-y-hidden">
-      <vgm-job-list [jobs$]="jobsByKeyword$"></vgm-job-list>
-    </div>
-  </div>
-</div>
+    </section>
+  </main>
+</ng-template>

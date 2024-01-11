@@ -282,14 +282,4 @@ export class StatisticsService {
       })
     );
   }
-
-  private haveSameMonth(date1: Date, date2: Date) {
-    const month1 = date1.getMonth();
-    const year1 = date1.getFullYear();
-
-    const month2 = date2.getMonth();
-    const year2 = date2.getFullYear();
-
-    return month1 === month2 && year1 === year2;
-  }
 }

@@ -30,6 +30,7 @@ export const keywords: Keywords = {
   'responsive design': 'Responsive Design',
   'restful apis': 'RESTful APIs',
   restful: 'RESTful APIs',
+  rest: 'RESTful APIs',
   graphql: 'GraphQL',
   ajax: 'AJAX',
   json: 'JSON',
@@ -37,6 +38,7 @@ export const keywords: Keywords = {
   'ui/ux design': 'UI/UX Design',
   'frontend testing': 'Testes',
   stylus: 'Stylus',
+  next: 'NextJS',
   nextjs: 'NextJS',
   'next.js': 'NextJS',
   blazor: 'Blazor',
@@ -51,6 +53,18 @@ export const keywords: Keywords = {
   //Styled Components - multi-work keyword
   relay: 'Relay',
   figma: 'Figma',
+  tailwind: 'Tailwind',
+  spa: 'Single Page Applications',
+  pwa: 'Progressive Web Apps',
+  webassembly: 'WebAssembly',
+  nuxt: 'Nuxt',
+  'nuxt.js': 'Nuxt',
+  nuxtjs: 'Nuxt',
+  gastby: 'Gatsby',
+  jekyll: 'Jekyll',
+  hugo: 'Hugo',
+  remix: 'Remix',
+
   //BACKEND
   kotlin: 'Kotlin',
   'node.js': 'Node.js',
@@ -101,12 +115,27 @@ export const keywords: Keywords = {
   entity: 'Entity Framework',
   elixir: 'Elixir',
   haskell: 'Haskell',
-  sqs: 'Amazon SQS',
   mq: 'IBM MQ',
   nestjs: 'NestJS',
   nest: 'NestJS',
   'nest.js': 'NestJS',
   hibernate: 'Hibernate',
+  sqs: 'AWS SQS',
+  s3: 'AWS S3',
+  lambda: 'AWS Lambda',
+  sns: 'AWS SNS',
+  websocket: 'WebSocket',
+  websockets: 'WebSocket',
+  ssr: 'Server-Side Rendering',
+  sse: 'Server-Sent Events',
+  svelte: 'Svelte',
+  deno: 'Deno',
+  bun: 'Bun',
+  symfony: 'Symfony',
+  fastify: 'Fastify',
+  groovy: 'Groovy',
+  grails: 'Grails',
+
   //DATABASE
   sql: 'SQL',
   nosql: 'NoSQL',
@@ -117,6 +146,7 @@ export const keywords: Keywords = {
   oracle: 'Oracle',
   redis: 'Redis',
   plsql: 'PL/SQL',
+
   //MOBILE
   android: 'Android',
   ios: 'iOS',
@@ -129,6 +159,7 @@ export const keywords: Keywords = {
   native: 'React Native',
   xamarin: 'Xamarin',
   expo: 'Expo',
+
   //CLOUD
   microservices: 'Microsserviços',
   'micro serviços': 'Microsserviços',
@@ -141,6 +172,7 @@ export const keywords: Keywords = {
   nginx: 'Nginx',
   apache: 'Apache',
   docker: 'Docker',
+  dockers: 'Docker',
   kafka: 'Kafka',
   'ci/cd': 'CI/CD',
   ci: 'CI/CD',
@@ -151,6 +183,7 @@ export const keywords: Keywords = {
   kubernets: 'Kubernetes', //sic
   firebase: 'Firebase',
   tomcat: 'Tomcat',
+
   //TESTING,
   junit: 'JUnit',
   mockito: 'Mockito',
@@ -163,6 +196,7 @@ export const keywords: Keywords = {
   tdd: 'TDD',
   bdd: 'BDD',
   ddd: 'DDD',
+
   //MISCELLANEOUS
   git: 'Git',
   github: 'GitHub',
@@ -181,5 +215,11 @@ export const keywords: Keywords = {
   maven: 'Maven',
   wordpress: 'WordPress',
   shell: 'Shell',
+  meteor: 'Meteor.js',
+  'meteor.js': 'Meteor.js',
+  meteorjs: 'Meteor.js',
+  blockchain: 'Blockchain',
+  drupal: 'Drupal',
+  magento: 'Magento',
   //Design Patterns - multi-word keyword
 };

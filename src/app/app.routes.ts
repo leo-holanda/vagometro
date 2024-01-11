@@ -7,6 +7,7 @@ import { CompaniesOverviewComponent } from './statistics/overviews/companies-ove
 import { TypesOverviewComponent } from './statistics/overviews/types-overview/types-overview.component';
 import { ExperienceLevelsOverviewComponent } from './statistics/overviews/experience-levels-overview/experience-levels-overview.component';
 import { DisabilityStatusesOverviewComponent } from './statistics/overviews/disability-statuses-overview/disability-statuses-overview.component';
+import { EducationOverviewComponent } from './statistics/overviews/education-overview/education-overview.component';
 
 export const routes: Routes = [
   {
@@ -40,6 +41,10 @@ export const routes: Routes = [
   {
     path: 'pcd',
     component: DisabilityStatusesOverviewComponent,
+  },
+  {
+    path: 'education',
+    component: EducationOverviewComponent,
   },
   {
     path: '**',

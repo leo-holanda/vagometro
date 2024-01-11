@@ -44,6 +44,7 @@ export class JobService {
         jobs.forEach((job) => {
           job.experienceLevel = this.findExperienceLevel(job);
           job.keywords = this.getJobKeywords(job);
+          job.educationTerms = this.getJobEducationTerms(job);
         });
 
         this.originalJobs = jobs;
@@ -223,11 +224,22 @@ export class JobService {
     return this.getUniqueStrings(jobKeywords);
   }
 
-  doesJobMentionsHigherEducation(job: Job): string[] {
+  getJobEducationTerms(job: Job): string[] {
     const jobDescription = job.description.toLowerCase();
     return educationRelatedTerms
       .filter((term) => jobDescription.includes(term.termForMatching))
       .map((term) => term.termForListing);
+  }
+
+  getJobsByEducationTerms(educationTerm: string): Observable<Job[]> {
+    return this.jobs$.pipe(
+      filter((jobs): jobs is Job[] => jobs != undefined),
+      map((jobs) => {
+        if (educationTerm == 'Não menciona')
+          return jobs.filter((job) => job.educationTerms.length == 0);
+        return jobs.filter((job) => job.educationTerms.includes(educationTerm));
+      })
+    );
   }
 
   private getUniqueStrings(strings: string[]): string[] {

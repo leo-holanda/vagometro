@@ -293,15 +293,12 @@ export class StatisticsService {
         const educationMap = new Map<string, number>();
 
         jobs.forEach((job) => {
-          const mentionsHigherEducation =
-            this.jobService.doesJobMentionsHigherEducation(job);
-
-          if (mentionsHigherEducation.length == 0) {
+          if (job.educationTerms.length == 0) {
             const currentEducationCount = educationMap.get('Não menciona') || 0;
             educationMap.set('Não menciona', currentEducationCount + 1);
           }
 
-          mentionsHigherEducation.forEach((mention) => {
+          job.educationTerms.forEach((mention) => {
             const currentEducationCount = educationMap.get(mention) || 0;
             educationMap.set(mention, currentEducationCount + 1);
           });

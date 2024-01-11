@@ -50,7 +50,7 @@ export const educationRelatedTerms: EducationRelatedTerms[] = [
   },
   {
     termForMatching: 'análise e desenvolvimento de sistema',
-    termForListing: 'Análise e Desenvolvimento de Sistema',
+    termForListing: 'Análise e Desenvolvimento de Sistemas',
   },
   {
     termForMatching: 'engenharia de software',
@@ -63,5 +63,9 @@ export const educationRelatedTerms: EducationRelatedTerms[] = [
   {
     termForMatching: 'doutorado',
     termForListing: 'Doutorado',
+  },
+  {
+    termForMatching: 'especialização',
+    termForListing: 'Especialização',
   },
 ];

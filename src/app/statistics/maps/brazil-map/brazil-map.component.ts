@@ -46,7 +46,13 @@ export class BrazilMapComponent implements AfterViewInit {
           min: 0,
           max: this.getMaxJobQuantity(statesData),
           inRange: {
-            color: ['#ffffcc', '#a1dab4', '#41b6c4', '#2c7fb8', '#253494'],
+            color: [
+              'rgba(255, 255, 204, 0)',
+              '#a1dab4',
+              '#41b6c4',
+              '#2c7fb8',
+              '#253494',
+            ],
           },
           text: ['Muitas vagas', 'Poucas vagas'],
           calculable: true,

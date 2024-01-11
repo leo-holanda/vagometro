@@ -2,9 +2,14 @@
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 m-4 h-full">
     <div class="flex flex-col gap-4 h-min">
       <div class="card card-bordered card-compact w-full bg-base-100 shadow-xl">
-        <div class="card-title items-center p-4">
-          <i class="bx bxs-chip"></i>
-          <h1>Vagas que pedem {{ selectedKeyword }} também pedem...</h1>
+        <div class="card-title items-center justify-between p-4">
+          <div class="flex items-center gap-2">
+            <i class="bx bxs-chip"></i>
+            <h1>Vagas que pedem {{ selectedKeyword }} também pedem...</h1>
+          </div>
+          <button (click)="resetSelectedKeyword()" class="btn">
+            Escolher outra tecnologia
+          </button>
         </div>
 
         <div class="card-body max-h-96 overflow-y-auto">

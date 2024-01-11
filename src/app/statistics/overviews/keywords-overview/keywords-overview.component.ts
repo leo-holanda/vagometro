@@ -85,4 +85,9 @@ export class KeywordsOverviewComponent implements OnInit {
       )
     );
   }
+
+  resetSelectedKeyword(): void {
+    this.keywordSearchString = '';
+    this.selectedKeyword = '';
+  }
 }

@@ -54,7 +54,7 @@
           <ng-container *ngSwitchCase="'city'" #citiesList>
             <div class="card-body gap-2 max-h-96 overflow-y-auto">
               <button
-                class="btn btn-ghost"
+                class="btn btn-ghost p-2"
                 *ngFor="
                   let city of citiesRank$ | async;
                   index as i;
@@ -86,7 +86,7 @@
           <ng-container *ngSwitchCase="'state'" #statesList>
             <div class="card-body gap-2 max-h-96 overflow-y-auto">
               <button
-                class="btn btn-ghost"
+                class="btn btn-ghost p-2"
                 *ngFor="
                   let state of statesRank$ | async;
                   index as i;

@@ -11,7 +11,7 @@
           *ngIf="companiesRank$ | async as companiesRank; else loading"
         >
           <button
-            class="btn btn-ghost"
+            class="btn btn-ghost p-2"
             *ngFor="
               let company of companiesRank;
               index as i;

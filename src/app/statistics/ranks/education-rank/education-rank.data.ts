@@ -53,8 +53,8 @@ export const educationRelatedTerms: EducationRelatedTerms[] = [
     termForListing: 'Análise e Desenvolvimento de Sistemas',
   },
   {
-    termForMatching: 'engenharia de software',
-    termForListing: 'Engenharia de Software',
+    termForMatching: 'analise de sistema',
+    termForListing: 'Análise de Sistemas',
   },
   {
     termForMatching: 'engenharia eletrica',

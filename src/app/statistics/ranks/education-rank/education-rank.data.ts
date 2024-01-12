@@ -56,6 +56,14 @@ export const educationRelatedTerms: EducationRelatedTerms[] = [
     termForMatching: 'engenharia de software',
     termForListing: 'Engenharia de Software',
   },
+  {
+    termForMatching: 'engenharia eletrica',
+    termForListing: 'Engenharia Elétrica',
+  },
+  {
+    termForMatching: 'engenharia eletronica',
+    termForListing: 'Engenharia Eletrônica',
+  },
 ];
 
 export const educationalLevelTerms: EducationRelatedTerms[] = [

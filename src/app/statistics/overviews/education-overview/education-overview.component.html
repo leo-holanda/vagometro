@@ -126,21 +126,44 @@
 
   <div class="card card-bordered card-compact w-full bg-base-100 shadow-xl">
     <div class="card-body">
-      <h1
-        *ngIf="
-          selectedEducationTerm != 'Não menciona';
-          else noMentionTermTemplate
-        "
-        class="font-bold text-lg mb-4"
-      >
-        Sobre vagas que mencionam o termo {{ selectedEducationTerm }}
-      </h1>
+      <ng-container [ngSwitch]="selectedDataType">
+        <ng-container *ngSwitchCase="educationalDataTypes.level">
+          <h1
+            *ngIf="
+              selectedEducationalLevelTerm != 'Desconhecido';
+              else unknownEducationalLevelTemplate
+            "
+            class="font-bold text-lg mb-4"
+          >
+            Sobre vagas que mencionam o nível de
+            {{ selectedEducationalLevelTerm }}
+          </h1>
 
-      <ng-template #noMentionTermTemplate>
-        <h1 class="font-bold text-lg mb-4">
-          Sobre as vagas que não mencionam termos sobre educação
-        </h1>
-      </ng-template>
+          <ng-template #unknownEducationalLevelTemplate>
+            <h1 class="font-bold text-lg mb-4">
+              Sobre as vagas com nível de formação desconhecido
+            </h1>
+          </ng-template>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="educationalDataTypes.course">
+          <h1
+            *ngIf="
+              selectedEducationTerm != 'Desconhecido';
+              else unknownEducationTermTemplate
+            "
+            class="font-bold text-lg mb-4"
+          >
+            Sobre vagas que mencionam o curso de {{ selectedEducationTerm }}
+          </h1>
+
+          <ng-template #unknownEducationTermTemplate>
+            <h1 class="font-bold text-lg mb-4">
+              Sobre as vagas onde cursos não foram mencionados
+            </h1>
+          </ng-template>
+        </ng-container>
+      </ng-container>
 
       <section>
         <div class="flex items-center gap-2 mb-2">

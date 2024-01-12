@@ -8,6 +8,7 @@ import { TypesOverviewComponent } from './statistics/overviews/types-overview/ty
 import { ExperienceLevelsOverviewComponent } from './statistics/overviews/experience-levels-overview/experience-levels-overview.component';
 import { DisabilityStatusesOverviewComponent } from './statistics/overviews/disability-statuses-overview/disability-statuses-overview.component';
 import { EducationOverviewComponent } from './statistics/overviews/education-overview/education-overview.component';
+import { LanguagesOverviewComponent } from './statistics/overviews/languages-overview/languages-overview.component';
 
 export const routes: Routes = [
   {
@@ -45,6 +46,10 @@ export const routes: Routes = [
   {
     path: 'educacao',
     component: EducationOverviewComponent,
+  },
+  {
+    path: 'idiomas',
+    component: LanguagesOverviewComponent,
   },
   {
     path: '**',

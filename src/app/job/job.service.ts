@@ -277,6 +277,17 @@ export class JobService {
       .map((term) => term.termForListing);
   }
 
+  getJobsByLanguage(language: string): Observable<Job[]> {
+    return this.jobs$.pipe(
+      filter((jobs): jobs is Job[] => jobs != undefined),
+      map((jobs) => {
+        if (language == 'Desconhecido')
+          return jobs.filter((job) => job.languages.length == 0);
+        return jobs.filter((job) => job.languages.includes(language));
+      })
+    );
+  }
+
   private removeAccents(string: string) {
     //TODO Understand how it works
     return string.normalize('NFD').replace(/[\u0300-\u036f]/g, '');

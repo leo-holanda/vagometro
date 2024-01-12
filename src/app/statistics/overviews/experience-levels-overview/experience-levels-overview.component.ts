@@ -15,6 +15,7 @@ import { WorkplaceRankComponent } from '../../ranks/workplace-rank/workplace-ran
 import { JobListComponent } from 'src/app/job/job-list/job-list.component';
 import { TypeRankComponent } from '../../ranks/type-rank/type-rank.component';
 import { trackByExperienceLevel } from 'src/app/shared/track-by-functions';
+import { EducationRankComponent } from '../../ranks/education-rank/education-rank.component';
 
 @Component({
   selector: 'vgm-experience-levels-overview',
@@ -27,6 +28,7 @@ import { trackByExperienceLevel } from 'src/app/shared/track-by-functions';
     WorkplaceRankComponent,
     JobListComponent,
     TypeRankComponent,
+    EducationRankComponent,
   ],
   templateUrl: './experience-levels-overview.component.html',
   styleUrls: ['./experience-levels-overview.component.scss'],

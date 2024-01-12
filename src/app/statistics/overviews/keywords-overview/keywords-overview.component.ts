@@ -13,6 +13,7 @@ import { JobListComponent } from 'src/app/job/job-list/job-list.component';
 import { ExperienceLevelsRankComponent } from '../../ranks/experience-levels-rank/experience-levels-rank.component';
 import { trackByKeyword } from 'src/app/shared/track-by-functions';
 import { FormsModule } from '@angular/forms';
+import { EducationRankComponent } from '../../ranks/education-rank/education-rank.component';
 
 @Component({
   selector: 'vgm-keywords-overview',
@@ -26,6 +27,7 @@ import { FormsModule } from '@angular/forms';
     JobListComponent,
     ExperienceLevelsRankComponent,
     FormsModule,
+    EducationRankComponent,
   ],
   templateUrl: './keywords-overview.component.html',
   styleUrls: ['./keywords-overview.component.scss'],

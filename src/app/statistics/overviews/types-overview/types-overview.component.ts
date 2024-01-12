@@ -13,6 +13,7 @@ import { PublicationChartComponent } from '../../charts/publication-chart/public
 import { JobListComponent } from 'src/app/job/job-list/job-list.component';
 import { ExperienceLevelsRankComponent } from '../../ranks/experience-levels-rank/experience-levels-rank.component';
 import { trackByType } from 'src/app/shared/track-by-functions';
+import { EducationRankComponent } from '../../ranks/education-rank/education-rank.component';
 
 @Component({
   selector: 'vgm-types-overview',
@@ -25,6 +26,7 @@ import { trackByType } from 'src/app/shared/track-by-functions';
     PublicationChartComponent,
     JobListComponent,
     ExperienceLevelsRankComponent,
+    EducationRankComponent,
   ],
   templateUrl: './types-overview.component.html',
   styleUrls: ['./types-overview.component.scss'],

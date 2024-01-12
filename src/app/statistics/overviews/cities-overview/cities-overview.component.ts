@@ -22,6 +22,7 @@ import {
 } from 'src/app/shared/track-by-functions';
 import { StatisticsService } from '../../statistics.service';
 import { StateAbbreviationPipe } from 'src/app/shared/pipes/state-abbreviation.pipe';
+import { EducationRankComponent } from '../../ranks/education-rank/education-rank.component';
 
 @Component({
   selector: 'vgm-cities-overview',
@@ -37,6 +38,7 @@ import { StateAbbreviationPipe } from 'src/app/shared/pipes/state-abbreviation.p
     JobListComponent,
     ExperienceLevelsRankComponent,
     StateAbbreviationPipe,
+    EducationRankComponent,
   ],
   templateUrl: './cities-overview.component.html',
   styleUrls: ['./cities-overview.component.scss'],

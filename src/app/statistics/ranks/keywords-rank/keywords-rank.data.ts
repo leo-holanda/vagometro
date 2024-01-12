@@ -221,5 +221,7 @@ export const keywords: Keywords = {
   blockchain: 'Blockchain',
   drupal: 'Drupal',
   magento: 'Magento',
+  embarcado: 'Sistemas embarcados',
+  embarcados: 'Sistemas embarcados',
   //Design Patterns - multi-word keyword
 };

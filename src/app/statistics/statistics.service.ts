@@ -355,4 +355,40 @@ export class StatisticsService {
       })
     );
   }
+
+  getLanguagesRank(
+    jobs$: Observable<Job[] | undefined> = this.jobService.jobs$
+  ): Observable<EducationData[]> {
+    return jobs$.pipe(
+      filter((jobs): jobs is Job[] => jobs != undefined),
+      map((jobs) => {
+        const languageMap = new Map<string, number>();
+
+        jobs.forEach((job) => {
+          if (job.languages.length == 0) {
+            const currentLanguageCount = languageMap.get('Desconhecido') || 0;
+            languageMap.set('Desconhecido', currentLanguageCount + 1);
+          }
+
+          job.languages.forEach((language) => {
+            const currentLanguageCount = languageMap.get(language) || 0;
+            languageMap.set(language, currentLanguageCount + 1);
+          });
+        });
+
+        const sortedEntries = Array.from(languageMap.entries()).sort(
+          (a, b) => b[1] - a[1]
+        );
+
+        const sortedObjects = sortedEntries.map(
+          ([key, value]): EducationData => ({
+            name: key,
+            count: value,
+          })
+        );
+
+        return sortedObjects;
+      })
+    );
+  }
 }

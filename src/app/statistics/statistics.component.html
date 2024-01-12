@@ -118,6 +118,20 @@
         <vgm-education-rank [rankSize]="5"></vgm-education-rank>
       </div>
     </div>
+
+    <div class="card card-bordered card-compact w-full bg-base-100 shadow-xl">
+      <div class="card-body">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-1">
+            <i class="bx bx-globe"></i>
+            <h2 class="card-title">Rank de Idiomas</h2>
+          </div>
+          <a class="link" [routerLink]="['/idiomas']">Ver mais</a>
+        </div>
+
+        <vgm-languages-rank [rankSize]="5"></vgm-languages-rank>
+      </div>
+    </div>
   </div>
 
   <div class="divider"></div>

@@ -1,0 +1,36 @@
+<ng-container *ngIf="languagesRank$ | async as languagesRank; else loading">
+  <div class="overflow-auto max-h-96 w-full">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Idioma</th>
+          <th>Vagas</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="
+            let language of languagesRank;
+            index as i;
+            trackBy: trackByLanguage
+          "
+        >
+          <th>{{ i + 1 }}</th>
+          <td>{{ language.name }}</td>
+          <td>{{ language.count }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</ng-container>
+
+<ng-template #loading>
+  <div class="flex flex-col w-full gap-4 mt-4">
+    <div class="skeleton h-8 w-full"></div>
+    <div class="skeleton h-8 w-full"></div>
+    <div class="skeleton h-8 w-full"></div>
+    <div class="skeleton h-8 w-full"></div>
+    <div class="skeleton h-8 w-full"></div>
+  </div>
+</ng-template>

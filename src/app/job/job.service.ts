@@ -19,6 +19,7 @@ import {
   educationRelatedTerms,
   educationalLevelTerms,
 } from '../statistics/ranks/education-rank/education-rank.data';
+import { languageRelatedTerms } from '../statistics/ranks/languages-rank/languages-rank.data';
 
 @Injectable({
   providedIn: 'root',
@@ -49,6 +50,7 @@ export class JobService {
           job.keywords = this.getJobKeywords(job);
           job.educationTerms = this.getJobEducationTerms(job);
           job.educationalLevelTerms = this.getJobEducationalLevelTerms(job);
+          job.languages = this.getJobLanguages(job);
         });
 
         this.originalJobs = jobs;
@@ -266,6 +268,13 @@ export class JobService {
         );
       })
     );
+  }
+
+  getJobLanguages(job: Job): string[] {
+    const jobDescription = this.removeAccents(job.description.toLowerCase());
+    return languageRelatedTerms
+      .filter((term) => jobDescription.includes(term.termForMatching))
+      .map((term) => term.termForListing);
   }
 
   private removeAccents(string: string) {

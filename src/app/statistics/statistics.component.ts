@@ -15,6 +15,7 @@ import { Job } from '../job/job.model';
 import { ExperienceLevelsRankComponent } from './ranks/experience-levels-rank/experience-levels-rank.component';
 import { DisabilityRankComponent } from './ranks/disability-rank/disability-rank.component';
 import { EducationRankComponent } from './ranks/education-rank/education-rank.component';
+import { LanguagesRankComponent } from './ranks/languages-rank/languages-rank.component';
 
 @Component({
   selector: 'vgm-statistics',
@@ -33,6 +34,7 @@ import { EducationRankComponent } from './ranks/education-rank/education-rank.co
     ExperienceLevelsRankComponent,
     DisabilityRankComponent,
     EducationRankComponent,
+    LanguagesRankComponent,
   ],
   templateUrl: './statistics.component.html',
   styleUrls: ['./statistics.component.scss'],

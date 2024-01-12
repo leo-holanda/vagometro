@@ -27,6 +27,7 @@ export type Job = {
   keywords: string[];
   educationTerms: string[];
   educationalLevelTerms: string[];
+  languages: string[];
 };
 
 export type Badges = {

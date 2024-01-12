@@ -8,6 +8,7 @@ import { DisabilityData } from '../statistics/ranks/disability-rank/disability-r
 import { EducationData } from '../statistics/ranks/education-rank/education-rank.types';
 import { ExperienceLevelData } from '../statistics/ranks/experience-levels-rank/experience-levels-rank.model';
 import { KeywordData } from '../statistics/ranks/keywords-rank/keywords-rank.model';
+import { LanguageData } from '../statistics/ranks/languages-rank/languages-rank.types';
 import { TypeData } from '../statistics/ranks/type-rank/type-rank.model';
 import { WorkplaceData } from '../statistics/ranks/workplace-rank/workplace-rank.model';
 
@@ -57,5 +58,9 @@ export function trackByEducationStatus(
   index: number,
   item: EducationData
 ): string {
+  return item.name;
+}
+
+export function trackByLanguage(index: number, item: LanguageData): string {
   return item.name;
 }

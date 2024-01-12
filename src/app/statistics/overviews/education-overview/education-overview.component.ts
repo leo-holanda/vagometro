@@ -14,6 +14,7 @@ import { ExperienceLevelsRankComponent } from '../../ranks/experience-levels-ran
 import { JobListComponent } from 'src/app/job/job-list/job-list.component';
 import { EducationalDataTypes } from './education-overview.types';
 import { TypeRankComponent } from '../../ranks/type-rank/type-rank.component';
+import { LanguagesRankComponent } from '../../ranks/languages-rank/languages-rank.component';
 
 @Component({
   selector: 'vgm-education-overview',
@@ -27,6 +28,7 @@ import { TypeRankComponent } from '../../ranks/type-rank/type-rank.component';
     ExperienceLevelsRankComponent,
     JobListComponent,
     TypeRankComponent,
+    LanguagesRankComponent,
   ],
   templateUrl: './education-overview.component.html',
   styleUrls: ['./education-overview.component.scss'],

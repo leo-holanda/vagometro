@@ -17,6 +17,7 @@ import { ExperienceLevelsRankComponent } from '../../ranks/experience-levels-ran
 import { PublicationChartComponent } from '../../charts/publication-chart/publication-chart.component';
 import { trackByDisabilityStatus } from 'src/app/shared/track-by-functions';
 import { EducationRankComponent } from '../../ranks/education-rank/education-rank.component';
+import { LanguagesRankComponent } from '../../ranks/languages-rank/languages-rank.component';
 
 @Component({
   selector: 'vgm-disability-statuses-overview',
@@ -31,6 +32,7 @@ import { EducationRankComponent } from '../../ranks/education-rank/education-ran
     PublicationChartComponent,
     JobListComponent,
     EducationRankComponent,
+    LanguagesRankComponent,
   ],
   templateUrl: './disability-statuses-overview.component.html',
   styleUrls: ['./disability-statuses-overview.component.scss'],

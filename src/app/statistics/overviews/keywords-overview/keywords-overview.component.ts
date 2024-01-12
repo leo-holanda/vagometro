@@ -14,6 +14,7 @@ import { ExperienceLevelsRankComponent } from '../../ranks/experience-levels-ran
 import { trackByKeyword } from 'src/app/shared/track-by-functions';
 import { FormsModule } from '@angular/forms';
 import { EducationRankComponent } from '../../ranks/education-rank/education-rank.component';
+import { LanguagesRankComponent } from '../../ranks/languages-rank/languages-rank.component';
 
 @Component({
   selector: 'vgm-keywords-overview',
@@ -28,6 +29,7 @@ import { EducationRankComponent } from '../../ranks/education-rank/education-ran
     ExperienceLevelsRankComponent,
     FormsModule,
     EducationRankComponent,
+    LanguagesRankComponent,
   ],
   templateUrl: './keywords-overview.component.html',
   styleUrls: ['./keywords-overview.component.scss'],

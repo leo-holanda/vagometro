@@ -13,6 +13,7 @@ import { JobListComponent } from 'src/app/job/job-list/job-list.component';
 import { ExperienceLevelsRankComponent } from '../../ranks/experience-levels-rank/experience-levels-rank.component';
 import { trackByCompany } from 'src/app/shared/track-by-functions';
 import { EducationRankComponent } from '../../ranks/education-rank/education-rank.component';
+import { LanguagesRankComponent } from '../../ranks/languages-rank/languages-rank.component';
 
 @Component({
   selector: 'vgm-companies-overview',
@@ -26,6 +27,7 @@ import { EducationRankComponent } from '../../ranks/education-rank/education-ran
     JobListComponent,
     ExperienceLevelsRankComponent,
     EducationRankComponent,
+    LanguagesRankComponent,
   ],
   templateUrl: './companies-overview.component.html',
   styleUrls: ['./companies-overview.component.scss'],

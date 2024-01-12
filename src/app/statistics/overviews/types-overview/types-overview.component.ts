@@ -14,6 +14,7 @@ import { JobListComponent } from 'src/app/job/job-list/job-list.component';
 import { ExperienceLevelsRankComponent } from '../../ranks/experience-levels-rank/experience-levels-rank.component';
 import { trackByType } from 'src/app/shared/track-by-functions';
 import { EducationRankComponent } from '../../ranks/education-rank/education-rank.component';
+import { LanguagesRankComponent } from '../../ranks/languages-rank/languages-rank.component';
 
 @Component({
   selector: 'vgm-types-overview',
@@ -27,6 +28,7 @@ import { EducationRankComponent } from '../../ranks/education-rank/education-ran
     JobListComponent,
     ExperienceLevelsRankComponent,
     EducationRankComponent,
+    LanguagesRankComponent,
   ],
   templateUrl: './types-overview.component.html',
   styleUrls: ['./types-overview.component.scss'],

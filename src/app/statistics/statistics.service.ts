@@ -294,11 +294,47 @@ export class StatisticsService {
 
         jobs.forEach((job) => {
           if (job.educationTerms.length == 0) {
-            const currentEducationCount = educationMap.get('Não menciona') || 0;
-            educationMap.set('Não menciona', currentEducationCount + 1);
+            const currentEducationCount = educationMap.get('Desconhecido') || 0;
+            educationMap.set('Desconhecido', currentEducationCount + 1);
           }
 
           job.educationTerms.forEach((mention) => {
+            const currentEducationCount = educationMap.get(mention) || 0;
+            educationMap.set(mention, currentEducationCount + 1);
+          });
+        });
+
+        const sortedEntries = Array.from(educationMap.entries()).sort(
+          (a, b) => b[1] - a[1]
+        );
+
+        const sortedObjects = sortedEntries.map(
+          ([key, value]): EducationData => ({
+            name: key,
+            count: value,
+          })
+        );
+
+        return sortedObjects;
+      })
+    );
+  }
+
+  getEducationalLevelRank(
+    jobs$: Observable<Job[] | undefined> = this.jobService.jobs$
+  ): Observable<EducationData[]> {
+    return jobs$.pipe(
+      filter((jobs): jobs is Job[] => jobs != undefined),
+      map((jobs) => {
+        const educationMap = new Map<string, number>();
+
+        jobs.forEach((job) => {
+          if (job.educationalLevelTerms.length == 0) {
+            const currentEducationCount = educationMap.get('Desconhecido') || 0;
+            educationMap.set('Desconhecido', currentEducationCount + 1);
+          }
+
+          job.educationalLevelTerms.forEach((mention) => {
             const currentEducationCount = educationMap.get(mention) || 0;
             educationMap.set(mention, currentEducationCount + 1);
           });

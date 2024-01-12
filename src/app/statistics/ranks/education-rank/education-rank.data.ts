@@ -56,6 +56,17 @@ export const educationRelatedTerms: EducationRelatedTerms[] = [
     termForMatching: 'engenharia de software',
     termForListing: 'Engenharia de Software',
   },
+];
+
+export const educationalLevelTerms: EducationRelatedTerms[] = [
+  {
+    termForMatching: 'graduacao',
+    termForListing: 'Graduação',
+  },
+  {
+    termForMatching: 'especializacao',
+    termForListing: 'Especialização',
+  },
   {
     termForMatching: 'mestrado',
     termForListing: 'Mestrado',
@@ -63,9 +74,5 @@ export const educationRelatedTerms: EducationRelatedTerms[] = [
   {
     termForMatching: 'doutorado',
     termForListing: 'Doutorado',
-  },
-  {
-    termForMatching: 'especializacao',
-    termForListing: 'Especialização',
   },
 ];

@@ -12,6 +12,7 @@ import { CompaniesRankComponent } from '../../ranks/companies-rank/companies-ran
 import { WorkplaceRankComponent } from '../../ranks/workplace-rank/workplace-rank.component';
 import { ExperienceLevelsRankComponent } from '../../ranks/experience-levels-rank/experience-levels-rank.component';
 import { JobListComponent } from 'src/app/job/job-list/job-list.component';
+import { EducationalDataTypes } from './education-overview.types';
 
 @Component({
   selector: 'vgm-education-overview',
@@ -30,11 +31,21 @@ import { JobListComponent } from 'src/app/job/job-list/job-list.component';
 })
 export class EducationOverviewComponent {
   educationRank$!: Observable<EducationData[]>;
-  termFrequency!: number;
   selectedEducationTerm!: string;
+
+  educationalLevelRank$!: Observable<EducationData[]>;
+  selectedEducationalLevelTerm!: string;
+
+  educationTermFrequency!: number;
+  educationalLevelFrequency!: number;
+
   jobsByEducationTerm$!: Observable<Job[]>;
+  jobsByEducationalLevel$!: Observable<Job[]>;
 
   trackByEducationTerm = trackByEducationStatus;
+
+  selectedDataType = EducationalDataTypes.level;
+  educationalDataTypes = EducationalDataTypes;
 
   constructor(
     private statisticsService: StatisticsService,
@@ -43,20 +54,34 @@ export class EducationOverviewComponent {
 
   ngOnInit(): void {
     this.educationRank$ = this.statisticsService.getEducationRank();
+    this.educationalLevelRank$ =
+      this.statisticsService.getEducationalLevelRank();
 
     this.educationRank$.subscribe((educationRank) => {
       this.selectedEducationTerm = educationRank[0].name;
+
+      this.educationTermFrequency = educationRank.reduce(
+        (acc, term) => acc + term.count,
+        0
+      );
 
       this.jobsByEducationTerm$ = this.jobService.getJobsByEducationTerms(
         this.selectedEducationTerm
       );
     });
 
-    this.educationRank$.subscribe((educationRank) => {
-      this.termFrequency = educationRank.reduce(
+    this.educationalLevelRank$.subscribe((educationalLevelRank) => {
+      this.selectedEducationalLevelTerm = educationalLevelRank[0].name;
+
+      this.educationalLevelFrequency = educationalLevelRank.reduce(
         (acc, term) => acc + term.count,
         0
       );
+
+      this.jobsByEducationalLevel$ =
+        this.jobService.getJobsByEducationalLevelTerms(
+          this.selectedEducationalLevelTerm
+        );
     });
   }
 
@@ -65,5 +90,18 @@ export class EducationOverviewComponent {
     this.jobsByEducationTerm$ = this.jobService.getJobsByEducationTerms(
       this.selectedEducationTerm
     );
+  }
+
+  onEducationalLevelClick(educationalLevel: string): void {
+    this.selectedEducationalLevelTerm = educationalLevel;
+
+    this.jobsByEducationalLevel$ =
+      this.jobService.getJobsByEducationalLevelTerms(
+        this.selectedEducationalLevelTerm
+      );
+  }
+
+  setDataType(dataType: EducationalDataTypes): void {
+    this.selectedDataType = dataType;
   }
 }

@@ -1,49 +1,107 @@
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 m-4 h-full">
   <div class="flex flex-col gap-4 h-min">
     <div class="card card-bordered card-compact w-full bg-base-100 shadow-xl">
-      <div class="card-title items-center p-4">
-        <i class="bx bxs-graduation"></i>
-        <h1>Rank de Educação</h1>
+      <div class="card-title items-center justify-between flex-wrap p-4">
+        <div class="flex items-center gap-2">
+          <i class="bx bxs-graduation"></i>
+          <h1>Rank de Educação</h1>
+        </div>
+
+        <div role="tablist" class="tabs tabs-boxed gap-2">
+          <a
+            role="tab"
+            class="tab"
+            [ngClass]="{
+              'tab-active': selectedDataType == educationalDataTypes.level
+            }"
+            (click)="setDataType(educationalDataTypes.level)"
+            >Por nível</a
+          >
+          <a
+            role="tab"
+            class="tab"
+            [ngClass]="{
+              'tab-active': selectedDataType == educationalDataTypes.course
+            }"
+            (click)="setDataType(educationalDataTypes.course)"
+            >Por curso</a
+          >
+        </div>
       </div>
 
       <div class="card-body max-h-96 overflow-y-auto">
         <ng-container
-          *ngIf="educationRank$ | async as educationRank; else loading"
+          *ngIf="
+            educationalLevelRank$ | async as educationalLevelRank;
+            else loading
+          "
         >
-          <button
-            class="btn btn-ghost p-2"
-            *ngFor="
-              let educationTerm of educationRank;
-              index as i;
-              trackBy: trackByEducationTerm
-            "
-            [ngClass]="{
-              'btn-active': selectedEducationTerm == educationTerm.name
-            }"
-            (click)="onEducationTermClick(educationTerm.name)"
-          >
-            <div class="w-full flex justify-between">
-              <span>{{ i + 1 + ". " + educationTerm.name }}</span>
-              <span>{{ educationTerm.count }}</span>
-            </div>
-            <progress
-              class="progress w-full"
-              [value]="educationTerm.count"
-              [max]="termFrequency"
-            ></progress>
-          </button>
+          <ng-container *ngIf="selectedDataType == educationalDataTypes.level">
+            <button
+              class="btn btn-ghost p-2"
+              *ngFor="
+                let educationalLevel of educationalLevelRank;
+                index as i;
+                trackBy: trackByEducationTerm
+              "
+              [ngClass]="{
+                'btn-active':
+                  selectedEducationalLevelTerm == educationalLevel.name
+              }"
+              (click)="onEducationalLevelClick(educationalLevel.name)"
+            >
+              <div class="w-full flex justify-between">
+                <span>{{ i + 1 + ". " + educationalLevel.name }}</span>
+                <span>{{ educationalLevel.count }}</span>
+              </div>
+              <progress
+                class="progress w-full"
+                [value]="educationalLevel.count"
+                [max]="educationalLevelFrequency"
+              ></progress>
+            </button>
+          </ng-container>
         </ng-container>
 
-        <ng-template #loading>
-          <div class="flex flex-col w-full gap-4 mt-4">
-            <div class="skeleton h-8 w-full"></div>
-            <div class="skeleton h-8 w-full"></div>
-            <div class="skeleton h-8 w-full"></div>
-            <div class="skeleton h-8 w-full"></div>
-            <div class="skeleton h-8 w-full"></div>
-          </div>
-        </ng-template>
+        <ng-container
+          *ngIf="educationRank$ | async as educationRank; else loading"
+        >
+          <ng-container *ngIf="selectedDataType == educationalDataTypes.course">
+            <button
+              class="btn btn-ghost p-2"
+              *ngFor="
+                let educationTerm of educationRank;
+                index as i;
+                trackBy: trackByEducationTerm
+              "
+              [ngClass]="{
+                'btn-active': selectedEducationTerm == educationTerm.name
+              }"
+              (click)="onEducationTermClick(educationTerm.name)"
+            >
+              <div class="w-full flex justify-between">
+                <span>{{ i + 1 + ". " + educationTerm.name }}</span>
+                <span>{{ educationTerm.count }}</span>
+              </div>
+              <progress
+                class="progress w-full"
+                [value]="educationTerm.count"
+                [max]="educationTermFrequency"
+              ></progress>
+            </button>
+          </ng-container>
+        </ng-container>
       </div>
+
+      <ng-template #loading>
+        <div class="flex flex-col w-full gap-4 mt-4">
+          <div class="skeleton h-8 w-full"></div>
+          <div class="skeleton h-8 w-full"></div>
+          <div class="skeleton h-8 w-full"></div>
+          <div class="skeleton h-8 w-full"></div>
+          <div class="skeleton h-8 w-full"></div>
+        </div>
+      </ng-template>
     </div>
 
     <div
@@ -56,7 +114,11 @@
 
       <div class="card-body">
         <vgm-publication-chart
-          [jobs$]="jobsByEducationTerm$"
+          [jobs$]="
+            selectedDataType == educationalDataTypes.level
+              ? jobsByEducationalLevel$
+              : jobsByEducationTerm$
+          "
         ></vgm-publication-chart>
       </div>
     </div>
@@ -85,7 +147,13 @@
           <i class="bx bxs-chip"></i>
           <h3>Tecnologias mais frequentes</h3>
         </div>
-        <vgm-keywords-rank [jobs$]="jobsByEducationTerm$"></vgm-keywords-rank>
+        <vgm-keywords-rank
+          [jobs$]="
+            selectedDataType == educationalDataTypes.level
+              ? jobsByEducationalLevel$
+              : jobsByEducationTerm$
+          "
+        ></vgm-keywords-rank>
       </section>
 
       <div class="divider"></div>
@@ -95,7 +163,13 @@
           <i class="bx bxs-business"></i>
           <h3>Empresas que mais contratam</h3>
         </div>
-        <vgm-companies-rank [jobs$]="jobsByEducationTerm$"></vgm-companies-rank>
+        <vgm-companies-rank
+          [jobs$]="
+            selectedDataType == educationalDataTypes.level
+              ? jobsByEducationalLevel$
+              : jobsByEducationTerm$
+          "
+        ></vgm-companies-rank>
       </section>
 
       <div class="divider"></div>
@@ -105,7 +179,13 @@
           <i class="bx bxs-home"></i>
           <h3>Modalidades mais frequentes</h3>
         </div>
-        <vgm-workplace-rank [jobs$]="jobsByEducationTerm$"></vgm-workplace-rank>
+        <vgm-workplace-rank
+          [jobs$]="
+            selectedDataType == educationalDataTypes.level
+              ? jobsByEducationalLevel$
+              : jobsByEducationTerm$
+          "
+        ></vgm-workplace-rank>
       </section>
 
       <div class="divider"></div>
@@ -116,7 +196,11 @@
           <h3>Níveis de experiência mais requisitados</h3>
         </div>
         <vgm-experience-levels-rank
-          [jobs$]="jobsByEducationTerm$"
+          [jobs$]="
+            selectedDataType == educationalDataTypes.level
+              ? jobsByEducationalLevel$
+              : jobsByEducationTerm$
+          "
         ></vgm-experience-levels-rank>
       </section>
     </div>
@@ -132,12 +216,27 @@
     <div class="card-title justify-between p-4">
       <h1>Vagas consideradas nos dados acima</h1>
       <span
-        >Total: {{ ((jobsByEducationTerm$ | async) || []).length }} vagas</span
+        >Total:
+        {{
+          (
+            ((selectedDataType == educationalDataTypes.level
+              ? jobsByEducationalLevel$
+              : jobsByEducationTerm$
+            ) | async) || []
+          ).length
+        }}
+        vagas</span
       >
     </div>
 
     <div class="card-body overflow-y-hidden">
-      <vgm-job-list [jobs$]="jobsByEducationTerm$"></vgm-job-list>
+      <vgm-job-list
+        [jobs$]="
+          selectedDataType == educationalDataTypes.level
+            ? jobsByEducationalLevel$
+            : jobsByEducationTerm$
+        "
+      ></vgm-job-list>
     </div>
   </div>
 </div>

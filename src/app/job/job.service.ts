@@ -15,7 +15,10 @@ import {
 } from '../statistics/ranks/experience-levels-rank/experience-levels-rank.data';
 import { DisabilityStatuses } from '../statistics/ranks/disability-rank/disability-rank.model';
 import { keywords } from '../statistics/ranks/keywords-rank/keywords-rank.data';
-import { educationRelatedTerms } from '../statistics/ranks/education-rank/education-rank.data';
+import {
+  educationRelatedTerms,
+  educationalLevelTerms,
+} from '../statistics/ranks/education-rank/education-rank.data';
 
 @Injectable({
   providedIn: 'root',
@@ -45,6 +48,7 @@ export class JobService {
           job.experienceLevel = this.findExperienceLevel(job);
           job.keywords = this.getJobKeywords(job);
           job.educationTerms = this.getJobEducationTerms(job);
+          job.educationalLevelTerms = this.getJobEducationalLevelTerms(job);
         });
 
         this.originalJobs = jobs;
@@ -231,13 +235,35 @@ export class JobService {
       .map((term) => term.termForListing);
   }
 
+  getJobEducationalLevelTerms(job: Job): string[] {
+    const jobDescription = this.removeAccents(job.description.toLowerCase());
+    return educationalLevelTerms
+      .filter((term) => jobDescription.includes(term.termForMatching))
+      .map((term) => term.termForListing);
+  }
+
   getJobsByEducationTerms(educationTerm: string): Observable<Job[]> {
     return this.jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
-        if (educationTerm == 'Não menciona')
+        if (educationTerm == 'Desconhecido')
           return jobs.filter((job) => job.educationTerms.length == 0);
         return jobs.filter((job) => job.educationTerms.includes(educationTerm));
+      })
+    );
+  }
+
+  getJobsByEducationalLevelTerms(
+    educationalLevelTerm: string
+  ): Observable<Job[]> {
+    return this.jobs$.pipe(
+      filter((jobs): jobs is Job[] => jobs != undefined),
+      map((jobs) => {
+        if (educationalLevelTerm == 'Desconhecido')
+          return jobs.filter((job) => job.educationalLevelTerms.length == 0);
+        return jobs.filter((job) =>
+          job.educationalLevelTerms.includes(educationalLevelTerm)
+        );
       })
     );
   }

@@ -26,6 +26,7 @@ export type Job = {
   experienceLevel: ExperienceLevels;
   keywords: string[];
   educationTerms: string[];
+  educationalLevelTerms: string[];
 };
 
 export type Badges = {

@@ -5,51 +5,51 @@ export interface EducationRelatedTerms {
 
 export const educationRelatedTerms: EducationRelatedTerms[] = [
   {
-    termForMatching: 'ciência da computação',
+    termForMatching: 'ciencia da computacao',
     termForListing: 'Ciência da Computação',
   },
   {
-    termForMatching: 'ciências da computação',
+    termForMatching: 'ciencias da computacao',
     termForListing: 'Ciência da Computação',
   },
   {
-    termForMatching: 'ciência de computação',
+    termForMatching: 'ciencia de computacao',
     termForListing: 'Ciência da Computação',
   },
   {
-    termForMatching: 'ciências de computação',
+    termForMatching: 'ciencias de computacao',
     termForListing: 'Ciência da Computação',
   },
   {
-    termForMatching: 'engenharia da computação',
+    termForMatching: 'engenharia da computacao',
     termForListing: 'Engenharia de Computação',
   },
   {
-    termForMatching: 'engenharia de computação',
+    termForMatching: 'engenharia de computacao',
     termForListing: 'Engenharia de Computação',
   },
   {
-    termForMatching: 'sistema da informação',
+    termForMatching: 'sistema da informacao',
     termForListing: 'Sistemas de Informação',
   },
   {
-    termForMatching: 'sistemas da informação',
+    termForMatching: 'sistemas da informacao',
     termForListing: 'Sistemas de Informação',
   },
   {
-    termForMatching: 'sistema de informação',
+    termForMatching: 'sistema de informacao',
     termForListing: 'Sistemas de Informação',
   },
   {
-    termForMatching: 'sistemas de informação',
+    termForMatching: 'sistemas de informacao',
     termForListing: 'Sistemas de Informação',
   },
   {
-    termForMatching: 'análise e desenvolvimento de sistemas',
+    termForMatching: 'analise e desenvolvimento de sistema',
     termForListing: 'Análise e Desenvolvimento de Sistemas',
   },
   {
-    termForMatching: 'análise e desenvolvimento de sistema',
+    termForMatching: 'analise e desenvolvimento de sistemas',
     termForListing: 'Análise e Desenvolvimento de Sistemas',
   },
   {
@@ -65,7 +65,7 @@ export const educationRelatedTerms: EducationRelatedTerms[] = [
     termForListing: 'Doutorado',
   },
   {
-    termForMatching: 'especialização',
+    termForMatching: 'especializacao',
     termForListing: 'Especialização',
   },
 ];

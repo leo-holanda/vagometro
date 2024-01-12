@@ -225,7 +225,7 @@ export class JobService {
   }
 
   getJobEducationTerms(job: Job): string[] {
-    const jobDescription = job.description.toLowerCase();
+    const jobDescription = this.removeAccents(job.description.toLowerCase());
     return educationRelatedTerms
       .filter((term) => jobDescription.includes(term.termForMatching))
       .map((term) => term.termForListing);
@@ -240,6 +240,11 @@ export class JobService {
         return jobs.filter((job) => job.educationTerms.includes(educationTerm));
       })
     );
+  }
+
+  private removeAccents(string: string) {
+    //TODO Understand how it works
+    return string.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
   }
 
   private getUniqueStrings(strings: string[]): string[] {

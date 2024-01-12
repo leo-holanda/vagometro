@@ -291,7 +291,7 @@
 
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <div>
-              <div class="flex items-center gap-1">
+              <div class="flex items-center gap-1 mb-1">
                 <i class="bx bxs-user-detail"></i>
                 <span> Nível de experiência </span>
               </div>
@@ -302,7 +302,7 @@
             </div>
 
             <div>
-              <div class="flex items-center gap-1">
+              <div class="flex items-center gap-1 mb-1">
                 <i class="bx bxs-home"></i>
                 <span>Modalidade</span>
               </div>
@@ -313,7 +313,7 @@
             </div>
 
             <div>
-              <div class="flex items-center gap-1">
+              <div class="flex items-center gap-1 mb-1">
                 <i class="bx bxs-briefcase"></i>
                 <span>Tipo</span>
               </div>
@@ -324,7 +324,7 @@
             </div>
 
             <div>
-              <div class="flex items-center gap-1">
+              <div class="flex items-center gap-1 mb-1">
                 <i class="bx bxs-map"></i>
                 <span>Local</span>
               </div>
@@ -339,7 +339,7 @@
             </div>
 
             <div>
-              <div class="flex items-center gap-1">
+              <div class="flex items-center gap-1 mb-1">
                 <i class="bx bxs-calendar"></i>
                 <span>Data de publicação</span>
               </div>
@@ -350,7 +350,7 @@
             </div>
 
             <div>
-              <div class="flex items-center gap-1">
+              <div class="flex items-center gap-1 mb-1">
                 <i class="bx bx-accessibility"></i>
                 <span>Inclusão</span>
               </div>
@@ -361,7 +361,7 @@
             </div>
 
             <div>
-              <div class="flex items-center gap-1">
+              <div class="flex items-center gap-1 mb-1">
                 <i class="bx bxs-graduation"></i>
                 <span>Menciona ensino superior?</span>
               </div>
@@ -374,6 +374,30 @@
                     : "Não"
                 }}
               </span>
+            </div>
+
+            <div>
+              <div class="flex items-center gap-1 mb-1">
+                <i class="bx bx-globe"></i>
+                <span>Idiomas</span>
+              </div>
+
+              <ng-container
+                *ngIf="job.languages.length > 0; else emptyLanguagesTemplate"
+              >
+                <div class="flex items-center gap-2">
+                  <div
+                    class="badge badge-neutral"
+                    *ngFor="let language of job.languages"
+                  >
+                    {{ language }}
+                  </div>
+                </div>
+              </ng-container>
+
+              <ng-template #emptyLanguagesTemplate>
+                <span class="font-bold">Não</span>
+              </ng-template>
             </div>
           </div>
 

@@ -43,7 +43,7 @@ export const routes: Routes = [
     component: DisabilityStatusesOverviewComponent,
   },
   {
-    path: 'education',
+    path: 'educacao',
     component: EducationOverviewComponent,
   },
   {

@@ -359,6 +359,22 @@
                 {{ job.disabilities ? "Também para PCD" : "Não-PCD" }}
               </span>
             </div>
+
+            <div>
+              <div class="flex items-center gap-1">
+                <i class="bx bxs-graduation"></i>
+                <span>Menciona ensino superior?</span>
+              </div>
+
+              <span class="font-bold">
+                {{
+                  job.educationTerms.length > 0 ||
+                  job.educationalLevelTerms.length > 0
+                    ? "Sim"
+                    : "Não"
+                }}
+              </span>
+            </div>
           </div>
 
           <div class="card-actions mt-2">

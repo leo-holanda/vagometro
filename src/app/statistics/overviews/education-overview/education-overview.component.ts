@@ -13,6 +13,7 @@ import { WorkplaceRankComponent } from '../../ranks/workplace-rank/workplace-ran
 import { ExperienceLevelsRankComponent } from '../../ranks/experience-levels-rank/experience-levels-rank.component';
 import { JobListComponent } from 'src/app/job/job-list/job-list.component';
 import { EducationalDataTypes } from './education-overview.types';
+import { TypeRankComponent } from '../../ranks/type-rank/type-rank.component';
 
 @Component({
   selector: 'vgm-education-overview',
@@ -25,6 +26,7 @@ import { EducationalDataTypes } from './education-overview.types';
     WorkplaceRankComponent,
     ExperienceLevelsRankComponent,
     JobListComponent,
+    TypeRankComponent,
   ],
   templateUrl: './education-overview.component.html',
   styleUrls: ['./education-overview.component.scss'],

@@ -226,6 +226,22 @@
           "
         ></vgm-experience-levels-rank>
       </section>
+
+      <div class="divider"></div>
+
+      <section>
+        <div class="flex items-center gap-2 mb-2">
+          <i class="bx bxs-briefcase"></i>
+          <h3>Tipos de vagas</h3>
+        </div>
+        <vgm-type-rank
+          [jobs$]="
+            selectedDataType == educationalDataTypes.level
+              ? jobsByEducationalLevel$
+              : jobsByEducationTerm$
+          "
+        ></vgm-type-rank>
+      </section>
     </div>
   </div>
 </div>

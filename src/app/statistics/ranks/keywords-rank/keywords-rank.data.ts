@@ -223,5 +223,6 @@ export const keywords: Keywords = {
   magento: 'Magento',
   embarcado: 'Sistemas embarcados',
   embarcados: 'Sistemas embarcados',
+  mensageria: 'Mensageria',
   //Design Patterns - multi-word keyword
 };

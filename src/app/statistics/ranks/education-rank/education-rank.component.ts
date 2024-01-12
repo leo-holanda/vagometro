@@ -22,7 +22,7 @@ export class EducationRankComponent implements OnChanges {
   trackByEducationStatus = trackByEducationStatus;
 
   constructor(private statisticsService: StatisticsService) {
-    this.educationRank$ = this.statisticsService.getEducationRank();
+    this.educationRank$ = this.statisticsService.getEducationalLevelRank();
 
     if (this.rankSize)
       this.educationRank$ = this.educationRank$.pipe(
@@ -31,7 +31,9 @@ export class EducationRankComponent implements OnChanges {
   }
 
   ngOnChanges(): void {
-    this.educationRank$ = this.statisticsService.getEducationRank(this.jobs$);
+    this.educationRank$ = this.statisticsService.getEducationalLevelRank(
+      this.jobs$
+    );
     if (this.rankSize)
       this.educationRank$ = this.educationRank$.pipe(
         map((educationRank) => educationRank.slice(0, this.rankSize))

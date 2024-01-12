@@ -68,6 +68,10 @@ export const educationRelatedTerms: EducationRelatedTerms[] = [
 
 export const educationalLevelTerms: EducationRelatedTerms[] = [
   {
+    termForMatching: 'tecnologo',
+    termForListing: 'Tecnólogo',
+  },
+  {
     termForMatching: 'graduacao',
     termForListing: 'Graduação',
   },

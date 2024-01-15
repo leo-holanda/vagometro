@@ -45,3 +45,4 @@ src/environments
 .vercel
 
 /docker
+/fetch-gupy-jobs/.venv

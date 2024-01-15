@@ -3,6 +3,21 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "type": "aws-sam",
+      "request": "direct-invoke",
+      "name": "fetch-gupy-jobs:lambda_function.lambda_handler (python3.10)",
+      "invokeTarget": {
+        "target": "code",
+        "projectRoot": "${workspaceFolder}/fetch-gupy-jobs",
+        "lambdaHandler": "lambda_function.lambda_handler"
+      },
+      "lambda": {
+        "runtime": "python3.10",
+        "payload": {},
+        "environmentVariables": {}
+      }
+    },
+    {
       "name": "ng serve",
       "type": "chrome",
       "request": "launch",

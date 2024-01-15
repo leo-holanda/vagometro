@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { fromCognitoIdentityPool } from '@aws-sdk/credential-providers';
 import {
@@ -21,18 +21,11 @@ import { environment } from 'src/environments/environment.development';
   providedIn: 'root',
 })
 export class DynamoService {
-  private documentClient: DynamoDBDocumentClient;
+  private documentClient!: DynamoDBDocumentClient;
 
   constructor() {
-    const client = new DynamoDBClient({
-      region: 'us-east-1',
-      credentials: fromCognitoIdentityPool({
-        clientConfig: { region: 'us-east-1' },
-        identityPoolId: environment.IDENTITY_POOL_ID,
-      }),
-    });
-
-    this.documentClient = DynamoDBDocumentClient.from(client);
+    if (isDevMode()) this.openConnectionInDev();
+    else this.openConnectionInProd();
   }
 
   scanJobs(): Observable<ScanCommandOutput[]> {
@@ -55,5 +48,31 @@ export class DynamoService {
       takeWhile((response) => response.LastEvaluatedKey != undefined, true),
       scan((acc, response) => [...acc, response], [] as ScanCommandOutput[])
     );
+  }
+
+  private openConnectionInDev(): void {
+    const client = new DynamoDBClient({
+      region: 'localhost',
+      credentials: {
+        accessKeyId: 'any',
+        secretAccessKey: 'any',
+      },
+
+      endpoint: 'http://localhost:8000',
+    });
+
+    this.documentClient = DynamoDBDocumentClient.from(client);
+  }
+
+  private openConnectionInProd(): void {
+    const client = new DynamoDBClient({
+      region: 'us-east-1',
+      credentials: fromCognitoIdentityPool({
+        clientConfig: { region: 'us-east-1' },
+        identityPoolId: environment.IDENTITY_POOL_ID,
+      }),
+    });
+
+    this.documentClient = DynamoDBDocumentClient.from(client);
   }
 }

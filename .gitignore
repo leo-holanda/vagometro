@@ -43,3 +43,5 @@ Thumbs.db
 
 src/environments
 .vercel
+
+/docker

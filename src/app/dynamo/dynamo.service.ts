@@ -9,6 +9,7 @@ import {
 import {
   Observable,
   asyncScheduler,
+  delay,
   expand,
   of,
   scan,
@@ -34,6 +35,7 @@ export class DynamoService {
     });
 
     return scheduled(this.documentClient.send(command), asyncScheduler).pipe(
+      delay(500),
       expand((response) => {
         if (response.LastEvaluatedKey) {
           const command = new ScanCommand({

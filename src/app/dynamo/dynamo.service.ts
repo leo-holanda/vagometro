@@ -35,7 +35,7 @@ export class DynamoService {
     });
 
     return scheduled(this.documentClient.send(command), asyncScheduler).pipe(
-      delay(500),
+      delay(1000),
       expand((response) => {
         if (response.LastEvaluatedKey) {
           const command = new ScanCommand({
@@ -43,7 +43,10 @@ export class DynamoService {
             ExclusiveStartKey: response.LastEvaluatedKey,
           });
 
-          return scheduled(this.documentClient.send(command), asyncScheduler);
+          return scheduled(
+            this.documentClient.send(command),
+            asyncScheduler
+          ).pipe(delay(1000));
         }
         return of(response);
       }),

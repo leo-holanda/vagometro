@@ -281,7 +281,7 @@ export class JobService {
     return this.jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
-        if (language == 'Nenhum')
+        if (language == 'Desconhecido')
           return jobs.filter((job) => job.languages.length == 0);
         return jobs.filter((job) => job.languages.includes(language));
       })

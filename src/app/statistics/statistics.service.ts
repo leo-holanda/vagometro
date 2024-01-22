@@ -366,8 +366,8 @@ export class StatisticsService {
 
         jobs.forEach((job) => {
           if (job.languages.length == 0) {
-            const currentLanguageCount = languageMap.get('Nenhum') || 0;
-            languageMap.set('Nenhum', currentLanguageCount + 1);
+            const currentLanguageCount = languageMap.get('Desconhecido') || 0;
+            languageMap.set('Desconhecido', currentLanguageCount + 1);
           }
 
           job.languages.forEach((language) => {

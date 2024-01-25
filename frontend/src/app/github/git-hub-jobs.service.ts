@@ -18,6 +18,10 @@ import {
   internLevelRelatedTerms,
 } from '../statistics/ranks/experience-levels-rank/experience-levels-rank.data';
 import { keywords } from '../statistics/ranks/keywords-rank/keywords-rank.data';
+import {
+  educationRelatedTerms,
+  educationalLevelTerms,
+} from '../statistics/ranks/education-rank/education-rank.data';
 
 @Injectable({
   providedIn: 'root',
@@ -232,10 +236,27 @@ export class GitHubJobsService {
   }
 
   private findCitedCoursesInJob(githubJob: GitHubJob): string[] {
+    //TODO: Apparently there are some jobs without title or body. Investigate this.
+    if (githubJob.body) {
+      const jobDescription = this.removeAccents(githubJob.body).toLowerCase();
+
+      return educationRelatedTerms
+        .filter((term) => jobDescription.includes(term.termForMatching))
+        .map((term) => term.termForListing);
+    }
+
     return [];
   }
 
   private findEducationalLevelsCitedInJob(githubJob: GitHubJob): string[] {
+    if (githubJob.body) {
+      const jobDescription = this.removeAccents(githubJob.body).toLowerCase();
+
+      return educationalLevelTerms
+        .filter((term) => jobDescription.includes(term.termForMatching))
+        .map((term) => term.termForListing);
+    }
+
     return [];
   }
 

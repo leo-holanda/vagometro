@@ -34,28 +34,10 @@ export class JobService {
   );
   currentTimeWindow$ = this._currentTimeWindow$.asObservable();
 
-  constructor(private dynamoService: DynamoService) {
-    this.dynamoService
-      .scanJobs()
-      .pipe(
-        last(),
-        map((output) =>
-          output.map((response) => response.Items as Job[]).flat()
-        )
-      )
-      .subscribe((jobs) => {
-        jobs.sort((a, b) => (a.publishedDate > b.publishedDate ? -1 : 1));
-        jobs.forEach((job) => {
-          job.experienceLevel = this.findExperienceLevel(job);
-          job.keywords = this.getJobKeywords(job);
-          job.educationTerms = this.getJobEducationTerms(job);
-          job.educationalLevelTerms = this.getJobEducationalLevelTerms(job);
-          job.languages = this.getJobLanguages(job);
-        });
+  constructor() {}
 
-        this.originalJobs = jobs;
-        this._jobs$.next(jobs);
-      });
+  setJobs(jobs: Job[]): void {
+    this._jobs$.next(jobs);
   }
 
   getJobsByState(state: string): Observable<Job[]> {
@@ -164,27 +146,6 @@ export class JobService {
     return minDate;
   }
 
-  findExperienceLevel(job: Job): ExperienceLevels {
-    if (internLevelRelatedTypes.includes(job.type))
-      return ExperienceLevels.intern;
-
-    if (traineeLevelRelatedTypes.includes(job.type))
-      return ExperienceLevels.trainee;
-
-    if (juniorLevelRelatedTypes.includes(job.type))
-      return ExperienceLevels.junior;
-
-    const experienceLevelInTitle = this.matchExperienceLevelTerms(job.name);
-    if (experienceLevelInTitle) return experienceLevelInTitle;
-
-    const experienceLevelInDescription = this.matchExperienceLevelTerms(
-      job.description
-    );
-    if (experienceLevelInDescription) return experienceLevelInDescription;
-
-    return ExperienceLevels.unknown;
-  }
-
   getJobsByDisabilityStatus(
     disabilityStatus: DisabilityStatuses
   ): Observable<Job[]> {
@@ -195,53 +156,6 @@ export class JobService {
         return jobs.filter((job) => job.disabilities == shouldFilterPCD);
       })
     );
-  }
-
-  getJobKeywords(job: Job): string[] {
-    const jobKeywords: string[] = [];
-
-    //TODO: Consider replace replaceAll with Regex
-    const splittedTitle = job.name
-      .replaceAll('/', ' ')
-      .replaceAll(',', ' ')
-      .replaceAll('(', ' ')
-      .replaceAll(')', ' ')
-      .replaceAll(';', ' ')
-      .split(' ')
-      .map((substring) => substring.toLowerCase());
-
-    splittedTitle.forEach((substring: string) => {
-      if (keywords[substring]) jobKeywords.push(keywords[substring]);
-    });
-
-    const splittedDescription = job.description
-      .replaceAll('/', ' ')
-      .replaceAll(',', ' ')
-      .replaceAll('(', ' ')
-      .replaceAll(')', ' ')
-      .replaceAll(';', ' ')
-      .split(' ')
-      .map((substring) => substring.toLowerCase());
-
-    splittedDescription.forEach((substring: string) => {
-      if (keywords[substring]) jobKeywords.push(keywords[substring]);
-    });
-
-    return this.getUniqueStrings(jobKeywords);
-  }
-
-  getJobEducationTerms(job: Job): string[] {
-    const jobDescription = this.removeAccents(job.description.toLowerCase());
-    return educationRelatedTerms
-      .filter((term) => jobDescription.includes(term.termForMatching))
-      .map((term) => term.termForListing);
-  }
-
-  getJobEducationalLevelTerms(job: Job): string[] {
-    const jobDescription = this.removeAccents(job.description.toLowerCase());
-    return educationalLevelTerms
-      .filter((term) => jobDescription.includes(term.termForMatching))
-      .map((term) => term.termForListing);
   }
 
   getJobsByEducationTerms(educationTerm: string): Observable<Job[]> {
@@ -270,13 +184,6 @@ export class JobService {
     );
   }
 
-  getJobLanguages(job: Job): string[] {
-    const jobDescription = this.removeAccents(job.description.toLowerCase());
-    return languageRelatedTerms
-      .filter((term) => jobDescription.includes(term.termForMatching))
-      .map((term) => term.termForListing);
-  }
-
   getJobsByLanguage(language: string): Observable<Job[]> {
     return this.jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
@@ -286,51 +193,5 @@ export class JobService {
         return jobs.filter((job) => job.languages.includes(language));
       })
     );
-  }
-
-  private removeAccents(string: string) {
-    //TODO Understand how it works
-    return string.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-  }
-
-  private getUniqueStrings(strings: string[]): string[] {
-    const uniqueSet = new Set(strings);
-    const uniqueArray = Array.from(uniqueSet);
-    return uniqueArray;
-  }
-
-  private matchExperienceLevelTerms(
-    content: string
-  ): ExperienceLevels | undefined {
-    const splittedContent = content
-      .split(' ')
-      .map((word) => word.toLowerCase());
-
-    const hasSeniorLevelRelatedTerms = seniorLevelRelatedTerms.some((term) =>
-      splittedContent.includes(term)
-    );
-    if (hasSeniorLevelRelatedTerms) return ExperienceLevels.senior;
-
-    const hasMidLevelRelatedTerms = midLevelRelatedTerms.some((term) =>
-      splittedContent.includes(term)
-    );
-    if (hasMidLevelRelatedTerms) return ExperienceLevels.mid;
-
-    const hasJuniorLevelRelatedTerms = juniorLevelRelatedTerms.some((term) =>
-      splittedContent.includes(term)
-    );
-    if (hasJuniorLevelRelatedTerms) return ExperienceLevels.junior;
-
-    const hasTraineeLevelRelatedTerms = traineeLevelRelatedTerms.some((term) =>
-      splittedContent.includes(term)
-    );
-    if (hasTraineeLevelRelatedTerms) return ExperienceLevels.intern;
-
-    const hasInternLevelRelatedTerms = internLevelRelatedTerms.some((term) =>
-      splittedContent.includes(term)
-    );
-    if (hasInternLevelRelatedTerms) return ExperienceLevels.intern;
-
-    return undefined;
   }
 }

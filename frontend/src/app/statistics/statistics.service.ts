@@ -223,7 +223,7 @@ export class StatisticsService {
         const experienceLevelsMap = new Map<string, number>();
 
         jobs.forEach((job) => {
-          const experienceLevel = this.jobService.findExperienceLevel(job);
+          const experienceLevel = job.experienceLevel;
 
           const currentExperienceLevelCount =
             experienceLevelsMap.get(experienceLevel) || 0;

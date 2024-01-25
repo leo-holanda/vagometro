@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './shared/header/header.component';
 import { CountdownComponent } from './shared/countdown/countdown.component';
-import { BehaviorSubject, delay, map, timer } from 'rxjs';
+import { JobService } from './job/job.service';
+import { GupyService } from './gupy/gupy.service';
 
 @Component({
   selector: 'vgm-root',
@@ -15,7 +16,14 @@ import { BehaviorSubject, delay, map, timer } from 'rxjs';
 export class AppComponent {
   shouldShowAlert = true;
 
-  constructor() {
+  constructor(
+    private jobService: JobService,
+    private gupyService: GupyService
+  ) {
+    this.gupyService.jobs$.subscribe((jobs) => {
+      this.jobService.setJobs(jobs);
+    });
+
     setTimeout(() => {
       this.shouldShowAlert = false;
     }, 8000);

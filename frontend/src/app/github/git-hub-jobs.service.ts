@@ -4,8 +4,10 @@ import { GitHubJob } from './git-hub-jobs.types';
 import { environment } from 'src/environments/environment';
 import { Observable, first, map } from 'rxjs';
 import {
+  ContractTypes,
   Job,
   WorkplaceTypes,
+  contractTypeRelatedTerms,
   workplaceTypeRelatedTerms,
 } from '../job/job.types';
 import { ExperienceLevels } from '../statistics/ranks/experience-levels-rank/experience-levels-rank.model';
@@ -63,7 +65,7 @@ export class GitHubJobsService {
       description: githubJob.body,
       id: githubJob.id,
       publishedDate: githubJob.created_at,
-      contractType: '',
+      contractType: this.findContractTypesCitedInJob(githubJob)[0],
       experienceLevel: this.findJobExperienceLevel(githubJob),
       keywords: this.findJobKeywords(githubJob),
       educationTerms: this.findCitedCoursesInJob(githubJob),
@@ -271,6 +273,28 @@ export class GitHubJobsService {
     }
 
     return [];
+  }
+
+  private findContractTypesCitedInJob(job: GitHubJob): string[] {
+    const matchedContractTypes: ContractTypes[] = [];
+
+    job.labels.forEach((label) => {
+      const labelContent = this.removeAccents(label).toLowerCase();
+      const matchedContractType = contractTypeRelatedTerms[labelContent];
+      if (matchedContractType) matchedContractTypes.push(matchedContractType);
+    });
+
+    Object.keys(contractTypeRelatedTerms).forEach((term) => {
+      const titleHasTerm = this.removeAccents(job.title)
+        .toLowerCase()
+        .includes(term);
+
+      if (titleHasTerm)
+        matchedContractTypes.push(contractTypeRelatedTerms[term]);
+    });
+
+    if (matchedContractTypes.length == 0) return [ContractTypes.unknown];
+    return this.getUniqueStrings(matchedContractTypes) as ContractTypes[];
   }
 
   private removeAccents(string: string) {

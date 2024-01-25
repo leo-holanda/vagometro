@@ -7,8 +7,21 @@ export enum WorkplaceTypes {
   unknown = 'Desconhecido',
 }
 
+export enum ContractTypes {
+  CLT = 'CLT',
+  PJ = 'PJ',
+  intern = 'Estágio',
+  freelance = 'Freelance',
+  allocated = 'Alocado',
+  unknown = 'Desconhecido',
+}
+
 interface workplaceTypeRelatedTerms {
   [key: string]: WorkplaceTypes;
+}
+
+interface contractTypesRelatedTerms {
+  [key: string]: ContractTypes;
 }
 
 export const workplaceTypeRelatedTerms: workplaceTypeRelatedTerms = {
@@ -18,6 +31,16 @@ export const workplaceTypeRelatedTerms: workplaceTypeRelatedTerms = {
   'home office': WorkplaceTypes.remote,
   remote: WorkplaceTypes.remote,
   remota: WorkplaceTypes.remote,
+};
+
+export const contractTypeRelatedTerms: contractTypesRelatedTerms = {
+  clt: ContractTypes.CLT,
+  pj: ContractTypes.PJ,
+  alocado: ContractTypes.allocated,
+  freelance: ContractTypes.freelance,
+  freela: ContractTypes.freelance,
+  estagio: ContractTypes.intern,
+  estagiario: ContractTypes.intern,
 };
 
 export type Job = {

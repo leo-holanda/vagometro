@@ -1,11 +1,24 @@
 import { ExperienceLevels } from '../statistics/ranks/experience-levels-rank/experience-levels-rank.model';
 
 export enum WorkplaceTypes {
-  remote = 'remote',
-  hybrid = 'hybrid',
-  'on-site' = 'on-site',
-  unknown = 'unknown',
+  remote = 'Remoto',
+  hybrid = 'Híbrido',
+  'on-site' = 'Presencial',
+  unknown = 'Desconhecido',
 }
+
+interface workplaceTypeRelatedTerms {
+  [key: string]: WorkplaceTypes;
+}
+
+export const workplaceTypeRelatedTerms: workplaceTypeRelatedTerms = {
+  remoto: WorkplaceTypes.remote,
+  hibrido: WorkplaceTypes.hybrid,
+  presencial: WorkplaceTypes['on-site'],
+  'home office': WorkplaceTypes.remote,
+  remote: WorkplaceTypes.remote,
+  remota: WorkplaceTypes.remote,
+};
 
 export type Job = {
   id: number;

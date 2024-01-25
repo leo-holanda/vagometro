@@ -5,6 +5,7 @@ import { HeaderComponent } from './shared/header/header.component';
 import { CountdownComponent } from './shared/countdown/countdown.component';
 import { JobService } from './job/job.service';
 import { GupyService } from './gupy/gupy.service';
+import { GitHubJobsService } from './github/git-hub-jobs.service';
 
 @Component({
   selector: 'vgm-root',
@@ -18,9 +19,9 @@ export class AppComponent {
 
   constructor(
     private jobService: JobService,
-    private gupyService: GupyService
+    private githubJobsService: GitHubJobsService
   ) {
-    this.gupyService.jobs$.subscribe((jobs) => {
+    this.githubJobsService.jobs$.subscribe((jobs) => {
       this.jobService.setJobs(jobs);
     });
 

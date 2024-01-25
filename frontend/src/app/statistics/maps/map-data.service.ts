@@ -10,12 +10,18 @@ import { StatesData } from './brazil-map/brazil-map.model';
   providedIn: 'root',
 })
 export class MapDataService {
-  mapGeoJson!: any;
+  mapGeoJson!: any; //TODO: Set the correct type
 
   constructor(private jobService: JobService) {
     this.mapGeoJson = topojson.feature(
       brazilTopoJson as unknown as TopoJSON.Topology,
       brazilTopoJson.objects.uf as unknown as TopoJSON.GeometryCollection
+    );
+  }
+
+  getCitiesNames(): string[] {
+    return this.mapGeoJson.features.map(
+      (feature: any) => feature.properties.name
     );
   }
 

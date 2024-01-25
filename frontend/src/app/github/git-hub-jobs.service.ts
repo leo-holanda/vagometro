@@ -22,6 +22,7 @@ import {
   educationRelatedTerms,
   educationalLevelTerms,
 } from '../statistics/ranks/education-rank/education-rank.data';
+import { languageRelatedTerms } from '../statistics/ranks/languages-rank/languages-rank.data';
 
 @Injectable({
   providedIn: 'root',
@@ -261,6 +262,14 @@ export class GitHubJobsService {
   }
 
   private findLanguagesCitedInJob(githubJob: GitHubJob): string[] {
+    if (githubJob.body) {
+      const jobDescription = this.removeAccents(githubJob.body).toLowerCase();
+
+      return languageRelatedTerms
+        .filter((term) => jobDescription.includes(term.termForMatching))
+        .map((term) => term.termForListing);
+    }
+
     return [];
   }
 

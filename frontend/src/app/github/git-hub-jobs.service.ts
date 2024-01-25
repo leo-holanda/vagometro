@@ -17,6 +17,7 @@ import {
   traineeLevelRelatedTerms,
   internLevelRelatedTerms,
 } from '../statistics/ranks/experience-levels-rank/experience-levels-rank.data';
+import { keywords } from '../statistics/ranks/keywords-rank/keywords-rank.data';
 
 @Injectable({
   providedIn: 'root',
@@ -193,7 +194,41 @@ export class GitHubJobsService {
   }
 
   private findJobKeywords(githubJob: GitHubJob): string[] {
-    return [];
+    const jobKeywords: string[] = [];
+
+    //TODO: Apparently there are some jobs without title or body. Investigate this.
+    //TODO: Consider replace replaceAll with Regex
+    if (githubJob.title) {
+      const splittedTitle = githubJob.title
+        .replaceAll('/', ' ')
+        .replaceAll(',', ' ')
+        .replaceAll('(', ' ')
+        .replaceAll(')', ' ')
+        .replaceAll(';', ' ')
+        .split(' ')
+        .map((substring) => substring.toLowerCase());
+
+      splittedTitle.forEach((substring: string) => {
+        if (keywords[substring]) jobKeywords.push(keywords[substring]);
+      });
+    }
+
+    if (githubJob.body) {
+      const splittedDescription = githubJob.body
+        .replaceAll('/', ' ')
+        .replaceAll(',', ' ')
+        .replaceAll('(', ' ')
+        .replaceAll(')', ' ')
+        .replaceAll(';', ' ')
+        .split(' ')
+        .map((substring) => substring.toLowerCase());
+
+      splittedDescription.forEach((substring: string) => {
+        if (keywords[substring]) jobKeywords.push(keywords[substring]);
+      });
+    }
+
+    return this.getUniqueStrings(jobKeywords);
   }
 
   private findCitedCoursesInJob(githubJob: GitHubJob): string[] {

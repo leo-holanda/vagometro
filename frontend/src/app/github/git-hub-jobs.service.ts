@@ -61,7 +61,7 @@ export class GitHubJobsService {
       state: '',
       city: '',
       isOpenToPCD: false,
-      companyName: '',
+      companyName: 'Desconhecido',
       description: githubJob.body,
       id: githubJob.id,
       publishedDate: githubJob.created_at,

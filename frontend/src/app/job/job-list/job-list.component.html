@@ -263,15 +263,21 @@
       >
         <header class="card-title flex flex-col items-start pt-4 px-4">
           <div>
-            <h1>{{ job.name }}</h1>
+            <h1>{{ job.title }}</h1>
 
             <div class="flex items-center gap-2">
               <i class="bx bxs-business"></i>
+
               <a
+                *ngIf="job.companyUrl; else jobWithoutCompanyUrlTemplate"
                 class="text-slate-300 text-sm link"
-                [href]="job.careerPageUrl"
-                >{{ job.careerPageName }}</a
+                [href]="job.companyUrl"
+                >{{ job.companyName }}</a
               >
+
+              <ng-template #jobWithoutCompanyUrlTemplate>
+                <a class="text-slate-300 text-sm">{{ job.companyName }}</a>
+              </ng-template>
             </div>
           </div>
         </header>
@@ -319,7 +325,7 @@
               </div>
 
               <span class="font-bold">
-                {{ typeTranslations[job.type] | titlecase }}
+                {{ job.contractType }}
               </span>
             </div>
 

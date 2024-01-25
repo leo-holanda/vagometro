@@ -5,6 +5,7 @@ import {
   provideRouter,
   withInMemoryScrolling,
 } from '@angular/router';
+import { provideHttpClient } from '@angular/common/http';
 
 import { routes } from './app.routes';
 
@@ -18,5 +19,8 @@ const inMemoryScrollingFeature: InMemoryScrollingFeature =
   withInMemoryScrolling(scrollConfig);
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes, inMemoryScrollingFeature)],
+  providers: [
+    provideRouter(routes, inMemoryScrollingFeature),
+    provideHttpClient(),
+  ],
 };

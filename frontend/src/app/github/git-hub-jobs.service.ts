@@ -30,7 +30,8 @@ import { languageRelatedTerms } from '../statistics/ranks/languages-rank/languag
   providedIn: 'root',
 })
 export class GitHubJobsService {
-  jobs$: Observable<Job[]>;
+  frontendJobs$: Observable<Job[]>;
+  backendJobs$: Observable<Job[]>;
 
   private citiesNames: string[];
 
@@ -38,17 +39,23 @@ export class GitHubJobsService {
     private httpClient: HttpClient,
     private mapDataService: MapDataService
   ) {
-    this.jobs$ = this.getJobsObservable();
+    //https://github.com/frontendbr/vagas/issues
+    this.frontendJobs$ = this.getJobsObservable('frontend');
+    //https://github.com/backend-br/vagas/issues
+    this.backendJobs$ = this.getJobsObservable('backend');
+
     this.citiesNames = this.mapDataService
       .getCitiesNames()
       .map((cityName) => this.removeAccents(cityName).toLowerCase());
   }
 
-  getJobsObservable(): Observable<Job[]> {
-    return this.httpClient.get<GitHubJob[]>(environment.GITHUB_WORKER_URL).pipe(
-      first(),
-      map((jobs) => jobs.map((job) => this.mapToJob(job)))
-    );
+  getJobsObservable(type: 'frontend' | 'backend'): Observable<Job[]> {
+    return this.httpClient
+      .get<GitHubJob[]>(`${environment.GITHUB_WORKER_URL}/${type}`)
+      .pipe(
+        first(),
+        map((jobs) => jobs.map((job) => this.mapToJob(job)))
+      );
   }
 
   private mapToJob(githubJob: GitHubJob): Job {

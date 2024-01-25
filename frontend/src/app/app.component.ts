@@ -21,7 +21,7 @@ export class AppComponent {
     private jobService: JobService,
     private githubJobsService: GitHubJobsService
   ) {
-    this.githubJobsService.jobs$.subscribe((jobs) => {
+    this.githubJobsService.frontendJobs$.subscribe((jobs) => {
       this.jobService.setJobs(jobs);
     });
 

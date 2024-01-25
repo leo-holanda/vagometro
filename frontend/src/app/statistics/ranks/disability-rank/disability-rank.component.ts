@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DisabilityData } from './disability-rank.model';
 import { Observable, map } from 'rxjs';
-import { Job } from 'src/app/job/job.model';
+import { Job } from 'src/app/job/job.types';
 import { StatisticsService } from '../../statistics.service';
 import { trackByDisabilityStatus } from 'src/app/shared/track-by-functions';
 

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { JobService } from 'src/app/job/job.service';
 import { Observable } from 'rxjs';
-import { Job } from 'src/app/job/job.model';
+import { Job } from 'src/app/job/job.types';
 import { BrazilMapComponent } from '../../maps/brazil-map/brazil-map.component';
 import { CitiesRankComponent } from '../../ranks/cities-rank/cities-rank.component';
 import { CityData, StateData } from '../../ranks/cities-rank/cities-rank.model';

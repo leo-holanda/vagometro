@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { JobService } from 'src/app/job/job.service';
-import { TimeWindows } from 'src/app/job/job.model';
+import { TimeWindows } from 'src/app/job/job.types';
 import { Observable } from 'rxjs';
 import { WindowResolutionObserverService } from '../window-resolution-observer.service';
 

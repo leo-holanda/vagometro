@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, combineLatest, filter, map } from 'rxjs';
 import { JobService } from 'src/app/job/job.service';
-import { Job, TimeWindows } from 'src/app/job/job.model';
+import { Job, TimeWindows } from 'src/app/job/job.types';
 
 @Injectable({
   providedIn: 'root',

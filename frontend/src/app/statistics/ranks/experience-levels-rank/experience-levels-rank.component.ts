@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable, map } from 'rxjs';
-import { Job } from 'src/app/job/job.model';
+import { Job } from 'src/app/job/job.types';
 import { StatisticsService } from '../../statistics.service';
 import { CompanyData } from '../companies-rank/companies-rank.model';
 import { ExperienceLevelData } from './experience-levels-rank.model';

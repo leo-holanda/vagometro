@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CompanyData } from '../../ranks/companies-rank/companies-rank.model';
 import { Observable } from 'rxjs';
-import { Job } from 'src/app/job/job.model';
+import { Job } from 'src/app/job/job.types';
 import { JobService } from 'src/app/job/job.service';
 import { StatisticsService } from '../../statistics.service';
 import { WorkplaceRankComponent } from '../../ranks/workplace-rank/workplace-rank.component';

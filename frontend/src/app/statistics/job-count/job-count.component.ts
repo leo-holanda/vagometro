@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 import { StatisticsService } from '../statistics.service';
 import { JobService } from 'src/app/job/job.service';
-import { TimeWindows } from 'src/app/job/job.model';
+import { TimeWindows } from 'src/app/job/job.types';
 
 @Component({
   selector: 'vgm-job-count',

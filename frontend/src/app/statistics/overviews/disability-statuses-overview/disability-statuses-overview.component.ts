@@ -5,7 +5,7 @@ import {
   DisabilityStatuses,
 } from '../../ranks/disability-rank/disability-rank.model';
 import { Observable } from 'rxjs';
-import { Job } from 'src/app/job/job.model';
+import { Job } from 'src/app/job/job.types';
 import { JobService } from 'src/app/job/job.service';
 import { StatisticsService } from '../../statistics.service';
 import { CompaniesRankComponent } from '../../ranks/companies-rank/companies-rank.component';

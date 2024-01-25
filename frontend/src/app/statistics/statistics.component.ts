@@ -11,7 +11,7 @@ import { RouterModule } from '@angular/router';
 import { JobListComponent } from '../job/job-list/job-list.component';
 import { JobService } from '../job/job.service';
 import { Observable } from 'rxjs';
-import { Job } from '../job/job.model';
+import { Job } from '../job/job.types';
 import { ExperienceLevelsRankComponent } from './ranks/experience-levels-rank/experience-levels-rank.component';
 import { DisabilityRankComponent } from './ranks/disability-rank/disability-rank.component';
 import { EducationRankComponent } from './ranks/education-rank/education-rank.component';

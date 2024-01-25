@@ -1,4 +1,4 @@
-import { Job } from '../job/job.model';
+import { Job } from '../job/job.types';
 import {
   CityData,
   StateData,

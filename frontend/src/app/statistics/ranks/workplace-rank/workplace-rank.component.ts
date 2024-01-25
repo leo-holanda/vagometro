@@ -9,7 +9,7 @@ import { CommonModule, TitleCasePipe } from '@angular/common';
 import { StatisticsService } from '../../statistics.service';
 import { WorkplaceData } from './workplace-rank.model';
 import { Observable } from 'rxjs';
-import { Job } from 'src/app/job/job.model';
+import { Job } from 'src/app/job/job.types';
 import { trackByWorkplace } from 'src/app/shared/track-by-functions';
 
 @Component({

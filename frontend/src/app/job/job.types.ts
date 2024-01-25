@@ -4,7 +4,6 @@ export type Job = {
   careerPageUrl: string;
   jobUrl: string;
   isRemoteWork: boolean;
-  companyId: number;
   partition_key: number;
   workplaceType: string;
   sort_key: string;
@@ -13,10 +12,6 @@ export type Job = {
   state: string;
   city: string;
   disabilities: boolean;
-  careerPageId: number;
-  applicationDeadline: string;
-  badges: Badges;
-  careerPageLogo: string;
   careerPageName: string;
   description: string;
   id: number;
@@ -28,10 +23,6 @@ export type Job = {
   educationTerms: string[];
   educationalLevelTerms: string[];
   languages: string[];
-};
-
-export type Badges = {
-  friendlyBadge: boolean;
 };
 
 export enum TimeWindows {

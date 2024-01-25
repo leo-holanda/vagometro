@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
 import { Observable, map } from 'rxjs';
 import { CompanyData } from './companies-rank.model';
 import { StatisticsService } from '../../statistics.service';
-import { Job } from 'src/app/job/job.model';
+import { Job } from 'src/app/job/job.types';
 import { trackByCompany } from 'src/app/shared/track-by-functions';
 
 @Component({

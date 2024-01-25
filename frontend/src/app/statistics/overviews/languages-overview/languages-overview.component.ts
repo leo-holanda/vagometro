@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { trackByLanguage } from 'src/app/shared/track-by-functions';
 import { Observable } from 'rxjs';
-import { Job } from 'src/app/job/job.model';
+import { Job } from 'src/app/job/job.types';
 import { JobService } from 'src/app/job/job.service';
 import { TypeData } from '../../ranks/type-rank/type-rank.model';
 import { StatisticsService } from '../../statistics.service';

@@ -4,7 +4,7 @@ import { StatisticsService } from '../../statistics.service';
 import { CityData } from './cities-rank.model';
 import { Observable, map } from 'rxjs';
 import { RouterModule } from '@angular/router';
-import { Job } from 'src/app/job/job.model';
+import { Job } from 'src/app/job/job.types';
 import { StateAbbreviationPipe } from '../../../shared/pipes/state-abbreviation.pipe';
 import { trackByCity } from 'src/app/shared/track-by-functions';
 

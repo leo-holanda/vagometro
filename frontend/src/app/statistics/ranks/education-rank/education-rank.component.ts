@@ -2,7 +2,7 @@ import { Component, Input, OnChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StatisticsService } from '../../statistics.service';
 import { Observable, map } from 'rxjs';
-import { Job } from 'src/app/job/job.model';
+import { Job } from 'src/app/job/job.types';
 import { EducationData } from './education-rank.types';
 import { trackByEducationStatus } from 'src/app/shared/track-by-functions';
 

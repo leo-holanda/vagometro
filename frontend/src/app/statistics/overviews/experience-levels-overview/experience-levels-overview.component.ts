@@ -5,7 +5,7 @@ import {
   ExperienceLevels,
 } from '../../ranks/experience-levels-rank/experience-levels-rank.model';
 import { Observable } from 'rxjs';
-import { Job } from 'src/app/job/job.model';
+import { Job } from 'src/app/job/job.types';
 import { JobService } from 'src/app/job/job.service';
 import { StatisticsService } from '../../statistics.service';
 import { PublicationChartComponent } from '../../charts/publication-chart/publication-chart.component';

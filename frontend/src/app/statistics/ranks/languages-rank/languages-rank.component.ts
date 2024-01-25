@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Observable, map } from 'rxjs';
 import { LanguageData } from './languages-rank.types';
 import { trackByLanguage } from 'src/app/shared/track-by-functions';
-import { Job } from 'src/app/job/job.model';
+import { Job } from 'src/app/job/job.types';
 import { StatisticsService } from '../../statistics.service';
 
 @Component({

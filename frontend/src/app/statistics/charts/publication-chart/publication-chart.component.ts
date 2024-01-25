@@ -11,7 +11,7 @@ import * as echarts from 'echarts';
 import { PublicationSeries } from './publication-chart.model';
 import { Observable, debounceTime, first, fromEvent, map } from 'rxjs';
 import { ChartService } from '../chart.service';
-import { Job } from 'src/app/job/job.model';
+import { Job } from 'src/app/job/job.types';
 
 @Component({
   selector: 'vgm-publication-chart',

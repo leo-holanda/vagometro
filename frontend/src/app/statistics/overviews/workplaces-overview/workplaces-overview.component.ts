@@ -4,7 +4,7 @@ import { JobService } from 'src/app/job/job.service';
 import { WorkplacesChartComponent } from '../../charts/workplaces-chart/workplaces-chart.component';
 import { CompaniesRankComponent } from '../../ranks/companies-rank/companies-rank.component';
 import { Observable } from 'rxjs';
-import { Job } from 'src/app/job/job.model';
+import { Job } from 'src/app/job/job.types';
 import { KeywordsRankComponent } from '../../ranks/keywords-rank/keywords-rank.component';
 import { TypeRankComponent } from '../../ranks/type-rank/type-rank.component';
 import { StatisticsService } from '../../statistics.service';

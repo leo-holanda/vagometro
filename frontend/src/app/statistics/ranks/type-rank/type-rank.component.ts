@@ -10,7 +10,7 @@ import { StatisticsService } from '../../statistics.service';
 import { TypeData } from './type-rank.model';
 import { Observable, map } from 'rxjs';
 import { translations } from './type-rank.translations';
-import { Job } from 'src/app/job/job.model';
+import { Job } from 'src/app/job/job.types';
 import { trackByType } from 'src/app/shared/track-by-functions';
 
 @Component({

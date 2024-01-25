@@ -5,7 +5,7 @@ import { CityData, StateData } from './ranks/cities-rank/cities-rank.model';
 import { WorkplaceData } from './ranks/workplace-rank/workplace-rank.model';
 import { TypeData } from './ranks/type-rank/type-rank.model';
 import { CompanyData } from './ranks/companies-rank/companies-rank.model';
-import { Job } from '../job/job.model';
+import { Job } from '../job/job.types';
 import { KeywordData } from './ranks/keywords-rank/keywords-rank.model';
 import { keywords } from './ranks/keywords-rank/keywords-rank.data';
 import {

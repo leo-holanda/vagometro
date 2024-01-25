@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, filter, map } from 'rxjs';
-import { Job } from 'src/app/job/job.model';
+import { Job } from 'src/app/job/job.types';
 import { JobService } from 'src/app/job/job.service';
 import * as topojson from 'topojson-client';
 import brazilTopoJson from '../../../assets/brazil.json';

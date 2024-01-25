@@ -80,7 +80,7 @@ export class JobService {
     return this.jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
-        return jobs.filter((job) => job.careerPageName == companyName);
+        return jobs.filter((job) => job.companyName == companyName);
       })
     );
   }
@@ -89,7 +89,7 @@ export class JobService {
     return this.jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
-        return jobs.filter((job) => job.type == typeName);
+        return jobs.filter((job) => job.contractType == typeName);
       })
     );
   }
@@ -153,7 +153,7 @@ export class JobService {
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
         const shouldFilterPCD = disabilityStatus == DisabilityStatuses.PCD;
-        return jobs.filter((job) => job.disabilities == shouldFilterPCD);
+        return jobs.filter((job) => job.isOpenToPCD == shouldFilterPCD);
       })
     );
   }

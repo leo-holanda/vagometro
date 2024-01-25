@@ -100,14 +100,14 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
 
       if (this.filters.jobTitle) {
         this.filteredJobs = this.filteredJobs.filter((job) =>
-          job.name.toLowerCase().includes(this.filters.jobTitle.toLowerCase())
+          job.title.toLowerCase().includes(this.filters.jobTitle.toLowerCase())
         );
       }
 
       if (this.filters.companyName) {
         const filterCompanyName = this.filters.companyName.toLowerCase();
         this.filteredJobs = this.filteredJobs.filter((job) =>
-          job.careerPageName.toLowerCase().includes(filterCompanyName)
+          job.companyName.toLowerCase().includes(filterCompanyName)
         );
       }
 
@@ -137,7 +137,7 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
 
       if (this.filters.jobType) {
         this.filteredJobs = this.filteredJobs.filter(
-          (job) => job.type == this.filters.jobType
+          (job) => job.contractType == this.filters.jobType
         );
       }
 
@@ -156,7 +156,7 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
       if (this.filters.acceptsDisabledPersons != 'undefined') {
         this.filteredJobs = this.filteredJobs.filter((job) => {
           return (
-            job.disabilities ==
+            job.isOpenToPCD ==
             this.stringToBooleanMap[this.filters.acceptsDisabledPersons]
           );
         });

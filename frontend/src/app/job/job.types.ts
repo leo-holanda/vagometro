@@ -1,23 +1,26 @@
 import { ExperienceLevels } from '../statistics/ranks/experience-levels-rank/experience-levels-rank.model';
 
+export enum WorkplaceTypes {
+  remote = 'remote',
+  hybrid = 'hybrid',
+  'on-site' = 'on-site',
+  unknown = 'unknown',
+}
+
 export type Job = {
-  careerPageUrl: string;
+  id: number;
+  companyUrl: string;
+  companyName: string;
+  title: string;
+  description: string;
   jobUrl: string;
-  isRemoteWork: boolean;
-  partition_key: number;
-  workplaceType: string;
-  sort_key: string;
+  workplaceType: WorkplaceTypes;
   country: string;
-  name: string;
   state: string;
   city: string;
-  disabilities: boolean;
-  careerPageName: string;
-  description: string;
-  id: number;
+  isOpenToPCD: boolean;
   publishedDate: string;
-  type: string;
-  //Attributes below were added by me
+  contractType: string;
   experienceLevel: ExperienceLevels;
   keywords: string[];
   educationTerms: string[];

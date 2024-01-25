@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { DynamoService } from '../dynamo/dynamo.service';
 import { GupyJob } from './gupy.types';
 import { Observable, last, map, share } from 'rxjs';
-import { Job } from '../job/job.types';
+import { Job, WorkplaceTypes } from '../job/job.types';
 import { ExperienceLevels } from '../statistics/ranks/experience-levels-rank/experience-levels-rank.model';
 import {
   internLevelRelatedTypes,
@@ -48,28 +48,33 @@ export class GupyService {
 
   private mapToJob(gupyJob: GupyJob): Job {
     return {
-      careerPageUrl: gupyJob.careerPageUrl,
+      companyUrl: gupyJob.careerPageUrl,
       jobUrl: gupyJob.jobUrl,
-      isRemoteWork: gupyJob.isRemoteWork,
-      partition_key: gupyJob.partition_key,
-      workplaceType: gupyJob.workplaceType,
-      sort_key: gupyJob.sort_key,
+      workplaceType: this.getJobWorkplaceType(gupyJob),
       country: gupyJob.country,
-      name: gupyJob.name,
+      title: gupyJob.name,
       state: gupyJob.state,
       city: gupyJob.city,
-      disabilities: gupyJob.disabilities,
-      careerPageName: gupyJob.careerPageName,
+      isOpenToPCD: gupyJob.disabilities,
+      companyName: gupyJob.careerPageName,
       description: gupyJob.description,
       id: gupyJob.id,
       publishedDate: gupyJob.publishedDate,
-      type: gupyJob.type,
+      contractType: gupyJob.type,
       experienceLevel: this.findExperienceLevel(gupyJob),
       keywords: this.getJobKeywords(gupyJob),
       educationTerms: this.getJobEducationTerms(gupyJob),
       educationalLevelTerms: this.getJobEducationalLevelTerms(gupyJob),
       languages: this.getJobLanguages(gupyJob),
     };
+  }
+
+  private getJobWorkplaceType(gupyJob: GupyJob): WorkplaceTypes {
+    if (gupyJob.workplaceType == 'remote') return WorkplaceTypes.remote;
+    if (gupyJob.workplaceType == 'on-site') return WorkplaceTypes['on-site'];
+    if (gupyJob.workplaceType == 'hybrid') return WorkplaceTypes.hybrid;
+
+    return WorkplaceTypes.unknown;
   }
 
   private getJobLanguages(gupyJob: GupyJob): string[] {
@@ -81,7 +86,7 @@ export class GupyService {
       .map((term) => term.termForListing);
   }
 
-  private findExperienceLevel(gupyJob: Job): ExperienceLevels {
+  private findExperienceLevel(gupyJob: GupyJob): ExperienceLevels {
     if (internLevelRelatedTypes.includes(gupyJob.type))
       return ExperienceLevels.intern;
 
@@ -170,14 +175,14 @@ export class GupyService {
     return this.getUniqueStrings(jobKeywords);
   }
 
-  private getJobEducationTerms(job: Job): string[] {
+  private getJobEducationTerms(job: GupyJob): string[] {
     const jobDescription = this.removeAccents(job.description.toLowerCase());
     return educationRelatedTerms
       .filter((term) => jobDescription.includes(term.termForMatching))
       .map((term) => term.termForListing);
   }
 
-  private getJobEducationalLevelTerms(job: Job): string[] {
+  private getJobEducationalLevelTerms(job: GupyJob): string[] {
     const jobDescription = this.removeAccents(job.description.toLowerCase());
     return educationalLevelTerms
       .filter((term) => jobDescription.includes(term.termForMatching))

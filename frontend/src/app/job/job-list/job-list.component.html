@@ -9,7 +9,7 @@
           <button
             (mouseenter)="sortIconShowMap.jobTitle = true"
             (mouseleave)="sortIconShowMap.jobTitle = false"
-            (click)="sortJobs('name')"
+            (click)="sortJobs('title')"
             class="btn btn-ghost rounded-b-none w-full flex items-center justify-between flex-nowrap"
           >
             <span>Título</span>
@@ -36,7 +36,7 @@
           <button
             (mouseenter)="sortIconShowMap.companyName = true"
             (mouseleave)="sortIconShowMap.companyName = false"
-            (click)="sortJobs('careerPageName')"
+            (click)="sortJobs('companyName')"
             class="btn btn-ghost rounded-b-none w-full flex items-center justify-between flex-nowrap"
           >
             <span>Empresa</span>
@@ -152,7 +152,7 @@
           <button
             (mouseenter)="sortIconShowMap.jobType = true"
             (mouseleave)="sortIconShowMap.jobType = false"
-            (click)="sortJobs('type')"
+            (click)="sortJobs('contractType')"
             class="btn btn-ghost rounded-b-none w-full flex items-center justify-between flex-nowrap"
           >
             <span>Tipo</span>
@@ -214,7 +214,7 @@
           <button
             (mouseenter)="sortIconShowMap.acceptsDisabledPersons = true"
             (mouseleave)="sortIconShowMap.acceptsDisabledPersons = false"
-            (click)="sortJobs('disabilities')"
+            (click)="sortJobs('isOpenToPCD')"
             class="btn btn-ghost rounded-b-none w-full flex items-center justify-between flex-nowrap"
           >
             <span>PCD</span>
@@ -356,7 +356,7 @@
               </div>
 
               <span class="font-bold">
-                {{ job.disabilities ? "Também para PCD" : "Não-PCD" }}
+                {{ job.isOpenToPCD ? "Também para PCD" : "Não-PCD" }}
               </span>
             </div>
 

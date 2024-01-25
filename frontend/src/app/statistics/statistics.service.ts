@@ -98,11 +98,6 @@ export class StatisticsService {
         const workplaceMap = new Map<string, number>();
 
         jobs.forEach((job) => {
-          if (job.workplaceType == '') return;
-          if (job.workplaceType == 'remote') job.workplaceType = 'remoto';
-          if (job.workplaceType == 'on-site') job.workplaceType = 'presencial';
-          if (job.workplaceType == 'hybrid') job.workplaceType = 'híbrido';
-
           const currentWorkplaceCount =
             workplaceMap.get(job.workplaceType) || 0;
           workplaceMap.set(job.workplaceType, currentWorkplaceCount + 1);
@@ -132,10 +127,10 @@ export class StatisticsService {
         const typeMap = new Map<string, number>();
 
         jobs.forEach((job) => {
-          if (job.type == '') return;
+          if (job.contractType == '') return;
 
-          const currentWorkplaceCount = typeMap.get(job.type) || 0;
-          typeMap.set(job.type, currentWorkplaceCount + 1);
+          const currentWorkplaceCount = typeMap.get(job.contractType) || 0;
+          typeMap.set(job.contractType, currentWorkplaceCount + 1);
         });
 
         const sortedEntries = Array.from(typeMap.entries()).sort(
@@ -162,10 +157,10 @@ export class StatisticsService {
         const companyMap = new Map<string, number>();
 
         jobs.forEach((job) => {
-          if (job.careerPageName == '') return;
+          if (job.companyName == '') return;
 
-          const currentCompanyCount = companyMap.get(job.careerPageName) || 0;
-          companyMap.set(job.careerPageName, currentCompanyCount + 1);
+          const currentCompanyCount = companyMap.get(job.companyName) || 0;
+          companyMap.set(job.companyName, currentCompanyCount + 1);
         });
 
         const sortedEntries = Array.from(companyMap.entries()).sort(
@@ -176,7 +171,7 @@ export class StatisticsService {
           name: key,
           count: value,
           link:
-            jobs.find((job) => job.careerPageName == key)?.careerPageUrl ||
+            jobs.find((job) => job.companyName == key)?.companyUrl ||
             'https://portal.gupy.io/en',
         }));
 
@@ -259,7 +254,7 @@ export class StatisticsService {
         const disabilitiesMap = new Map<DisabilityStatuses, number>();
 
         jobs.forEach((job) => {
-          const jobDisabilityStatus = job.disabilities
+          const jobDisabilityStatus = job.isOpenToPCD
             ? DisabilityStatuses.PCD
             : DisabilityStatuses.nonPCD;
 

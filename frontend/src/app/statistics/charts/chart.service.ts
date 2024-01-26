@@ -14,7 +14,8 @@ export class ChartService {
   ): Observable<any> {
     return combineLatest([jobs$, this.jobService.currentTimeWindow$]).pipe(
       filter(
-        (params): params is [Job[], TimeWindows] => params[0] != undefined
+        (params): params is [Job[], TimeWindows] =>
+          params[0] != undefined && params[0].length > 0
       ),
       map(([jobs, currentTimeWindow]) => {
         let minDate = this.jobService.createDateByTimeWindow(currentTimeWindow);

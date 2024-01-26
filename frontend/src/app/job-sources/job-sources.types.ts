@@ -14,6 +14,7 @@ export type JobSourceData = {
   isActive: boolean;
   isLoading: boolean;
   isLoaded: boolean;
+  hasFailedToLoad: boolean;
 };
 
 export type JobSourcesMap = Record<JobSources, JobSourceData>;
@@ -26,6 +27,7 @@ export const jobSourcesMap: JobSourcesMap = {
     isActive: false,
     isLoading: false,
     isLoaded: false,
+    hasFailedToLoad: false,
   },
   frontendbr: {
     name: 'frontendbr/vagas',
@@ -34,6 +36,7 @@ export const jobSourcesMap: JobSourcesMap = {
     isActive: false,
     isLoading: false,
     isLoaded: false,
+    hasFailedToLoad: false,
   },
   backendbr: {
     name: 'backend-br/vagas',
@@ -42,5 +45,6 @@ export const jobSourcesMap: JobSourcesMap = {
     isActive: false,
     isLoading: false,
     isLoaded: false,
+    hasFailedToLoad: false,
   },
 };

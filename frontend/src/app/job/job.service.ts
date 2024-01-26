@@ -95,9 +95,11 @@ export class JobService {
   filterJobsByTime(timeWindow: TimeWindows): void {
     this._currentTimeWindow$.next(timeWindow);
     let jobs = [...this.pristineJobs];
-    const minDate = this.createDateByTimeWindow(timeWindow);
-    jobs = jobs.filter((job) => new Date(job.publishedDate) > minDate);
-    this._jobs$.next(jobs);
+    if (jobs.length > 0) {
+      const minDate = this.createDateByTimeWindow(timeWindow);
+      jobs = jobs.filter((job) => new Date(job.publishedDate) > minDate);
+      this._jobs$.next(jobs);
+    }
   }
 
   createDateByTimeWindow(timeWindow: TimeWindows): Date {

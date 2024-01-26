@@ -4,6 +4,7 @@ import { JobService } from '../job/job.service';
 import { BehaviorSubject, combineLatest, first } from 'rxjs';
 import { GupyService } from './gupy/gupy.service';
 import { GitHubJobsService } from './github/git-hub-jobs.service';
+import { Job } from '../job/job.types';
 
 @Injectable({
   providedIn: 'root',
@@ -42,30 +43,36 @@ export class JobSourcesService {
   }
 
   updateJobs(): void {
+    const currentJobs: Job[] = [];
+
     const activeJobSources = Object.values(this.jobSourcesMap).filter(
       (jobSource) => jobSource.isActive
-    );
-
-    const jobsObservables = activeJobSources.map(
-      (jobSource) => jobSource.dataSource
     );
 
     activeJobSources.forEach((jobSource) => {
       if (!jobSource.isLoaded) jobSource.isLoading = true;
     });
 
-    if (jobsObservables.length == 0) this.jobService.setJobs([]);
-    else {
-      combineLatest(jobsObservables)
-        .pipe(first())
-        .subscribe((allJobs) => {
-          activeJobSources.forEach((jobSource) => {
+    if (activeJobSources.length == 0) {
+      this.jobService.setPristineJobs([]);
+      this.jobService.setJobs([]);
+    } else {
+      activeJobSources.forEach((jobSource) => {
+        jobSource.dataSource.pipe(first()).subscribe({
+          next: (jobs) => {
+            currentJobs.push(...jobs);
+            this.jobService.setPristineJobs(currentJobs);
+            this.jobService.setJobs(currentJobs);
             jobSource.isLoading = false;
             jobSource.isLoaded = true;
-          });
-          this.jobService.setPristineJobs(allJobs.flat());
-          this.jobService.setJobs(allJobs.flat());
+          },
+          error: () => {
+            jobSource.isLoading = false;
+            jobSource.isActive = false;
+            jobSource.hasFailedToLoad = true;
+          },
         });
+      });
     }
   }
 }

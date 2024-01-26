@@ -5,18 +5,23 @@
     (click)="toggleJobSource(jobSource.key)"
     [ngClass]="{
       'btn-primary': jobSource.value.isActive,
-      'btn-disabled': jobSource.value.isLoading
+      'btn-disabled':
+        jobSource.value.isLoading || jobSource.value.hasFailedToLoad
     }"
   >
     <div class="flex items-center gap-2">
       <i [ngClass]="jobSource.value.icon"></i>
-      <span>{{ jobSource.value.name }}</span>
+      <span>{{
+        jobSource.value.name +
+          (jobSource.value.hasFailedToLoad ? " - Falha ao carregar vagas" : "")
+      }}</span>
     </div>
 
     <span
       *ngIf="jobSource.value.isLoading"
       class="loading loading-spinner"
     ></span>
+    <i *ngIf="jobSource.value.hasFailedToLoad" class="bx bxs-x-circle"></i>
     <i *ngIf="jobSource.value.isLoaded" class="bx bxs-check-circle"></i>
   </button>
 </div>

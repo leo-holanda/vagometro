@@ -9,23 +9,23 @@ import {
   WorkplaceTypes,
   contractTypeRelatedTerms,
   workplaceTypeRelatedTerms,
-} from '../job/job.types';
-import { ExperienceLevels } from '../statistics/ranks/experience-levels-rank/experience-levels-rank.model';
-import { MapDataService } from '../statistics/maps/map-data.service';
+} from '../../job/job.types';
+import { ExperienceLevels } from '../../statistics/ranks/experience-levels-rank/experience-levels-rank.model';
+import { MapDataService } from '../../statistics/maps/map-data.service';
 import {
   seniorLevelRelatedTerms,
   midLevelRelatedTerms,
   juniorLevelRelatedTerms,
   traineeLevelRelatedTerms,
   internLevelRelatedTerms,
-} from '../statistics/ranks/experience-levels-rank/experience-levels-rank.data';
-import { keywords } from '../statistics/ranks/keywords-rank/keywords-rank.data';
+} from '../../statistics/ranks/experience-levels-rank/experience-levels-rank.data';
+import { keywords } from '../../statistics/ranks/keywords-rank/keywords-rank.data';
 import {
   educationRelatedTerms,
   educationalLevelTerms,
-} from '../statistics/ranks/education-rank/education-rank.data';
-import { languageRelatedTerms } from '../statistics/ranks/languages-rank/languages-rank.data';
-import { DisabilityStatuses } from '../statistics/ranks/disability-rank/disability-rank.model';
+} from '../../statistics/ranks/education-rank/education-rank.data';
+import { languageRelatedTerms } from '../../statistics/ranks/languages-rank/languages-rank.data';
+import { DisabilityStatuses } from '../../statistics/ranks/disability-rank/disability-rank.model';
 
 @Injectable({
   providedIn: 'root',

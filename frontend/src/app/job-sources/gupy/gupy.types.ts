@@ -1,4 +1,4 @@
-import { ExperienceLevels } from '../statistics/ranks/experience-levels-rank/experience-levels-rank.model';
+import { ExperienceLevels } from 'src/app/statistics/ranks/experience-levels-rank/experience-levels-rank.model';
 
 export type GupyJob = {
   careerPageUrl: string;

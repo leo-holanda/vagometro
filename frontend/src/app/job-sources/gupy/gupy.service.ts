@@ -1,26 +1,26 @@
 import { Injectable } from '@angular/core';
-import { DynamoService } from '../dynamo/dynamo.service';
-import { GupyJob } from './gupy.types';
 import { Observable, last, map, share } from 'rxjs';
-import { Job, WorkplaceTypes } from '../job/job.types';
-import { ExperienceLevels } from '../statistics/ranks/experience-levels-rank/experience-levels-rank.model';
+import { DynamoService } from 'src/app/dynamo/dynamo.service';
+import { Job, WorkplaceTypes } from 'src/app/job/job.types';
+import { DisabilityStatuses } from 'src/app/statistics/ranks/disability-rank/disability-rank.model';
+import {
+  educationRelatedTerms,
+  educationalLevelTerms,
+} from 'src/app/statistics/ranks/education-rank/education-rank.data';
 import {
   internLevelRelatedTypes,
   traineeLevelRelatedTypes,
   juniorLevelRelatedTypes,
-  internLevelRelatedTerms,
-  juniorLevelRelatedTerms,
-  midLevelRelatedTerms,
   seniorLevelRelatedTerms,
+  midLevelRelatedTerms,
+  juniorLevelRelatedTerms,
   traineeLevelRelatedTerms,
-} from '../statistics/ranks/experience-levels-rank/experience-levels-rank.data';
-import {
-  educationRelatedTerms,
-  educationalLevelTerms,
-} from '../statistics/ranks/education-rank/education-rank.data';
-import { keywords } from '../statistics/ranks/keywords-rank/keywords-rank.data';
-import { languageRelatedTerms } from '../statistics/ranks/languages-rank/languages-rank.data';
-import { DisabilityStatuses } from '../statistics/ranks/disability-rank/disability-rank.model';
+  internLevelRelatedTerms,
+} from 'src/app/statistics/ranks/experience-levels-rank/experience-levels-rank.data';
+import { ExperienceLevels } from 'src/app/statistics/ranks/experience-levels-rank/experience-levels-rank.model';
+import { keywords } from 'src/app/statistics/ranks/keywords-rank/keywords-rank.data';
+import { languageRelatedTerms } from 'src/app/statistics/ranks/languages-rank/languages-rank.data';
+import { GupyJob } from './gupy.types';
 
 @Injectable({
   providedIn: 'root',

@@ -8,7 +8,7 @@ import { Job, TimeWindows } from './job.types';
   providedIn: 'root',
 })
 export class JobService {
-  private originalJobs: Job[] = [];
+  private pristineJobs: Job[] = [];
   private _jobs$ = new BehaviorSubject<Job[] | undefined>(undefined);
   jobs$ = this._jobs$.asObservable();
 
@@ -18,6 +18,10 @@ export class JobService {
   currentTimeWindow$ = this._currentTimeWindow$.asObservable();
 
   constructor() {}
+
+  setPristineJobs(jobs: Job[]): void {
+    this.pristineJobs = jobs;
+  }
 
   setJobs(jobs: Job[]): void {
     this._jobs$.next(jobs);
@@ -90,7 +94,7 @@ export class JobService {
 
   filterJobsByTime(timeWindow: TimeWindows): void {
     this._currentTimeWindow$.next(timeWindow);
-    let jobs = this.originalJobs;
+    let jobs = [...this.pristineJobs];
     const minDate = this.createDateByTimeWindow(timeWindow);
     jobs = jobs.filter((job) => new Date(job.publishedDate) > minDate);
     this._jobs$.next(jobs);
@@ -122,7 +126,7 @@ export class JobService {
         break;
 
       case TimeWindows.all:
-        minDate = new Date('12/19/2023');
+        minDate = this.findOldestJob();
         break;
     }
 
@@ -175,5 +179,13 @@ export class JobService {
         return jobs.filter((job) => job.languages.includes(language));
       })
     );
+  }
+
+  private findOldestJob(): Date {
+    return this.pristineJobs.reduce((oldestDate, currentJob) => {
+      const currentJobPublishedDate = new Date(currentJob.publishedDate);
+      if (currentJobPublishedDate < oldestDate) return currentJobPublishedDate;
+      return oldestDate;
+    }, new Date());
   }
 }

@@ -44,6 +44,7 @@ export class JobSourcesService {
       combineLatest(jobsObservables)
         .pipe(first())
         .subscribe((allJobs) => {
+          this.jobService.setPristineJobs(allJobs.flat());
           this.jobService.setJobs(allJobs.flat());
         });
     }

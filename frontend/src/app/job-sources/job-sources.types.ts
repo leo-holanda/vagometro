@@ -1,3 +1,6 @@
+import { Observable } from 'rxjs';
+import { Job } from '../job/job.types';
+
 export enum JobSources {
   gupy = 'gupy',
   frontendbr = 'frontendbr',
@@ -7,7 +10,10 @@ export enum JobSources {
 export type JobSourceData = {
   name: string;
   icon: string;
+  dataSource: Observable<Job[]>;
   isActive: boolean;
+  isLoading: boolean;
+  isLoaded: boolean;
 };
 
 export type JobSourcesMap = Record<JobSources, JobSourceData>;
@@ -16,16 +22,25 @@ export const jobSourcesMap: JobSourcesMap = {
   gupy: {
     name: 'Gupy',
     icon: 'bx bxs-business',
+    dataSource: new Observable(),
     isActive: false,
+    isLoading: false,
+    isLoaded: false,
   },
   frontendbr: {
     name: 'frontendbr/vagas',
     icon: 'bx bxl-github',
+    dataSource: new Observable(),
     isActive: false,
+    isLoading: false,
+    isLoaded: false,
   },
   backendbr: {
     name: 'backend-br/vagas',
     icon: 'bx bxl-github',
+    dataSource: new Observable(),
     isActive: false,
+    isLoading: false,
+    isLoaded: false,
   },
 };

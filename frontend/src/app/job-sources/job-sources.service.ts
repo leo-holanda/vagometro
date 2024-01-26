@@ -9,41 +9,51 @@ import { GitHubJobsService } from './github/git-hub-jobs.service';
   providedIn: 'root',
 })
 export class JobSourcesService {
-  activeJobSources = jobSourcesMap;
+  jobSourcesMap = jobSourcesMap;
 
   constructor(
     private jobService: JobService,
     private gupyService: GupyService,
     private githubJobsService: GitHubJobsService
-  ) {}
+  ) {
+    this.jobSourcesMap.gupy.dataSource = this.gupyService.jobs$;
+    this.jobSourcesMap.frontendbr.dataSource =
+      this.githubJobsService.frontendJobs$;
+    this.jobSourcesMap.backendbr.dataSource =
+      this.githubJobsService.backendJobs$;
+  }
 
   toggleJobSource(jobSource: JobSources): void {
-    const currentJobSourceState = this.activeJobSources[jobSource];
+    const currentJobSourceState = this.jobSourcesMap[jobSource];
 
     if (currentJobSourceState)
-      this.activeJobSources[jobSource].isActive =
-        !currentJobSourceState.isActive;
+      this.jobSourcesMap[jobSource].isActive = !currentJobSourceState.isActive;
 
     this.updateJobs();
   }
 
   updateJobs(): void {
-    const jobsObservables = [];
+    const activeJobSources = Object.values(this.jobSourcesMap).filter(
+      (jobSource) => jobSource.isActive
+    );
 
-    if (this.activeJobSources.gupy.isActive)
-      jobsObservables.push(this.gupyService.jobs$);
+    const jobsObservables = activeJobSources.map(
+      (jobSource) => jobSource.dataSource
+    );
 
-    if (this.activeJobSources.frontendbr.isActive)
-      jobsObservables.push(this.githubJobsService.frontendJobs$);
-
-    if (this.activeJobSources.backendbr.isActive)
-      jobsObservables.push(this.githubJobsService.backendJobs$);
+    activeJobSources.forEach((jobSource) => {
+      if (!jobSource.isLoaded) jobSource.isLoading = true;
+    });
 
     if (jobsObservables.length == 0) this.jobService.setJobs([]);
     else {
       combineLatest(jobsObservables)
         .pipe(first())
         .subscribe((allJobs) => {
+          activeJobSources.forEach((jobSource) => {
+            jobSource.isLoading = false;
+            jobSource.isLoaded = true;
+          });
           this.jobService.setPristineJobs(allJobs.flat());
           this.jobService.setJobs(allJobs.flat());
         });

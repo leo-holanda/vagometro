@@ -20,9 +20,7 @@ export class JobSourceSelectorComponent {
 
   activeJobSources = jobSourcesMap;
 
-  constructor(private jobSourcesService: JobSourcesService) {
-    this.activeJobSources = this.jobSourcesService.activeJobSources;
-  }
+  constructor(private jobSourcesService: JobSourcesService) {}
 
   toggleJobSource(jobSource: string): void {
     this.jobSourcesService.toggleJobSource(jobSource as JobSources);

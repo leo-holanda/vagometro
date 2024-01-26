@@ -1,12 +1,22 @@
-<ul class="menu menu-lg bg-base-200 w-full rounded-box gap-2">
-  <li
+<div class="flex flex-col rounded-box gap-2">
+  <button
+    class="btn justify-between"
     *ngFor="let jobSource of activeJobSources | keyvalue"
     (click)="toggleJobSource(jobSource.key)"
-    [ngClass]="{ active: jobSource.value.isActive }"
+    [ngClass]="{
+      'btn-primary': jobSource.value.isActive,
+      'btn-disabled': jobSource.value.isLoading
+    }"
   >
-    <a>
+    <div class="flex items-center gap-2">
       <i [ngClass]="jobSource.value.icon"></i>
       <span>{{ jobSource.value.name }}</span>
-    </a>
-  </li>
-</ul>
+    </div>
+
+    <span
+      *ngIf="jobSource.value.isLoading"
+      class="loading loading-spinner"
+    ></span>
+    <i *ngIf="jobSource.value.isLoaded" class="bx bxs-check-circle"></i>
+  </button>
+</div>

@@ -100,6 +100,13 @@
           </section>
 
           <section class="flex flex-wrap gap-2">
+            <button
+              class="btn btn-ghost btn-circle"
+              (click)="jobSourcesModal.showModal()"
+            >
+              <i class="bx bx-data"></i>
+            </button>
+
             <label class="btn btn-ghost btn-circle swap swap-rotate">
               <input type="checkbox" class="theme-controller" value="light" />
 
@@ -145,15 +152,77 @@
       <a [routerLink]="['']" class="btn btn-ghost text-xl">vagômetro</a>
     </div>
     <div class="navbar-center gap-2">
-      <div class="btn btn-xs btn-ghost btn-active">dev</div>
-      <div class="btn btn-xs btn-ghost btn-outline btn-disabled">ui/ux</div>
-      <div class="btn btn-xs btn-ghost btn-outline btn-disabled">devops</div>
-      <div class="btn btn-xs btn-ghost btn-outline btn-disabled">
-        product manager
+      <div class="flex flex-wrap items-center justify-center gap-2 m-4">
+        <button
+          [ngClass]="{
+            'btn-active': (currentTimeWindow$ | async) == timeWindows.day
+          }"
+          (click)="onTimeWindowClick(timeWindows.day)"
+          class="btn btn-outline"
+        >
+          Ontem
+        </button>
+
+        <button
+          [ngClass]="{
+            'btn-active': (currentTimeWindow$ | async) == timeWindows.week
+          }"
+          (click)="onTimeWindowClick(timeWindows.week)"
+          class="btn btn-outline"
+        >
+          Semana
+        </button>
+
+        <button
+          [ngClass]="{
+            'btn-active': (currentTimeWindow$ | async) == timeWindows.month
+          }"
+          (click)="onTimeWindowClick(timeWindows.month)"
+          class="btn btn-outline"
+        >
+          Mês
+        </button>
+
+        <button
+          [ngClass]="{
+            'btn-active': (currentTimeWindow$ | async) == timeWindows['6months']
+          }"
+          (click)="onTimeWindowClick(timeWindows['6months'])"
+          class="btn btn-outline"
+        >
+          6 meses
+        </button>
+
+        <button
+          [ngClass]="{
+            'btn-active': (currentTimeWindow$ | async) == timeWindows.year
+          }"
+          (click)="onTimeWindowClick(timeWindows.year)"
+          class="btn btn-outline"
+        >
+          1 ano
+        </button>
+
+        <button
+          [ngClass]="{
+            'btn-active': (currentTimeWindow$ | async) == timeWindows.all
+          }"
+          (click)="onTimeWindowClick(timeWindows.all)"
+          class="btn btn-outline"
+        >
+          Sempre
+        </button>
       </div>
-      <div class="btn btn-xs btn-ghost btn-outline btn-disabled">dados</div>
     </div>
+
     <div class="navbar-end">
+      <button
+        class="btn btn-ghost btn-circle"
+        (click)="jobSourcesModal.showModal()"
+      >
+        <i class="bx bx-data"></i>
+      </button>
+
       <label class="btn btn-ghost btn-circle swap swap-rotate">
         <input type="checkbox" class="theme-controller" value="light" />
 
@@ -178,68 +247,6 @@
         <i class="bx bxs-help-circle"></i>
       </button>
     </div>
-  </div>
-
-  <div class="flex flex-wrap items-center justify-center gap-2 m-4 mb-8">
-    <button
-      [ngClass]="{
-        'btn-active': (currentTimeWindow$ | async) == timeWindows.day
-      }"
-      (click)="onTimeWindowClick(timeWindows.day)"
-      class="btn btn-outline"
-    >
-      Ontem
-    </button>
-
-    <button
-      [ngClass]="{
-        'btn-active': (currentTimeWindow$ | async) == timeWindows.week
-      }"
-      (click)="onTimeWindowClick(timeWindows.week)"
-      class="btn btn-outline"
-    >
-      Semana
-    </button>
-
-    <button
-      [ngClass]="{
-        'btn-active': (currentTimeWindow$ | async) == timeWindows.month
-      }"
-      (click)="onTimeWindowClick(timeWindows.month)"
-      class="btn btn-outline"
-    >
-      Mês
-    </button>
-
-    <button
-      [ngClass]="{
-        'btn-active': (currentTimeWindow$ | async) == timeWindows['6months']
-      }"
-      (click)="onTimeWindowClick(timeWindows['6months'])"
-      class="btn btn-outline"
-    >
-      6 meses
-    </button>
-
-    <button
-      [ngClass]="{
-        'btn-active': (currentTimeWindow$ | async) == timeWindows.year
-      }"
-      (click)="onTimeWindowClick(timeWindows.year)"
-      class="btn btn-outline"
-    >
-      1 ano
-    </button>
-
-    <button
-      [ngClass]="{
-        'btn-active': (currentTimeWindow$ | async) == timeWindows.all
-      }"
-      (click)="onTimeWindowClick(timeWindows.all)"
-      class="btn btn-outline"
-    >
-      Sempre
-    </button>
   </div>
 </ng-template>
 
@@ -319,6 +326,20 @@
 
     <div class="modal-action">
       <form class="w-full" method="dialog">
+        <button class="btn w-full">Fechar</button>
+      </form>
+    </div>
+  </div>
+</dialog>
+
+<dialog #jobSourcesModal class="modal">
+  <div class="modal-box">
+    <h1 class="text-lg font-bold mb-4">
+      Selecione quais fontes de vagas você deseja ver
+    </h1>
+    <vgm-job-source-selector></vgm-job-source-selector>
+    <div class="modal-action w-full">
+      <form method="dialog" class="w-full">
         <button class="btn w-full">Fechar</button>
       </form>
     </div>

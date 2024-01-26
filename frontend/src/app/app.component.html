@@ -1,48 +1,12 @@
-<div class="flex flex-col items-center justify-center h-full">
-  <header class="navbar bg-base-100 p-4">
-    <div class="navbar bg-base-100 p-4">
-      <div class="navbar-start">
-        <a class="btn btn-ghost text-xl">vagômetro</a>
-      </div>
-      <div class="navbar-center gap-2"></div>
-      <div class="navbar-end">
-        <label class="btn btn-ghost btn-circle swap swap-rotate">
-          <input type="checkbox" class="theme-controller" value="light" />
+<div class="container mx-auto">
+  <vgm-header></vgm-header>
+  <router-outlet></router-outlet>
+</div>
 
-          <div class="swap-on">
-            <i class="bx bxs-moon"></i>
-          </div>
+<footer class="footer footer-center p-4 bg-base-300 text-base-content">
+  <vgm-countdown></vgm-countdown>
 
-          <div class="swap-off">
-            <i class="bx bxs-sun"></i>
-          </div>
-        </label>
-
-        <a
-          class="btn btn-ghost btn-circle"
-          href="https://github.com/leo-holanda/vagometro"
-          target="_blank"
-        >
-          <i class="bx bxl-github"></i>
-        </a>
-
-        <button
-          class="btn btn-ghost btn-circle"
-          onclick="my_modal_1.showModal()"
-        >
-          <i class="bx bxs-help-circle"></i>
-        </button>
-      </div>
-    </div>
-  </header>
-
-  <main class="mt-auto">
-    <vgm-job-source-selector></vgm-job-source-selector>
-  </main>
-
-  <footer
-    class="footer footer-center p-4 bg-base-300 text-base-content self-end mt-auto"
-  >
+  <aside>
     <p class="flex gap-2">
       Made with
       <img
@@ -54,5 +18,11 @@
         >Leo</a
       >
     </p>
-  </footer>
+  </aside>
+</footer>
+
+<div *ngIf="shouldShowAlert" class="toast toast-top toast-center">
+  <div class="alert alert-warning">
+    <span>O carregamento está mais lento que o normal.</span>
+  </div>
 </div>

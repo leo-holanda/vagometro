@@ -5,11 +5,12 @@ import { JobService } from 'src/app/job/job.service';
 import { TimeWindows } from 'src/app/job/job.types';
 import { Observable } from 'rxjs';
 import { WindowResolutionObserverService } from '../window-resolution-observer.service';
+import { JobSourceSelectorComponent } from 'src/app/job-sources/job-source-selector/job-source-selector.component';
 
 @Component({
   selector: 'vgm-header',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, JobSourceSelectorComponent],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })

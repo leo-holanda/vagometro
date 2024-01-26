@@ -83,12 +83,22 @@ export class PublicationChartComponent implements AfterViewInit, OnChanges {
         nameLocation: 'center',
         nameGap: 30,
       },
+      dataZoom: [
+        {
+          type: 'inside',
+          start: 0,
+          end: 100,
+        },
+        {
+          start: 0,
+          end: 100,
+        },
+      ],
       series: [
         {
-          type: 'line',
+          type: 'bar',
           name: 'Vagas publicadas',
           data: this.publicationSeries,
-          areaStyle: {},
           smooth: true,
         },
       ],

@@ -1,25 +1,8 @@
 import { Injectable } from '@angular/core';
-import { DynamoService } from '../dynamo/dynamo.service';
-import { Job, TimeWindows } from './job.types';
-import { BehaviorSubject, Observable, filter, last, map } from 'rxjs';
-import { ExperienceLevels } from '../statistics/ranks/experience-levels-rank/experience-levels-rank.model';
-import {
-  internLevelRelatedTerms,
-  internLevelRelatedTypes,
-  juniorLevelRelatedTerms,
-  juniorLevelRelatedTypes,
-  midLevelRelatedTerms,
-  seniorLevelRelatedTerms,
-  traineeLevelRelatedTerms,
-  traineeLevelRelatedTypes,
-} from '../statistics/ranks/experience-levels-rank/experience-levels-rank.data';
+import { BehaviorSubject, Observable, filter, map } from 'rxjs';
 import { DisabilityStatuses } from '../statistics/ranks/disability-rank/disability-rank.model';
-import { keywords } from '../statistics/ranks/keywords-rank/keywords-rank.data';
-import {
-  educationRelatedTerms,
-  educationalLevelTerms,
-} from '../statistics/ranks/education-rank/education-rank.data';
-import { languageRelatedTerms } from '../statistics/ranks/languages-rank/languages-rank.data';
+import { ExperienceLevels } from '../statistics/ranks/experience-levels-rank/experience-levels-rank.model';
+import { Job, TimeWindows } from './job.types';
 
 @Injectable({
   providedIn: 'root',

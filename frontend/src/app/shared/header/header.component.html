@@ -1,4 +1,4 @@
-<ng-container *ngIf="matchesSmallBreakpoint$ | async; else desktopTemplate">
+<ng-container *ngIf="matchesMobileBreakpoint$ | async; else desktopTemplate">
   <div class="navbar bg-base-100 p-4">
     <div class="navbar-start">
       <a [routerLink]="['']" class="btn btn-ghost text-xl">vagômetro</a>

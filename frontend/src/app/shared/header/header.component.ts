@@ -18,7 +18,7 @@ import { JobSourcesService } from 'src/app/job-sources/job-sources.service';
 export class HeaderComponent {
   timeWindows = TimeWindows;
   currentTimeWindow$: Observable<TimeWindows>;
-  matchesSmallBreakpoint$: Observable<boolean>;
+  matchesMobileBreakpoint$: Observable<boolean>;
   hasOneJobSourceActive$: Observable<boolean>;
 
   constructor(
@@ -27,8 +27,8 @@ export class HeaderComponent {
     private jobSourcesService: JobSourcesService
   ) {
     this.currentTimeWindow$ = this.jobService.currentTimeWindow$;
-    this.matchesSmallBreakpoint$ =
-      this.windowResolutionObserver.matchesSmallBreakpoint();
+    this.matchesMobileBreakpoint$ =
+      this.windowResolutionObserver.matchesMobileBreakpoint();
 
     this.hasOneJobSourceActive$ = this.jobSourcesService.hasOneJobSourceActive$;
   }

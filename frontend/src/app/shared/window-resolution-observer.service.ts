@@ -7,11 +7,11 @@ import { fromEvent, debounceTime, map, Observable, startWith } from 'rxjs';
 export class WindowResolutionObserverService {
   constructor() {}
 
-  matchesSmallBreakpoint(): Observable<boolean> {
+  matchesMobileBreakpoint(): Observable<boolean> {
     return fromEvent(window, 'resize').pipe(
       debounceTime(250),
-      map(() => window.innerWidth < 640),
-      startWith(window.innerWidth < 640)
+      map(() => window.innerWidth < 1280),
+      startWith(window.innerWidth < 1280)
     );
   }
 }

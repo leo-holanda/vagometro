@@ -18,12 +18,4 @@ import { JobSourceSelectorComponent } from './job-sources/job-source-selector/jo
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
-  shouldShowAlert = true;
-
-  constructor() {
-    setTimeout(() => {
-      this.shouldShowAlert = false;
-    }, 8000);
-  }
-}
+export class AppComponent {}

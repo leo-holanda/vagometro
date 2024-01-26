@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { GitHubJob } from './git-hub-jobs.types';
 import { environment } from 'src/environments/environment';
-import { Observable, first, map } from 'rxjs';
+import { Observable, first, map, shareReplay } from 'rxjs';
 import {
   ContractTypes,
   Job,
@@ -55,7 +55,8 @@ export class GitHubJobsService {
       .get<GitHubJob[]>(`${environment.GITHUB_WORKER_URL}/${type}`)
       .pipe(
         first(),
-        map((jobs) => jobs.map((job) => this.mapToJob(job)))
+        map((jobs) => jobs.map((job) => this.mapToJob(job))),
+        shareReplay()
       );
   }
 

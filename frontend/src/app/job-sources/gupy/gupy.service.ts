@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, last, map, share } from 'rxjs';
+import { Observable, last, map, shareReplay } from 'rxjs';
 import { DynamoService } from 'src/app/dynamo/dynamo.service';
 import { Job, WorkplaceTypes } from 'src/app/job/job.types';
 import { DisabilityStatuses } from 'src/app/statistics/ranks/disability-rank/disability-rank.model';
@@ -43,7 +43,7 @@ export class GupyService {
           .map((job) => this.mapToJob(job))
           .sort((a, b) => (a.publishedDate > b.publishedDate ? -1 : 1));
       }),
-      share()
+      shareReplay()
     );
   }
 

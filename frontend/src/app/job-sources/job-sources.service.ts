@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { JobSources, jobSourcesMap } from './job-sources.types';
 import { JobService } from '../job/job.service';
-import { combineLatest, first } from 'rxjs';
+import { BehaviorSubject, combineLatest, first } from 'rxjs';
 import { GupyService } from './gupy/gupy.service';
 import { GitHubJobsService } from './github/git-hub-jobs.service';
 
@@ -9,6 +9,9 @@ import { GitHubJobsService } from './github/git-hub-jobs.service';
   providedIn: 'root',
 })
 export class JobSourcesService {
+  private _hasOneJobSourceActive$ = new BehaviorSubject(false);
+  hasOneJobSourceActive$ = this._hasOneJobSourceActive$.asObservable();
+
   jobSourcesMap = jobSourcesMap;
 
   constructor(
@@ -28,6 +31,12 @@ export class JobSourcesService {
 
     if (currentJobSourceState)
       this.jobSourcesMap[jobSource].isActive = !currentJobSourceState.isActive;
+
+    const hasOneJobSourceActive = Object.values(jobSourcesMap).some(
+      (jobSource) => jobSource.isActive
+    );
+
+    this._hasOneJobSourceActive$.next(hasOneJobSourceActive);
 
     this.updateJobs();
   }

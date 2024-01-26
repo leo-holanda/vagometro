@@ -20,3 +20,24 @@
     </p>
   </aside>
 </footer>
+
+<dialog #jobSourcesModal class="modal">
+  <div class="modal-box">
+    <h1 class="text-lg font-bold mb-4">
+      Selecione quais fontes de vagas você deseja ver
+    </h1>
+
+    <vgm-job-source-selector></vgm-job-source-selector>
+
+    <div class="modal-action w-full">
+      <form method="dialog" class="w-full">
+        <button
+          class="btn w-full"
+          [ngClass]="{ 'btn-disabled': !(hasOneJobSourceActive$ | async) }"
+        >
+          Fechar
+        </button>
+      </form>
+    </div>
+  </div>
+</dialog>

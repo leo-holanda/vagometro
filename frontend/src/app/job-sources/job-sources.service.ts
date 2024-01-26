@@ -39,10 +39,13 @@ export class JobSourcesService {
     if (this.activeJobSources.backendbr.isActive)
       jobsObservables.push(this.githubJobsService.backendJobs$);
 
-    combineLatest(jobsObservables)
-      .pipe(first())
-      .subscribe((allJobs) => {
-        this.jobService.setJobs(allJobs.flat());
-      });
+    if (jobsObservables.length == 0) this.jobService.setJobs([]);
+    else {
+      combineLatest(jobsObservables)
+        .pipe(first())
+        .subscribe((allJobs) => {
+          this.jobService.setJobs(allJobs.flat());
+        });
+    }
   }
 }

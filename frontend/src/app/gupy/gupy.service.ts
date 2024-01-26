@@ -20,6 +20,7 @@ import {
 } from '../statistics/ranks/education-rank/education-rank.data';
 import { keywords } from '../statistics/ranks/keywords-rank/keywords-rank.data';
 import { languageRelatedTerms } from '../statistics/ranks/languages-rank/languages-rank.data';
+import { DisabilityStatuses } from '../statistics/ranks/disability-rank/disability-rank.model';
 
 @Injectable({
   providedIn: 'root',
@@ -55,7 +56,7 @@ export class GupyService {
       title: gupyJob.name,
       state: gupyJob.state,
       city: gupyJob.city,
-      isOpenToPCD: gupyJob.disabilities,
+      disabilityStatus: this.findJobDisabilityStatus(gupyJob),
       companyName: gupyJob.careerPageName,
       description: gupyJob.description,
       id: gupyJob.id,
@@ -67,6 +68,12 @@ export class GupyService {
       educationalLevelTerms: this.getJobEducationalLevelTerms(gupyJob),
       languages: this.getJobLanguages(gupyJob),
     };
+  }
+
+  private findJobDisabilityStatus(job: GupyJob): DisabilityStatuses {
+    return job.disabilities
+      ? DisabilityStatuses.PCD
+      : DisabilityStatuses.nonPCD;
   }
 
   private getJobWorkplaceType(gupyJob: GupyJob): WorkplaceTypes {

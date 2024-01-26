@@ -153,14 +153,7 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
         });
       }
 
-      if (this.filters.acceptsDisabledPersons != 'undefined') {
-        this.filteredJobs = this.filteredJobs.filter((job) => {
-          return (
-            job.isOpenToPCD ==
-            this.stringToBooleanMap[this.filters.acceptsDisabledPersons]
-          );
-        });
-      }
+      //TODO: Fix disability filter
     }
   }
 
@@ -169,6 +162,7 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
     this.filteredJobs = this.filteredJobs?.sort((a, b) => {
       let valueA = a[field];
       let valueB = b[field];
+      if (valueA == undefined || valueB == undefined) return 0;
 
       if (typeof valueA == 'string' && typeof valueB == 'string') {
         valueA = valueA.toString().toLowerCase();
@@ -180,9 +174,9 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
         valueB = new Date(valueB).getTime();
       }
 
-      if (a[field] == b[field]) return 0;
-      if (this.sortOrder == 'asc') return a[field] > b[field] ? 1 : -1;
-      return a[field] < b[field] ? 1 : -1;
+      if (valueA == valueB) return 0;
+      if (this.sortOrder == 'asc') return valueA > valueB ? 1 : -1;
+      return valueA < valueB ? 1 : -1;
     });
   }
 }

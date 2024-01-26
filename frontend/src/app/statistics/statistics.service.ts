@@ -254,13 +254,9 @@ export class StatisticsService {
         const disabilitiesMap = new Map<DisabilityStatuses, number>();
 
         jobs.forEach((job) => {
-          const jobDisabilityStatus = job.isOpenToPCD
-            ? DisabilityStatuses.PCD
-            : DisabilityStatuses.nonPCD;
-
           const currentDisabilityCount =
-            disabilitiesMap.get(jobDisabilityStatus) || 0;
-          disabilitiesMap.set(jobDisabilityStatus, currentDisabilityCount + 1);
+            disabilitiesMap.get(job.disabilityStatus) || 0;
+          disabilitiesMap.set(job.disabilityStatus, currentDisabilityCount + 1);
         });
 
         const sortedEntries = Array.from(disabilitiesMap.entries()).sort(

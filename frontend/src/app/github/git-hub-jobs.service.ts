@@ -25,6 +25,7 @@ import {
   educationalLevelTerms,
 } from '../statistics/ranks/education-rank/education-rank.data';
 import { languageRelatedTerms } from '../statistics/ranks/languages-rank/languages-rank.data';
+import { DisabilityStatuses } from '../statistics/ranks/disability-rank/disability-rank.model';
 
 @Injectable({
   providedIn: 'root',
@@ -67,7 +68,7 @@ export class GitHubJobsService {
       title: githubJob.title,
       state: '',
       city: '',
-      isOpenToPCD: false,
+      disabilityStatus: DisabilityStatuses.unknown,
       companyName: 'Desconhecido',
       description: githubJob.body,
       id: githubJob.id,

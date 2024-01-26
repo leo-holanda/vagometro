@@ -152,8 +152,7 @@ export class JobService {
     return this.jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
-        const shouldFilterPCD = disabilityStatus == DisabilityStatuses.PCD;
-        return jobs.filter((job) => job.isOpenToPCD == shouldFilterPCD);
+        return jobs.filter((job) => job.disabilityStatus == disabilityStatus);
       })
     );
   }

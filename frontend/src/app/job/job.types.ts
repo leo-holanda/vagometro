@@ -1,3 +1,4 @@
+import { DisabilityStatuses } from '../statistics/ranks/disability-rank/disability-rank.model';
 import { ExperienceLevels } from '../statistics/ranks/experience-levels-rank/experience-levels-rank.model';
 
 export enum WorkplaceTypes {
@@ -54,7 +55,7 @@ export type Job = {
   country: string;
   state: string;
   city: string;
-  isOpenToPCD: boolean;
+  disabilityStatus: DisabilityStatuses;
   publishedDate: string;
   contractType: string;
   experienceLevel: ExperienceLevels;

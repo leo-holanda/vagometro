@@ -33,16 +33,11 @@ export class JobSourcesService {
     if (currentJobSourceState)
       this.jobSourcesMap[jobSource].isActive = !currentJobSourceState.isActive;
 
-    const hasOneJobSourceActive = Object.values(jobSourcesMap).some(
-      (jobSource) => jobSource.isActive
-    );
-
-    this._hasOneJobSourceActive$.next(hasOneJobSourceActive);
-
+    this.updateOneSourceFlag();
     this.updateJobs();
   }
 
-  updateJobs(): void {
+  private updateJobs(): void {
     const currentJobs: Job[] = [];
 
     const activeJobSources = Object.values(this.jobSourcesMap).filter(
@@ -70,9 +65,18 @@ export class JobSourcesService {
             jobSource.isLoading = false;
             jobSource.isActive = false;
             jobSource.hasFailedToLoad = true;
+            this.updateOneSourceFlag();
           },
         });
       });
     }
+  }
+
+  private updateOneSourceFlag(): void {
+    const hasOneJobSourceActive = Object.values(jobSourcesMap).some(
+      (jobSource) => jobSource.isActive
+    );
+
+    this._hasOneJobSourceActive$.next(hasOneJobSourceActive);
   }
 }

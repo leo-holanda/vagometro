@@ -1,21 +1,19 @@
-<ul class="menu menu-lg bg-base-200 w-full rounded-box">
-  <li class="menu-title">Fontes de vagas</li>
-  <li>
-    <a>
-      <i class="bx bxs-business"></i>
-      Gupy</a
-    >
-  </li>
-  <li>
-    <a>
-      <i class="bx bxl-github"></i>
-      frontendbr/vagas</a
-    >
-  </li>
-  <li>
-    <a>
-      <i class="bx bxl-github"></i>
-      backend-br/vagas</a
-    >
-  </li>
-</ul>
+<div class="card card-bordered w-96 bg-base-200 shadow-xl">
+  <div class="card-body">
+    <h1 class="card-title text-lg font-bold px-8">
+      Selecione uma fonte de vagas
+    </h1>
+    <ul class="menu menu-lg w-full rounded-box gap-2">
+      <li
+        *ngFor="let jobSource of activeJobSources | keyvalue"
+        (click)="toggleJobSource(jobSource.key)"
+        [ngClass]="{ active: jobSource.value.isActive }"
+      >
+        <a>
+          <i [ngClass]="jobSource.value.icon"></i>
+          <span>{{ jobSource.value.name }}</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>

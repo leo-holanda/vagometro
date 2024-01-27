@@ -66,6 +66,11 @@ export class PublicationChartComponent implements AfterViewInit, OnChanges {
       tooltip: {
         trigger: 'axis',
       },
+      grid: {
+        // To avoid the data zoom overlapping the x axis label
+        // https://stackoverflow.com/questions/44497298/echarts-generated-label-overlaps-with-datazoom
+        bottom: 90,
+      },
       xAxis: {
         type: 'time',
         axisLabel: { showMaxLabel: true },

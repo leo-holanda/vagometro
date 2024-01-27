@@ -18,7 +18,7 @@
               <span>{{
                 i + 1 + ". " + typesTranslations[type.name] | titlecase
               }}</span>
-              <span>{{ type.count }}</span>
+              <span>{{ type.count | number }}</span>
             </div>
             <progress
               class="progress w-full"

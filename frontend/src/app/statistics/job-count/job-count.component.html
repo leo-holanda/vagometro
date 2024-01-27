@@ -2,7 +2,7 @@
   <div class="stats bg-base-200 m-4">
     <div class="stat place-items-center">
       <div class="stat-value text-6xl lg:text-8xl">
-        {{ jobsCount }}
+        {{ jobsCount | number }}
       </div>
 
       <div [ngSwitch]="currentTimeWindow$ | async">

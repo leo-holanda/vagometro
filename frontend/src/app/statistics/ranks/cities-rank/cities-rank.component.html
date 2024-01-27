@@ -12,7 +12,7 @@
         <tr *ngFor="let city of citiesRank; index as i; trackBy: trackByCity">
           <th>{{ i + 1 }}</th>
           <td>{{ city.name + ", " + (city.state | stateAbbreviation) }}</td>
-          <td>{{ city.count }}</td>
+          <td>{{ city.count | number }}</td>
         </tr>
       </tbody>
     </table>

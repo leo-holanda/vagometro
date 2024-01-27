@@ -52,7 +52,7 @@
             >
               <div class="w-full flex justify-between">
                 <span>{{ i + 1 + ". " + educationalLevel.name }}</span>
-                <span>{{ educationalLevel.count }}</span>
+                <span>{{ educationalLevel.count | number }}</span>
               </div>
               <progress
                 class="progress w-full"
@@ -81,7 +81,7 @@
             >
               <div class="w-full flex justify-between">
                 <span>{{ i + 1 + ". " + educationTerm.name }}</span>
-                <span>{{ educationTerm.count }}</span>
+                <span>{{ educationTerm.count | number }}</span>
               </div>
               <progress
                 class="progress w-full"

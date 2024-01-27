@@ -28,7 +28,7 @@
             >
               <div class="w-full flex justify-between">
                 <span>{{ i + 1 + ". " + keyword.word }}</span>
-                <span>{{ keyword.count }}</span>
+                <span>{{ keyword.count | number }}</span>
               </div>
               <progress
                 class="progress w-full"
@@ -192,7 +192,7 @@
           >
             <div class="w-full flex justify-between">
               <span>{{ i + 1 + ". " + keyword.word }}</span>
-              <span>{{ keyword.count }}</span>
+              <span>{{ keyword.count | number }}</span>
             </div>
             <progress
               class="progress w-full"

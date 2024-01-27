@@ -24,7 +24,7 @@
           >
             <div class="w-full flex justify-between">
               <span>{{ i + 1 + ". " + disabilityStatus.name }}</span>
-              <span>{{ disabilityStatus.count }}</span>
+              <span>{{ disabilityStatus.count | number }}</span>
             </div>
             <progress
               class="progress w-full"

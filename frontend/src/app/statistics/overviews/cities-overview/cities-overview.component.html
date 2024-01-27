@@ -70,7 +70,7 @@
                       ", " +
                       (city.state | stateAbbreviation)
                   }}</span>
-                  <span>{{ city.count }}</span>
+                  <span>{{ city.count | number }}</span>
                 </div>
                 <progress
                   class="progress w-full"
@@ -95,7 +95,7 @@
               >
                 <div class="w-full flex justify-between">
                   <span>{{ i + 1 + ". " + state.name }}</span>
-                  <span>{{ state.count }}</span>
+                  <span>{{ state.count | number }}</span>
                 </div>
                 <progress
                   class="progress w-full"

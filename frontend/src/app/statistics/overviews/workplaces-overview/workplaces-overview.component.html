@@ -22,7 +22,7 @@
           >
             <div class="w-full flex justify-between">
               <span>{{ i + 1 + ". " + workplace.type | titlecase }}</span>
-              <span>{{ workplace.count }}</span>
+              <span>{{ workplace.count | number }}</span>
             </div>
 
             <progress

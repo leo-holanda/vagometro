@@ -1,4 +1,4 @@
-import { ApplicationConfig } from '@angular/core';
+import { ApplicationConfig, LOCALE_ID } from '@angular/core';
 import {
   InMemoryScrollingFeature,
   InMemoryScrollingOptions,
@@ -6,10 +6,11 @@ import {
   withInMemoryScrolling,
 } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
-
 import { routes } from './app.routes';
+import localePt from '@angular/common/locales/pt';
+import { registerLocaleData } from '@angular/common';
 
-//References: https://stackoverflow.com/questions/76318742/configuring-scroll-restoration-for-angular-standalone-router
+registerLocaleData(localePt);
 
 const scrollConfig: InMemoryScrollingOptions = {
   scrollPositionRestoration: 'top',
@@ -22,5 +23,6 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes, inMemoryScrollingFeature),
     provideHttpClient(),
+    { provide: LOCALE_ID, useValue: 'pt' },
   ],
 };

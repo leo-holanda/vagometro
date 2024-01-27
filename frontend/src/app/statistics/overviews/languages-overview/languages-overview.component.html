@@ -22,7 +22,7 @@
           >
             <div class="w-full flex justify-between">
               <span>{{ i + 1 + ". " + language.name }}</span>
-              <span>{{ language.count }}</span>
+              <span>{{ language.count | number }}</span>
             </div>
             <progress
               class="progress w-full"

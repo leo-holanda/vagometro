@@ -11,7 +11,6 @@ import { KeywordsRankComponent } from '../../ranks/keywords-rank/keywords-rank.c
 import { KeywordData } from '../../ranks/keywords-rank/keywords-rank.model';
 import { TypeRankComponent } from '../../ranks/type-rank/type-rank.component';
 import { TypeData } from '../../ranks/type-rank/type-rank.model';
-import { translations } from '../../ranks/type-rank/type-rank.translations';
 import { PublicationChartComponent } from '../../charts/publication-chart/publication-chart.component';
 import { JobListComponent } from 'src/app/job/job-list/job-list.component';
 import { ExperienceLevelsRankComponent } from '../../ranks/experience-levels-rank/experience-levels-rank.component';
@@ -61,8 +60,6 @@ export class CitiesOverviewComponent implements OnInit {
 
   citiesQuantity = 0;
   statesQuantity = 0;
-
-  translations = translations;
 
   dataType: 'city' | 'state' | 'map' = 'city';
   trackByCity = trackByCity;

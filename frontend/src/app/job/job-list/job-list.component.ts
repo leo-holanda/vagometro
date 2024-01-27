@@ -9,7 +9,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { Observable, Subject, filter, takeUntil } from 'rxjs';
 import { Job } from '../job.types';
-import { translations } from 'src/app/statistics/ranks/type-rank/type-rank.translations';
+import { gupyContractTypeMap } from 'src/app/statistics/ranks/type-rank/type-rank.translations';
 import { StateAbbreviationPipe } from 'src/app/shared/pipes/state-abbreviation.pipe';
 import { ExperienceLevels } from 'src/app/statistics/ranks/experience-levels-rank/experience-levels-rank.model';
 import { FormsModule } from '@angular/forms';
@@ -29,7 +29,7 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
   jobs: Job[] | undefined = undefined;
   filteredJobs: Job[] | undefined = undefined;
 
-  typeTranslations = translations;
+  gupyContractTypeMap = gupyContractTypeMap;
   experienceLevels = ExperienceLevels;
 
   filters = {

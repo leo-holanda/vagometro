@@ -21,6 +21,7 @@ import { ExperienceLevels } from 'src/app/statistics/ranks/experience-levels-ran
 import { keywords } from 'src/app/statistics/ranks/keywords-rank/keywords-rank.data';
 import { languageRelatedTerms } from 'src/app/statistics/ranks/languages-rank/languages-rank.data';
 import { GupyJob } from './gupy.types';
+import { gupyContractTypeMap } from 'src/app/statistics/ranks/type-rank/type-rank.translations';
 
 @Injectable({
   providedIn: 'root',
@@ -61,13 +62,17 @@ export class GupyService {
       description: gupyJob.description,
       id: gupyJob.id,
       publishedDate: gupyJob.publishedDate,
-      contractType: gupyJob.type,
+      contractType: this.findJobContractType(gupyJob),
       experienceLevel: this.findExperienceLevel(gupyJob),
       keywords: this.getJobKeywords(gupyJob),
       educationTerms: this.getJobEducationTerms(gupyJob),
       educationalLevelTerms: this.getJobEducationalLevelTerms(gupyJob),
       languages: this.getJobLanguages(gupyJob),
     };
+  }
+
+  private findJobContractType(job: GupyJob): string {
+    return gupyContractTypeMap[job.type];
   }
 
   private findJobDisabilityStatus(job: GupyJob): DisabilityStatuses {

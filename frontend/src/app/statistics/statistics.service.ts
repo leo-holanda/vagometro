@@ -122,13 +122,10 @@ export class StatisticsService {
   ): Observable<TypeData[]> {
     return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
-
       map((jobs) => {
         const typeMap = new Map<string, number>();
 
         jobs.forEach((job) => {
-          if (job.contractType == '') return;
-
           const currentWorkplaceCount = typeMap.get(job.contractType) || 0;
           typeMap.set(job.contractType, currentWorkplaceCount + 1);
         });

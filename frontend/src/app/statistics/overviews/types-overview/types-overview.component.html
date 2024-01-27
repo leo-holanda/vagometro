@@ -15,9 +15,7 @@
             (click)="onTypeClick(type.name)"
           >
             <div class="w-full flex justify-between">
-              <span>{{
-                i + 1 + ". " + typesTranslations[type.name] | titlecase
-              }}</span>
+              <span>{{ i + 1 + ". " + type.name }}</span>
               <span>{{ type.count | number }}</span>
             </div>
             <progress
@@ -56,9 +54,7 @@
 
   <div class="card card-bordered card-compact w-full bg-base-200">
     <div class="card-body">
-      <h1 class="font-bold text-lg mb-4">
-        Sobre o tipo {{ typesTranslations[selectedType] | titlecase }}
-      </h1>
+      <h1 class="font-bold text-lg mb-4">Sobre o tipo {{ selectedType }}</h1>
 
       <section>
         <div class="flex items-center gap-2 mb-2">

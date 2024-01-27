@@ -176,10 +176,10 @@
           >
             <option selected></option>
             <option
-              *ngFor="let typeTranslation of typeTranslations | keyvalue"
+              *ngFor="let typeTranslation of gupyContractTypeMap | keyvalue"
               [value]="typeTranslation.key"
             >
-              {{ typeTranslation.value | titlecase }}
+              {{ typeTranslation.value }}
             </option>
           </select>
         </div>

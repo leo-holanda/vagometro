@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TypeData } from '../../ranks/type-rank/type-rank.model';
 import { Observable } from 'rxjs';
@@ -8,7 +8,6 @@ import { Job } from 'src/app/job/job.types';
 import { KeywordsRankComponent } from '../../ranks/keywords-rank/keywords-rank.component';
 import { CompaniesRankComponent } from '../../ranks/companies-rank/companies-rank.component';
 import { WorkplaceRankComponent } from '../../ranks/workplace-rank/workplace-rank.component';
-import { translations } from '../../ranks/type-rank/type-rank.translations';
 import { PublicationChartComponent } from '../../charts/publication-chart/publication-chart.component';
 import { JobListComponent } from 'src/app/job/job-list/job-list.component';
 import { ExperienceLevelsRankComponent } from '../../ranks/experience-levels-rank/experience-levels-rank.component';
@@ -33,26 +32,22 @@ import { LanguagesRankComponent } from '../../ranks/languages-rank/languages-ran
   templateUrl: './types-overview.component.html',
   styleUrls: ['./types-overview.component.scss'],
 })
-export class TypesOverviewComponent implements OnInit {
-  typesRank$!: Observable<TypeData[]>;
+export class TypesOverviewComponent {
+  typesRank$: Observable<TypeData[]>;
   typesQuantity!: number;
   selectedType!: string;
   jobsByType$!: Observable<Job[]>;
 
-  typesTranslations = translations;
   trackByType = trackByType;
 
   constructor(
     private statisticsService: StatisticsService,
     private jobService: JobService
-  ) {}
-
-  ngOnInit(): void {
+  ) {
     this.typesRank$ = this.statisticsService.getTypesRank();
 
     this.typesRank$.subscribe((typesRank) => {
       this.selectedType = typesRank[0].name;
-
       this.jobsByType$ = this.jobService.getJobsByType(this.selectedType);
     });
 
@@ -63,7 +58,6 @@ export class TypesOverviewComponent implements OnInit {
 
   onTypeClick(TypeName: string): void {
     this.selectedType = TypeName;
-
     this.jobsByType$ = this.jobService.getJobsByType(this.selectedType);
   }
 }

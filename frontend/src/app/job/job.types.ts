@@ -10,7 +10,7 @@ export enum WorkplaceTypes {
 
 export enum ContractTypes {
   CLT = 'CLT',
-  PJ = 'PJ',
+  PJ = 'Pessoa Jurídica',
   intern = 'Estágio',
   freelance = 'Freelance',
   allocated = 'Alocado',

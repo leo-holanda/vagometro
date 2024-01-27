@@ -18,9 +18,17 @@
         >
           <th>{{ i + 1 }}</th>
           <td>
-            <a class="link" [href]="company.link" target="_blank">{{
-              company.name | titlecase
-            }}</a>
+            <a
+              *ngIf="company.link; else companyWithoutLinkTemplate"
+              class="link"
+              [href]="company.link"
+              target="_blank"
+              >{{ company.name | titlecase }}</a
+            >
+
+            <ng-template #companyWithoutLinkTemplate>
+              <a target="_blank">{{ company.name | titlecase }}</a>
+            </ng-template>
           </td>
           <td>{{ company.count | number }}</td>
         </tr>

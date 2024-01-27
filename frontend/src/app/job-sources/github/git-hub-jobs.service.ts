@@ -55,7 +55,12 @@ export class GitHubJobsService {
       .get<GitHubJob[]>(`${environment.GITHUB_WORKER_URL}/${type}`)
       .pipe(
         first(),
-        map((jobs) => jobs.map((job) => this.mapToJob(job))),
+        map((jobs) =>
+          jobs
+            .map((job) => this.mapToJob(job))
+            .sort((a, b) => (a.publishedDate > b.publishedDate ? -1 : 1))
+        ),
+
         shareReplay()
       );
   }

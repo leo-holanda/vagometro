@@ -59,7 +59,11 @@
                       'text-red-500': month.difference < 0
                     }"
                   >
-                    {{ month.difference | number }}
+                    {{
+                      month.difference > 0
+                        ? "+" + (month.difference | number)
+                        : (month.difference | number)
+                    }}
                   </td>
                   <td
                     [ngClass]="{
@@ -68,7 +72,11 @@
                     }"
                   >
                     {{
-                      (month.differenceAsPercentage | number : "1.2-2") + "%"
+                      (month.differenceAsPercentage > 0
+                        ? "+" +
+                          (month.differenceAsPercentage | number : "1.2-2")
+                        : (month.differenceAsPercentage | number : "1.2-2")) +
+                        "%"
                     }}
                   </td>
                 </tr>
@@ -102,7 +110,11 @@
                       'text-red-500': annual.difference < 0
                     }"
                   >
-                    {{ annual.difference | number }}
+                    {{
+                      annual.difference > 0
+                        ? "+" + (annual.difference | number)
+                        : (annual.difference | number)
+                    }}
                   </td>
                   <td
                     [ngClass]="{
@@ -111,7 +123,11 @@
                     }"
                   >
                     {{
-                      (annual.differenceAsPercentage | number : "1.2-2") + "%"
+                      (annual.differenceAsPercentage > 0
+                        ? "+" +
+                          (annual.differenceAsPercentage | number : "1.2-2")
+                        : (annual.differenceAsPercentage | number : "1.2-2")) +
+                        "%"
                     }}
                   </td>
                 </tr>

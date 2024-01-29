@@ -410,8 +410,10 @@ export class StatisticsService {
     );
   }
 
-  getMonthlyComparative(): Observable<MonthlyComparativeData[]> {
-    return this.jobService.jobs$.pipe(
+  getMonthlyComparative(
+    jobs$: Observable<Job[] | undefined> = this.jobService.jobs$
+  ): Observable<MonthlyComparativeData[]> {
+    return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
         const monthsMap = new Map<string, number>();
@@ -452,8 +454,10 @@ export class StatisticsService {
     );
   }
 
-  getAnnualComparative(): Observable<MonthlyComparativeData[]> {
-    return this.jobService.jobs$.pipe(
+  getAnnualComparative(
+    jobs$: Observable<Job[] | undefined> = this.jobService.jobs$
+  ): Observable<MonthlyComparativeData[]> {
+    return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
         const monthsMap = new Map<string, number>();

@@ -185,6 +185,26 @@
       <div class="card-body">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-1">
+            <i class="bx bxs-calendar"></i>
+            <h2 class="card-title">Melhores meses para contratação</h2>
+          </div>
+        </div>
+
+        <vgm-months-rank [rankSize]="5"></vgm-months-rank>
+
+        <div class="card-actions mt-auto w-full">
+          <button class="btn btn-neutral w-full" [routerLink]="['/pcd']">
+            <i class="bx bx-expand"></i>
+            <span>Ver mais</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card card-bordered card-compact w-full bg-base-300">
+      <div class="card-body">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-1">
             <i class="bx bx-globe"></i>
             <h2 class="card-title">Rank de Idiomas Estrangeiros</h2>
           </div>

@@ -9,6 +9,7 @@ import { EducationData } from '../statistics/ranks/education-rank/education-rank
 import { ExperienceLevelData } from '../statistics/ranks/experience-levels-rank/experience-levels-rank.model';
 import { KeywordData } from '../statistics/ranks/keywords-rank/keywords-rank.model';
 import { LanguageData } from '../statistics/ranks/languages-rank/languages-rank.types';
+import { MonthData } from '../statistics/ranks/months-rank/months-rank.types';
 import { TypeData } from '../statistics/ranks/type-rank/type-rank.model';
 import { WorkplaceData } from '../statistics/ranks/workplace-rank/workplace-rank.model';
 
@@ -62,5 +63,9 @@ export function trackByEducationStatus(
 }
 
 export function trackByLanguage(index: number, item: LanguageData): string {
+  return item.name;
+}
+
+export function trackByMonth(index: number, item: MonthData): string {
   return item.name;
 }

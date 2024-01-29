@@ -7,7 +7,6 @@ import { TypeData } from './ranks/type-rank/type-rank.model';
 import { CompanyData } from './ranks/companies-rank/companies-rank.model';
 import { Job } from '../job/job.types';
 import { KeywordData } from './ranks/keywords-rank/keywords-rank.model';
-import { keywords } from './ranks/keywords-rank/keywords-rank.data';
 import {
   ExperienceLevelData,
   ExperienceLevels,
@@ -17,6 +16,7 @@ import {
   DisabilityStatuses,
 } from './ranks/disability-rank/disability-rank.model';
 import { EducationData } from './ranks/education-rank/education-rank.types';
+import { MonthData } from './ranks/months-rank/months-rank.types';
 
 @Injectable({
   providedIn: 'root',
@@ -363,6 +363,39 @@ export class StatisticsService {
         });
 
         const sortedEntries = Array.from(languageMap.entries()).sort(
+          (a, b) => b[1] - a[1]
+        );
+
+        const sortedObjects = sortedEntries.map(
+          ([key, value]): EducationData => ({
+            name: key,
+            count: value,
+          })
+        );
+
+        return sortedObjects;
+      })
+    );
+  }
+
+  getMonthsRank(
+    jobs$: Observable<Job[] | undefined> = this.jobService.jobs$
+  ): Observable<MonthData[]> {
+    return jobs$.pipe(
+      filter((jobs): jobs is Job[] => jobs != undefined),
+      map((jobs) => {
+        const monthsMap = new Map<string, number>();
+
+        jobs.forEach((job) => {
+          const monthWhenJobWasPublished = new Date(
+            job.publishedDate
+          ).toLocaleString('pt', { month: 'long' });
+          const currentMonthCount =
+            monthsMap.get(monthWhenJobWasPublished) || 0;
+          monthsMap.set(monthWhenJobWasPublished, currentMonthCount + 1);
+        });
+
+        const sortedEntries = Array.from(monthsMap.entries()).sort(
           (a, b) => b[1] - a[1]
         );
 

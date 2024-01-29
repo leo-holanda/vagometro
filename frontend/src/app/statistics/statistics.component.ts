@@ -16,6 +16,7 @@ import { ExperienceLevelsRankComponent } from './ranks/experience-levels-rank/ex
 import { DisabilityRankComponent } from './ranks/disability-rank/disability-rank.component';
 import { EducationRankComponent } from './ranks/education-rank/education-rank.component';
 import { LanguagesRankComponent } from './ranks/languages-rank/languages-rank.component';
+import { MonthsRankComponent } from './ranks/months-rank/months-rank.component';
 
 @Component({
   selector: 'vgm-statistics',
@@ -35,6 +36,7 @@ import { LanguagesRankComponent } from './ranks/languages-rank/languages-rank.co
     DisabilityRankComponent,
     EducationRankComponent,
     LanguagesRankComponent,
+    MonthsRankComponent,
   ],
   templateUrl: './statistics.component.html',
   styleUrls: ['./statistics.component.scss'],

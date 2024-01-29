@@ -24,7 +24,7 @@ export class MonthlyComparisonOverviewComponent {
 
   constructor(private statisticsService: StatisticsService) {
     this.monthlyComparativeData$ =
-      this.statisticsService.getMonthlyComparative();
-    this.annualComparativeData$ = this.statisticsService.getAnnualComparative();
+      this.statisticsService.getMonthlyComparison();
+    this.annualComparativeData$ = this.statisticsService.getAnnualComparison();
   }
 }

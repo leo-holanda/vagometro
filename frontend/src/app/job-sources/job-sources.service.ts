@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { JobSources, jobSourcesMap } from './job-sources.types';
 import { JobService } from '../job/job.service';
-import { BehaviorSubject, combineLatest, first } from 'rxjs';
+import { BehaviorSubject, combineLatest, first, last } from 'rxjs';
 import { GupyService } from './gupy/gupy.service';
 import { GitHubJobsService } from './github/git-hub-jobs.service';
 import { Job } from '../job/job.types';
@@ -61,7 +61,8 @@ export class JobSourcesService {
             jobSource.isLoading = false;
             jobSource.isLoaded = true;
           },
-          error: () => {
+          error: (error) => {
+            console.error(error);
             jobSource.isLoading = false;
             jobSource.isActive = false;
             jobSource.hasFailedToLoad = true;

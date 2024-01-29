@@ -2,7 +2,16 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { GitHubJob } from './git-hub-jobs.types';
 import { environment } from 'src/environments/environment';
-import { Observable, first, map, shareReplay } from 'rxjs';
+import {
+  Observable,
+  asyncScheduler,
+  defer,
+  first,
+  map,
+  scheduled,
+  shareReplay,
+  throwError,
+} from 'rxjs';
 import {
   ContractTypes,
   Job,
@@ -26,6 +35,7 @@ import {
 } from '../../statistics/ranks/education-rank/education-rank.data';
 import { languageRelatedTerms } from '../../statistics/ranks/languages-rank/languages-rank.data';
 import { DisabilityStatuses } from '../../statistics/ranks/disability-rank/disability-rank.model';
+import * as zip from '@zip.js/zip.js';
 
 @Injectable({
   providedIn: 'root',
@@ -50,19 +60,32 @@ export class GitHubJobsService {
       .map((cityName) => this.removeAccents(cityName).toLowerCase());
   }
 
-  getJobsObservable(type: 'frontend' | 'backend'): Observable<Job[]> {
-    return this.httpClient
-      .get<GitHubJob[]>(`${environment.GITHUB_WORKER_URL}/${type}`)
-      .pipe(
-        first(),
-        map((jobs) =>
-          jobs
-            .map((job) => this.mapToJob(job))
-            .sort((a, b) => (a.publishedDate > b.publishedDate ? -1 : 1))
-        ),
+  async getJobsPromise(type: 'frontend' | 'backend'): Promise<GitHubJob[]> {
+    // https://gildas-lormeau.github.io/zip.js/
+    // Try catch is not necessary. Errors are handled in Job Source Service.
 
-        shareReplay()
-      );
+    const zippedJobs = await fetch(`${environment.GITHUB_WORKER_URL}/${type}`);
+    const zipFileReader = new zip.BlobReader(await zippedJobs.blob());
+
+    const zippedJobsWriter = new zip.TextWriter();
+    const zipReader = new zip.ZipReader(zipFileReader);
+    const firstEntry = (await zipReader.getEntries()).shift();
+    const jobs = await firstEntry!.getData!(zippedJobsWriter);
+    await zipReader.close();
+
+    return JSON.parse(jobs);
+  }
+
+  getJobsObservable(type: 'frontend' | 'backend'): Observable<Job[]> {
+    return defer(() => this.getJobsPromise(type)).pipe(
+      first(),
+      map((jobs) =>
+        jobs
+          .map((job) => this.mapToJob(job))
+          .sort((a, b) => (a.publishedDate > b.publishedDate ? -1 : 1))
+      ),
+      shareReplay()
+    );
   }
 
   private mapToJob(githubJob: GitHubJob): Job {

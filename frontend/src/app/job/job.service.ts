@@ -196,6 +196,12 @@ export class JobService {
     return new Date(job.publishedDate).toLocaleString('pt', { month: 'long' });
   }
 
+  getJobYear(job: Job): string {
+    return new Date(job.publishedDate).toLocaleString('pt', {
+      year: 'numeric',
+    });
+  }
+
   getJobMonthAndYear(job: Job): string {
     return new Date(job.publishedDate).toLocaleString('pt', {
       month: 'long',

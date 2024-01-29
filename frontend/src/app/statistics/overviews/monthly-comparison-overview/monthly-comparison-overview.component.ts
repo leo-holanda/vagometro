@@ -17,11 +17,14 @@ import { trackByMonth } from 'src/app/shared/track-by-functions';
 })
 export class MonthlyComparisonOverviewComponent {
   monthlyComparativeData$: Observable<MonthlyComparativeData[]>;
+  annualComparativeData$: Observable<MonthlyComparativeData[]>;
+  shouldShowMonthly = true;
 
   trackByMonth = trackByMonth;
 
   constructor(private statisticsService: StatisticsService) {
     this.monthlyComparativeData$ =
       this.statisticsService.getMonthlyComparative();
+    this.annualComparativeData$ = this.statisticsService.getAnnualComparative();
   }
 }

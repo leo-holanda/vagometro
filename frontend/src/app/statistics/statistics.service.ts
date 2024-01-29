@@ -438,14 +438,23 @@ export class StatisticsService {
       map((data) => {
         const monthlyComparativeData: MonthlyComparativeData[] = [];
 
-        for (let i = 0; i < data.length - 1; i++) {
-          const difference = data[i].count - data[i + 1].count;
+        for (let i = 0; i < data.length; i++) {
+          let difference;
+          let differenceAsPercentage;
+
+          if (i + 1 == data.length) {
+            difference = data[i].count;
+            differenceAsPercentage = 100;
+          } else {
+            difference = data[i].count - data[i + 1].count;
+            differenceAsPercentage = (difference / data[i + 1].count) * 100;
+          }
 
           monthlyComparativeData.push({
             name: data[i].name,
             count: data[i].count,
             difference: difference,
-            differenceAsPercentage: (difference / data[i + 1].count) * 100,
+            differenceAsPercentage: differenceAsPercentage,
           });
         }
 

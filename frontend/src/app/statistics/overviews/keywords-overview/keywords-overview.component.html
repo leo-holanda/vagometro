@@ -65,20 +65,9 @@
         </section>
       </div>
 
-      <div
-        class="card card-bordered card-compact w-full bg-base-300 flex flex-col gap-4 h-min"
-      >
-        <header class="card-title items-center p-4">
-          <i class="bx bxs-calendar"></i>
-          <h1>Comparativos</h1>
-        </header>
-
-        <section class="card-body">
-          <vgm-comparison-overview
-            [jobs$]="jobsByKeyword$"
-          ></vgm-comparison-overview>
-        </section>
-      </div>
+      <vgm-comparison-overview
+        [jobs$]="jobsByKeyword$"
+      ></vgm-comparison-overview>
     </section>
 
     <section class="card card-bordered card-compact w-full bg-base-300">

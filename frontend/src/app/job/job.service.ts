@@ -203,10 +203,7 @@ export class JobService {
   }
 
   getJobMonthAndYear(job: Job): string {
-    return job.publishedDate.toLocaleString('pt', {
-      month: 'long',
-      year: 'numeric',
-    });
+    return `${this.getJobMonth(job)}/${this.getJobYear(job)}`;
   }
 
   private findOldestJob(): Date {

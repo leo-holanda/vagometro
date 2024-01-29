@@ -22,7 +22,7 @@
 </footer>
 
 <dialog #jobSourcesModal class="modal">
-  <div class="modal-box">
+  <div class="modal-box flex flex-col gap-2">
     <header class="flex items-center gap-2 mb-4">
       <i class="bx bx-data"></i>
       <h1 class="text-lg font-bold">
@@ -31,6 +31,11 @@
     </header>
 
     <vgm-job-source-selector></vgm-job-source-selector>
+
+    <span class="text-xs text-slate-500 pt-4"
+      >O app está com alguns problemas de performance. Correções serão
+      acrescentadas na próxima versão.</span
+    >
 
     <div class="modal-action w-full">
       <form method="dialog" class="w-full">

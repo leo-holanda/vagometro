@@ -1,5 +1,5 @@
 <ng-container *ngIf="(jobsCount$ | async) != undefined; else loading">
-  <div class="stats bg-base-300 m-4">
+  <div class="stats stats-vertical bg-base-300 m-4">
     <div class="stat place-items-center">
       <div class="stat-value text-6xl lg:text-8xl">
         {{ jobsCount$ | async | number }}
@@ -44,11 +44,49 @@
 
         <div *ngSwitchDefault>output2</div>
       </div>
+    </div>
 
-      <button class="btn btn-sm my-4" [routerLink]="['/comparativo']">
-        <i class="bx bxs-chart"></i>
-        Ver comparativo mensal/anual
-      </button>
+    <div class="stat place-items-center">
+      <div class="stat-title">Comparação com o último mês</div>
+      <div class="stat-value">
+        <span
+          [ngClass]="{
+            'text-green-500': (lastMonthDifference$ | async)!.difference > 0,
+            'text-red-500': (lastMonthDifference$ | async)!.difference < 0
+          }"
+        >
+          {{ (lastMonthDifference$ | async)!.difference | number }}
+        </span>
+        <i
+          *ngIf="(lastMonthDifference$ | async)!.difference > 0"
+          class="bx bxs-up-arrow-alt text-3xl"
+          [ngClass]="{
+            'text-green-500': (lastMonthDifference$ | async)!.difference > 0,
+            'text-red-500': (lastMonthDifference$ | async)!.difference < 0
+          }"
+        ></i>
+        <i
+          *ngIf="(lastMonthDifference$ | async)!.difference < 0"
+          class="bx bxs-down-arrow-alt text-3xl"
+          [ngClass]="{
+            'text-green-500': (lastMonthDifference$ | async)!.difference > 0,
+            'text-red-500': (lastMonthDifference$ | async)!.difference < 0
+          }"
+        ></i>
+      </div>
+      <div
+        class="stat-desc flex items-center flex-col"
+        [ngClass]="{
+          'text-green-500': (lastMonthDifference$ | async)!.difference > 0,
+          'text-red-500': (lastMonthDifference$ | async)!.difference < 0
+        }"
+      >
+        <span> vagas publicadas </span>
+        <button class="btn btn-sm my-4" [routerLink]="['/comparativo']">
+          <i class="bx bxs-chart"></i>
+          Ver comparativo mensal/anual
+        </button>
+      </div>
     </div>
   </div>
 </ng-container>

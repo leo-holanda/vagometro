@@ -1,0 +1,65 @@
+<ng-container
+  *ngIf="monthlyComparativeData$ | async as monthlyData; else loading"
+>
+  <main class="flex items-center justify-center h-full mb-4">
+    <div class="card bg-base-300 shadow-xl">
+      <div class="card-body">
+        <h2 class="card-title">
+          <i class="bx bxs-chart"></i>
+          Comparativo Mensal
+        </h2>
+
+        <div class="overflow-x-auto max-h-96">
+          <table class="table table-sm table-zebra">
+            <thead>
+              <tr>
+                <th>Mês</th>
+                <th>Vagas</th>
+                <th>Diferença</th>
+                <th>Diferença (%)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="
+                  let month of monthlyData;
+                  index as i;
+                  trackBy: trackByMonth
+                "
+              >
+                <td>{{ month.name | titlecase }}</td>
+                <td>{{ month.count | number }}</td>
+                <td
+                  [ngClass]="{
+                    'text-green-500': month.difference > 0,
+                    'text-red-500': month.difference < 0
+                  }"
+                >
+                  {{ month.difference | number }}
+                </td>
+                <td
+                  [ngClass]="{
+                    'text-green-500': month.difference > 0,
+                    'text-red-500': month.difference < 0
+                  }"
+                >
+                  {{ (month.differenceAsPercentage | number : "1.2-2") + "%" }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+</ng-container>
+
+<ng-template #loading>
+  <div class="flex flex-col w-full gap-4 mt-4">
+    <div class="skeleton h-8 w-full"></div>
+    <div class="skeleton h-8 w-full"></div>
+    <div class="skeleton h-8 w-full"></div>
+    <div class="skeleton h-8 w-full"></div>
+    <div class="skeleton h-8 w-full"></div>
+  </div>
+</ng-template>

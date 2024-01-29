@@ -4,11 +4,12 @@ import { Observable } from 'rxjs';
 import { StatisticsService } from '../statistics.service';
 import { JobService } from 'src/app/job/job.service';
 import { TimeWindows } from 'src/app/job/job.types';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'vgm-job-count',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './job-count.component.html',
   styleUrls: ['./job-count.component.scss'],
 })

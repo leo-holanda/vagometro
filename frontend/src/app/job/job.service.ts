@@ -196,6 +196,13 @@ export class JobService {
     return new Date(job.publishedDate).toLocaleString('pt', { month: 'long' });
   }
 
+  getJobMonthAndYear(job: Job): string {
+    return new Date(job.publishedDate).toLocaleString('pt', {
+      month: 'long',
+      year: 'numeric',
+    });
+  }
+
   private findOldestJob(): Date {
     return this.pristineJobs.reduce((oldestDate, currentJob) => {
       const currentJobPublishedDate = new Date(currentJob.publishedDate);

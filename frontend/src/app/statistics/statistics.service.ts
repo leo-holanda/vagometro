@@ -16,7 +16,10 @@ import {
   DisabilityStatuses,
 } from './ranks/disability-rank/disability-rank.model';
 import { EducationData } from './ranks/education-rank/education-rank.types';
-import { MonthData } from './ranks/months-rank/months-rank.types';
+import {
+  MonthData,
+  MonthlyComparativeData,
+} from './ranks/months-rank/months-rank.types';
 
 @Injectable({
   providedIn: 'root',
@@ -397,14 +400,54 @@ export class StatisticsService {
           (a, b) => b[1] - a[1]
         );
 
-        const sortedObjects = sortedEntries.map(
-          ([key, value]): EducationData => ({
+        const sortedObjects = sortedEntries.map(([key, value]) => ({
+          name: key,
+          count: value,
+        }));
+
+        return sortedObjects;
+      })
+    );
+  }
+
+  getMonthlyComparative(): Observable<MonthlyComparativeData[]> {
+    return this.jobService.jobs$.pipe(
+      filter((jobs): jobs is Job[] => jobs != undefined),
+      map((jobs) => {
+        const monthsMap = new Map<string, number>();
+
+        jobs.forEach((job) => {
+          const monthAndYearWhenJobWasPublished =
+            this.jobService.getJobMonthAndYear(job);
+          const currentMonthCount =
+            monthsMap.get(monthAndYearWhenJobWasPublished) || 0;
+          monthsMap.set(monthAndYearWhenJobWasPublished, currentMonthCount + 1);
+        });
+
+        const sortedObjects = Array.from(monthsMap.entries()).map(
+          ([key, value]) => ({
             name: key,
             count: value,
           })
         );
 
         return sortedObjects;
+      }),
+      map((data) => {
+        const monthlyComparativeData: MonthlyComparativeData[] = [];
+
+        for (let i = 0; i < data.length - 1; i++) {
+          const difference = data[i].count - data[i + 1].count;
+
+          monthlyComparativeData.push({
+            name: data[i].name,
+            count: data[i].count,
+            difference: difference,
+            differenceAsPercentage: (difference / data[i + 1].count) * 100,
+          });
+        }
+
+        return monthlyComparativeData;
       })
     );
   }

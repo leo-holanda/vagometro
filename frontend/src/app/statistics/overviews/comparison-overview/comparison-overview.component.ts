@@ -7,13 +7,13 @@ import { trackByMonth } from 'src/app/shared/track-by-functions';
 import { Job } from 'src/app/job/job.types';
 
 @Component({
-  selector: 'vgm-monthly-comparison-overview',
+  selector: 'vgm-comparison-overview',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './monthly-comparison-overview.component.html',
-  styleUrls: ['./monthly-comparison-overview.component.scss'],
+  templateUrl: './comparison-overview.component.html',
+  styleUrls: ['./comparison-overview.component.scss'],
 })
-export class MonthlyComparisonOverviewComponent implements OnChanges {
+export class ComparisonOverviewComponent implements OnChanges {
   @Input() jobs$?: Observable<Job[]>;
 
   monthlyComparativeData$: Observable<MonthlyComparativeData[]>;

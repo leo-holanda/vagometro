@@ -10,7 +10,7 @@ import { DisabilityStatusesOverviewComponent } from './statistics/overviews/disa
 import { EducationOverviewComponent } from './statistics/overviews/education-overview/education-overview.component';
 import { LanguagesOverviewComponent } from './statistics/overviews/languages-overview/languages-overview.component';
 import { MonthsOverviewComponent } from './statistics/overviews/months-overview/months-overview.component';
-import { MonthlyComparisonOverviewComponent } from './statistics/overviews/monthly-comparison-overview/monthly-comparison-overview.component';
+import { ComparisonOverviewComponent } from './statistics/overviews/comparison-overview/comparison-overview.component';
 
 export const routes: Routes = [
   {
@@ -59,7 +59,7 @@ export const routes: Routes = [
   },
   {
     path: 'comparativo',
-    component: MonthlyComparisonOverviewComponent,
+    component: ComparisonOverviewComponent,
   },
   {
     path: '**',

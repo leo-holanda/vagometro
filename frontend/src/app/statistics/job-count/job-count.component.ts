@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 import { StatisticsService } from '../statistics.service';
@@ -13,8 +13,8 @@ import { RouterModule } from '@angular/router';
   templateUrl: './job-count.component.html',
   styleUrls: ['./job-count.component.scss'],
 })
-export class JobCountComponent implements OnInit {
-  jobsCount$!: Observable<number>;
+export class JobCountComponent {
+  jobsCount$: Observable<number>;
 
   currentTimeWindow$!: Observable<TimeWindows>;
   timeWindows = TimeWindows;
@@ -22,9 +22,7 @@ export class JobCountComponent implements OnInit {
   constructor(
     private statisticsService: StatisticsService,
     private jobService: JobService
-  ) {}
-
-  ngOnInit(): void {
+  ) {
     this.currentTimeWindow$ = this.jobService.currentTimeWindow$;
     this.jobsCount$ = this.statisticsService.getJobsCount();
   }

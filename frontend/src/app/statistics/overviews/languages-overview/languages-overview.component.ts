@@ -13,6 +13,7 @@ import { WorkplaceRankComponent } from '../../ranks/workplace-rank/workplace-ran
 import { ExperienceLevelsRankComponent } from '../../ranks/experience-levels-rank/experience-levels-rank.component';
 import { EducationRankComponent } from '../../ranks/education-rank/education-rank.component';
 import { JobListComponent } from 'src/app/job/job-list/job-list.component';
+import { ComparisonOverviewComponent } from '../comparison-overview/comparison-overview.component';
 
 @Component({
   selector: 'vgm-languages-overview',
@@ -26,6 +27,7 @@ import { JobListComponent } from 'src/app/job/job-list/job-list.component';
     ExperienceLevelsRankComponent,
     EducationRankComponent,
     JobListComponent,
+    ComparisonOverviewComponent,
   ],
   templateUrl: './languages-overview.component.html',
   styleUrls: ['./languages-overview.component.scss'],

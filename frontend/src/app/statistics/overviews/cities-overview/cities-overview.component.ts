@@ -23,6 +23,7 @@ import { StatisticsService } from '../../statistics.service';
 import { StateAbbreviationPipe } from 'src/app/shared/pipes/state-abbreviation.pipe';
 import { EducationRankComponent } from '../../ranks/education-rank/education-rank.component';
 import { LanguagesRankComponent } from '../../ranks/languages-rank/languages-rank.component';
+import { ComparisonOverviewComponent } from '../comparison-overview/comparison-overview.component';
 
 @Component({
   selector: 'vgm-cities-overview',
@@ -40,6 +41,7 @@ import { LanguagesRankComponent } from '../../ranks/languages-rank/languages-ran
     StateAbbreviationPipe,
     EducationRankComponent,
     LanguagesRankComponent,
+    ComparisonOverviewComponent,
   ],
   templateUrl: './cities-overview.component.html',
   styleUrls: ['./cities-overview.component.scss'],

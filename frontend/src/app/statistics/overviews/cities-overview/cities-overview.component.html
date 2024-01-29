@@ -131,6 +131,10 @@
         ></vgm-publication-chart>
       </div>
     </div>
+
+    <vgm-comparison-overview
+      [jobs$]="dataType == 'city' ? jobsByCity$ : jobsByState$"
+    ></vgm-comparison-overview>
   </div>
 
   <div class="card card-bordered card-compact w-full bg-base-300">

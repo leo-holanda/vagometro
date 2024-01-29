@@ -15,6 +15,7 @@ import { JobListComponent } from 'src/app/job/job-list/job-list.component';
 import { EducationalDataTypes } from './education-overview.types';
 import { TypeRankComponent } from '../../ranks/type-rank/type-rank.component';
 import { LanguagesRankComponent } from '../../ranks/languages-rank/languages-rank.component';
+import { ComparisonOverviewComponent } from '../comparison-overview/comparison-overview.component';
 
 @Component({
   selector: 'vgm-education-overview',
@@ -29,6 +30,7 @@ import { LanguagesRankComponent } from '../../ranks/languages-rank/languages-ran
     JobListComponent,
     TypeRankComponent,
     LanguagesRankComponent,
+    ComparisonOverviewComponent,
   ],
   templateUrl: './education-overview.component.html',
   styleUrls: ['./education-overview.component.scss'],

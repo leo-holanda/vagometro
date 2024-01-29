@@ -64,6 +64,21 @@
           ></vgm-publication-chart>
         </section>
       </div>
+
+      <div
+        class="card card-bordered card-compact w-full bg-base-300 flex flex-col gap-4 h-min"
+      >
+        <header class="card-title items-center p-4">
+          <i class="bx bxs-calendar"></i>
+          <h1>Comparativos</h1>
+        </header>
+
+        <section class="card-body">
+          <vgm-monthly-comparison-overview
+            [jobs$]="jobsByKeyword$"
+          ></vgm-monthly-comparison-overview>
+        </section>
+      </div>
     </section>
 
     <section class="card card-bordered card-compact w-full bg-base-300">

@@ -40,6 +40,6 @@ export class StateAbbreviationPipe implements PipeTransform {
   };
 
   transform(value: string, ...args: unknown[]): unknown {
-    return this.states[value];
+    return this.states[value] || 'Desconhecido';
   }
 }

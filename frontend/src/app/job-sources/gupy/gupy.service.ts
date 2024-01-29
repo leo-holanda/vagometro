@@ -61,7 +61,7 @@ export class GupyService {
       companyName: gupyJob.careerPageName,
       description: gupyJob.description,
       id: gupyJob.id,
-      publishedDate: gupyJob.publishedDate,
+      publishedDate: new Date(gupyJob.publishedDate),
       contractType: this.findJobContractType(gupyJob),
       experienceLevel: this.findExperienceLevel(gupyJob),
       keywords: this.getJobKeywords(gupyJob),

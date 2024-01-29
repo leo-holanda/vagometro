@@ -101,7 +101,7 @@ export class GitHubJobsService {
       companyName: 'Desconhecido',
       description: githubJob.body,
       id: githubJob.id,
-      publishedDate: githubJob.created_at,
+      publishedDate: new Date(githubJob.created_at),
       contractType: this.findContractTypesCitedInJob(githubJob)[0],
       experienceLevel: this.findJobExperienceLevel(githubJob),
       keywords: this.findJobKeywords(githubJob),

@@ -56,7 +56,7 @@ export type Job = {
   state: string;
   city: string;
   disabilityStatus: DisabilityStatuses;
-  publishedDate: string;
+  publishedDate: Date;
   contractType: string;
   experienceLevel: ExperienceLevels;
   keywords: string[];

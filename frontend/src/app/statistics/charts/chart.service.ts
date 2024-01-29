@@ -32,7 +32,7 @@ export class ChartService {
         }
 
         jobs.forEach((job) => {
-          const publishedDate = new Date(job.publishedDate).toDateString();
+          const publishedDate = job.publishedDate.toDateString();
           const currentDateCount = publicationMap.get(publishedDate) || 0;
           publicationMap.set(publishedDate, currentDateCount + 1);
         });

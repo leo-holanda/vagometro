@@ -97,7 +97,7 @@ export class JobService {
     let jobs = [...this.pristineJobs];
     if (jobs.length > 0) {
       const minDate = this.createDateByTimeWindow(timeWindow);
-      jobs = jobs.filter((job) => new Date(job.publishedDate) > minDate);
+      jobs = jobs.filter((job) => job.publishedDate > minDate);
       this._jobs$.next(jobs);
     }
   }
@@ -193,17 +193,17 @@ export class JobService {
   }
 
   getJobMonth(job: Job): string {
-    return new Date(job.publishedDate).toLocaleString('pt', { month: 'long' });
+    return job.publishedDate.toLocaleString('pt', { month: 'long' });
   }
 
   getJobYear(job: Job): string {
-    return new Date(job.publishedDate).toLocaleString('pt', {
+    return job.publishedDate.toLocaleString('pt', {
       year: 'numeric',
     });
   }
 
   getJobMonthAndYear(job: Job): string {
-    return new Date(job.publishedDate).toLocaleString('pt', {
+    return job.publishedDate.toLocaleString('pt', {
       month: 'long',
       year: 'numeric',
     });
@@ -211,7 +211,7 @@ export class JobService {
 
   private findOldestJob(): Date {
     return this.pristineJobs.reduce((oldestDate, currentJob) => {
-      const currentJobPublishedDate = new Date(currentJob.publishedDate);
+      const currentJobPublishedDate = currentJob.publishedDate;
       if (currentJobPublishedDate < oldestDate) return currentJobPublishedDate;
       return oldestDate;
     }, new Date());

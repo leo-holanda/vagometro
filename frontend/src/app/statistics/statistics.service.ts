@@ -387,9 +387,7 @@ export class StatisticsService {
         const monthsMap = new Map<string, number>();
 
         jobs.forEach((job) => {
-          const monthWhenJobWasPublished = new Date(
-            job.publishedDate
-          ).toLocaleString('pt', { month: 'long' });
+          const monthWhenJobWasPublished = this.jobService.getJobMonth(job);
           const currentMonthCount =
             monthsMap.get(monthWhenJobWasPublished) || 0;
           monthsMap.set(monthWhenJobWasPublished, currentMonthCount + 1);

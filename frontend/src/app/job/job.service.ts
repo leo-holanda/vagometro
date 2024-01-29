@@ -183,6 +183,19 @@ export class JobService {
     );
   }
 
+  getJobsByMonth(month: string): Observable<Job[]> {
+    return this.jobs$.pipe(
+      filter((jobs): jobs is Job[] => jobs != undefined),
+      map((jobs) => {
+        return jobs.filter((job) => this.getJobMonth(job) == month);
+      })
+    );
+  }
+
+  getJobMonth(job: Job): string {
+    return new Date(job.publishedDate).toLocaleString('pt', { month: 'long' });
+  }
+
   private findOldestJob(): Date {
     return this.pristineJobs.reduce((oldestDate, currentJob) => {
       const currentJobPublishedDate = new Date(currentJob.publishedDate);

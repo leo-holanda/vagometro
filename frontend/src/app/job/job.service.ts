@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, filter, map } from 'rxjs';
 import { DisabilityStatuses } from '../statistics/ranks/disability-rank/disability-rank.model';
 import { ExperienceLevels } from '../statistics/ranks/experience-levels-rank/experience-levels-rank.model';
-import { Job, TimeWindows } from './job.types';
+import { Job, TimeWindows, monthsMap } from './job.types';
 
 @Injectable({
   providedIn: 'root',
@@ -193,13 +193,11 @@ export class JobService {
   }
 
   getJobMonth(job: Job): string {
-    return job.publishedDate.toLocaleString('pt', { month: 'long' });
+    return monthsMap[job.publishedDate.getMonth()];
   }
 
   getJobYear(job: Job): string {
-    return job.publishedDate.toLocaleString('pt', {
-      year: 'numeric',
-    });
+    return job.publishedDate.getFullYear().toString();
   }
 
   getJobMonthAndYear(job: Job): string {

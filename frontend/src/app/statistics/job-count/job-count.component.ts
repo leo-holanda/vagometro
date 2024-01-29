@@ -5,7 +5,7 @@ import { StatisticsService } from '../statistics.service';
 import { JobService } from 'src/app/job/job.service';
 import { TimeWindows } from 'src/app/job/job.types';
 import { RouterModule } from '@angular/router';
-import { MonthlyComparativeData } from '../ranks/months-rank/months-rank.types';
+import { ComparisonData } from '../ranks/months-rank/months-rank.types';
 
 @Component({
   selector: 'vgm-job-count',
@@ -20,8 +20,8 @@ export class JobCountComponent {
   currentTimeWindow$!: Observable<TimeWindows>;
   timeWindows = TimeWindows;
 
-  lastMonthDifference$: Observable<MonthlyComparativeData>;
-  lastYearDifference$: Observable<MonthlyComparativeData>;
+  lastMonthDifference$: Observable<ComparisonData>;
+  lastYearDifference$: Observable<ComparisonData>;
 
   constructor(
     private statisticsService: StatisticsService,

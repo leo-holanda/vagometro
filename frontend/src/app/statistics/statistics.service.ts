@@ -18,7 +18,7 @@ import {
 import { EducationData } from './ranks/education-rank/education-rank.types';
 import {
   MonthData,
-  MonthlyComparativeData,
+  ComparisonData,
 } from './ranks/months-rank/months-rank.types';
 
 @Injectable({
@@ -412,7 +412,7 @@ export class StatisticsService {
 
   getMonthlyComparison(
     jobs$: Observable<Job[] | undefined> = this.jobService.jobs$
-  ): Observable<MonthlyComparativeData[]> {
+  ): Observable<ComparisonData[]> {
     return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
@@ -436,7 +436,7 @@ export class StatisticsService {
         return sortedObjects;
       }),
       map((data) => {
-        const monthlyComparativeData: MonthlyComparativeData[] = [];
+        const monthlyComparativeData: ComparisonData[] = [];
 
         for (let i = 0; i < data.length; i++) {
           let difference;
@@ -465,21 +465,19 @@ export class StatisticsService {
 
   getAnnualComparison(
     jobs$: Observable<Job[] | undefined> = this.jobService.jobs$
-  ): Observable<MonthlyComparativeData[]> {
+  ): Observable<ComparisonData[]> {
     return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
-        const monthsMap = new Map<string, number>();
+        const yearsMap = new Map<string, number>();
 
         jobs.forEach((job) => {
-          const monthAndYearWhenJobWasPublished =
-            this.jobService.getJobYear(job);
-          const currentMonthCount =
-            monthsMap.get(monthAndYearWhenJobWasPublished) || 0;
-          monthsMap.set(monthAndYearWhenJobWasPublished, currentMonthCount + 1);
+          const yearWhenJobWasPublished = this.jobService.getJobYear(job);
+          const currentYearCount = yearsMap.get(yearWhenJobWasPublished) || 0;
+          yearsMap.set(yearWhenJobWasPublished, currentYearCount + 1);
         });
 
-        const sortedObjects = Array.from(monthsMap.entries()).map(
+        const sortedObjects = Array.from(yearsMap.entries()).map(
           ([key, value]) => ({
             name: key,
             count: value,
@@ -489,20 +487,29 @@ export class StatisticsService {
         return sortedObjects;
       }),
       map((data) => {
-        const monthlyComparativeData: MonthlyComparativeData[] = [];
+        const yearlyComparativeData: ComparisonData[] = [];
 
-        for (let i = 0; i < data.length - 1; i++) {
-          const difference = data[i].count - data[i + 1].count;
+        for (let i = 0; i < data.length; i++) {
+          let difference;
+          let differenceAsPercentage;
 
-          monthlyComparativeData.push({
+          if (i + 1 == data.length) {
+            difference = data[i].count;
+            differenceAsPercentage = 100;
+          } else {
+            difference = data[i].count - data[i + 1].count;
+            differenceAsPercentage = (difference / data[i + 1].count) * 100;
+          }
+
+          yearlyComparativeData.push({
             name: data[i].name,
             count: data[i].count,
             difference: difference,
-            differenceAsPercentage: (difference / data[i + 1].count) * 100,
+            differenceAsPercentage: differenceAsPercentage,
           });
         }
 
-        return monthlyComparativeData;
+        return yearlyComparativeData;
       })
     );
   }

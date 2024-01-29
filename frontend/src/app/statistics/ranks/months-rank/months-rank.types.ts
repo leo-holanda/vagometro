@@ -3,7 +3,7 @@ export type MonthData = {
   count: number;
 };
 
-export type MonthlyComparativeData = {
+export type ComparisonData = {
   name: string;
   count: number;
   difference: number;

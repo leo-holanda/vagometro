@@ -2,7 +2,7 @@ import { Component, Input, OnChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StatisticsService } from '../../statistics.service';
 import { Observable } from 'rxjs';
-import { MonthlyComparativeData } from '../../ranks/months-rank/months-rank.types';
+import { ComparisonData } from '../../ranks/months-rank/months-rank.types';
 import { trackByMonth } from 'src/app/shared/track-by-functions';
 import { Job } from 'src/app/job/job.types';
 
@@ -16,8 +16,8 @@ import { Job } from 'src/app/job/job.types';
 export class ComparisonOverviewComponent implements OnChanges {
   @Input() jobs$?: Observable<Job[]>;
 
-  monthlyComparativeData$: Observable<MonthlyComparativeData[]>;
-  annualComparativeData$: Observable<MonthlyComparativeData[]>;
+  monthlyComparativeData$: Observable<ComparisonData[]>;
+  annualComparativeData$: Observable<ComparisonData[]>;
   shouldShowMonthly = true;
 
   trackByMonth = trackByMonth;

@@ -164,9 +164,9 @@ export class GitHubJobsService {
 
     jobExperienceLevels.push(...termsMatchedWithLabel);
 
-    const termsMatchedWithTitle = this.matchExperienceLevelTerms([
-      githubJob.title,
-    ]);
+    const termsMatchedWithTitle = this.matchExperienceLevelTerms(
+      githubJob.title.split(' ')
+    );
 
     jobExperienceLevels.push(...termsMatchedWithTitle);
 

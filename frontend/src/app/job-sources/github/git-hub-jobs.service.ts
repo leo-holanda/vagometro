@@ -27,6 +27,7 @@ import {
   juniorLevelRelatedTerms,
   traineeLevelRelatedTerms,
   internLevelRelatedTerms,
+  specialistLevelRelatedTerms,
 } from '../../statistics/ranks/experience-levels-rank/experience-levels-rank.data';
 import { keywords } from '../../statistics/ranks/keywords-rank/keywords-rank.data';
 import {
@@ -179,6 +180,12 @@ export class GitHubJobsService {
     );
 
     const matchedExperienceLevels = [];
+
+    const hasSpecialistLevelRelatedTerms = specialistLevelRelatedTerms.some(
+      (term) => labelContent.includes(term)
+    );
+    if (hasSpecialistLevelRelatedTerms)
+      matchedExperienceLevels.push(ExperienceLevels.specialist);
 
     const hasSeniorLevelRelatedTerms = seniorLevelRelatedTerms.some((term) =>
       labelContent.includes(term)

@@ -33,7 +33,8 @@ export const seniorLevelRelatedTerms = [
   'senior',
   'sr',
   'sr.',
-  'especialista',
   'iii',
   'lll',
 ];
+
+export const specialistLevelRelatedTerms = ['especialista'];

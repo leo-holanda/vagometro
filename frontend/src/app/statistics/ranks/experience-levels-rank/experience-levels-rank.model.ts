@@ -4,6 +4,7 @@ export enum ExperienceLevels {
   junior = 'Júnior',
   mid = 'Pleno',
   senior = 'Sênior',
+  specialist = 'Especialista',
   unknown = 'Desconhecido',
 }
 

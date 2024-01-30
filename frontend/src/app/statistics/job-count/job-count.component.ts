@@ -16,6 +16,7 @@ import { ComparisonData } from '../ranks/months-rank/months-rank.types';
 })
 export class JobCountComponent {
   jobsCount$: Observable<number>;
+  oldestJobPublishedDate$: Observable<Date | undefined>;
 
   currentTimeWindow$!: Observable<TimeWindows>;
   timeWindows = TimeWindows;
@@ -29,6 +30,8 @@ export class JobCountComponent {
   ) {
     this.currentTimeWindow$ = this.jobService.currentTimeWindow$;
     this.jobsCount$ = this.statisticsService.getJobsCount();
+    this.oldestJobPublishedDate$ = this.jobService.oldestJobPublishedDate$;
+
     this.lastMonthDifference$ = this.statisticsService
       .getMonthlyComparison()
       .pipe(map((monthlyData) => monthlyData[0]));

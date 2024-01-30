@@ -5,44 +5,9 @@
         {{ jobsCount$ | async | number }}
       </div>
 
-      <div [ngSwitch]="currentTimeWindow$ | async">
-        <div *ngSwitchCase="timeWindows.day">
-          <div class="stat-desc text-center text-lg lg:text-xl text-wrap">
-            vagas publicadas no dia anterior
-          </div>
-        </div>
-
-        <div *ngSwitchCase="timeWindows.week">
-          <div class="stat-desc text-center text-lg lg:text-xl text-wrap">
-            vagas publicadas nesta semana
-          </div>
-        </div>
-
-        <div *ngSwitchCase="timeWindows.month">
-          <div class="stat-desc text-center text-lg lg:text-xl text-wrap">
-            vagas publicadas neste mês
-          </div>
-        </div>
-
-        <div *ngSwitchCase="timeWindows['6months']">
-          <div class="stat-desc text-center text-lg lg:text-xl text-wrap">
-            vagas publicadas nos últimos 6 meses
-          </div>
-        </div>
-
-        <div *ngSwitchCase="timeWindows.year">
-          <div class="stat-desc text-center text-lg lg:text-xl text-wrap">
-            vagas publicadas no último ano
-          </div>
-        </div>
-
-        <div *ngSwitchCase="timeWindows.all">
-          <div class="stat-desc text-center text-lg lg:text-xl text-wrap">
-            vagas publicadas
-          </div>
-        </div>
-
-        <div *ngSwitchDefault>output2</div>
+      <div class="stat-desc text-center text-lg lg:text-xl text-wrap">
+        vagas publicadas desde o dia
+        {{ oldestJobPublishedDate$ | async | date : "dd/MM/yyyy" }}
       </div>
     </div>
 

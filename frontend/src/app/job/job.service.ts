@@ -17,6 +17,11 @@ export class JobService {
   );
   currentTimeWindow$ = this._currentTimeWindow$.asObservable();
 
+  private _oldestJobPublishedDate$ = new BehaviorSubject<Date | undefined>(
+    undefined
+  );
+  oldestJobPublishedDate$ = this._oldestJobPublishedDate$.asObservable();
+
   constructor() {}
 
   setPristineJobs(jobs: Job[]): void {
@@ -25,6 +30,8 @@ export class JobService {
 
   setJobs(jobs: Job[]): void {
     this._jobs$.next(jobs);
+    const oldestDate = this.findOldestJobDate(jobs);
+    this._oldestJobPublishedDate$.next(oldestDate);
   }
 
   getJobsByState(state: string): Observable<Job[]> {
@@ -99,6 +106,8 @@ export class JobService {
       const minDate = this.createDateByTimeWindow(timeWindow);
       jobs = jobs.filter((job) => job.publishedDate > minDate);
       this._jobs$.next(jobs);
+      const oldestDate = this.findOldestJobDate(jobs);
+      this._oldestJobPublishedDate$.next(oldestDate);
     }
   }
 
@@ -128,7 +137,7 @@ export class JobService {
         break;
 
       case TimeWindows.all:
-        minDate = this.findOldestJob();
+        minDate = this.findOldestJobDate(this.pristineJobs);
         break;
     }
 
@@ -204,8 +213,8 @@ export class JobService {
     return `${this.getJobMonth(job)}/${this.getJobYear(job)}`;
   }
 
-  private findOldestJob(): Date {
-    return this.pristineJobs.reduce((oldestDate, currentJob) => {
+  private findOldestJobDate(jobs: Job[]): Date {
+    return jobs.reduce((oldestDate, currentJob) => {
       const currentJobPublishedDate = currentJob.publishedDate;
       if (currentJobPublishedDate < oldestDate) return currentJobPublishedDate;
       return oldestDate;

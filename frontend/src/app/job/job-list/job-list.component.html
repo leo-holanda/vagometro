@@ -96,7 +96,7 @@
           <button
             (mouseenter)="sortIconShowMap.workplaceType = true"
             (mouseleave)="sortIconShowMap.workplaceType = false"
-            (click)="sortJobs('workplaceType')"
+            (click)="sortJobs('workplaceTypes')"
             class="btn btn-ghost rounded-b-none w-full flex items-center justify-between flex-nowrap"
           >
             <span>Modalidade</span>
@@ -315,9 +315,17 @@
                 <span>Modalidade</span>
               </div>
 
-              <span class="font-bold">
-                {{ job.workplaceType | titlecase }}
-              </span>
+              <div
+                *ngIf="job.workplaceTypes.length > 0"
+                class="flex flex-wrap pb-4 gap-2"
+              >
+                <div
+                  class="badge badge-neutral"
+                  *ngFor="let workplaceType of job.workplaceTypes"
+                >
+                  {{ workplaceType }}
+                </div>
+              </div>
             </div>
 
             <div>

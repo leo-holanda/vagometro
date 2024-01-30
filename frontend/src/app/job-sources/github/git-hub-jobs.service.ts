@@ -92,7 +92,7 @@ export class GitHubJobsService {
     return {
       companyUrl: '',
       jobUrl: githubJob.html_url,
-      workplaceType: this.findJobWorkplaceTypes(githubJob)[0],
+      workplaceTypes: this.findJobWorkplaceTypes(githubJob),
       country: 'Brasil',
       title: githubJob.title,
       state: 'Desconhecido',

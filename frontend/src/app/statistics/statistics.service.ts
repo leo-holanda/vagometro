@@ -101,9 +101,10 @@ export class StatisticsService {
         const workplaceMap = new Map<string, number>();
 
         jobs.forEach((job) => {
-          const currentWorkplaceCount =
-            workplaceMap.get(job.workplaceType) || 0;
-          workplaceMap.set(job.workplaceType, currentWorkplaceCount + 1);
+          job.workplaceTypes.forEach((workplaceType) => {
+            const currentWorkplaceCount = workplaceMap.get(workplaceType) || 0;
+            workplaceMap.set(workplaceType, currentWorkplaceCount + 1);
+          });
         });
 
         const sortedEntries = Array.from(workplaceMap.entries()).sort(

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, filter, map } from 'rxjs';
 import { DisabilityStatuses } from '../statistics/ranks/disability-rank/disability-rank.model';
 import { ExperienceLevels } from '../statistics/ranks/experience-levels-rank/experience-levels-rank.model';
-import { Job, TimeWindows, monthsMap } from './job.types';
+import { Job, TimeWindows, WorkplaceTypes, monthsMap } from './job.types';
 
 @Injectable({
   providedIn: 'root',
@@ -56,7 +56,9 @@ export class JobService {
     return this.jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
-        return jobs.filter((job) => job.workplaceType == workplace);
+        return jobs.filter((job) =>
+          job.workplaceTypes.includes(workplace as WorkplaceTypes)
+        );
       })
     );
   }

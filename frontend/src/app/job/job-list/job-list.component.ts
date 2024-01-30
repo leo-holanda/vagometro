@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable, Subject, filter, takeUntil } from 'rxjs';
-import { Job } from '../job.types';
+import { Job, WorkplaceTypes } from '../job.types';
 import { gupyContractTypeMap } from 'src/app/statistics/ranks/type-rank/type-rank.translations';
 import { StateAbbreviationPipe } from 'src/app/shared/pipes/state-abbreviation.pipe';
 import { ExperienceLevels } from 'src/app/statistics/ranks/experience-levels-rank/experience-levels-rank.model';
@@ -118,8 +118,10 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
       }
 
       if (this.filters.workplaceType) {
-        this.filteredJobs = this.filteredJobs.filter(
-          (job) => job.workplaceType == this.filters.workplaceType
+        this.filteredJobs = this.filteredJobs.filter((job) =>
+          job.workplaceTypes.includes(
+            this.filters.workplaceType as WorkplaceTypes
+          )
         );
       }
 

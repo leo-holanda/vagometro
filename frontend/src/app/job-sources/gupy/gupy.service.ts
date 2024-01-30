@@ -52,7 +52,7 @@ export class GupyService {
     return {
       companyUrl: gupyJob.careerPageUrl,
       jobUrl: gupyJob.jobUrl,
-      workplaceType: this.getJobWorkplaceType(gupyJob),
+      workplaceTypes: this.getJobWorkplaceType(gupyJob),
       country: gupyJob.country,
       title: gupyJob.name,
       state: gupyJob.state,
@@ -81,12 +81,12 @@ export class GupyService {
       : DisabilityStatuses.nonPCD;
   }
 
-  private getJobWorkplaceType(gupyJob: GupyJob): WorkplaceTypes {
-    if (gupyJob.workplaceType == 'remote') return WorkplaceTypes.remote;
-    if (gupyJob.workplaceType == 'on-site') return WorkplaceTypes['on-site'];
-    if (gupyJob.workplaceType == 'hybrid') return WorkplaceTypes.hybrid;
+  private getJobWorkplaceType(gupyJob: GupyJob): WorkplaceTypes[] {
+    if (gupyJob.workplaceType == 'remote') return [WorkplaceTypes.remote];
+    if (gupyJob.workplaceType == 'on-site') return [WorkplaceTypes['on-site']];
+    if (gupyJob.workplaceType == 'hybrid') return [WorkplaceTypes.hybrid];
 
-    return WorkplaceTypes.unknown;
+    return [WorkplaceTypes.unknown];
   }
 
   private getJobLanguages(gupyJob: GupyJob): string[] {

@@ -51,7 +51,7 @@ export type Job = {
   title: string;
   description: string;
   jobUrl: string;
-  workplaceType: WorkplaceTypes;
+  workplaceTypes: WorkplaceTypes[];
   country: string;
   state: string;
   city: string;

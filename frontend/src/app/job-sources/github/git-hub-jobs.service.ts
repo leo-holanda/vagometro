@@ -253,7 +253,9 @@ export class GitHubJobsService {
         .map((substring) => substring.toLowerCase());
 
       splittedTitle.forEach((substring: string) => {
-        if (keywords[substring]) jobKeywords.push(keywords[substring]);
+        // The typeof check is necessary to prevent the keywords constructor being matched.
+        if (keywords[substring] && typeof keywords[substring] === 'string')
+          jobKeywords.push(keywords[substring]);
       });
     }
 
@@ -268,7 +270,8 @@ export class GitHubJobsService {
         .map((substring) => substring.toLowerCase());
 
       splittedDescription.forEach((substring: string) => {
-        if (keywords[substring]) jobKeywords.push(keywords[substring]);
+        if (keywords[substring] && typeof keywords[substring] === 'string')
+          jobKeywords.push(keywords[substring]);
       });
     }
 

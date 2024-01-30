@@ -217,15 +217,15 @@ export class StatisticsService {
         const experienceLevelsMap = new Map<string, number>();
 
         jobs.forEach((job) => {
-          const experienceLevel = job.experienceLevel;
+          job.experienceLevels.forEach((experienceLevel) => {
+            const currentExperienceLevelCount =
+              experienceLevelsMap.get(experienceLevel) || 0;
 
-          const currentExperienceLevelCount =
-            experienceLevelsMap.get(experienceLevel) || 0;
-
-          experienceLevelsMap.set(
-            experienceLevel,
-            currentExperienceLevelCount + 1
-          );
+            experienceLevelsMap.set(
+              experienceLevel,
+              currentExperienceLevelCount + 1
+            );
+          });
         });
 
         const sortedEntries = Array.from(experienceLevelsMap.entries()).sort(

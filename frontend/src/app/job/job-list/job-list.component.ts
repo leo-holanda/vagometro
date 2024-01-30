@@ -112,8 +112,10 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
       }
 
       if (this.filters.experienceLevel) {
-        this.filteredJobs = this.filteredJobs.filter(
-          (job) => job.experienceLevel == this.filters.experienceLevel
+        this.filteredJobs = this.filteredJobs.filter((job) =>
+          job.experienceLevels.includes(
+            this.filters.experienceLevel as ExperienceLevels
+          )
         );
       }
 

@@ -63,7 +63,7 @@ export class GupyService {
       id: gupyJob.id,
       publishedDate: new Date(gupyJob.publishedDate),
       contractType: this.findJobContractType(gupyJob),
-      experienceLevel: this.findExperienceLevel(gupyJob),
+      experienceLevels: this.findExperienceLevel(gupyJob),
       keywords: this.getJobKeywords(gupyJob),
       educationTerms: this.getJobEducationTerms(gupyJob),
       educationalLevelTerms: this.getJobEducationalLevelTerms(gupyJob),
@@ -98,25 +98,25 @@ export class GupyService {
       .map((term) => term.termForListing);
   }
 
-  private findExperienceLevel(gupyJob: GupyJob): ExperienceLevels {
+  private findExperienceLevel(gupyJob: GupyJob): ExperienceLevels[] {
     if (internLevelRelatedTypes.includes(gupyJob.type))
-      return ExperienceLevels.intern;
+      return [ExperienceLevels.intern];
 
     if (traineeLevelRelatedTypes.includes(gupyJob.type))
-      return ExperienceLevels.trainee;
+      return [ExperienceLevels.trainee];
 
     if (juniorLevelRelatedTypes.includes(gupyJob.type))
-      return ExperienceLevels.junior;
+      return [ExperienceLevels.junior];
 
     const experienceLevelInTitle = this.matchExperienceLevelTerms(gupyJob.name);
-    if (experienceLevelInTitle) return experienceLevelInTitle;
+    if (experienceLevelInTitle) return [experienceLevelInTitle];
 
     const experienceLevelInDescription = this.matchExperienceLevelTerms(
       gupyJob.description
     );
-    if (experienceLevelInDescription) return experienceLevelInDescription;
+    if (experienceLevelInDescription) return [experienceLevelInDescription];
 
-    return ExperienceLevels.unknown;
+    return [ExperienceLevels.unknown];
   }
 
   private matchExperienceLevelTerms(

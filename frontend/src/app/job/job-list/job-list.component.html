@@ -65,7 +65,7 @@
           <button
             (mouseenter)="sortIconShowMap.experienceLevel = true"
             (mouseleave)="sortIconShowMap.experienceLevel = false"
-            (click)="sortJobs('experienceLevel')"
+            (click)="sortJobs('experienceLevels')"
             class="btn btn-ghost rounded-b-none w-full flex items-center justify-between flex-nowrap"
           >
             <span>Nível de experiência</span>
@@ -304,9 +304,17 @@
                 <span> Nível de experiência </span>
               </div>
 
-              <span class="font-bold">
-                {{ job.experienceLevel }}
-              </span>
+              <div
+                *ngIf="job.experienceLevels.length > 0"
+                class="flex flex-wrap pb-4 gap-2"
+              >
+                <div
+                  class="badge badge-neutral"
+                  *ngFor="let experienceLevel of job.experienceLevels"
+                >
+                  {{ experienceLevel }}
+                </div>
+              </div>
             </div>
 
             <div>

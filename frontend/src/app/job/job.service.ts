@@ -96,7 +96,9 @@ export class JobService {
     return this.jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
-        return jobs.filter((job) => job.experienceLevel == experienceLevel);
+        return jobs.filter((job) =>
+          job.experienceLevels.includes(experienceLevel)
+        );
       })
     );
   }

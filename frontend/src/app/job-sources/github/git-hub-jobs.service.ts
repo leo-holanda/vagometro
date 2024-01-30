@@ -103,7 +103,7 @@ export class GitHubJobsService {
       id: githubJob.id,
       publishedDate: new Date(githubJob.created_at),
       contractType: this.findContractTypesCitedInJob(githubJob)[0],
-      experienceLevel: this.findJobExperienceLevel(githubJob),
+      experienceLevels: this.findJobExperienceLevel(githubJob),
       keywords: this.findJobKeywords(githubJob),
       educationTerms: this.findCitedCoursesInJob(githubJob),
       educationalLevelTerms: this.findEducationalLevelsCitedInJob(githubJob),
@@ -154,87 +154,63 @@ export class GitHubJobsService {
     return this.getUniqueStrings(matchedWorkplaceTypes) as WorkplaceTypes[];
   }
 
-  private findJobExperienceLevel(githubJob: GitHubJob): ExperienceLevels {
-    const experienceLevelFromLabel = this.matchExperienceLevelTermsWithLabel(
+  private findJobExperienceLevel(githubJob: GitHubJob): ExperienceLevels[] {
+    const jobExperienceLevels: ExperienceLevels[] = [];
+
+    const termsMatchedWithLabel = this.matchExperienceLevelTerms(
       githubJob.labels
     );
 
-    if (experienceLevelFromLabel) return experienceLevelFromLabel;
-    const experienceLevelFromTitle = this.matchExperienceLevelTermsWithTitle(
-      githubJob.title
-    );
+    jobExperienceLevels.push(...termsMatchedWithLabel);
 
-    if (experienceLevelFromTitle) return experienceLevelFromTitle;
+    const termsMatchedWithTitle = this.matchExperienceLevelTerms([
+      githubJob.title,
+    ]);
 
-    return ExperienceLevels.unknown;
+    jobExperienceLevels.push(...termsMatchedWithTitle);
+
+    if (jobExperienceLevels.length == 0) return [ExperienceLevels.unknown];
+    return this.getUniqueStrings(jobExperienceLevels) as ExperienceLevels[];
   }
 
-  private matchExperienceLevelTermsWithLabel(
-    labels: string[]
-  ): ExperienceLevels | undefined {
+  private matchExperienceLevelTerms(labels: string[]): ExperienceLevels[] {
     const labelContent = labels.map((label) =>
       this.removeAccents(label).toLowerCase()
     );
 
+    const matchedExperienceLevels = [];
+
     const hasSeniorLevelRelatedTerms = seniorLevelRelatedTerms.some((term) =>
       labelContent.includes(term)
     );
-    if (hasSeniorLevelRelatedTerms) return ExperienceLevels.senior;
+    if (hasSeniorLevelRelatedTerms)
+      matchedExperienceLevels.push(ExperienceLevels.senior);
 
     const hasMidLevelRelatedTerms = midLevelRelatedTerms.some((term) =>
       labelContent.includes(term)
     );
-    if (hasMidLevelRelatedTerms) return ExperienceLevels.mid;
+    if (hasMidLevelRelatedTerms)
+      matchedExperienceLevels.push(ExperienceLevels.mid);
 
     const hasJuniorLevelRelatedTerms = juniorLevelRelatedTerms.some((term) =>
       labelContent.includes(term)
     );
-    if (hasJuniorLevelRelatedTerms) return ExperienceLevels.junior;
+    if (hasJuniorLevelRelatedTerms)
+      matchedExperienceLevels.push(ExperienceLevels.junior);
 
     const hasTraineeLevelRelatedTerms = traineeLevelRelatedTerms.some((term) =>
       labelContent.includes(term)
     );
-    if (hasTraineeLevelRelatedTerms) return ExperienceLevels.intern;
+    if (hasTraineeLevelRelatedTerms)
+      matchedExperienceLevels.push(ExperienceLevels.intern);
 
     const hasInternLevelRelatedTerms = internLevelRelatedTerms.some((term) =>
       labelContent.includes(term)
     );
-    if (hasInternLevelRelatedTerms) return ExperienceLevels.intern;
+    if (hasInternLevelRelatedTerms)
+      matchedExperienceLevels.push(ExperienceLevels.intern);
 
-    return undefined;
-  }
-
-  private matchExperienceLevelTermsWithTitle(
-    title: string
-  ): ExperienceLevels | undefined {
-    const titleContent = this.removeAccents(title).toLowerCase();
-
-    const hasSeniorLevelRelatedTerms = seniorLevelRelatedTerms.some((term) =>
-      titleContent.includes(term)
-    );
-    if (hasSeniorLevelRelatedTerms) return ExperienceLevels.senior;
-
-    const hasMidLevelRelatedTerms = midLevelRelatedTerms.some((term) =>
-      titleContent.includes(term)
-    );
-    if (hasMidLevelRelatedTerms) return ExperienceLevels.mid;
-
-    const hasJuniorLevelRelatedTerms = juniorLevelRelatedTerms.some((term) =>
-      titleContent.includes(term)
-    );
-    if (hasJuniorLevelRelatedTerms) return ExperienceLevels.junior;
-
-    const hasTraineeLevelRelatedTerms = traineeLevelRelatedTerms.some((term) =>
-      titleContent.includes(term)
-    );
-    if (hasTraineeLevelRelatedTerms) return ExperienceLevels.intern;
-
-    const hasInternLevelRelatedTerms = internLevelRelatedTerms.some((term) =>
-      titleContent.includes(term)
-    );
-    if (hasInternLevelRelatedTerms) return ExperienceLevels.intern;
-
-    return undefined;
+    return matchedExperienceLevels;
   }
 
   private findJobKeywords(githubJob: GitHubJob): string[] {

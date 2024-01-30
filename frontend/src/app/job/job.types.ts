@@ -58,7 +58,7 @@ export type Job = {
   disabilityStatus: DisabilityStatuses;
   publishedDate: Date;
   contractType: string;
-  experienceLevel: ExperienceLevels;
+  experienceLevels: ExperienceLevels[];
   keywords: string[];
   educationTerms: string[];
   educationalLevelTerms: string[];

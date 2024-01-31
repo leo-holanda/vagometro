@@ -1,10 +1,10 @@
 # vagômetro
 
-> A website that gathers and analyse data about dev jobs in Brazil
+> Web app that gathers and analyse data about dev jobs in Brazil
 
 <img src="demo.png" width="100%" />
 
-🌐 Check it at [vagometro.vercel.app/](vagometro.vercel.app/).
+🌐 Check it at [vagometro.vercel.app/](vagometro.vercel.app/)
 
 ## Contents
 
@@ -18,8 +18,21 @@
 ## Features
 
 - Gathers daily data about dev jobs in Brazil
-- Analyses the data to provide insights for better decision-making
-- Allows to see data in different time windows
+- Analyses the data to answer some questions:
+    - Which tech stack is the most requested?
+    - Which job contract type is the most frequent?
+    - Which experience level has more jobs?
+    - Which companies hire the most?
+    - Are there more remote jobs than hybrid/on-site?
+    - How many jobs are also for people with disability?
+    - Regarding hybrid/on-site jobs, which cities concentrate most of the jobs?
+    - Which education levels are being requested in jobs?
+    - Which month has more jobs published?
+    - Which foreign languages are more requested?
+- For each question: 
+    - Allows to see data in different time windows
+    - Allows monthly and annual data comparison
+    - Allows to see each job publication that was used in the analysis
 
 ## Installation
 
@@ -61,6 +74,7 @@ Feel free to submit any issues or enhancement requests! I will do my best to fix
 
 - Vercel
 - AWS
+- Cloudflare R2 and Workers
 
 ## License
 

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, combineLatest, filter, map } from 'rxjs';
 import { JobService } from 'src/app/job/job.service';
 import { Job, TimeWindows } from 'src/app/job/job.types';
+import { PublicationSeries } from './publication-chart/publication-chart.model';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,7 @@ export class ChartService {
 
   getPublicationSeries(
     jobs$: Observable<Job[] | undefined> = this.jobService.jobs$
-  ): Observable<any> {
+  ): Observable<PublicationSeries> {
     return combineLatest([jobs$, this.jobService.currentTimeWindow$]).pipe(
       filter(
         (params): params is [Job[], TimeWindows] =>

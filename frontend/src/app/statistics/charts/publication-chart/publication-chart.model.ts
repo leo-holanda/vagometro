@@ -1,4 +1,1 @@
-export type PublicationSeries = {
-  publicationDates: string[];
-  publicationCount: number[];
-};
+export type PublicationSeries = [Date, number][];

@@ -5,7 +5,7 @@ export const juniorLevelRelatedTypes = [
   'vacancy_type_associate',
 ];
 
-export const internLevelRelatedTerms = ['estagiario'];
+export const internLevelRelatedTerms = ['estagiario', 'estagiaria'];
 export const traineeLevelRelatedTerms = ['trainee'];
 export const juniorLevelRelatedTerms = [
   'júnior',
@@ -17,6 +17,7 @@ export const juniorLevelRelatedTerms = [
 ];
 
 export const midLevelRelatedTerms = [
+  'plena',
   'pleno',
   'pleno/sênior',
   'pleno/senior',

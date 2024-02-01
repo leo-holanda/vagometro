@@ -108,9 +108,9 @@ export class JobService {
     let jobs = [...this.pristineJobs];
     if (jobs.length > 0) {
       const minDate = this.createDateByTimeWindow(timeWindow);
-      jobs = jobs.filter((job) => job.publishedDate > minDate);
-      this._jobs$.next(jobs);
-      const oldestDate = this.findOldestJobDate(jobs);
+      const filteredJobs = jobs.filter((job) => job.publishedDate >= minDate);
+      this._jobs$.next(filteredJobs);
+      const oldestDate = this.findOldestJobDate(filteredJobs);
       this._oldestJobPublishedDate$.next(oldestDate);
     }
   }

@@ -11,48 +11,42 @@
       </div>
     </div>
 
-    <div class="stat place-items-center">
-      <div class="stat-title">Comparação com o último mês</div>
-      <div class="stat-value">
-        <span
+    <ng-container *ngIf="lastMonthDifference$ | async as lastMonthDifference">
+      <div class="stat place-items-center">
+        <div class="stat-title">Comparação com o último mês</div>
+        <div class="stat-value">
+          <span
+            [ngClass]="{
+              'text-green-500': lastMonthDifference.difference > 0,
+              'text-red-500': lastMonthDifference.difference < 0
+            }"
+          >
+            {{ lastMonthDifference.difference | number }}
+          </span>
+          <i
+            *ngIf="lastMonthDifference.difference > 0"
+            class="bx bxs-up-arrow-alt text-3xl text-green-500"
+          ></i>
+          <i
+            *ngIf="lastMonthDifference.difference < 0"
+            class="bx bxs-down-arrow-alt text-3xl text-red-500"
+          ></i>
+        </div>
+        <div
+          class="stat-desc flex items-center flex-col"
           [ngClass]="{
-            'text-green-500': (lastMonthDifference$ | async)!.difference > 0,
-            'text-red-500': (lastMonthDifference$ | async)!.difference < 0
+            'text-green-500': lastMonthDifference.difference > 0,
+            'text-red-500': lastMonthDifference.difference < 0
           }"
         >
-          {{ (lastMonthDifference$ | async)!.difference | number }}
-        </span>
-        <i
-          *ngIf="(lastMonthDifference$ | async)!.difference > 0"
-          class="bx bxs-up-arrow-alt text-3xl"
-          [ngClass]="{
-            'text-green-500': (lastMonthDifference$ | async)!.difference > 0,
-            'text-red-500': (lastMonthDifference$ | async)!.difference < 0
-          }"
-        ></i>
-        <i
-          *ngIf="(lastMonthDifference$ | async)!.difference < 0"
-          class="bx bxs-down-arrow-alt text-3xl"
-          [ngClass]="{
-            'text-green-500': (lastMonthDifference$ | async)!.difference > 0,
-            'text-red-500': (lastMonthDifference$ | async)!.difference < 0
-          }"
-        ></i>
+          <span> vagas publicadas </span>
+          <button class="btn btn-sm my-4" [routerLink]="['/comparativo']">
+            <i class="bx bxs-chart"></i>
+            <span> Ver comparativo </span>
+          </button>
+        </div>
       </div>
-      <div
-        class="stat-desc flex items-center flex-col"
-        [ngClass]="{
-          'text-green-500': (lastMonthDifference$ | async)!.difference > 0,
-          'text-red-500': (lastMonthDifference$ | async)!.difference < 0
-        }"
-      >
-        <span> vagas publicadas </span>
-        <button class="btn btn-sm my-4" [routerLink]="['/comparativo']">
-          <i class="bx bxs-chart"></i>
-          <span> Ver comparativo </span>
-        </button>
-      </div>
-    </div>
+    </ng-container>
   </div>
 </ng-container>
 

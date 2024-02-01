@@ -22,7 +22,6 @@ export class JobCountComponent {
   timeWindows = TimeWindows;
 
   lastMonthDifference$: Observable<ComparisonData>;
-  lastYearDifference$: Observable<ComparisonData>;
 
   constructor(
     private statisticsService: StatisticsService,
@@ -35,8 +34,5 @@ export class JobCountComponent {
     this.lastMonthDifference$ = this.statisticsService
       .getMonthlyComparison()
       .pipe(map((monthlyData) => monthlyData[0]));
-    this.lastYearDifference$ = this.statisticsService
-      .getAnnualComparison()
-      .pipe(map((annualData) => annualData[0]));
   }
 }

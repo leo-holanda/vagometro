@@ -16,6 +16,7 @@ import {
   juniorLevelRelatedTerms,
   traineeLevelRelatedTerms,
   internLevelRelatedTerms,
+  specialistLevelRelatedTerms,
 } from 'src/app/statistics/ranks/experience-levels-rank/experience-levels-rank.data';
 import { ExperienceLevels } from 'src/app/statistics/ranks/experience-levels-rank/experience-levels-rank.model';
 import { keywords } from 'src/app/statistics/ranks/keywords-rank/keywords-rank.data';
@@ -109,11 +110,14 @@ export class GupyService {
       return [ExperienceLevels.junior];
 
     //TODO: Create function for cleaning string data
-    const contentFromJobTitle = gupyJob.name
+    const contentFromJobTitle = this.removeAccents(gupyJob.name)
       .replaceAll('/', ' ')
       .replaceAll(',', ' ')
       .replaceAll('(', ' ')
       .replaceAll(')', ' ')
+      .replaceAll('-', ' ')
+      .replaceAll('[', ' ')
+      .replaceAll(']', ' ')
       .replaceAll(';', ' ');
     const experienceLevelInTitle =
       this.matchExperienceLevelTerms(contentFromJobTitle);
@@ -133,6 +137,11 @@ export class GupyService {
     const splittedContent = content
       .split(' ')
       .map((word) => word.toLowerCase());
+
+    const hasSpecialistLevelRelatedTerms = specialistLevelRelatedTerms.some(
+      (term) => splittedContent.includes(term)
+    );
+    if (hasSpecialistLevelRelatedTerms) return ExperienceLevels.specialist;
 
     const hasSeniorLevelRelatedTerms = seniorLevelRelatedTerms.some((term) =>
       splittedContent.includes(term)

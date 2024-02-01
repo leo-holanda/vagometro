@@ -6,10 +6,6 @@
         <h1>Meses com mais vagas publicadas</h1>
       </div>
 
-      <span class="text-xs text-slate-500 px-4"
-        >O carregamento dos dados pode gerar travamentos breves.
-      </span>
-
       <div class="card-body max-h-96 overflow-y-auto">
         <ng-container *ngIf="monthsRank$ | async as monthsRank; else loading">
           <button

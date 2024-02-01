@@ -108,7 +108,15 @@ export class GupyService {
     if (juniorLevelRelatedTypes.includes(gupyJob.type))
       return [ExperienceLevels.junior];
 
-    const experienceLevelInTitle = this.matchExperienceLevelTerms(gupyJob.name);
+    //TODO: Create function for cleaning string data
+    const contentFromJobTitle = gupyJob.name
+      .replaceAll('/', ' ')
+      .replaceAll(',', ' ')
+      .replaceAll('(', ' ')
+      .replaceAll(')', ' ')
+      .replaceAll(';', ' ');
+    const experienceLevelInTitle =
+      this.matchExperienceLevelTerms(contentFromJobTitle);
     if (experienceLevelInTitle) return [experienceLevelInTitle];
 
     const experienceLevelInDescription = this.matchExperienceLevelTerms(

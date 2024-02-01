@@ -1,21 +1,14 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-  OnDestroy,
-  OnInit,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable, Subject, filter, takeUntil } from 'rxjs';
 import { ContractTypes, Job, WorkplaceTypes } from '../job.types';
-import { gupyContractTypeMap } from 'src/app/statistics/ranks/type-rank/type-rank.translations';
 import { StateAbbreviationPipe } from 'src/app/shared/pipes/state-abbreviation.pipe';
 import { ExperienceLevels } from 'src/app/statistics/ranks/experience-levels-rank/experience-levels-rank.model';
 import { FormsModule } from '@angular/forms';
-import { stringToBooleanMap } from './job-list.types';
 import { trackByJobId } from 'src/app/shared/track-by-functions';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { DisabilityStatuses } from 'src/app/statistics/ranks/disability-rank/disability-rank.model';
+import { Filter } from './job-list.types';
 
 @Component({
   selector: 'vgm-job-list',
@@ -26,65 +19,53 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 })
 export class JobListComponent implements OnInit, OnDestroy, OnChanges {
   @Input() jobs$!: Observable<Job[] | undefined>;
-  jobs: Job[] | undefined = undefined;
-  filteredJobs: Job[] | undefined = undefined;
+  pristineJobs: Job[] = [];
+  filteredJobs: Job[] = [];
 
-  gupyContractTypeMap = gupyContractTypeMap;
+  contractTypes = ContractTypes;
   experienceLevels = ExperienceLevels;
+  workplaceTypes = WorkplaceTypes;
+  disabilityStatuses = DisabilityStatuses;
 
-  filters = {
-    jobTitle: '',
-    companyName: '',
-    experienceLevel: '',
-    workplaceType: '',
-    jobLocation: '',
-    jobType: '',
-    publishedDate: '',
-    acceptsDisabledPersons: 'undefined',
-  };
-
-  sortIconShowMap = {
-    jobTitle: false,
-    companyName: false,
-    experienceLevel: false,
-    workplaceType: false,
-    jobLocation: false,
-    jobType: false,
-    publishedDate: false,
-    acceptsDisabledPersons: false,
+  filters: Filter = {
+    jobTitle: undefined,
+    companyName: undefined,
+    experienceLevel: undefined,
+    workplaceType: undefined,
+    jobLocation: undefined,
+    jobContractType: undefined,
+    publishedDate: undefined,
+    disabilityStatus: undefined,
   };
 
   inputMaxDate = new Date().toISOString().slice(0, 10);
+
+  dataToSort: keyof Job | undefined;
   sortOrder: 'asc' | 'desc' = 'desc';
   trackByJobId = trackByJobId;
-
-  private stringToBooleanMap: stringToBooleanMap = {
-    true: true,
-    false: false,
-  };
 
   private destroy$ = new Subject<void>();
 
   ngOnInit(): void {
     this.jobs$
       .pipe(
-        filter((jobs) => jobs != undefined),
+        filter((jobs): jobs is Job[] => jobs != undefined),
         takeUntil(this.destroy$)
       )
       .subscribe((jobs) => {
-        this.jobs = jobs;
+        this.pristineJobs = jobs;
         this.filteredJobs = jobs;
       });
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(): void {
     this.jobs$
       .pipe(
-        filter((jobs) => jobs != undefined),
+        filter((jobs): jobs is Job[] => jobs != undefined),
         takeUntil(this.destroy$)
       )
       .subscribe((jobs) => {
-        this.jobs = jobs;
+        this.pristineJobs = jobs;
         this.filteredJobs = jobs;
       });
   }
@@ -95,77 +76,95 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   filterJobs(): void {
-    if (this.jobs) {
-      this.filteredJobs = [...this.jobs];
+    this.filteredJobs = [...this.pristineJobs];
+    console.log(this.filters);
+    if (this.filters['jobTitle']) {
+      console.log('title');
+      this.filteredJobs = this.filteredJobs.filter((job) =>
+        job.title
+          .toLowerCase()
+          .includes(this.filters['jobTitle']!.toLowerCase())
+      );
+    }
 
-      if (this.filters.jobTitle) {
-        this.filteredJobs = this.filteredJobs.filter((job) =>
-          job.title.toLowerCase().includes(this.filters.jobTitle.toLowerCase())
-        );
-      }
+    if (this.filters['companyName']) {
+      console.log('companyName');
 
-      if (this.filters.companyName) {
-        const filterCompanyName = this.filters.companyName.toLowerCase();
-        this.filteredJobs = this.filteredJobs.filter((job) =>
-          job.companyName.toLowerCase().includes(filterCompanyName)
-        );
-      }
+      const filterCompanyName = this.filters['companyName'].toLowerCase();
+      this.filteredJobs = this.filteredJobs.filter((job) =>
+        job.companyName.toLowerCase().includes(filterCompanyName)
+      );
+    }
 
-      if (this.filters.experienceLevel) {
-        this.filteredJobs = this.filteredJobs.filter((job) =>
-          job.experienceLevels.includes(
-            this.filters.experienceLevel as ExperienceLevels
-          )
-        );
-      }
+    if (this.filters['experienceLevel']) {
+      console.log('experienceLevel');
+      this.filteredJobs = this.filteredJobs.filter((job) =>
+        job.experienceLevels.includes(
+          this.filters['experienceLevel']! as ExperienceLevels
+        )
+      );
+    }
 
-      if (this.filters.workplaceType) {
-        this.filteredJobs = this.filteredJobs.filter((job) =>
-          job.workplaceTypes.includes(
-            this.filters.workplaceType as WorkplaceTypes
-          )
-        );
-      }
+    if (this.filters['workplaceType']) {
+      console.log('workplaceType');
+      this.filteredJobs = this.filteredJobs.filter((job) =>
+        job.workplaceTypes.includes(
+          this.filters['workplaceType']! as WorkplaceTypes
+        )
+      );
+    }
 
-      if (this.filters.jobLocation) {
-        this.filteredJobs = this.filteredJobs.filter(
-          (job) =>
-            job.city
-              .toLowerCase()
-              .includes(this.filters.jobLocation.toLowerCase()) ||
-            job.state
-              .toLowerCase()
-              .includes(this.filters.jobLocation.toLowerCase())
-        );
-      }
+    if (this.filters['jobLocation']) {
+      console.log('jobLocation');
+      this.filteredJobs = this.filteredJobs.filter(
+        (job) =>
+          job.city
+            .toLowerCase()
+            .includes(this.filters['jobLocation']!.toLowerCase()) ||
+          job.state
+            .toLowerCase()
+            .includes(this.filters['jobLocation']!.toLowerCase())
+      );
+    }
 
-      if (this.filters.jobType) {
-        this.filteredJobs = this.filteredJobs.filter((job) =>
-          job.contractTypes.includes(this.filters.jobType as ContractTypes)
-        );
-      }
+    if (this.filters['jobContractType']) {
+      console.log('jobContractType');
+      this.filteredJobs = this.filteredJobs.filter((job) =>
+        job.contractTypes.includes(
+          this.filters['jobContractType']! as ContractTypes
+        )
+      );
+    }
 
-      if (this.filters.publishedDate != '') {
-        this.filteredJobs = this.filteredJobs.filter((job) => {
-          const jobPublishedDate = new Date(job.publishedDate).toDateString();
+    if (this.filters['publishedDate']) {
+      console.log('publishedDate');
 
-          const filterPublishedDate = new Date(
-            this.filters.publishedDate + ' EDT'
-          ).toDateString();
+      this.filteredJobs = this.filteredJobs.filter((job) => {
+        const jobPublishedDate = job.publishedDate.toDateString();
 
-          return jobPublishedDate == filterPublishedDate;
-        });
-      }
+        const filterPublishedDate = new Date(
+          this.filters['publishedDate'] + ' EDT'
+        ).toDateString();
 
-      //TODO: Fix disability filter
+        return jobPublishedDate == filterPublishedDate;
+      });
+    }
+
+    if (this.filters['disabilityStatus']) {
+      console.log('disabilityStatus');
+      this.filteredJobs = this.filteredJobs.filter(
+        (job) => job.disabilityStatus == this.filters['disabilityStatus']
+      );
     }
   }
 
-  sortJobs(field: keyof Job): void {
-    this.sortOrder = this.sortOrder == 'asc' ? 'desc' : 'asc';
-    this.filteredJobs = this.filteredJobs?.sort((a, b) => {
-      let valueA = a[field];
-      let valueB = b[field];
+  sortJobs(): void {
+    if (this.dataToSort == undefined || this.sortOrder == undefined) return;
+
+    this.filteredJobs.sort((a, b) => {
+      let valueA = a[this.dataToSort!];
+      let valueB = b[this.dataToSort!];
+
       if (valueA == undefined || valueB == undefined) return 0;
 
       if (typeof valueA == 'string' && typeof valueB == 'string') {
@@ -182,5 +181,7 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
       if (this.sortOrder == 'asc') return valueA > valueB ? 1 : -1;
       return valueA < valueB ? 1 : -1;
     });
+
+    this.filteredJobs = [...this.filteredJobs];
   }
 }

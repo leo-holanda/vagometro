@@ -1,3 +1,3 @@
-export type stringToBooleanMap = {
-  [index: string]: boolean;
+export type Filter = {
+  [index: string]: string | undefined;
 };

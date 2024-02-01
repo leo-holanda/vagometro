@@ -25,6 +25,7 @@ export class JobSourcesService {
       this.githubJobsService.frontendJobs$;
     this.jobSourcesMap.backendbr.dataSource =
       this.githubJobsService.backendJobs$;
+    this.jobSourcesMap.soujava.dataSource = this.githubJobsService.soujavaJobs$;
   }
 
   toggleJobSource(jobSource: JobSources): void {

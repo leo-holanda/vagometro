@@ -13,6 +13,7 @@ export interface Env {
 	APP_URL: string;
 	FRONTEND_JOBS_FILE_NAME: string;
 	BACKEND_JOBS_FILE_NAME: string;
+	SOUJAVA_JOBS_FILE_NAME: string;
 }
 
 export default {
@@ -25,6 +26,7 @@ export default {
 		let object;
 		if (key == 'frontend') object = await env.jobsBucket.get(env.FRONTEND_JOBS_FILE_NAME);
 		if (key == 'backend') object = await env.jobsBucket.get(env.BACKEND_JOBS_FILE_NAME);
+		if (key == 'soujava') object = await env.jobsBucket.get(env.SOUJAVA_JOBS_FILE_NAME);
 		if (object === null || object === undefined) return new Response('Object Not Found', { status: 404 });
 
 		const headers = new Headers();

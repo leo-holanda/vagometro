@@ -5,6 +5,7 @@ export enum JobSources {
   gupy = 'gupy',
   frontendbr = 'frontendbr',
   backendbr = 'backendbr',
+  soujava = 'soujava',
 }
 
 export type JobSourceData = {
@@ -40,6 +41,15 @@ export const jobSourcesMap: JobSourcesMap = {
   },
   backendbr: {
     name: 'backend-br/vagas',
+    icon: 'bx bxl-github',
+    dataSource: new Observable(),
+    isActive: false,
+    isLoading: false,
+    isLoaded: false,
+    hasFailedToLoad: false,
+  },
+  soujava: {
+    name: 'soujava/vagas-java',
     icon: 'bx bxl-github',
     dataSource: new Observable(),
     isActive: false,

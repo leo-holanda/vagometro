@@ -44,6 +44,7 @@ import * as zip from '@zip.js/zip.js';
 export class GitHubJobsService {
   frontendJobs$: Observable<Job[]>;
   backendJobs$: Observable<Job[]>;
+  soujavaJobs$: Observable<Job[]>;
 
   private citiesNames: string[];
 
@@ -55,13 +56,18 @@ export class GitHubJobsService {
     this.frontendJobs$ = this.getJobsObservable('frontend');
     //https://github.com/backend-br/vagas/issues
     this.backendJobs$ = this.getJobsObservable('backend');
+    //https://github.com/soujava/vagas-java/issues
+    this.soujavaJobs$ = this.getJobsObservable('soujava');
 
     this.citiesNames = this.mapDataService
       .getCitiesNames()
       .map((cityName) => this.removeAccents(cityName).toLowerCase());
   }
 
-  async getJobsPromise(type: 'frontend' | 'backend'): Promise<GitHubJob[]> {
+  async getJobsPromise(
+    //TODO: Auto generate this types
+    type: 'frontend' | 'backend' | 'soujava'
+  ): Promise<GitHubJob[]> {
     // https://gildas-lormeau.github.io/zip.js/
     // Try catch is not necessary. Errors are handled in Job Source Service.
 
@@ -77,7 +83,9 @@ export class GitHubJobsService {
     return JSON.parse(jobs);
   }
 
-  getJobsObservable(type: 'frontend' | 'backend'): Observable<Job[]> {
+  getJobsObservable(
+    type: 'frontend' | 'backend' | 'soujava'
+  ): Observable<Job[]> {
     return defer(() => this.getJobsPromise(type)).pipe(
       first(),
       map((jobs) =>

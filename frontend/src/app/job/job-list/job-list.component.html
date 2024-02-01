@@ -8,7 +8,9 @@
       <span> Filtrar </span>
     </button>
 
-    <label class="form-control gap-2 md:gap-0 flex flex-row flex-wrap">
+    <label
+      class="form-control gap-2 w-full md:w-fit md:gap-0 flex flex-row flex-wrap"
+    >
       <select
         [(ngModel)]="dataToSort"
         (ngModelChange)="sortJobs()"

@@ -218,10 +218,14 @@ export class JobService {
   }
 
   private findOldestJobDate(jobs: Job[]): Date {
-    return jobs.reduce((oldestDate, currentJob) => {
-      const currentJobPublishedDate = currentJob.publishedDate;
-      if (currentJobPublishedDate < oldestDate) return currentJobPublishedDate;
-      return oldestDate;
-    }, new Date());
+    let oldestDate = new Date();
+
+    jobs.forEach((job) => {
+      if (job.publishedDate < oldestDate) oldestDate = job.publishedDate;
+    });
+
+    // Deep cloning the oldest date is necessary to prevent the reference being used further.
+    // Removing this deep clone will bring back the annoying monthly difference bug
+    return new Date(oldestDate.getTime());
   }
 }

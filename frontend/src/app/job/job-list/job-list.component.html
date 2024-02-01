@@ -40,171 +40,175 @@
       <button class="b"></button>
     </label>
 
-    <dialog #filterAndSortModal class="modal">
+    <dialog #filterAndSortModal class="modal modal-top md:modal-middle">
       <main class="modal-box flex flex-col gap-4">
-        <section>
-          <h2
-            class="rounded rounded-b-none w-full flex items-center justify-start flex-nowrap p-4 bg-base-200 gap-2"
-          >
-            <i class="bx bx-text"></i>
-            <span>Título</span>
-          </h2>
-          <input
-            [(ngModel)]="filters['jobTitle']"
-            (ngModelChange)="filterJobs()"
-            id="jobTitle"
-            name="jobTitle"
-            type="text"
-            class="input input-bordered rounded-t-none w-full"
-          />
-        </section>
-
-        <section>
-          <h2
-            class="rounded rounded-b-none w-full flex items-center justify-start flex-nowrap p-4 bg-base-200 gap-2"
-          >
-            <i class="bx bxs-business"></i>
-            <span>Empresa</span>
-          </h2>
-          <input
-            [(ngModel)]="filters['companyName']"
-            (ngModelChange)="filterJobs()"
-            id="companyName"
-            name="companyName"
-            type="text"
-            class="input input-bordered rounded-t-none w-full"
-          />
-        </section>
-
-        <section>
-          <h2
-            class="rounded rounded-b-none w-full flex items-center justify-start flex-nowrap p-4 bg-base-200 gap-2"
-          >
-            <i class="bx bxs-map"></i>
-            <span>Local</span>
-          </h2>
-          <input
-            [(ngModel)]="filters['jobLocation']"
-            (ngModelChange)="filterJobs()"
-            id="jobLocation"
-            name="jobLocation"
-            type="text"
-            class="input input-bordered rounded-t-none w-full"
-          />
-        </section>
-
-        <section>
-          <h2
-            class="rounded rounded-b-none w-full flex items-center justify-start flex-nowrap p-4 bg-base-200 gap-2"
-          >
-            <i class="bx bxs-user-detail"></i>
-            <span>Nível de experiência</span>
-          </h2>
-          <select
-            [(ngModel)]="filters['experienceLevel']"
-            (ngModelChange)="filterJobs()"
-            id="experienceLevel"
-            name="experienceLevel"
-            class="select select-bordered rounded-t-none w-full"
-          >
-            <option value=""></option>
-            <option
-              *ngFor="let experienceLevel of experienceLevels | keyvalue"
-              [value]="experienceLevel.value"
+        <div
+          class="flex flex-col overflow-x-auto max-h-96 md:max-h-none gap-6 p-4"
+        >
+          <section>
+            <h2
+              class="rounded rounded-b-none w-full flex items-center justify-start flex-nowrap p-4 bg-base-200 gap-2"
             >
-              {{ experienceLevel.value }}
-            </option>
-          </select>
-        </section>
+              <i class="bx bx-text"></i>
+              <span>Título</span>
+            </h2>
+            <input
+              [(ngModel)]="filters['jobTitle']"
+              (ngModelChange)="filterJobs()"
+              id="jobTitle"
+              name="jobTitle"
+              type="text"
+              class="input input-bordered rounded-t-none w-full"
+            />
+          </section>
 
-        <section>
-          <h2
-            class="rounded rounded-b-none w-full flex items-center justify-start flex-nowrap p-4 bg-base-200 gap-2"
-          >
-            <i class="bx bxs-home"></i>
-            <span>Modalidade</span>
-          </h2>
-          <select
-            [(ngModel)]="filters['workplaceType']"
-            (ngModelChange)="filterJobs()"
-            id="workplaceType"
-            name="workplaceType"
-            class="select select-bordered rounded-t-none w-full"
-          >
-            <option selected></option>
-            <option
-              *ngFor="let workplaceType of workplaceTypes | keyvalue"
-              [value]="workplaceType.value"
+          <section>
+            <h2
+              class="rounded rounded-b-none w-full flex items-center justify-start flex-nowrap p-4 bg-base-200 gap-2"
             >
-              {{ workplaceType.value }}
-            </option>
-          </select>
-        </section>
+              <i class="bx bxs-business"></i>
+              <span>Empresa</span>
+            </h2>
+            <input
+              [(ngModel)]="filters['companyName']"
+              (ngModelChange)="filterJobs()"
+              id="companyName"
+              name="companyName"
+              type="text"
+              class="input input-bordered rounded-t-none w-full"
+            />
+          </section>
 
-        <section>
-          <h2
-            class="rounded rounded-b-none w-full flex items-center justify-start flex-nowrap p-4 bg-base-200 gap-2"
-          >
-            <i class="bx bxs-hard-hat"></i>
-            <span>Tipo de contrato</span>
-          </h2>
-          <select
-            [(ngModel)]="filters['jobContractType']"
-            (ngModelChange)="filterJobs()"
-            id="jobType"
-            name="jobType"
-            class="select select-bordered rounded-t-none w-full"
-          >
-            <option selected></option>
-            <option
-              *ngFor="let contractType of contractTypes | keyvalue"
-              [value]="contractType.value"
+          <section>
+            <h2
+              class="rounded rounded-b-none w-full flex items-center justify-start flex-nowrap p-4 bg-base-200 gap-2"
             >
-              {{ contractType.value }}
-            </option>
-          </select>
-        </section>
+              <i class="bx bxs-map"></i>
+              <span>Local</span>
+            </h2>
+            <input
+              [(ngModel)]="filters['jobLocation']"
+              (ngModelChange)="filterJobs()"
+              id="jobLocation"
+              name="jobLocation"
+              type="text"
+              class="input input-bordered rounded-t-none w-full"
+            />
+          </section>
 
-        <section>
-          <h2
-            class="rounded rounded-b-none w-full flex items-center justify-start flex-nowrap p-4 bg-base-200 gap-2"
-          >
-            <i class="bx bx-accessibility"></i>
-            <span>Também para PCD?</span>
-          </h2>
-          <select
-            [(ngModel)]="filters['disabilityStatus']"
-            (ngModelChange)="filterJobs()"
-            id="disabilityStatus"
-            name="disabilityStatus"
-            class="select select-bordered rounded-t-none w-full"
-          >
-            <option
-              *ngFor="let disabilityStatus of disabilityStatuses | keyvalue"
-              [value]="disabilityStatus.value"
+          <section>
+            <h2
+              class="rounded rounded-b-none w-full flex items-center justify-start flex-nowrap p-4 bg-base-200 gap-2"
             >
-              {{ disabilityStatus.value }}
-            </option>
-          </select>
-        </section>
+              <i class="bx bxs-user-detail"></i>
+              <span>Nível de experiência</span>
+            </h2>
+            <select
+              [(ngModel)]="filters['experienceLevel']"
+              (ngModelChange)="filterJobs()"
+              id="experienceLevel"
+              name="experienceLevel"
+              class="select select-bordered rounded-t-none w-full"
+            >
+              <option value=""></option>
+              <option
+                *ngFor="let experienceLevel of experienceLevels | keyvalue"
+                [value]="experienceLevel.value"
+              >
+                {{ experienceLevel.value }}
+              </option>
+            </select>
+          </section>
 
-        <section>
-          <h2
-            class="rounded rounded-b-none w-full flex items-center justify-start flex-nowrap p-4 bg-base-200 gap-2"
-          >
-            <i class="bx bxs-calendar"></i>
-            <span>Data de publicação</span>
-          </h2>
-          <input
-            [(ngModel)]="filters['publishedDate']"
-            (ngModelChange)="filterJobs()"
-            id="publishedDate"
-            name="publishedDate"
-            type="date"
-            class="input input-bordered rounded-t-none w-full"
-            [max]="inputMaxDate"
-          />
-        </section>
+          <section>
+            <h2
+              class="rounded rounded-b-none w-full flex items-center justify-start flex-nowrap p-4 bg-base-200 gap-2"
+            >
+              <i class="bx bxs-home"></i>
+              <span>Modalidade</span>
+            </h2>
+            <select
+              [(ngModel)]="filters['workplaceType']"
+              (ngModelChange)="filterJobs()"
+              id="workplaceType"
+              name="workplaceType"
+              class="select select-bordered rounded-t-none w-full"
+            >
+              <option selected></option>
+              <option
+                *ngFor="let workplaceType of workplaceTypes | keyvalue"
+                [value]="workplaceType.value"
+              >
+                {{ workplaceType.value }}
+              </option>
+            </select>
+          </section>
+
+          <section>
+            <h2
+              class="rounded rounded-b-none w-full flex items-center justify-start flex-nowrap p-4 bg-base-200 gap-2"
+            >
+              <i class="bx bxs-hard-hat"></i>
+              <span>Tipo de contrato</span>
+            </h2>
+            <select
+              [(ngModel)]="filters['jobContractType']"
+              (ngModelChange)="filterJobs()"
+              id="jobType"
+              name="jobType"
+              class="select select-bordered rounded-t-none w-full"
+            >
+              <option selected></option>
+              <option
+                *ngFor="let contractType of contractTypes | keyvalue"
+                [value]="contractType.value"
+              >
+                {{ contractType.value }}
+              </option>
+            </select>
+          </section>
+
+          <section>
+            <h2
+              class="rounded rounded-b-none w-full flex items-center justify-start flex-nowrap p-4 bg-base-200 gap-2"
+            >
+              <i class="bx bx-accessibility"></i>
+              <span>Também para PCD?</span>
+            </h2>
+            <select
+              [(ngModel)]="filters['disabilityStatus']"
+              (ngModelChange)="filterJobs()"
+              id="disabilityStatus"
+              name="disabilityStatus"
+              class="select select-bordered rounded-t-none w-full"
+            >
+              <option
+                *ngFor="let disabilityStatus of disabilityStatuses | keyvalue"
+                [value]="disabilityStatus.value"
+              >
+                {{ disabilityStatus.value }}
+              </option>
+            </select>
+          </section>
+
+          <section>
+            <h2
+              class="rounded rounded-b-none w-full flex items-center justify-start flex-nowrap p-4 bg-base-200 gap-2"
+            >
+              <i class="bx bxs-calendar"></i>
+              <span>Data de publicação</span>
+            </h2>
+            <input
+              [(ngModel)]="filters['publishedDate']"
+              (ngModelChange)="filterJobs()"
+              id="publishedDate"
+              name="publishedDate"
+              type="date"
+              class="input input-bordered rounded-t-none w-full"
+              [max]="inputMaxDate"
+            />
+          </section>
+        </div>
 
         <div class="modal-action">
           <form method="dialog" class="w-full">

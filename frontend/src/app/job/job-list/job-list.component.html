@@ -154,7 +154,7 @@
           <button
             (mouseenter)="sortIconShowMap.jobType = true"
             (mouseleave)="sortIconShowMap.jobType = false"
-            (click)="sortJobs('contractType')"
+            (click)="sortJobs('contractTypes')"
             class="btn btn-ghost rounded-b-none w-full flex items-center justify-between flex-nowrap"
           >
             <span>Tipo</span>
@@ -342,9 +342,14 @@
                 <span>Tipo</span>
               </div>
 
-              <span class="font-bold">
-                {{ job.contractType }}
-              </span>
+              <div class="flex items-center gap-2">
+                <div
+                  class="badge badge-neutral"
+                  *ngFor="let contractType of job.contractTypes"
+                >
+                  {{ contractType }}
+                </div>
+              </div>
             </div>
 
             <div>

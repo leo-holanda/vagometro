@@ -14,6 +14,15 @@ export enum ContractTypes {
   intern = 'Estágio',
   freelance = 'Freelance',
   allocated = 'Alocado',
+  apprentice = 'Aprendiz',
+  associate = 'Associado',
+  talent_pool = 'Piscina de Talentos',
+  summer = 'Verão',
+  temporary = 'Temporário',
+  outsource = 'Terceirizado',
+  volunteer = 'Voluntário',
+  lecturer = 'Palestrante',
+  autonomous = 'Autônomo',
   unknown = 'Desconhecido',
 }
 
@@ -42,6 +51,14 @@ export const contractTypeRelatedTerms: contractTypesRelatedTerms = {
   freela: ContractTypes.freelance,
   estagio: ContractTypes.intern,
   estagiario: ContractTypes.intern,
+  aprendiz: ContractTypes.apprentice,
+  associado: ContractTypes.associate,
+  piscina: ContractTypes.talent_pool,
+  temporario: ContractTypes.temporary,
+  outsource: ContractTypes.outsource,
+  voluntario: ContractTypes.volunteer,
+  palestrante: ContractTypes.lecturer,
+  autonomo: ContractTypes.autonomous,
 };
 
 export type Job = {
@@ -57,7 +74,7 @@ export type Job = {
   city: string;
   disabilityStatus: DisabilityStatuses;
   publishedDate: Date;
-  contractType: string;
+  contractTypes: ContractTypes[];
   experienceLevels: ExperienceLevels[];
   keywords: string[];
   educationTerms: string[];

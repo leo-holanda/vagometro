@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, last, map, shareReplay } from 'rxjs';
 import { DynamoService } from 'src/app/dynamo/dynamo.service';
-import { Job, WorkplaceTypes } from 'src/app/job/job.types';
+import { ContractTypes, Job, WorkplaceTypes } from 'src/app/job/job.types';
 import { DisabilityStatuses } from 'src/app/statistics/ranks/disability-rank/disability-rank.model';
 import {
   educationRelatedTerms,
@@ -63,7 +63,7 @@ export class GupyService {
       description: gupyJob.description,
       id: gupyJob.id,
       publishedDate: new Date(gupyJob.publishedDate),
-      contractType: this.findJobContractType(gupyJob),
+      contractTypes: this.findJobContractType(gupyJob),
       experienceLevels: this.findExperienceLevel(gupyJob),
       keywords: this.getJobKeywords(gupyJob),
       educationTerms: this.getJobEducationTerms(gupyJob),
@@ -72,8 +72,8 @@ export class GupyService {
     };
   }
 
-  private findJobContractType(job: GupyJob): string {
-    return gupyContractTypeMap[job.type];
+  private findJobContractType(job: GupyJob): ContractTypes[] {
+    return [gupyContractTypeMap[job.type]];
   }
 
   private findJobDisabilityStatus(job: GupyJob): DisabilityStatuses {

@@ -4,7 +4,7 @@ import { TypeData } from '../../ranks/type-rank/type-rank.model';
 import { Observable } from 'rxjs';
 import { JobService } from 'src/app/job/job.service';
 import { StatisticsService } from '../../statistics.service';
-import { Job } from 'src/app/job/job.types';
+import { ContractTypes, Job } from 'src/app/job/job.types';
 import { KeywordsRankComponent } from '../../ranks/keywords-rank/keywords-rank.component';
 import { CompaniesRankComponent } from '../../ranks/companies-rank/companies-rank.component';
 import { WorkplaceRankComponent } from '../../ranks/workplace-rank/workplace-rank.component';
@@ -37,7 +37,7 @@ import { ComparisonOverviewComponent } from '../comparison-overview/comparison-o
 export class TypesOverviewComponent {
   typesRank$: Observable<TypeData[]>;
   typesQuantity!: number;
-  selectedType!: string;
+  selectedType!: ContractTypes;
   jobsByType$!: Observable<Job[]>;
 
   trackByType = trackByType;
@@ -50,7 +50,9 @@ export class TypesOverviewComponent {
 
     this.typesRank$.subscribe((typesRank) => {
       this.selectedType = typesRank[0].name;
-      this.jobsByType$ = this.jobService.getJobsByType(this.selectedType);
+      this.jobsByType$ = this.jobService.getJobsByContractType(
+        this.selectedType
+      );
     });
 
     this.typesRank$.subscribe((typesRank) => {
@@ -58,8 +60,8 @@ export class TypesOverviewComponent {
     });
   }
 
-  onTypeClick(TypeName: string): void {
-    this.selectedType = TypeName;
-    this.jobsByType$ = this.jobService.getJobsByType(this.selectedType);
+  onContractTypeClick(contractType: ContractTypes): void {
+    this.selectedType = contractType;
+    this.jobsByType$ = this.jobService.getJobsByContractType(this.selectedType);
   }
 }

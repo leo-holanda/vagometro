@@ -4,7 +4,6 @@ import { trackByLanguage } from 'src/app/shared/track-by-functions';
 import { Observable } from 'rxjs';
 import { Job } from 'src/app/job/job.types';
 import { JobService } from 'src/app/job/job.service';
-import { TypeData } from '../../ranks/type-rank/type-rank.model';
 import { StatisticsService } from '../../statistics.service';
 import { PublicationChartComponent } from '../../charts/publication-chart/publication-chart.component';
 import { KeywordsRankComponent } from '../../ranks/keywords-rank/keywords-rank.component';
@@ -14,6 +13,7 @@ import { ExperienceLevelsRankComponent } from '../../ranks/experience-levels-ran
 import { EducationRankComponent } from '../../ranks/education-rank/education-rank.component';
 import { JobListComponent } from 'src/app/job/job-list/job-list.component';
 import { ComparisonOverviewComponent } from '../comparison-overview/comparison-overview.component';
+import { LanguageData } from '../../ranks/languages-rank/languages-rank.types';
 
 @Component({
   selector: 'vgm-languages-overview',
@@ -33,7 +33,7 @@ import { ComparisonOverviewComponent } from '../comparison-overview/comparison-o
   styleUrls: ['./languages-overview.component.scss'],
 })
 export class LanguagesOverviewComponent {
-  languagesRank$!: Observable<TypeData[]>;
+  languagesRank$!: Observable<LanguageData[]>;
   jobsQuantity!: number;
   selectedLanguage!: string;
   jobsByLanguage$!: Observable<Job[]>;

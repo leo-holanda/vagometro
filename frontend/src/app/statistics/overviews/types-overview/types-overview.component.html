@@ -12,7 +12,7 @@
             class="btn btn-ghost p-2"
             *ngFor="let type of typesRank; index as i; trackBy: trackByType"
             [ngClass]="{ 'btn-active': selectedType == type.name }"
-            (click)="onTypeClick(type.name)"
+            (click)="onContractTypeClick(type.name)"
           >
             <div class="w-full flex justify-between">
               <span>{{ i + 1 + ". " + type.name }}</span>

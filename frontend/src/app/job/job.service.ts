@@ -2,7 +2,13 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, filter, map } from 'rxjs';
 import { DisabilityStatuses } from '../statistics/ranks/disability-rank/disability-rank.model';
 import { ExperienceLevels } from '../statistics/ranks/experience-levels-rank/experience-levels-rank.model';
-import { Job, TimeWindows, WorkplaceTypes, monthsMap } from './job.types';
+import {
+  ContractTypes,
+  Job,
+  TimeWindows,
+  WorkplaceTypes,
+  monthsMap,
+} from './job.types';
 
 @Injectable({
   providedIn: 'root',
@@ -81,11 +87,11 @@ export class JobService {
     );
   }
 
-  getJobsByType(typeName: string): Observable<Job[]> {
+  getJobsByContractType(contracType: ContractTypes): Observable<Job[]> {
     return this.jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
-        return jobs.filter((job) => job.contractType == typeName);
+        return jobs.filter((job) => job.contractTypes.includes(contracType));
       })
     );
   }

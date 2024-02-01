@@ -111,7 +111,7 @@ export class GitHubJobsService {
       description: githubJob.body,
       id: githubJob.id,
       publishedDate: new Date(githubJob.created_at),
-      contractType: this.findContractTypesCitedInJob(githubJob)[0],
+      contractTypes: this.findContractTypesCitedInJob(githubJob),
       experienceLevels: this.findJobExperienceLevel(githubJob),
       keywords: this.findJobKeywords(githubJob),
       educationTerms: this.findCitedCoursesInJob(githubJob),
@@ -306,7 +306,7 @@ export class GitHubJobsService {
     return [];
   }
 
-  private findContractTypesCitedInJob(job: GitHubJob): string[] {
+  private findContractTypesCitedInJob(job: GitHubJob): ContractTypes[] {
     const matchedContractTypes: ContractTypes[] = [];
 
     job.labels.forEach((label) => {

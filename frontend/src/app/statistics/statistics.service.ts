@@ -5,7 +5,7 @@ import { CityData, StateData } from './ranks/cities-rank/cities-rank.model';
 import { WorkplaceData } from './ranks/workplace-rank/workplace-rank.model';
 import { TypeData } from './ranks/type-rank/type-rank.model';
 import { CompanyData } from './ranks/companies-rank/companies-rank.model';
-import { Job } from '../job/job.types';
+import { ContractTypes, Job } from '../job/job.types';
 import { KeywordData } from './ranks/keywords-rank/keywords-rank.model';
 import {
   ExperienceLevelData,
@@ -127,14 +127,17 @@ export class StatisticsService {
     return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
-        const typeMap = new Map<string, number>();
+        const contractTypesMap = new Map<ContractTypes, number>();
 
         jobs.forEach((job) => {
-          const currentWorkplaceCount = typeMap.get(job.contractType) || 0;
-          typeMap.set(job.contractType, currentWorkplaceCount + 1);
+          job.contractTypes.forEach((contractType) => {
+            const currentWorkplaceCount =
+              contractTypesMap.get(contractType) || 0;
+            contractTypesMap.set(contractType, currentWorkplaceCount + 1);
+          });
         });
 
-        const sortedEntries = Array.from(typeMap.entries()).sort(
+        const sortedEntries = Array.from(contractTypesMap.entries()).sort(
           (a, b) => b[1] - a[1]
         );
 

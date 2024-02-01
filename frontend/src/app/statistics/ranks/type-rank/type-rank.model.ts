@@ -1,4 +1,6 @@
+import { ContractTypes } from 'src/app/job/job.types';
+
 export type TypeData = {
-  name: string;
+  name: ContractTypes;
   count: number;
 };

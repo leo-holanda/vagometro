@@ -3,15 +3,21 @@ import { Job } from '../job/job.types';
 
 export enum JobSources {
   gupy = 'gupy',
+  github = 'github',
+}
+
+export enum JobCollections {
+  gupy = 'gupy',
   frontendbr = 'frontendbr',
   backendbr = 'backendbr',
   soujava = 'soujava',
   gupymobile = 'gupymobile',
 }
 
-export type JobSourceData = {
+export type JobCollectionData = {
   name: string;
   icon: string;
+  source: string;
   dataSource: Observable<Job[]>;
   isActive: boolean;
   isLoading: boolean;
@@ -19,12 +25,13 @@ export type JobSourceData = {
   hasFailedToLoad: boolean;
 };
 
-export type JobSourcesMap = Record<JobSources, JobSourceData>;
+export type JobCollectionsMap = Record<JobCollections, JobCollectionData>;
 
-export const jobSourcesMap: JobSourcesMap = {
+export const jobCollectionsMap: JobCollectionsMap = {
   gupy: {
-    name: 'Gupy - Desenvolvedor',
+    name: 'Desenvolvimento Web',
     icon: 'bx bxs-business',
+    source: JobSources.gupy,
     dataSource: new Observable(),
     isActive: false,
     isLoading: false,
@@ -32,8 +39,9 @@ export const jobSourcesMap: JobSourcesMap = {
     hasFailedToLoad: false,
   },
   gupymobile: {
-    name: 'Gupy - Mobile',
+    name: 'Mobile',
     icon: 'bx bxs-business',
+    source: JobSources.gupy,
     dataSource: new Observable(),
     isActive: false,
     isLoading: false,
@@ -43,6 +51,7 @@ export const jobSourcesMap: JobSourcesMap = {
   frontendbr: {
     name: 'frontendbr/vagas',
     icon: 'bx bxl-github',
+    source: JobSources.github,
     dataSource: new Observable(),
     isActive: false,
     isLoading: false,
@@ -52,6 +61,7 @@ export const jobSourcesMap: JobSourcesMap = {
   backendbr: {
     name: 'backend-br/vagas',
     icon: 'bx bxl-github',
+    source: JobSources.github,
     dataSource: new Observable(),
     isActive: false,
     isLoading: false,
@@ -61,6 +71,7 @@ export const jobSourcesMap: JobSourcesMap = {
   soujava: {
     name: 'soujava/vagas-java',
     icon: 'bx bxl-github',
+    source: JobSources.github,
     dataSource: new Observable(),
     isActive: false,
     isLoading: false,

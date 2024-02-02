@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
-import { JobSources, jobSourcesMap } from './job-sources.types';
+import {
+  JobCollections,
+  JobSources,
+  jobCollectionsMap,
+} from './job-sources.types';
 import { JobService } from '../job/job.service';
 import { BehaviorSubject, combineLatest, first, last } from 'rxjs';
 import { GupyService } from './gupy/gupy.service';
@@ -13,31 +17,33 @@ export class JobSourcesService {
   private _hasOneJobSourceActive$ = new BehaviorSubject(false);
   hasOneJobSourceActive$ = this._hasOneJobSourceActive$.asObservable();
 
-  jobSourcesMap = jobSourcesMap;
+  jobCollectionsMap = jobCollectionsMap;
 
   constructor(
     private jobService: JobService,
     private gupyService: GupyService,
     private githubJobsService: GitHubJobsService
   ) {
-    this.jobSourcesMap.gupy.dataSource = this.gupyService.jobs$;
+    this.jobCollectionsMap.gupy.dataSource = this.gupyService.jobs$;
 
-    this.jobSourcesMap.gupymobile.dataSource = this.gupyService.mobileJobs$;
+    this.jobCollectionsMap.gupymobile.dataSource = this.gupyService.mobileJobs$;
 
-    this.jobSourcesMap.frontendbr.dataSource =
+    this.jobCollectionsMap.frontendbr.dataSource =
       this.githubJobsService.frontendJobs$;
 
-    this.jobSourcesMap.backendbr.dataSource =
+    this.jobCollectionsMap.backendbr.dataSource =
       this.githubJobsService.backendJobs$;
 
-    this.jobSourcesMap.soujava.dataSource = this.githubJobsService.soujavaJobs$;
+    this.jobCollectionsMap.soujava.dataSource =
+      this.githubJobsService.soujavaJobs$;
   }
 
-  toggleJobSource(jobSource: JobSources): void {
-    const currentJobSourceState = this.jobSourcesMap[jobSource];
+  toggleJobCollection(jobCollection: JobCollections): void {
+    const currentJobSourceState = this.jobCollectionsMap[jobCollection];
 
     if (currentJobSourceState)
-      this.jobSourcesMap[jobSource].isActive = !currentJobSourceState.isActive;
+      this.jobCollectionsMap[jobCollection].isActive =
+        !currentJobSourceState.isActive;
 
     this.updateOneSourceFlag();
     this.updateJobs();
@@ -46,7 +52,7 @@ export class JobSourcesService {
   private updateJobs(): void {
     const currentJobs: Job[] = [];
 
-    const activeJobSources = Object.values(this.jobSourcesMap).filter(
+    const activeJobSources = Object.values(this.jobCollectionsMap).filter(
       (jobSource) => jobSource.isActive
     );
 
@@ -80,7 +86,7 @@ export class JobSourcesService {
   }
 
   private updateOneSourceFlag(): void {
-    const hasOneJobSourceActive = Object.values(jobSourcesMap).some(
+    const hasOneJobSourceActive = Object.values(jobCollectionsMap).some(
       (jobSource) => jobSource.isActive
     );
 

@@ -1,27 +1,79 @@
 <div class="flex flex-col rounded-box gap-2">
-  <button
-    class="btn justify-between"
-    *ngFor="let jobSource of activeJobSources | keyvalue"
-    (click)="toggleJobSource(jobSource.key)"
-    [ngClass]="{
-      'btn-primary': jobSource.value.isActive,
-      'btn-disabled':
-        jobSource.value.isLoading || jobSource.value.hasFailedToLoad
-    }"
-  >
-    <div class="flex items-center gap-2">
-      <i [ngClass]="jobSource.value.icon"></i>
-      <span>{{
-        jobSource.value.name +
-          (jobSource.value.hasFailedToLoad ? " - Falha ao carregar vagas" : "")
-      }}</span>
+  <div class="collapse collapse-arrow bg-base-300">
+    <input type="checkbox" />
+    <div class="collapse-title text-xl font-medium">
+      <i class="bx bxs-business"></i>
+      Gupy
     </div>
+    <div class="collapse-content flex flex-col gap-4">
+      <button
+        class="btn justify-between"
+        *ngFor="let jobCollection of gupyJobSources | keyvalue"
+        (click)="toggleJobCollection(jobCollection.key)"
+        [ngClass]="{
+          'btn-primary': jobCollection.value.isActive,
+          'btn-disabled':
+            jobCollection.value.isLoading || jobCollection.value.hasFailedToLoad
+        }"
+      >
+        <div class="flex items-center gap-2">
+          <span>{{
+            jobCollection.value.name +
+              (jobCollection.value.hasFailedToLoad
+                ? " - Falha ao carregar vagas"
+                : "")
+          }}</span>
+        </div>
 
-    <span
-      *ngIf="jobSource.value.isLoading"
-      class="loading loading-spinner"
-    ></span>
-    <i *ngIf="jobSource.value.hasFailedToLoad" class="bx bxs-x-circle"></i>
-    <i *ngIf="jobSource.value.isLoaded" class="bx bxs-check-circle"></i>
-  </button>
+        <span
+          *ngIf="jobCollection.value.isLoading"
+          class="loading loading-spinner"
+        ></span>
+        <i
+          *ngIf="jobCollection.value.hasFailedToLoad"
+          class="bx bxs-x-circle"
+        ></i>
+        <i *ngIf="jobCollection.value.isLoaded" class="bx bxs-check-circle"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="collapse collapse-arrow bg-base-300">
+    <input type="checkbox" />
+    <div class="collapse-title text-xl font-medium">
+      <i class="bx bxl-github"></i>
+      GitHub
+    </div>
+    <div class="collapse-content flex flex-col gap-4">
+      <button
+        class="btn justify-between"
+        *ngFor="let jobCollection of githubJobSources | keyvalue"
+        (click)="toggleJobCollection(jobCollection.key)"
+        [ngClass]="{
+          'btn-primary': jobCollection.value.isActive,
+          'btn-disabled':
+            jobCollection.value.isLoading || jobCollection.value.hasFailedToLoad
+        }"
+      >
+        <div class="flex items-center gap-2">
+          <span>{{
+            jobCollection.value.name +
+              (jobCollection.value.hasFailedToLoad
+                ? " - Falha ao carregar vagas"
+                : "")
+          }}</span>
+        </div>
+
+        <span
+          *ngIf="jobCollection.value.isLoading"
+          class="loading loading-spinner"
+        ></span>
+        <i
+          *ngIf="jobCollection.value.hasFailedToLoad"
+          class="bx bxs-x-circle"
+        ></i>
+        <i *ngIf="jobCollection.value.isLoaded" class="bx bxs-check-circle"></i>
+      </button>
+    </div>
+  </div>
 </div>

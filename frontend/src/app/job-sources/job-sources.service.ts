@@ -28,6 +28,8 @@ export class JobSourcesService {
 
     this.jobCollectionsMap.gupymobile.dataSource = this.gupyService.mobileJobs$;
 
+    this.jobCollectionsMap.gupydevops.dataSource = this.gupyService.devopsJobs$;
+
     this.jobCollectionsMap.frontendbr.dataSource =
       this.githubJobsService.frontendJobs$;
 

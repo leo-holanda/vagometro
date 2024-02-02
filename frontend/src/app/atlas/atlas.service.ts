@@ -11,6 +11,7 @@ export class AtlasService {
   private app = new Realm.App({ id: environment.ATLAS_APP_ID });
   private mongoDB: any;
   private mobileJobsCollection: any;
+  private devopsJobsCollection: any;
 
   constructor() {}
 
@@ -23,7 +24,10 @@ export class AtlasService {
       );
       this.mobileJobsCollection = this.mongoDB
         .db(environment.DATABASE_NAME)
-        .collection(environment.COLLECTION_NAME);
+        .collection(environment.MOBILE_COLLECTION_NAME);
+      this.devopsJobsCollection = this.mongoDB
+        .db(environment.DATABASE_NAME)
+        .collection(environment.DEVOPS_COLLECTION_NAME);
     }
   }
 
@@ -31,6 +35,14 @@ export class AtlasService {
     return defer(() => this.openConnection()).pipe(
       switchMap(() =>
         defer(() => this.mobileJobsCollection.find() as Observable<GupyJob[]>)
+      )
+    );
+  }
+
+  getDevOpsJobs(): Observable<GupyJob[]> {
+    return defer(() => this.openConnection()).pipe(
+      switchMap(() =>
+        defer(() => this.devopsJobsCollection.find() as Observable<GupyJob[]>)
       )
     );
   }

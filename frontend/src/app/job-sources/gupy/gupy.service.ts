@@ -31,6 +31,7 @@ import { AtlasService } from 'src/app/atlas/atlas.service';
 export class GupyService {
   jobs$: Observable<Job[]>;
   mobileJobs$: Observable<Job[]>;
+  devopsJobs$: Observable<Job[]>;
 
   constructor(
     private dynamoService: DynamoService,
@@ -38,6 +39,18 @@ export class GupyService {
   ) {
     this.jobs$ = this.getJobsObservable();
     this.mobileJobs$ = this.getMobileJobsObservable();
+    this.devopsJobs$ = this.getDevOpsJobsObservable();
+  }
+
+  private getDevOpsJobsObservable(): Observable<Job[]> {
+    return this.atlasService.getDevOpsJobs().pipe(
+      map((jobs) => {
+        return jobs
+          .map((job) => this.mapToJob(job))
+          .sort((a, b) => (a.publishedDate > b.publishedDate ? -1 : 1));
+      }),
+      shareReplay()
+    );
   }
 
   private getMobileJobsObservable(): Observable<Job[]> {

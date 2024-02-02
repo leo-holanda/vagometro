@@ -61,8 +61,8 @@ export class JobSourcesService {
     });
 
     if (activeJobSources.length == 0) {
-      this.jobService.setPristineJobs([]);
-      this.jobService.setJobs([]);
+      this.jobService.setPristineJobs(undefined);
+      this.jobService.setJobs(undefined);
     } else {
       activeJobSources.forEach((jobSource) => {
         jobSource.dataSource.pipe(first()).subscribe({

@@ -13,6 +13,7 @@ export enum JobCollections {
   soujava = 'soujava',
   gupymobile = 'gupymobile',
   gupydevops = 'gupydevops',
+  gupyuiux = 'gupyuiux',
 }
 
 export type JobCollectionData = {
@@ -51,6 +52,16 @@ export const jobCollectionsMap: JobCollectionsMap = {
   },
   gupydevops: {
     name: 'DevOps',
+    icon: 'bx bxs-business',
+    source: JobSources.gupy,
+    dataSource: new Observable(),
+    isActive: false,
+    isLoading: false,
+    isLoaded: false,
+    hasFailedToLoad: false,
+  },
+  gupyuiux: {
+    name: 'UI/UX',
     icon: 'bx bxs-business',
     source: JobSources.gupy,
     dataSource: new Observable(),

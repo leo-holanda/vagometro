@@ -32,6 +32,7 @@ export class GupyService {
   jobs$: Observable<Job[]>;
   mobileJobs$: Observable<Job[]>;
   devopsJobs$: Observable<Job[]>;
+  uiuxJobs$: Observable<Job[]>;
 
   constructor(
     private dynamoService: DynamoService,
@@ -40,6 +41,18 @@ export class GupyService {
     this.jobs$ = this.getJobsObservable();
     this.mobileJobs$ = this.getMobileJobsObservable();
     this.devopsJobs$ = this.getDevOpsJobsObservable();
+    this.uiuxJobs$ = this.getUIUXJobsObservable();
+  }
+
+  private getUIUXJobsObservable(): Observable<Job[]> {
+    return this.atlasService.getUIUXJobs().pipe(
+      map((jobs) => {
+        return jobs
+          .map((job) => this.mapToJob(job))
+          .sort((a, b) => (a.publishedDate > b.publishedDate ? -1 : 1));
+      }),
+      shareReplay()
+    );
   }
 
   private getDevOpsJobsObservable(): Observable<Job[]> {

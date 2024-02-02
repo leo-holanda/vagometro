@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as Realm from 'realm-web';
-import { scheduled, asyncScheduler, Observable, switchMap } from 'rxjs';
+import { Observable, switchMap, defer } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { GupyJob } from '../job-sources/gupy/gupy.types';
 
@@ -15,8 +15,6 @@ export class AtlasService {
   constructor() {}
 
   private async openConnection(): Promise<void> {
-    if (this.mobileJobsCollection) return;
-
     const credentials = Realm.Credentials.anonymous();
     await this.app.logIn(credentials);
     if (this.app.currentUser) {
@@ -30,13 +28,10 @@ export class AtlasService {
   }
 
   getMobileJobs(): Observable<GupyJob[]> {
-    return scheduled(this.openConnection(), asyncScheduler).pipe(
-      switchMap(() => {
-        return scheduled(
-          this.mobileJobsCollection.find(),
-          asyncScheduler
-        ) as Observable<GupyJob[]>;
-      })
+    return defer(() => this.openConnection()).pipe(
+      switchMap(() =>
+        defer(() => this.mobileJobsCollection.find() as Observable<GupyJob[]>)
+      )
     );
   }
 }

@@ -21,10 +21,15 @@ export class JobSourcesService {
     private githubJobsService: GitHubJobsService
   ) {
     this.jobSourcesMap.gupy.dataSource = this.gupyService.jobs$;
+
+    this.jobSourcesMap.gupymobile.dataSource = this.gupyService.mobileJobs$;
+
     this.jobSourcesMap.frontendbr.dataSource =
       this.githubJobsService.frontendJobs$;
+
     this.jobSourcesMap.backendbr.dataSource =
       this.githubJobsService.backendJobs$;
+
     this.jobSourcesMap.soujava.dataSource = this.githubJobsService.soujavaJobs$;
   }
 

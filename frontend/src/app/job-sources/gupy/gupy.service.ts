@@ -23,15 +23,32 @@ import { keywords } from 'src/app/statistics/ranks/keywords-rank/keywords-rank.d
 import { languageRelatedTerms } from 'src/app/statistics/ranks/languages-rank/languages-rank.data';
 import { GupyJob } from './gupy.types';
 import { gupyContractTypeMap } from 'src/app/statistics/ranks/type-rank/type-rank.translations';
+import { AtlasService } from 'src/app/atlas/atlas.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GupyService {
   jobs$: Observable<Job[]>;
+  mobileJobs$: Observable<Job[]>;
 
-  constructor(private dynamoService: DynamoService) {
+  constructor(
+    private dynamoService: DynamoService,
+    private atlasService: AtlasService
+  ) {
     this.jobs$ = this.getJobsObservable();
+    this.mobileJobs$ = this.getMobileJobsObservable();
+  }
+
+  private getMobileJobsObservable(): Observable<Job[]> {
+    return this.atlasService.getMobileJobs().pipe(
+      map((jobs) => {
+        return jobs
+          .map((job) => this.mapToJob(job))
+          .sort((a, b) => (a.publishedDate > b.publishedDate ? -1 : 1));
+      }),
+      shareReplay()
+    );
   }
 
   private getJobsObservable(): Observable<Job[]> {

@@ -29,6 +29,7 @@
     "@vercel/analytics": "^1.1.1",
     "@zip.js/zip.js": "^2.7.33",
     "echarts": "^5.4.3",
+    "realm-web": "^2.0.0",
     "rxjs": "~7.8.0",
     "topojson-client": "^3.1.0",
     "tslib": "^2.3.0",

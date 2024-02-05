@@ -78,11 +78,7 @@ export class GupyService {
   }
 
   private getJobsObservable(): Observable<Job[]> {
-    return this.dynamoService.scanJobs().pipe(
-      last(),
-      map((output) =>
-        output.map((response) => response.Items as GupyJob[]).flat()
-      ),
+    return this.atlasService.getWebDevJobs().pipe(
       map((jobs) => {
         return jobs
           .map((job) => this.mapToJob(job))

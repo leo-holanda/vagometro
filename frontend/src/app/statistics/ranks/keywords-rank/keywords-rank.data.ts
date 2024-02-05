@@ -272,6 +272,5 @@ export const keywords: Keywords = {
   hbase: 'HBase',
   kafka: 'Kafka',
   hadoop: 'Hadoop',
-  office: 'Pacote Office',
   primavera: 'Primavera',
 };

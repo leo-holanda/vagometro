@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable, last, map, shareReplay } from 'rxjs';
-import { DynamoService } from 'src/app/dynamo/dynamo.service';
 import { ContractTypes, Job, WorkplaceTypes } from 'src/app/job/job.types';
 import { DisabilityStatuses } from 'src/app/statistics/ranks/disability-rank/disability-rank.model';
 import {
@@ -34,10 +33,7 @@ export class GupyService {
   devopsJobs$: Observable<Job[]>;
   uiuxJobs$: Observable<Job[]>;
 
-  constructor(
-    private dynamoService: DynamoService,
-    private atlasService: AtlasService
-  ) {
+  constructor(private atlasService: AtlasService) {
     this.jobs$ = this.getJobsObservable();
     this.mobileJobs$ = this.getMobileJobsObservable();
     this.devopsJobs$ = this.getDevOpsJobsObservable();

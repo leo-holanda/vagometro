@@ -4,7 +4,7 @@
 
 <img src="demo.png" width="100%" />
 
-🌐 Check it at [vagometro.vercel.app/](vagometro.vercel.app/)
+🌐 Check it at [vagometro.vercel.app](vagometro.vercel.app)
 
 ## Contents
 
@@ -64,6 +64,8 @@ Feel free to submit any issues or enhancement requests! I will do my best to fix
 
 ## Built with
 
+- Python
+- MongoDB
 - TypeScript
 - Angular
 - Tailwind
@@ -73,7 +75,8 @@ Feel free to submit any issues or enhancement requests! I will do my best to fix
 ## Deployed at
 
 - Vercel
-- AWS
+- AWS Lambda (Python)
+- MongoDB Atlas
 - Cloudflare R2 and Workers
 
 ## License

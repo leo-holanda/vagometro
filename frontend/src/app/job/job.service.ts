@@ -30,12 +30,9 @@ export class JobService {
 
   constructor() {}
 
-  setPristineJobs(jobs: Job[] | undefined): void {
-    if (jobs) this.pristineJobs = jobs;
-  }
-
   setJobs(jobs: Job[] | undefined): void {
     if (jobs) {
+      this.pristineJobs = [...jobs];
       this._jobs$.next(jobs);
       const oldestDate = this.findOldestJobDate(jobs);
       this._oldestJobPublishedDate$.next(oldestDate);

@@ -65,14 +65,12 @@ export class JobSourcesService {
     });
 
     if (activeJobSources.length == 0) {
-      this.jobService.setPristineJobs(undefined);
       this.jobService.setJobs(undefined);
     } else {
       activeJobSources.forEach((jobSource) => {
         jobSource.dataSource.pipe(first()).subscribe({
           next: (jobs) => {
             currentJobs.push(...jobs);
-            this.jobService.setPristineJobs(currentJobs);
             this.jobService.setJobs(currentJobs);
             jobSource.isLoading = false;
             jobSource.isLoaded = true;

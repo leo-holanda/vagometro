@@ -11,7 +11,12 @@
       </div>
     </div>
 
-    <ng-container *ngIf="lastMonthDifference$ | async as lastMonthDifference">
+    <ng-container
+      *ngIf="
+        (currentTimeWindow$ | async) == timeWindows.all &&
+        (lastMonthDifference$ | async) as lastMonthDifference
+      "
+    >
       <div class="stat place-items-center">
         <div class="stat-title">Comparação com o último mês</div>
         <div class="stat-value">

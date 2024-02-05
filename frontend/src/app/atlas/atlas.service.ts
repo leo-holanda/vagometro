@@ -14,6 +14,7 @@ export class AtlasService {
   private devopsJobsCollection: any;
   private uiuxJobsCollection: any;
   private webdevJobsCollection: any;
+  private dataJobsCollection: any;
 
   constructor() {}
 
@@ -40,7 +41,19 @@ export class AtlasService {
       this.webdevJobsCollection = this.mongoDB
         .db(environment.DATABASE_NAME)
         .collection(environment.WEBDEV_COLLECTION_NAME);
+
+      this.dataJobsCollection = this.mongoDB
+        .db(environment.DATABASE_NAME)
+        .collection(environment.DATA_COLLECTION_NAME);
     }
+  }
+
+  getDataJobs(): Observable<GupyJob[]> {
+    return defer(() => this.openConnection()).pipe(
+      switchMap(() =>
+        defer(() => this.dataJobsCollection.find() as Observable<GupyJob[]>)
+      )
+    );
   }
 
   getWebDevJobs(): Observable<GupyJob[]> {

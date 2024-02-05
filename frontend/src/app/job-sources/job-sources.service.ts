@@ -25,12 +25,10 @@ export class JobSourcesService {
     private githubJobsService: GitHubJobsService
   ) {
     this.jobCollectionsMap.gupy.dataSource = this.gupyService.jobs$;
-
     this.jobCollectionsMap.gupymobile.dataSource = this.gupyService.mobileJobs$;
-
     this.jobCollectionsMap.gupydevops.dataSource = this.gupyService.devopsJobs$;
-
     this.jobCollectionsMap.gupyuiux.dataSource = this.gupyService.uiuxJobs$;
+    this.jobCollectionsMap.gupydados.dataSource = this.gupyService.dataJobs$;
 
     this.jobCollectionsMap.frontendbr.dataSource =
       this.githubJobsService.frontendJobs$;

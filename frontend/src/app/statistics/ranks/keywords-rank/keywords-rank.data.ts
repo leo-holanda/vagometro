@@ -2,6 +2,19 @@ export interface Keywords {
   [key: string]: string;
 }
 
+/*
+  All keys must be in lower case.
+  
+  You will see multiple keys pointing to the same value.
+  This is necessary to ensure that different ways of writing a technology
+  will always be counted as just one technology. For example:
+
+  typescript: 'TypeScript'
+  ts: 'TypeScript'
+
+  Two different ways of writing TypeScript that in the end will be counted only as TypeScript.
+*/
+
 export const keywords: Keywords = {
   //FRONTEND
   html: 'HTML',
@@ -173,7 +186,7 @@ export const keywords: Keywords = {
   apache: 'Apache',
   docker: 'Docker',
   dockers: 'Docker',
-  kafka: 'Kafka',
+
   'ci/cd': 'CI/CD',
   ci: 'CI/CD',
   cd: 'CI/CD',
@@ -224,5 +237,41 @@ export const keywords: Keywords = {
   embarcado: 'Sistemas embarcados',
   embarcados: 'Sistemas embarcados',
   mensageria: 'Mensageria',
+  zabbix: 'Zabbix',
+  grafana: 'Grafana',
+  windows: 'Windows',
   //Design Patterns - multi-word keyword
+
+  //DATA SCIENCE
+  excel: 'Excel',
+  analytics: 'Analytics',
+  dmbok: 'DMBOK',
+  r: 'R',
+  scala: 'Scala',
+  spark: 'Spark',
+  airflow: 'AirFlow',
+  lgpd: 'LGPD',
+  qlik: 'Qlik',
+  tableau: 'Tableau',
+  looker: 'Looker',
+  pipeline: 'Pipeline',
+  etl: 'ETL',
+  etls: 'ETL',
+  pandas: 'Pandas',
+  numpy: 'NumPy',
+  matplotlib: 'Matplotlib',
+  seaborn: 'Seaborn',
+  scikit_learn: 'Scikit-Learn',
+  tensorflow: 'TensorFlow',
+  keras: 'Keras',
+  pytorch: 'PyTorch',
+  redshift: 'Redshift',
+  bigquery: 'BigQuery',
+  snowflake: 'Snowflake',
+  hive: 'Hive',
+  hbase: 'HBase',
+  kafka: 'Kafka',
+  hadoop: 'Hadoop',
+  office: 'Pacote Office',
+  primavera: 'Primavera',
 };

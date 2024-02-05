@@ -36,7 +36,7 @@ export class StatisticsService {
         const citiesMap = new Map<string, number>();
 
         jobs.forEach((job) => {
-          if (job.city == '') return;
+          if (!job.city) return;
           const currentCityCount = citiesMap.get(job.city) || 0;
           citiesMap.set(job.city, currentCityCount + 1);
         });

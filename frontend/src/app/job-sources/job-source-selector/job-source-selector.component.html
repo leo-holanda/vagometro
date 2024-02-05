@@ -67,7 +67,11 @@
                 class="loading loading-spinner"
               ></span>
               <i
-                *ngIf="!jobCollection.value.isLoaded"
+                *ngIf="
+                  jobCollection.value.isLoading == false &&
+                  jobCollection.value.isLoaded == false &&
+                  jobCollection.value.hasFailedToLoad == false
+                "
                 class="bx bx-download"
               ></i>
               <i
@@ -152,14 +156,17 @@
                 *ngIf="jobCollection.value.isLoading"
                 class="loading loading-spinner"
               ></span>
+
               <i
-                *ngIf="!jobCollection.value.isLoaded"
+                *ngIf="!jobCollection.value.isLoading"
                 class="bx bx-download"
               ></i>
+
               <i
                 *ngIf="jobCollection.value.hasFailedToLoad"
                 class="bx bxs-x-circle"
               ></i>
+
               <i
                 *ngIf="jobCollection.value.isLoaded"
                 class="bx bxs-check-circle"

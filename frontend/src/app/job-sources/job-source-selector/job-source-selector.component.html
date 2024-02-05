@@ -42,24 +42,52 @@
             </div>
           </div>
 
-          <div class="card-actions w-full">
+          <div class="card-actions mt-4 w-full">
             <button
-              class="btn w-full justify-between"
+              class="btn btn-primary w-full justify-between"
               (click)="toggleJobCollection(jobCollection.key)"
               [ngClass]="{
-                'btn-primary': jobCollection.value.isActive,
+                'btn-accent': jobCollection.value.isActive,
                 'btn-disabled':
                   jobCollection.value.isLoading ||
                   jobCollection.value.hasFailedToLoad
               }"
             >
               <div class="flex items-center gap-2">
-                <span>{{
-                  "Utilizar dados" +
-                    (jobCollection.value.hasFailedToLoad
-                      ? " - Falha ao carregar vagas"
-                      : "")
-                }}</span>
+                <span
+                  *ngIf="
+                    !jobCollection.value.isLoading &&
+                    !jobCollection.value.isLoaded &&
+                    !jobCollection.value.hasFailedToLoad
+                  "
+                >
+                  Utilizar dados na análise
+                </span>
+
+                <span *ngIf="jobCollection.value.isLoading">
+                  Carregando dados...
+                </span>
+
+                <span
+                  *ngIf="
+                    jobCollection.value.isActive && jobCollection.value.isLoaded
+                  "
+                >
+                  Remover dados da análise
+                </span>
+
+                <span
+                  *ngIf="
+                    jobCollection.value.isLoaded &&
+                    !jobCollection.value.isActive
+                  "
+                >
+                  Utilizar dados na análise
+                </span>
+
+                <span *ngIf="jobCollection.value.hasFailedToLoad">
+                  Falha ao carregar - Tente mais tarde
+                </span>
               </div>
 
               <span
@@ -132,41 +160,70 @@
             </div>
           </div>
 
-          <div class="card-actions w-full">
+          <div class="card-actions mt-4 w-full">
             <button
-              class="btn w-full justify-between"
+              class="btn btn-primary w-full justify-between"
               (click)="toggleJobCollection(jobCollection.key)"
               [ngClass]="{
-                'btn-primary': jobCollection.value.isActive,
+                'btn-accent': jobCollection.value.isActive,
                 'btn-disabled':
                   jobCollection.value.isLoading ||
                   jobCollection.value.hasFailedToLoad
               }"
             >
               <div class="flex items-center gap-2">
-                <span>{{
-                  "Utilizar dados" +
-                    (jobCollection.value.hasFailedToLoad
-                      ? " - Falha ao carregar vagas"
-                      : "")
-                }}</span>
+                <span
+                  *ngIf="
+                    !jobCollection.value.isLoading &&
+                    !jobCollection.value.isLoaded &&
+                    !jobCollection.value.hasFailedToLoad
+                  "
+                >
+                  Utilizar dados na análise
+                </span>
+
+                <span *ngIf="jobCollection.value.isLoading">
+                  Carregando dados...
+                </span>
+
+                <span
+                  *ngIf="
+                    jobCollection.value.isActive && jobCollection.value.isLoaded
+                  "
+                >
+                  Remover dados da análise
+                </span>
+
+                <span
+                  *ngIf="
+                    jobCollection.value.isLoaded &&
+                    !jobCollection.value.isActive
+                  "
+                >
+                  Utilizar dados na análise
+                </span>
+
+                <span *ngIf="jobCollection.value.hasFailedToLoad">
+                  Falha ao carregar - Tente mais tarde
+                </span>
               </div>
 
               <span
                 *ngIf="jobCollection.value.isLoading"
                 class="loading loading-spinner"
               ></span>
-
               <i
-                *ngIf="!jobCollection.value.isLoading"
+                *ngIf="
+                  jobCollection.value.isLoading == false &&
+                  jobCollection.value.isLoaded == false &&
+                  jobCollection.value.hasFailedToLoad == false
+                "
                 class="bx bx-download"
               ></i>
-
               <i
                 *ngIf="jobCollection.value.hasFailedToLoad"
                 class="bx bxs-x-circle"
               ></i>
-
               <i
                 *ngIf="jobCollection.value.isLoaded"
                 class="bx bxs-check-circle"

@@ -103,7 +103,7 @@ def lambda_handler(event, context):
         try:
             unique_jobs = get_unique_jobs(all_jobs)
             collection.insert_many(unique_jobs)
-        except e:
+        except Exception as e:
             print(f"Error: {e}")
     else:
         print("No jobs to insert.")

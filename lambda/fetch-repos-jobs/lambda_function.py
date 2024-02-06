@@ -104,7 +104,7 @@ def lambda_handler(event, context):
             
             unique_issues = get_unique_issues(all_issues)
             collection.insert_many(unique_issues)
-        except e:
+        except Exception as e:
             print(f"Error: {e}")
     else:
         print("No issues to insert.")

@@ -1,238 +1,134 @@
-<div class="flex flex-col rounded-box gap-2">
-  <!-- TODO: Create component to reuse collapse for each data source -->
-  <div class="collapse collapse-arrow bg-base-300">
-    <input type="checkbox" />
-    <div class="collapse-title text-xl font-medium">
-      <i class="bx bxs-business"></i>
-      Gupy
-    </div>
-    <div class="collapse-content flex flex-col gap-4">
-      <div
-        class="card card-compact w-full bg-base-100"
-        *ngFor="let jobCollection of gupyJobSources | keyvalue"
-      >
-        <div class="card-body">
-          <h2 class="card-title">{{ jobCollection.value.name }}</h2>
-
-          <div class="flex flex-col gap-4">
-            <div class="flex flex-col flex-wrap gap-2">
-              <header class="flex items-center gap-2">
-                <i class="bx bxs-search"></i>
-                <h3>Palavras-chave usadas na busca</h3>
-              </header>
-              <div class="flex flex-wrap gap-2">
-                <div
-                  class="badge badge-neutral"
-                  *ngFor="
-                    let keyword of jobCollection.value.searchStringKeywords
-                  "
-                >
-                  {{ keyword }}
-                </div>
-              </div>
-            </div>
-
-            <div class="flex flex-col flex-wrap gap-2">
-              <header class="flex items-center gap-2">
-                <i class="bx bxs-calendar"></i>
-                <h3>Data de início da coleta</h3>
-              </header>
-              <div class="flex font-bold gap-2">
-                <span>{{ jobCollection.value.initialFetchDate }}</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="card-actions mt-4 w-full">
-            <button
-              class="btn btn-primary w-full justify-between"
-              (click)="toggleJobCollection(jobCollection.key)"
-              [ngClass]="{
-                'btn-accent': jobCollection.value.isActive,
-                'btn-disabled':
-                  jobCollection.value.isLoading ||
-                  jobCollection.value.hasFailedToLoad
-              }"
-            >
-              <div class="flex items-center gap-2">
-                <span
-                  *ngIf="
-                    !jobCollection.value.isLoading &&
-                    !jobCollection.value.isLoaded &&
-                    !jobCollection.value.hasFailedToLoad
-                  "
-                >
-                  Utilizar dados na análise
-                </span>
-
-                <span *ngIf="jobCollection.value.isLoading">
-                  Carregando dados...
-                </span>
-
-                <span
-                  *ngIf="
-                    jobCollection.value.isActive && jobCollection.value.isLoaded
-                  "
-                >
-                  Remover dados da análise
-                </span>
-
-                <span
-                  *ngIf="
-                    jobCollection.value.isLoaded &&
-                    !jobCollection.value.isActive
-                  "
-                >
-                  Utilizar dados na análise
-                </span>
-
-                <span *ngIf="jobCollection.value.hasFailedToLoad">
-                  Falha ao carregar - Tente mais tarde
-                </span>
-              </div>
-
-              <span
-                *ngIf="jobCollection.value.isLoading"
-                class="loading loading-spinner"
-              ></span>
-              <i
-                *ngIf="
-                  jobCollection.value.isLoading == false &&
-                  jobCollection.value.isLoaded == false &&
-                  jobCollection.value.hasFailedToLoad == false
-                "
-                class="bx bx-download"
-              ></i>
-              <i
-                *ngIf="jobCollection.value.hasFailedToLoad"
-                class="bx bxs-x-circle"
-              ></i>
-              <i
-                *ngIf="jobCollection.value.isLoaded"
-                class="bx bxs-check-circle"
-              ></i>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="collapse collapse-arrow bg-base-300">
-    <input type="checkbox" />
-    <div class="collapse-title text-xl font-medium">
-      <i class="bx bxl-github"></i>
-      GitHub
-    </div>
-    <div class="collapse-content flex flex-col gap-4">
-      <div
-        class="card card-compact w-full bg-base-100"
-        *ngFor="let jobCollection of githubJobSources | keyvalue"
-      >
-        <div class="card-body">
-          <h2 class="card-title">{{ jobCollection.value.name }}</h2>
-
-          <div class="flex flex-col gap-4">
-            <div class="flex flex-col flex-wrap gap-2">
-              <header class="flex items-center gap-2">
-                <i class="bx bxs-search"></i>
-                <h3 class="font-bold">Palavras-chave usadas na busca</h3>
-              </header>
-              <div class="flex flex-wrap gap-2">
-                <div
-                  class="badge badge-neutral"
-                  *ngFor="
-                    let keyword of jobCollection.value.searchStringKeywords
-                  "
-                >
-                  {{ keyword }}
-                </div>
-              </div>
-            </div>
-
-            <div class="flex flex-col flex-wrap gap-2">
-              <header class="flex items-center gap-2">
-                <i class="bx bxs-calendar"></i>
-                <h3 class="font-bold">Data de início da coleta</h3>
-              </header>
-              <div class="flex gap-2">
-                <span>{{ jobCollection.value.initialFetchDate }}</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="card-actions mt-4 w-full">
-            <button
-              class="btn btn-primary w-full justify-between"
-              (click)="toggleJobCollection(jobCollection.key)"
-              [ngClass]="{
-                'btn-accent': jobCollection.value.isActive,
-                'btn-disabled':
-                  jobCollection.value.isLoading ||
-                  jobCollection.value.hasFailedToLoad
-              }"
-            >
-              <div class="flex items-center gap-2">
-                <span
-                  *ngIf="
-                    !jobCollection.value.isLoading &&
-                    !jobCollection.value.isLoaded &&
-                    !jobCollection.value.hasFailedToLoad
-                  "
-                >
-                  Utilizar dados na análise
-                </span>
-
-                <span *ngIf="jobCollection.value.isLoading">
-                  Carregando dados...
-                </span>
-
-                <span
-                  *ngIf="
-                    jobCollection.value.isActive && jobCollection.value.isLoaded
-                  "
-                >
-                  Remover dados da análise
-                </span>
-
-                <span
-                  *ngIf="
-                    jobCollection.value.isLoaded &&
-                    !jobCollection.value.isActive
-                  "
-                >
-                  Utilizar dados na análise
-                </span>
-
-                <span *ngIf="jobCollection.value.hasFailedToLoad">
-                  Falha ao carregar - Tente mais tarde
-                </span>
-              </div>
-
-              <span
-                *ngIf="jobCollection.value.isLoading"
-                class="loading loading-spinner"
-              ></span>
-              <i
-                *ngIf="
-                  jobCollection.value.isLoading == false &&
-                  jobCollection.value.isLoaded == false &&
-                  jobCollection.value.hasFailedToLoad == false
-                "
-                class="bx bx-download"
-              ></i>
-              <i
-                *ngIf="jobCollection.value.hasFailedToLoad"
-                class="bx bxs-x-circle"
-              ></i>
-              <i
-                *ngIf="jobCollection.value.isLoaded"
-                class="bx bxs-check-circle"
-              ></i>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+<div role="tablist" class="tabs tabs-boxed gap-2 mb-4">
+  <a
+    role="tab"
+    class="tab gap-2 tab-active"
+    [ngClass]="{
+      'tab-active': selectedJobSource == jobSources.gupy
+    }"
+    (click)="setJobSource(jobSources.gupy)"
+  >
+    <i class="bx bxs-business"></i>
+    Gupy</a
+  >
+  <a
+    role="tab"
+    class="tab gap-2"
+    [ngClass]="{
+      'tab-active': selectedJobSource == jobSources.github
+    }"
+    (click)="setJobSource(jobSources.github)"
+  >
+    <i class="bx bxl-github"></i>
+    GitHub</a
+  >
 </div>
+
+<main
+  class="flex flex-col gap-4 p-4 bg-neutral max-h-80 rounded-box overflow-y-auto"
+>
+  <div
+    class="card card-compact bg-base-300"
+    *ngFor="let jobCollection of selectedJobCollections | keyvalue"
+  >
+    <div class="card-body">
+      <h2 class="card-title">{{ jobCollection.value.name }}</h2>
+
+      <div class="flex flex-col gap-4">
+        <div class="flex flex-col flex-wrap gap-2">
+          <header class="flex items-center gap-2">
+            <i class="bx bxs-search"></i>
+            <h3>Palavras-chave usadas na busca</h3>
+          </header>
+          <div class="flex flex-wrap gap-2">
+            <div
+              class="badge badge-neutral"
+              *ngFor="let keyword of jobCollection.value.searchStringKeywords"
+            >
+              {{ keyword }}
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-col flex-wrap gap-2">
+          <header class="flex items-center gap-2">
+            <i class="bx bxs-calendar"></i>
+            <h3>Data de início da coleta</h3>
+          </header>
+          <div class="flex font-bold gap-2">
+            <span>{{ jobCollection.value.initialFetchDate }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-actions mt-auto">
+        <button
+          class="btn btn-primary w-full justify-between"
+          (click)="toggleJobCollection(jobCollection.key)"
+          [ngClass]="{
+            'btn-accent': jobCollection.value.isActive,
+            'btn-disabled':
+              jobCollection.value.isLoading ||
+              jobCollection.value.hasFailedToLoad
+          }"
+        >
+          <div class="flex items-center gap-2">
+            <span
+              *ngIf="
+                !jobCollection.value.isLoading &&
+                !jobCollection.value.isLoaded &&
+                !jobCollection.value.hasFailedToLoad
+              "
+            >
+              Utilizar dados na análise
+            </span>
+
+            <span *ngIf="jobCollection.value.isLoading">
+              Carregando dados...
+            </span>
+
+            <span
+              *ngIf="
+                jobCollection.value.isActive && jobCollection.value.isLoaded
+              "
+            >
+              Remover dados da análise
+            </span>
+
+            <span
+              *ngIf="
+                jobCollection.value.isLoaded && !jobCollection.value.isActive
+              "
+            >
+              Utilizar dados na análise
+            </span>
+
+            <span *ngIf="jobCollection.value.hasFailedToLoad">
+              Falha ao carregar - Tente mais tarde
+            </span>
+          </div>
+
+          <span
+            *ngIf="jobCollection.value.isLoading"
+            class="loading loading-spinner"
+          ></span>
+          <i
+            *ngIf="
+              jobCollection.value.isLoading == false &&
+              jobCollection.value.isLoaded == false &&
+              jobCollection.value.hasFailedToLoad == false
+            "
+            class="bx bx-download"
+          ></i>
+          <i
+            *ngIf="jobCollection.value.hasFailedToLoad"
+            class="bx bxs-x-circle"
+          ></i>
+          <i
+            *ngIf="jobCollection.value.isLoaded"
+            class="bx bxs-check-circle"
+          ></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</main>

@@ -63,7 +63,7 @@ export const jobCollectionsMap: JobCollectionsMap = {
     isLoaded: false,
     hasFailedToLoad: false,
     searchStringKeywords: ['mobile'],
-    initialFetchDate: '05/02/2024',
+    initialFetchDate: '02/01/2024',
   },
   gupydevops: {
     name: 'DevOps',
@@ -75,7 +75,7 @@ export const jobCollectionsMap: JobCollectionsMap = {
     isLoaded: false,
     hasFailedToLoad: false,
     searchStringKeywords: ['devops', 'sre'],
-    initialFetchDate: '05/02/2024',
+    initialFetchDate: '02/01/2024',
   },
   gupyuiux: {
     name: 'UI/UX',
@@ -87,7 +87,7 @@ export const jobCollectionsMap: JobCollectionsMap = {
     isLoaded: false,
     hasFailedToLoad: false,
     searchStringKeywords: ['ui', 'ux'],
-    initialFetchDate: '05/02/2024',
+    initialFetchDate: '02/01/2024',
   },
   gupydados: {
     name: 'Dados',
@@ -99,7 +99,7 @@ export const jobCollectionsMap: JobCollectionsMap = {
     isLoaded: false,
     hasFailedToLoad: false,
     searchStringKeywords: ['data', 'dados'],
-    initialFetchDate: '05/02/2024',
+    initialFetchDate: '02/01/2024',
   },
   frontendbr: {
     name: 'frontendbr/vagas',

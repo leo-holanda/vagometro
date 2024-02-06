@@ -71,6 +71,7 @@ def lambda_handler(event, context):
                 if(is_issue_published_today(issue)):
                     continue
                 if(is_issue_published_yesterday(issue)):
+                    issue["_id"] = issue["id"]
                     all_issues.append(issue)
                 else:
                     has_collected_all_issues_since_yesterday = True

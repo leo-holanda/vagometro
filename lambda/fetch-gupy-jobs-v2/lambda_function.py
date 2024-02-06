@@ -74,6 +74,7 @@ def lambda_handler(event, context):
                     if(is_job_published_today(job)):
                         continue
                     if(is_job_published_yesterday(job)):
+                        job["_id"] = job["id"]
                         all_jobs.append(job)
                     else:
                         has_collected_all_jobs_since_yesterday = True

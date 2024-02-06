@@ -14,25 +14,6 @@
       <dialog #menuModal id="menuModal" class="modal modal-top">
         <div class="modal-box flex flex-col gap-4">
           <section class="flex flex-col gap-2">
-            <h1>Seletor de vagas por mercado</h1>
-            <div class="flex flex-wrap gap-2">
-              <div class="btn btn-xs btn-ghost btn-active">dev</div>
-              <div class="btn btn-xs btn-ghost btn-outline btn-disabled">
-                ui/ux
-              </div>
-              <div class="btn btn-xs btn-ghost btn-outline btn-disabled">
-                devops
-              </div>
-              <div class="btn btn-xs btn-ghost btn-outline btn-disabled">
-                product manager
-              </div>
-              <div class="btn btn-xs btn-ghost btn-outline btn-disabled">
-                dados
-              </div>
-            </div>
-          </section>
-
-          <section class="flex flex-col gap-2">
             <h1>Seletor de janela de tempo</h1>
             <div class="flex flex-wrap gap-2">
               <button
@@ -100,11 +81,9 @@
           </section>
 
           <section class="flex flex-wrap gap-2">
-            <button
-              class="btn btn-ghost btn-circle"
-              (click)="jobSourcesModal.showModal()"
-            >
+            <button class="btn mr-2" (click)="jobSourcesModal.showModal()">
               <i class="bx bx-data"></i>
+              <span> Mudar dados </span>
             </button>
 
             <label class="btn btn-ghost btn-circle swap swap-rotate">
@@ -216,11 +195,9 @@
     </div>
 
     <div class="navbar-end">
-      <button
-        class="btn btn-ghost btn-circle"
-        (click)="jobSourcesModal.showModal()"
-      >
+      <button class="btn mr-2" (click)="jobSourcesModal.showModal()">
         <i class="bx bx-data"></i>
+        <span> Mudar dados </span>
       </button>
 
       <label class="btn btn-ghost btn-circle swap swap-rotate">

@@ -62,10 +62,10 @@
 
       <div class="card-actions mt-auto">
         <button
-          class="btn btn-primary w-full justify-between"
+          class="btn btn-success w-full justify-between"
           (click)="toggleJobCollection(jobCollection.key)"
           [ngClass]="{
-            'btn-accent': jobCollection.value.isActive,
+            'btn-warning': jobCollection.value.isActive,
             'btn-disabled':
               jobCollection.value.isLoading ||
               jobCollection.value.hasFailedToLoad

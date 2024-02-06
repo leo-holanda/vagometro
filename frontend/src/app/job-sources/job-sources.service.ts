@@ -14,8 +14,8 @@ import { Job } from '../job/job.types';
   providedIn: 'root',
 })
 export class JobSourcesService {
-  private _hasOneJobSourceActive$ = new BehaviorSubject(false);
-  hasOneJobSourceActive$ = this._hasOneJobSourceActive$.asObservable();
+  private _hasOneActiveJobSource$ = new BehaviorSubject(false);
+  hasOneActiveJobSource$ = this._hasOneActiveJobSource$.asObservable();
 
   jobCollectionsMap = jobCollectionsMap;
 
@@ -47,7 +47,6 @@ export class JobSourcesService {
       this.jobCollectionsMap[jobCollection].isActive =
         !currentJobSourceState.isActive;
 
-    this.updateOneSourceFlag();
     this.updateJobs();
   }
 
@@ -78,6 +77,8 @@ export class JobSourcesService {
             jobSource.isLoading = false;
             jobSource.isActive = false;
             jobSource.hasFailedToLoad = true;
+          },
+          complete: () => {
             this.updateOneSourceFlag();
           },
         });
@@ -86,10 +87,10 @@ export class JobSourcesService {
   }
 
   private updateOneSourceFlag(): void {
-    const hasOneJobSourceActive = Object.values(jobCollectionsMap).some(
-      (jobSource) => jobSource.isActive
+    const hasOneActiveJobSource = Object.values(jobCollectionsMap).some(
+      (jobSource) => jobSource.isLoaded && jobSource.isActive
     );
 
-    this._hasOneJobSourceActive$.next(hasOneJobSourceActive);
+    this._hasOneActiveJobSource$.next(hasOneActiveJobSource);
   }
 }

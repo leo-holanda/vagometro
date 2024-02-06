@@ -13,18 +13,18 @@
         <vgm-job-source-selector></vgm-job-source-selector>
         <button
           class="btn btn-primary flex items-center mt-4"
-          [ngClass]="{ 'btn-disabled': !(hasOneJobSourceActive$ | async) }"
+          [ngClass]="{ 'btn-disabled': !(hasOneActiveJobSource$ | async) }"
           [routerLink]="['stats']"
         >
           <span
             *ngIf="
-              !(hasOneJobSourceActive$ | async);
-              else hasOneJobSourceActiveTemplate
+              !(hasOneActiveJobSource$ | async);
+              else hasOneActiveJobSourceTemplate
             "
           >
             Adicione uma fonte de vagas para começar</span
           >
-          <ng-template #hasOneJobSourceActiveTemplate>
+          <ng-template #hasOneActiveJobSourceTemplate>
             <i class="bx bx-stats"></i>
 
             <span> Iniciar análise </span>

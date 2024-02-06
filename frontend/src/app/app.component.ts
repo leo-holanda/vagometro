@@ -20,7 +20,7 @@ export class AppComponent implements AfterViewInit {
   @ViewChild('jobSourcesModal') jobSourcesModal: ElementRef | undefined;
 
   constructor(private jobSourcesService: JobSourcesService) {
-    this.hasOneJobSourceActive$ = this.jobSourcesService.hasOneJobSourceActive$;
+    this.hasOneJobSourceActive$ = this.jobSourcesService.hasOneActiveJobSource$;
   }
 
   ngAfterViewInit(): void {

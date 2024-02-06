@@ -13,9 +13,9 @@ import { JobSourcesService } from '../job-sources/job-sources.service';
   styleUrls: ['./landing-page.component.scss'],
 })
 export class LandingPageComponent {
-  hasOneJobSourceActive$: Observable<boolean>;
+  hasOneActiveJobSource$: Observable<boolean>;
 
   constructor(private jobSourcesService: JobSourcesService) {
-    this.hasOneJobSourceActive$ = this.jobSourcesService.hasOneJobSourceActive$;
+    this.hasOneActiveJobSource$ = this.jobSourcesService.hasOneActiveJobSource$;
   }
 }

@@ -30,7 +30,7 @@ export class HeaderComponent {
     this.matchesMobileBreakpoint$ =
       this.windowResolutionObserver.matchesMobileBreakpoint();
 
-    this.hasOneJobSourceActive$ = this.jobSourcesService.hasOneJobSourceActive$;
+    this.hasOneJobSourceActive$ = this.jobSourcesService.hasOneActiveJobSource$;
   }
 
   onTimeWindowClick(timeWindow: TimeWindows): void {

@@ -1,7 +1,7 @@
 <ng-container *ngIf="matchesMobileBreakpoint$ | async; else desktopTemplate">
   <div class="navbar bg-base-100 p-4">
     <div class="navbar-start">
-      <a [routerLink]="['']" class="btn btn-ghost text-xl">vagômetro</a>
+      <a [routerLink]="['/stats']" class="btn btn-ghost text-xl">vagômetro</a>
     </div>
 
     <div class="navbar-center gap-2"></div>
@@ -128,7 +128,7 @@
 <ng-template #desktopTemplate>
   <div class="navbar bg-base-100 p-4">
     <div class="navbar-start">
-      <a [routerLink]="['']" class="btn btn-ghost text-xl">vagômetro</a>
+      <a [routerLink]="['/stats']" class="btn btn-ghost text-xl">vagômetro</a>
     </div>
     <div class="navbar-center gap-2">
       <div class="flex flex-wrap items-center justify-center gap-2 m-4">

@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
+import { RouterModule, RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './shared/header/header.component';
 import { CountdownComponent } from './shared/countdown/countdown.component';
 import { JobSourceSelectorComponent } from './job-sources/job-source-selector/job-source-selector.component';
@@ -10,13 +10,7 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'vgm-root',
   standalone: true,
-  imports: [
-    CommonModule,
-    RouterOutlet,
-    HeaderComponent,
-    CountdownComponent,
-    JobSourceSelectorComponent,
-  ],
+  imports: [CommonModule, RouterOutlet, RouterModule],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })

@@ -11,55 +11,67 @@ import { EducationOverviewComponent } from './statistics/overviews/education-ove
 import { LanguagesOverviewComponent } from './statistics/overviews/languages-overview/languages-overview.component';
 import { MonthsOverviewComponent } from './statistics/overviews/months-overview/months-overview.component';
 import { ComparisonOverviewComponent } from './statistics/overviews/comparison-overview/comparison-overview.component';
+import { AllOverviewComponent } from './statistics/overviews/all-overview/all-overview.component';
+import { LandingPageComponent } from './landing-page/landing-page.component';
 
 export const routes: Routes = [
   {
     path: '',
+    component: LandingPageComponent,
+  },
+  {
+    path: 'stats',
     component: StatisticsComponent,
-  },
-  {
-    path: 'cidades',
-    component: CitiesOverviewComponent,
-  },
-  {
-    path: 'modalidades',
-    component: WorkplacesOverviewComponent,
-  },
-  {
-    path: 'tecnologias',
-    component: KeywordsOverviewComponent,
-  },
-  {
-    path: 'empresas',
-    component: CompaniesOverviewComponent,
-  },
-  {
-    path: 'tipos',
-    component: TypesOverviewComponent,
-  },
-  {
-    path: 'niveis',
-    component: ExperienceLevelsOverviewComponent,
-  },
-  {
-    path: 'pcd',
-    component: DisabilityStatusesOverviewComponent,
-  },
-  {
-    path: 'educacao',
-    component: EducationOverviewComponent,
-  },
-  {
-    path: 'idiomas',
-    component: LanguagesOverviewComponent,
-  },
-  {
-    path: 'meses',
-    component: MonthsOverviewComponent,
-  },
-  {
-    path: 'comparativo',
-    component: ComparisonOverviewComponent,
+    children: [
+      {
+        path: '',
+        component: AllOverviewComponent,
+      },
+      {
+        path: 'cidades',
+        component: CitiesOverviewComponent,
+      },
+      {
+        path: 'modalidades',
+        component: WorkplacesOverviewComponent,
+      },
+      {
+        path: 'tecnologias',
+        component: KeywordsOverviewComponent,
+      },
+      {
+        path: 'empresas',
+        component: CompaniesOverviewComponent,
+      },
+      {
+        path: 'tipos',
+        component: TypesOverviewComponent,
+      },
+      {
+        path: 'niveis',
+        component: ExperienceLevelsOverviewComponent,
+      },
+      {
+        path: 'pcd',
+        component: DisabilityStatusesOverviewComponent,
+      },
+      {
+        path: 'educacao',
+        component: EducationOverviewComponent,
+      },
+      {
+        path: 'idiomas',
+        component: LanguagesOverviewComponent,
+      },
+      {
+        path: 'meses',
+        component: MonthsOverviewComponent,
+      },
+      {
+        path: 'comparativo',
+        component: ComparisonOverviewComponent,
+      },
+    ],
   },
   {
     path: '**',

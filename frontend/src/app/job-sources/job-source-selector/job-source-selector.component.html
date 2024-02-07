@@ -28,7 +28,10 @@
     class="flex items-center gap-2"
     *ngFor="let jobCollection of selectedJobCollections | keyvalue"
   >
-    <button class="btn btn-info btn-square">
+    <button
+      class="btn btn-info btn-square"
+      (click)="onInfoButtonClick(jobCollection.value)"
+    >
       <i class="bx bxs-info-circle"></i>
     </button>
     <div class="w-full">
@@ -81,3 +84,47 @@
     </div>
   </div>
 </main>
+
+<dialog #jobCollectionInfoModal class="modal">
+  <div class="modal-box">
+    <h3 class="font-bold text-lg">{{ selectedJobCollectionInfo?.name }}</h3>
+
+    <div class="flex flex-col mt-4 gap-4">
+      <div class="flex flex-col flex-wrap gap-1">
+        <header class="flex items-center gap-2">
+          <i class="bx bxs-search"></i>
+          <h3>Palavras-chave usadas na busca</h3>
+        </header>
+        <div class="flex flex-wrap gap-2">
+          <div
+            class="badge badge-neutral"
+            *ngFor="
+              let keyword of selectedJobCollectionInfo?.searchStringKeywords
+            "
+          >
+            {{ keyword }}
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-col flex-wrap gap-1">
+        <header class="flex items-center gap-2">
+          <i class="bx bxs-calendar"></i>
+          <h3>Data de início da coleta</h3>
+        </header>
+        <div class="flex font-bold gap-2">
+          <span>{{ selectedJobCollectionInfo?.initialFetchDate }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-action">
+      <form method="dialog" class="w-full">
+        <button class="btn w-full">
+          <i class="bx bx-arrow-back"></i>
+          Voltar
+        </button>
+      </form>
+    </div>
+  </div>
+</dialog>

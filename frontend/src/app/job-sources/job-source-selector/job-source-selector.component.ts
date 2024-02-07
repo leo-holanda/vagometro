@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { JobSourcesService } from '../job-sources.service';
 import {
+  JobCollectionData,
   JobCollections,
   JobCollectionsMap,
   JobSources,
@@ -16,13 +17,20 @@ import {
   styleUrls: ['./job-source-selector.component.scss'],
 })
 export class JobSourceSelectorComponent {
-  private gupyJobCollections!: JobCollectionsMap;
-  private githubJobCollections!: JobCollectionsMap;
   selectedJobCollections!: JobCollectionsMap;
 
   jobCollectionsMap = jobCollectionsMap;
   selectedJobSource = JobSources.gupy;
   jobSources = JobSources;
+
+  selectedJobCollectionInfo?: JobCollectionData = undefined;
+
+  private gupyJobCollections!: JobCollectionsMap;
+  private githubJobCollections!: JobCollectionsMap;
+
+  @ViewChild('jobCollectionInfoModal') jobCollectionInfoModal:
+    | ElementRef
+    | undefined;
 
   constructor(private jobSourcesService: JobSourcesService) {
     this.gupyJobCollections = this.getCollectionByJobSource(JobSources.gupy);
@@ -41,6 +49,12 @@ export class JobSourceSelectorComponent {
     if (jobSource == JobSources.github)
       this.selectedJobCollections = this.githubJobCollections;
     else this.selectedJobCollections = this.gupyJobCollections;
+  }
+
+  onInfoButtonClick(jobCollection: JobCollectionData): void {
+    this.selectedJobCollectionInfo = jobCollection;
+    if (this.jobCollectionInfoModal)
+      this.jobCollectionInfoModal.nativeElement.showModal();
   }
 
   private getCollectionByJobSource(jobSource: JobSources): JobCollectionsMap {

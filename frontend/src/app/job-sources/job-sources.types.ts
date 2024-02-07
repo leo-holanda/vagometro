@@ -27,7 +27,7 @@ export type JobCollectionData = {
   isLoaded: boolean;
   hasFailedToLoad: boolean;
   searchStringKeywords: string[];
-  initialFetchDate: string;
+  initialDailyFetchDate: string;
 };
 
 export type JobCollectionsMap = Record<JobCollections, JobCollectionData>;
@@ -51,7 +51,7 @@ export const jobCollectionsMap: JobCollectionsMap = {
       'fullstack',
       'software',
     ],
-    initialFetchDate: '19/12/2023',
+    initialDailyFetchDate: '19/12/2023',
   },
   gupymobile: {
     name: 'Mobile',
@@ -63,7 +63,7 @@ export const jobCollectionsMap: JobCollectionsMap = {
     isLoaded: false,
     hasFailedToLoad: false,
     searchStringKeywords: ['mobile'],
-    initialFetchDate: '02/01/2024',
+    initialDailyFetchDate: '05/02/2024',
   },
   gupydevops: {
     name: 'DevOps',
@@ -75,7 +75,7 @@ export const jobCollectionsMap: JobCollectionsMap = {
     isLoaded: false,
     hasFailedToLoad: false,
     searchStringKeywords: ['devops', 'sre'],
-    initialFetchDate: '02/01/2024',
+    initialDailyFetchDate: '05/02/2024',
   },
   gupyuiux: {
     name: 'UI/UX',
@@ -87,7 +87,7 @@ export const jobCollectionsMap: JobCollectionsMap = {
     isLoaded: false,
     hasFailedToLoad: false,
     searchStringKeywords: ['ui', 'ux'],
-    initialFetchDate: '02/01/2024',
+    initialDailyFetchDate: '05/02/2024',
   },
   gupydados: {
     name: 'Dados',
@@ -99,7 +99,7 @@ export const jobCollectionsMap: JobCollectionsMap = {
     isLoaded: false,
     hasFailedToLoad: false,
     searchStringKeywords: ['data', 'dados'],
-    initialFetchDate: '02/01/2024',
+    initialDailyFetchDate: '05/02/2024',
   },
   frontendbr: {
     name: 'frontendbr/vagas',
@@ -111,7 +111,7 @@ export const jobCollectionsMap: JobCollectionsMap = {
     isLoaded: false,
     hasFailedToLoad: false,
     searchStringKeywords: ['não se aplica'],
-    initialFetchDate: '03/02/2016',
+    initialDailyFetchDate: 'Em progresso',
   },
   backendbr: {
     name: 'backend-br/vagas',
@@ -123,7 +123,7 @@ export const jobCollectionsMap: JobCollectionsMap = {
     isLoaded: false,
     hasFailedToLoad: false,
     searchStringKeywords: ['não se aplica'],
-    initialFetchDate: '03/10/2017',
+    initialDailyFetchDate: 'Em progresso',
   },
   soujava: {
     name: 'soujava/vagas-java',
@@ -135,6 +135,6 @@ export const jobCollectionsMap: JobCollectionsMap = {
     isLoaded: false,
     hasFailedToLoad: false,
     searchStringKeywords: ['não se aplica'],
-    initialFetchDate: '13/10/2023',
+    initialDailyFetchDate: 'Em progresso',
   },
 };

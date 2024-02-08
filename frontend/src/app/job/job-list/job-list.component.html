@@ -363,17 +363,25 @@
             <div>
               <div class="flex items-center gap-1 mb-1">
                 <i class="bx bxs-graduation"></i>
-                <span>Menciona ensino superior?</span>
+                <span>Nível educacional</span>
               </div>
 
-              <span class="font-bold">
-                {{
-                  job.educationTerms.length > 0 ||
-                  job.educationalLevelTerms.length > 0
-                    ? "Sim"
-                    : "Não"
-                }}
-              </span>
+              <ng-container
+                *ngIf="job.educationalLevelTerms.length > 0; else emptyEducationalLevelsTemplate"
+              >
+                <div class="flex items-center gap-2">
+                  <div
+                    class="badge badge-neutral"
+                    *ngFor="let educacionalLevelTerm of job.educationalLevelTerms"
+                  >
+                    {{ educacionalLevelTerm }}
+                  </div>
+                </div>
+              </ng-container>
+
+              <ng-template #emptyEducationalLevelsTemplate>
+                <span class="font-bold">Não encontrado</span>
+              </ng-template>
             </div>
 
             <div>

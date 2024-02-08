@@ -68,6 +68,14 @@ export const educationRelatedTerms: EducationRelatedTerms[] = [
 
 export const educationalLevelTerms: EducationRelatedTerms[] = [
   {
+    termForMatching: 'ensino medio',
+    termForListing: 'Ensino Médio',
+  },
+  {
+    termForMatching: 'nivel superior',
+    termForListing: 'Nível Superior',
+  },
+  {
     termForMatching: 'tecnologo',
     termForListing: 'Tecnólogo',
   },

@@ -139,10 +139,10 @@ def parse_jobs_data(soup):
         job = {
             'id': job_posting_id,
             'title': title,
-            'company': company.text.strip().replace('\n', ' ') if company else '',
+            'company_name': company.text.strip().replace('\n', ' ') if company else '',
             'company_url': company.get('href') if company else '',
             'location': location.text.strip() if location else '',
-            'date': date,
+            'created_at': date,
             'url': job_url
         }
 
@@ -177,11 +177,11 @@ def main():
         tm.sleep(1)
 
         description_soup = get_with_retry(job['url'])
-        job['job_description'] = parse_job_description(description_soup)
-        if (job['job_description'] is None):
-            job['job_description'] = ""
+        job['description'] = parse_job_description(description_soup)
+        if (job['description'] is None):
+            job['description'] = ""
             print('Failed to get job description for',
-                  job['title'], 'at ', job['company'], job['url'])
+                  job['title'], 'at ', job['company_name'], job['url'])
 
         job["_id"] = job['id']
         job_list.append(job)

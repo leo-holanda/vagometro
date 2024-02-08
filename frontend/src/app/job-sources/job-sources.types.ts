@@ -140,7 +140,7 @@ export const jobCollectionsMap: JobCollectionsMap = {
     initialDailyFetchDate: 'Em progresso',
   },
   linkedin_dev: {
-    name: 'Desenvolvimento de software',
+    name: 'Desenvolvimento de software (Fase de testes)',
     icon: 'bx bxl-linkedin-square',
     source: JobSources.linkedin,
     dataSource: new Observable(),

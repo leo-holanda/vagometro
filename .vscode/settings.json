@@ -8,5 +8,8 @@
   "vs-code-prettier-eslint.prettierLast": "false",
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.autopep8"
   } // set as "true" to run 'prettier' last not first
 }

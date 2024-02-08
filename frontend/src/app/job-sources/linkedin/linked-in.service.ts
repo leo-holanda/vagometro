@@ -61,6 +61,12 @@ export class LinkedInService {
     const sanitizedJobDescription = job.description.replaceAll('\n', ' ');
     job.description = sanitizedJobDescription;
 
+    const educationTerms = this.getJobEducationTerms(job);
+    const educationalLevelTerms = this.getJobEducationalLevelTerms(
+      job,
+      educationTerms
+    );
+
     return {
       companyUrl: job.company_url,
       jobUrl: job.url,
@@ -72,8 +78,8 @@ export class LinkedInService {
       id: job.id,
       city: this.findJobCity(job),
       contractTypes: this.findJobContractTypes(job),
-      educationalLevelTerms: this.getJobEducationalLevelTerms(job),
-      educationTerms: this.getJobEducationTerms(job),
+      educationTerms: educationTerms,
+      educationalLevelTerms: educationalLevelTerms,
       experienceLevels: this.findExperienceLevels(job),
       keywords: this.findJobKeywords(job),
       languages: this.getJobLanguages(job),
@@ -300,13 +306,20 @@ export class LinkedInService {
     return [];
   }
 
-  private getJobEducationalLevelTerms(job: LinkedInJob): string[] {
+  private getJobEducationalLevelTerms(
+    job: LinkedInJob,
+    educationTerms: string[]
+  ): string[] {
     if (job.description) {
       const jobDescription = this.removeAccents(job.description).toLowerCase();
 
-      return educationalLevelTerms
+      const matchedTerms = educationalLevelTerms
         .filter((term) => jobDescription.includes(term.termForMatching))
         .map((term) => term.termForListing);
+
+      if (educationTerms.length > 0) matchedTerms.push('Graduação');
+
+      return this.getUniqueStrings(matchedTerms);
     }
 
     return [];

@@ -58,7 +58,7 @@ Feel free to submit any issues or enhancement requests! I will do my best to fix
 - AWS Lambda (Python)
 - MongoDB Atlas
 - Cloudflare R2 and Workers
-- GCP Cloud Run
+- GCP Cloud Run (Python)
 
 ## License
 

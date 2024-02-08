@@ -57,25 +57,29 @@ export class LinkedInService {
   }
 
   private mapToJob(job: LinkedInJob): Job {
+    // Why can't I just do replaceAll in the object below?
+    const sanitizedJobDescription = job.description.replaceAll('\n', ' ');
+    job.description = sanitizedJobDescription;
+
     return {
       companyUrl: job.company_url,
       jobUrl: job.url,
-      workplaceTypes: this.getJobWorkplaceType(job),
       country: 'Brasil',
       title: job.title,
-      state: this.findJobState(job),
-      city: this.findJobCity(job),
       disabilityStatus: DisabilityStatuses.unknown,
       companyName: job.company_name,
-      description: job.description,
+      description: sanitizedJobDescription,
       id: job.id,
-      publishedDate: new Date(job.created_at),
+      city: this.findJobCity(job),
       contractTypes: this.findJobContractTypes(job),
+      educationalLevelTerms: this.getJobEducationalLevelTerms(job),
+      educationTerms: this.getJobEducationTerms(job),
       experienceLevels: this.findExperienceLevels(job),
       keywords: this.findJobKeywords(job),
-      educationTerms: this.getJobEducationTerms(job),
-      educationalLevelTerms: this.getJobEducationalLevelTerms(job),
       languages: this.getJobLanguages(job),
+      publishedDate: new Date(job.created_at),
+      state: this.findJobState(job),
+      workplaceTypes: this.getJobWorkplaceType(job),
     };
   }
 

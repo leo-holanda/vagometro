@@ -27,6 +27,7 @@ export class JobSourceSelectorComponent {
 
   private gupyJobCollections!: JobCollectionsMap;
   private githubJobCollections!: JobCollectionsMap;
+  private linkedInJobCollections!: JobCollectionsMap;
 
   @ViewChild('jobCollectionInfoModal') jobCollectionInfoModal:
     | ElementRef
@@ -36,6 +37,9 @@ export class JobSourceSelectorComponent {
     this.gupyJobCollections = this.getCollectionByJobSource(JobSources.gupy);
     this.githubJobCollections = this.getCollectionByJobSource(
       JobSources.github
+    );
+    this.linkedInJobCollections = this.getCollectionByJobSource(
+      JobSources.linkedin
     );
     this.selectedJobCollections = this.gupyJobCollections;
   }
@@ -48,7 +52,9 @@ export class JobSourceSelectorComponent {
     this.selectedJobSource = jobSource;
     if (jobSource == JobSources.github)
       this.selectedJobCollections = this.githubJobCollections;
-    else this.selectedJobCollections = this.gupyJobCollections;
+    if (jobSource == JobSources.gupy)
+      this.selectedJobCollections = this.gupyJobCollections;
+    else this.selectedJobCollections = this.linkedInJobCollections;
   }
 
   onInfoButtonClick(jobCollection: JobCollectionData): void {

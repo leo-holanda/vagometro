@@ -21,6 +21,17 @@
     <i class="bx bxl-github"></i>
     GitHub</a
   >
+  <a
+    role="tab"
+    class="tab gap-2"
+    [ngClass]="{
+      'tab-active': selectedJobSource == jobSources.linkedin
+    }"
+    (click)="setJobSource(jobSources.linkedin)"
+  >
+  <i class='bx bxl-linkedin-square'></i>
+    LinkedIn</a
+  >
 </div>
 
 <main class="flex flex-col gap-4 rounded-box overflow-y-auto overflow-x-hidden">

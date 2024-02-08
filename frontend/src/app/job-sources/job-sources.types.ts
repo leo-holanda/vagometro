@@ -4,6 +4,7 @@ import { Job } from '../job/job.types';
 export enum JobSources {
   gupy = 'gupy',
   github = 'github',
+  linkedin = 'linkedin',
 }
 
 export enum JobCollections {
@@ -15,6 +16,7 @@ export enum JobCollections {
   gupydevops = 'gupydevops',
   gupyuiux = 'gupyuiux',
   gupydados = 'gupydados',
+  linkedin_dev = 'linkedin_dev',
 }
 
 export type JobCollectionData = {
@@ -135,6 +137,18 @@ export const jobCollectionsMap: JobCollectionsMap = {
     isLoaded: false,
     hasFailedToLoad: false,
     searchStringKeywords: ['não se aplica'],
+    initialDailyFetchDate: 'Em progresso',
+  },
+  linkedin_dev: {
+    name: 'Desenvolvimento de software',
+    icon: 'bx bxl-linkedin-square',
+    source: JobSources.linkedin,
+    dataSource: new Observable(),
+    isActive: false,
+    isLoading: false,
+    isLoaded: false,
+    hasFailedToLoad: false,
+    searchStringKeywords: ['desenvolvedor'],
     initialDailyFetchDate: 'Em progresso',
   },
 };

@@ -9,6 +9,7 @@ import { BehaviorSubject, combineLatest, first, last } from 'rxjs';
 import { GupyService } from './gupy/gupy.service';
 import { GitHubJobsService } from './github/git-hub-jobs.service';
 import { Job } from '../job/job.types';
+import { LinkedInService } from './linkedin/linked-in.service';
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +23,8 @@ export class JobSourcesService {
   constructor(
     private jobService: JobService,
     private gupyService: GupyService,
-    private githubJobsService: GitHubJobsService
+    private githubJobsService: GitHubJobsService,
+    private linkedInService: LinkedInService
   ) {
     this.jobCollectionsMap.gupy.dataSource = this.gupyService.jobs$;
     this.jobCollectionsMap.gupymobile.dataSource = this.gupyService.mobileJobs$;
@@ -38,6 +40,9 @@ export class JobSourcesService {
 
     this.jobCollectionsMap.soujava.dataSource =
       this.githubJobsService.soujavaJobs$;
+
+    this.jobCollectionsMap.linkedin_dev.dataSource =
+      this.linkedInService.devJobs$;
   }
 
   toggleJobCollection(jobCollection: JobCollections): void {

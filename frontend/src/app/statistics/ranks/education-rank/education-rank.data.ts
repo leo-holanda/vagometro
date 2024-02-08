@@ -76,6 +76,14 @@ export const educationalLevelTerms: EducationRelatedTerms[] = [
     termForListing: 'Nível Superior',
   },
   {
+    termForMatching: 'formacao superior',
+    termForListing: 'Nível Superior',
+  },
+  {
+    termForMatching: 'curso superior',
+    termForListing: 'Nível Superior',
+  },
+  {
     termForMatching: 'tecnologo',
     termForListing: 'Tecnólogo',
   },

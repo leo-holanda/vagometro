@@ -47,6 +47,7 @@ export const workplaceTypeRelatedTerms: workplaceTypeRelatedTerms = {
 
 export const contractTypeRelatedTerms: contractTypesRelatedTerms = {
   clt: ContractTypes.CLT,
+  efetivo: ContractTypes.CLT,
   pj: ContractTypes.PJ,
   freelance: ContractTypes.freelance,
   freela: ContractTypes.freelance,

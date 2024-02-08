@@ -196,6 +196,7 @@ export const keywords: Keywords = {
   kubernets: 'Kubernetes', //sic
   firebase: 'Firebase',
   tomcat: 'Tomcat',
+  amplify: 'Amplify',
 
   //TESTING,
   junit: 'JUnit',
@@ -241,6 +242,7 @@ export const keywords: Keywords = {
   grafana: 'Grafana',
   windows: 'Windows',
   //Design Patterns - multi-word keyword
+  iot: 'IoT',
 
   //DATA SCIENCE
   excel: 'Excel',

@@ -74,6 +74,14 @@ def get_parsed_jobs():
 
             all_jobs = all_jobs + jobs
             page += 1
+
+            # LinkedIn sets a limit of 1000 jobs, so the loop must stop after the 39 page is requested
+            # Because 39 * 25 + 25 (from the 0 page) = 1000
+            # To avoid getting error 400 and retrying, the loop must break
+            if(page == 40):
+                print("The 1000 jobs limit has been reached")
+                break
+
             tm.sleep(1)
 
         print("Finished scraping page: ", url)

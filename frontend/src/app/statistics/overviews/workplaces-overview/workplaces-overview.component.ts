@@ -37,39 +37,32 @@ import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-c
   styleUrls: ['./workplaces-overview.component.scss'],
 })
 export class WorkplacesOverviewComponent implements OnInit {
-  selectedWorkplace: string = 'remoto';
+  selectedWorkplace = 'remoto';
 
   jobsByWorkplace$: Observable<Job[]>;
   workplacesRank$: Observable<WorkplaceData[]>;
-  workplacesQuantity: number = 0;
+  workplacesQuantity = 0;
 
   trackByWorkplace = trackByWorkplace;
 
   constructor(
     private jobService: JobService,
-    private statisticsService: StatisticsService
+    private statisticsService: StatisticsService,
   ) {
     this.workplacesRank$ = this.statisticsService.getWorkplaceRank();
 
     this.workplacesRank$.subscribe((workplacesRank) => {
       this.selectedWorkplace = workplacesRank[0].type;
-      this.workplacesQuantity = workplacesRank.reduce(
-        (acc, workplace) => acc + workplace.count,
-        0
-      );
+      this.workplacesQuantity = workplacesRank.reduce((acc, workplace) => acc + workplace.count, 0);
     });
 
-    this.jobsByWorkplace$ = this.jobService.getJobsByWorkplace(
-      this.selectedWorkplace
-    );
+    this.jobsByWorkplace$ = this.jobService.getJobsByWorkplace(this.selectedWorkplace);
   }
 
   ngOnInit(): void {}
 
   onWorkplaceClick(workplace: string): void {
     this.selectedWorkplace = workplace;
-    this.jobsByWorkplace$ = this.jobService.getJobsByWorkplace(
-      this.selectedWorkplace
-    );
+    this.jobsByWorkplace$ = this.jobService.getJobsByWorkplace(this.selectedWorkplace);
   }
 }

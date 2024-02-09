@@ -8,7 +8,7 @@ describe('PublicationChartComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [PublicationChartComponent]
+      imports: [PublicationChartComponent],
     });
     fixture = TestBed.createComponent(PublicationChartComponent);
     component = fixture.componentInstance;

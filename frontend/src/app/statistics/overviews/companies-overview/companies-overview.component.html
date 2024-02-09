@@ -7,28 +7,18 @@
       </div>
 
       <div class="card-body gap-2 max-h-96 overflow-y-auto">
-        <ng-container
-          *ngIf="companiesRank$ | async as companiesRank; else loading"
-        >
+        <ng-container *ngIf="companiesRank$ | async as companiesRank; else loading">
           <button
             class="btn btn-ghost p-2"
-            *ngFor="
-              let company of companiesRank;
-              index as i;
-              trackBy: trackByCompany
-            "
-            [ngClass]="{ 'btn-active': selectedCompany == company.name }"
+            *ngFor="let company of companiesRank; index as i; trackBy: trackByCompany"
+            [ngClass]="{ 'btn-active': selectedCompany === company.name }"
             (click)="onCompanyClick(company.name)"
           >
             <div class="w-full flex justify-between">
               <span>{{ i + 1 + ". " + company.name }}</span>
               <span>{{ company.count | number }}</span>
             </div>
-            <progress
-              class="progress w-full"
-              [value]="company.count"
-              [max]="companiesQuantity"
-            ></progress>
+            <progress class="progress w-full" [value]="company.count" [max]="companiesQuantity"></progress>
           </button>
         </ng-container>
 
@@ -44,9 +34,7 @@
       </div>
     </div>
 
-    <div
-      class="card card-bordered card-compact w-full bg-base-300 flex flex-col gap-4 h-min"
-    >
+    <div class="card card-bordered card-compact w-full bg-base-300 flex flex-col gap-4 h-min">
       <div class="card-title items-center p-4">
         <i class="bx bxs-calendar"></i>
         <h1>Vagas da {{ selectedCompany }} publicadas ao longo do tempo</h1>
@@ -91,9 +79,7 @@
           <i class="bx bxs-user-detail"></i>
           <h3>Níveis de experiência mais requisitados</h3>
         </div>
-        <vgm-experience-levels-rank
-          [jobs$]="jobsByCompany$"
-        ></vgm-experience-levels-rank>
+        <vgm-experience-levels-rank [jobs$]="jobsByCompany$"></vgm-experience-levels-rank>
       </section>
 
       <div class="divider"></div>

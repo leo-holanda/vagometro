@@ -1,9 +1,6 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, RouterOutlet } from '@angular/router';
-import { HeaderComponent } from './shared/header/header.component';
-import { CountdownComponent } from './shared/countdown/countdown.component';
-import { JobSourceSelectorComponent } from './job-sources/job-source-selector/job-source-selector.component';
 import { JobSourcesService } from './job-sources/job-sources.service';
 import { Observable } from 'rxjs';
 

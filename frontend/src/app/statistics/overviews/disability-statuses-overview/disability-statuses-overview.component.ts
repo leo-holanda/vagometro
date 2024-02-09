@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   DisabilityData,
@@ -39,7 +39,7 @@ import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-c
   templateUrl: './disability-statuses-overview.component.html',
   styleUrls: ['./disability-statuses-overview.component.scss'],
 })
-export class DisabilityStatusesOverviewComponent {
+export class DisabilityStatusesOverviewComponent implements OnInit {
   disabilityRank$!: Observable<DisabilityData[]>;
   jobsQuantity!: number;
   selectedDisabilityStatus = DisabilityStatuses.PCD;
@@ -49,12 +49,12 @@ export class DisabilityStatusesOverviewComponent {
 
   constructor(
     private statisticsService: StatisticsService,
-    private jobService: JobService
+    private jobService: JobService,
   ) {}
 
   ngOnInit(): void {
     this.jobsByDisabilityStatus$ = this.jobService.getJobsByDisabilityStatus(
-      this.selectedDisabilityStatus
+      this.selectedDisabilityStatus,
     );
 
     this.disabilityRank$ = this.statisticsService.getDisabilityStatusesRank();
@@ -62,7 +62,7 @@ export class DisabilityStatusesOverviewComponent {
     this.disabilityRank$.subscribe((disabilityRank) => {
       this.jobsQuantity = disabilityRank.reduce(
         (acc, keyword) => acc + keyword.count,
-        0
+        0,
       );
     });
   }
@@ -71,7 +71,7 @@ export class DisabilityStatusesOverviewComponent {
     this.selectedDisabilityStatus = disabilityStatus;
 
     this.jobsByDisabilityStatus$ = this.jobService.getJobsByDisabilityStatus(
-      this.selectedDisabilityStatus
+      this.selectedDisabilityStatus,
     );
   }
 }

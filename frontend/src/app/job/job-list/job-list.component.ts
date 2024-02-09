@@ -50,7 +50,7 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
     this.jobs$
       .pipe(
         filter((jobs): jobs is Job[] => jobs != undefined),
-        takeUntil(this.destroy$)
+        takeUntil(this.destroy$),
       )
       .subscribe((jobs) => {
         this.pristineJobs = jobs;
@@ -62,7 +62,7 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
     this.jobs$
       .pipe(
         filter((jobs): jobs is Job[] => jobs != undefined),
-        takeUntil(this.destroy$)
+        takeUntil(this.destroy$),
       )
       .subscribe((jobs) => {
         this.pristineJobs = jobs;
@@ -83,7 +83,7 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
       this.filteredJobs = this.filteredJobs.filter((job) =>
         job.title
           .toLowerCase()
-          .includes(this.filters['jobTitle']!.toLowerCase())
+          .includes(this.filters['jobTitle']!.toLowerCase()),
       );
     }
 
@@ -92,7 +92,7 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
 
       const filterCompanyName = this.filters['companyName'].toLowerCase();
       this.filteredJobs = this.filteredJobs.filter((job) =>
-        job.companyName.toLowerCase().includes(filterCompanyName)
+        job.companyName.toLowerCase().includes(filterCompanyName),
       );
     }
 
@@ -100,8 +100,8 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
       console.log('experienceLevel');
       this.filteredJobs = this.filteredJobs.filter((job) =>
         job.experienceLevels.includes(
-          this.filters['experienceLevel']! as ExperienceLevels
-        )
+          this.filters['experienceLevel']! as ExperienceLevels,
+        ),
       );
     }
 
@@ -109,13 +109,12 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
       console.log('workplaceType');
       this.filteredJobs = this.filteredJobs.filter((job) =>
         job.workplaceTypes.includes(
-          this.filters['workplaceType']! as WorkplaceTypes
-        )
+          this.filters['workplaceType'] as WorkplaceTypes,
+        ),
       );
     }
 
     if (this.filters['jobLocation']) {
-      console.log('jobLocation');
       this.filteredJobs = this.filteredJobs.filter(
         (job) =>
           job.city
@@ -123,7 +122,7 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
             .includes(this.filters['jobLocation']!.toLowerCase()) ||
           job.state
             .toLowerCase()
-            .includes(this.filters['jobLocation']!.toLowerCase())
+            .includes(this.filters['jobLocation']!.toLowerCase()),
       );
     }
 
@@ -131,8 +130,8 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
       console.log('jobContractType');
       this.filteredJobs = this.filteredJobs.filter((job) =>
         job.contractTypes.includes(
-          this.filters['jobContractType']! as ContractTypes
-        )
+          this.filters['jobContractType']! as ContractTypes,
+        ),
       );
     }
 
@@ -143,7 +142,7 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
         const jobPublishedDate = job.publishedDate.toDateString();
 
         const filterPublishedDate = new Date(
-          this.filters['publishedDate'] + ' EDT'
+          this.filters['publishedDate'] + ' EDT',
         ).toDateString();
 
         return jobPublishedDate == filterPublishedDate;
@@ -153,7 +152,7 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
     if (this.filters['disabilityStatus']) {
       console.log('disabilityStatus');
       this.filteredJobs = this.filteredJobs.filter(
-        (job) => job.disabilityStatus == this.filters['disabilityStatus']
+        (job) => job.disabilityStatus == this.filters['disabilityStatus'],
       );
     }
   }

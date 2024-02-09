@@ -36,10 +36,10 @@ export class JobSourceSelectorComponent {
   constructor(private jobSourcesService: JobSourcesService) {
     this.gupyJobCollections = this.getCollectionByJobSource(JobSources.gupy);
     this.githubJobCollections = this.getCollectionByJobSource(
-      JobSources.github
+      JobSources.github,
     );
     this.linkedInJobCollections = this.getCollectionByJobSource(
-      JobSources.linkedin
+      JobSources.linkedin,
     );
     this.selectedJobCollections = this.gupyJobCollections;
   }
@@ -65,7 +65,7 @@ export class JobSourceSelectorComponent {
 
   private getCollectionByJobSource(jobSource: JobSources): JobCollectionsMap {
     const jobSources = Object.entries(jobCollectionsMap).filter(
-      ([key, value]) => value.source == jobSource
+      ([_, value]) => value.source == jobSource,
     );
     return Object.fromEntries(jobSources) as JobCollectionsMap;
   }

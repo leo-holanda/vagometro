@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { JobService } from 'src/app/job/job.service';
 import { Job } from 'src/app/job/job.types';
 import { trackByMonth } from 'src/app/shared/track-by-functions';
-import { TypeData } from '../../ranks/type-rank/type-rank.model';
 import { StatisticsService } from '../../statistics.service';
 import { MonthData } from '../../ranks/months-rank/months-rank.types';
 import { PublicationChartComponent } from '../../charts/publication-chart/publication-chart.component';
@@ -43,7 +42,7 @@ export class MonthsOverviewComponent {
 
   constructor(
     private statisticsService: StatisticsService,
-    private jobService: JobService
+    private jobService: JobService,
   ) {
     this.monthsRank$ = this.statisticsService.getMonthsRank();
 
@@ -55,7 +54,7 @@ export class MonthsOverviewComponent {
     this.monthsRank$.subscribe((monthsRank) => {
       this.jobsQuantity = monthsRank.reduce(
         (acc, month) => acc + month.count,
-        0
+        0,
       );
     });
   }

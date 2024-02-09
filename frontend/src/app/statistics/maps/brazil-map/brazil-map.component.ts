@@ -3,7 +3,6 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  OnInit,
   Output,
   ViewChild,
 } from '@angular/core';
@@ -37,9 +36,7 @@ export class BrazilMapComponent implements AfterViewInit {
           showDelay: 0,
           transitionDuration: 0.2,
           formatter: (stateData: any) => {
-            return `<strong>${stateData.name || 'Desconhecido'}</strong></br>${
-              stateData.value || 0
-            } vagas publicadas`;
+            return `<strong>${stateData.name || 'Desconhecido'}</strong></br>${stateData.value || 0} vagas publicadas`;
           },
         },
         visualMap: {

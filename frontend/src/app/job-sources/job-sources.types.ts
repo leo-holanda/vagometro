@@ -44,15 +44,7 @@ export const jobCollectionsMap: JobCollectionsMap = {
     isLoading: false,
     isLoaded: false,
     hasFailedToLoad: false,
-    searchStringKeywords: [
-      'desenvolvedor',
-      'dev',
-      'front',
-      'back',
-      'full',
-      'fullstack',
-      'software',
-    ],
+    searchStringKeywords: ['desenvolvedor', 'dev', 'front', 'back', 'full', 'fullstack', 'software'],
     initialDailyFetchDate: '19/12/2023',
   },
   gupymobile: {

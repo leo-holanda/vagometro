@@ -11,6 +11,7 @@
         "plugin:@angular-eslint/template/process-inline-templates",
         "plugin:prettier/recommended"
       ],
+      "parser": "@typescript-eslint/parser",
       "rules": {
         "@angular-eslint/directive-selector": [
           "error",
@@ -32,11 +33,7 @@
     },
     {
       "files": ["*.html"],
-      "extends": [
-        "plugin:@angular-eslint/template/recommended",
-        "plugin:@angular-eslint/template/accessibility",
-        "plugin:prettier/recommended"
-      ],
+      "extends": ["plugin:@angular-eslint/template/recommended", "plugin:@angular-eslint/template/accessibility", "plugin:prettier/recommended"],
       "rules": {}
     }
   ]

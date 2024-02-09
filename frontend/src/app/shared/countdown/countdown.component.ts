@@ -28,9 +28,7 @@ export class CountdownComponent implements OnInit {
       const now = new Date().getTime();
       const distance = countDownDateTime - now;
 
-      this.hours = Math.floor(
-        (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-      );
+      this.hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       this.minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
       this.seconds = Math.floor((distance % (1000 * 60)) / 1000);
 

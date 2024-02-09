@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { trackByLanguage } from 'src/app/shared/track-by-functions';
 import { Observable } from 'rxjs';
@@ -32,7 +32,7 @@ import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-c
   templateUrl: './languages-overview.component.html',
   styleUrls: ['./languages-overview.component.scss'],
 })
-export class LanguagesOverviewComponent {
+export class LanguagesOverviewComponent implements OnInit {
   languagesRank$!: Observable<LanguageData[]>;
   jobsQuantity!: number;
   selectedLanguage!: string;
@@ -42,7 +42,7 @@ export class LanguagesOverviewComponent {
 
   constructor(
     private statisticsService: StatisticsService,
-    private jobService: JobService
+    private jobService: JobService,
   ) {}
 
   ngOnInit(): void {
@@ -52,14 +52,14 @@ export class LanguagesOverviewComponent {
       this.selectedLanguage = languagesRank[0].name;
 
       this.jobsByLanguage$ = this.jobService.getJobsByLanguage(
-        this.selectedLanguage
+        this.selectedLanguage,
       );
     });
 
     this.languagesRank$.subscribe((languagesRank) => {
       this.jobsQuantity = languagesRank.reduce(
         (acc, language) => acc + language.count,
-        0
+        0,
       );
     });
   }
@@ -67,7 +67,7 @@ export class LanguagesOverviewComponent {
   onLanguageClick(language: string): void {
     this.selectedLanguage = language;
     this.jobsByLanguage$ = this.jobService.getJobsByLanguage(
-      this.selectedLanguage
+      this.selectedLanguage,
     );
   }
 }

@@ -27,17 +27,11 @@ export class CitiesRankComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.citiesRank$ = this.statisticsService.getCitiesRank(this.jobs$);
-    if (this.rankSize)
-      this.citiesRank$ = this.citiesRank$.pipe(
-        map((citiesRank) => citiesRank.slice(0, this.rankSize))
-      );
+    if (this.rankSize) this.citiesRank$ = this.citiesRank$.pipe(map((citiesRank) => citiesRank.slice(0, this.rankSize)));
   }
 
   ngOnChanges(): void {
     this.citiesRank$ = this.statisticsService.getCitiesRank(this.jobs$);
-    if (this.rankSize)
-      this.citiesRank$ = this.citiesRank$.pipe(
-        map((citiesRank) => citiesRank.slice(0, this.rankSize))
-      );
+    if (this.rankSize) this.citiesRank$ = this.citiesRank$.pipe(map((citiesRank) => citiesRank.slice(0, this.rankSize)));
   }
 }

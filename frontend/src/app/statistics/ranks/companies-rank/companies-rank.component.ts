@@ -1,10 +1,4 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable, map } from 'rxjs';
 import { CompanyData } from './companies-rank.model';
@@ -33,7 +27,7 @@ export class CompaniesRankComponent implements OnInit, OnChanges {
     this.companiesRank$ = this.statisticsService.getCompanyRank(this.jobs$);
     if (this.rankSize)
       this.companiesRank$ = this.companiesRank$.pipe(
-        map((companiesRank) => companiesRank.slice(0, this.rankSize))
+        map((companiesRank) => companiesRank.slice(0, this.rankSize)),
       );
   }
 
@@ -42,7 +36,7 @@ export class CompaniesRankComponent implements OnInit, OnChanges {
 
     if (this.rankSize)
       this.companiesRank$ = this.companiesRank$.pipe(
-        map((companiesRank) => companiesRank.slice(0, this.rankSize))
+        map((companiesRank) => companiesRank.slice(0, this.rankSize)),
       );
   }
 }

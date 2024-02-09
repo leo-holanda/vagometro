@@ -1,8 +1,5 @@
 import { Job } from '../job/job.types';
-import {
-  CityData,
-  StateData,
-} from '../statistics/ranks/cities-rank/cities-rank.model';
+import { CityData, StateData } from '../statistics/ranks/cities-rank/cities-rank.model';
 import { CompanyData } from '../statistics/ranks/companies-rank/companies-rank.model';
 import { DisabilityData } from '../statistics/ranks/disability-rank/disability-rank.model';
 import { EducationData } from '../statistics/ranks/education-rank/education-rank.types';
@@ -25,17 +22,11 @@ export function trackByKeyword(index: number, item: KeywordData): string {
   return item.word;
 }
 
-export function trackByExperienceLevel(
-  index: number,
-  item: ExperienceLevelData
-): string {
+export function trackByExperienceLevel(index: number, item: ExperienceLevelData): string {
   return item.level;
 }
 
-export function trackByDisabilityStatus(
-  index: number,
-  item: DisabilityData
-): string {
+export function trackByDisabilityStatus(index: number, item: DisabilityData): string {
   return item.name;
 }
 
@@ -55,10 +46,7 @@ export function trackByJobId(index: number, item: Job): number {
   return item.id;
 }
 
-export function trackByEducationStatus(
-  index: number,
-  item: EducationData
-): string {
+export function trackByEducationStatus(index: number, item: EducationData): string {
   return item.name;
 }
 

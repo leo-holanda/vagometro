@@ -8,7 +8,7 @@ describe('JobSourceSelectorComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [JobSourceSelectorComponent]
+      imports: [JobSourceSelectorComponent],
     });
     fixture = TestBed.createComponent(JobSourceSelectorComponent);
     component = fixture.componentInstance;

@@ -9,13 +9,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr
-          *ngFor="
-            let disability of disabilityRank;
-            index as i;
-            trackBy: trackByDisabilityStatus
-          "
-        >
+        <tr *ngFor="let disability of disabilityRank; index as i; trackBy: trackByDisabilityStatus">
           <th>{{ i + 1 }}</th>
           <td>{{ disability.name }}</td>
           <td>{{ disability.count | number }}</td>

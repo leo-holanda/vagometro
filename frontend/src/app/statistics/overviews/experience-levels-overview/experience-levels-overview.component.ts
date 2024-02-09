@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   ExperienceLevelData,
@@ -37,7 +37,7 @@ import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-c
   templateUrl: './experience-levels-overview.component.html',
   styleUrls: ['./experience-levels-overview.component.scss'],
 })
-export class ExperienceLevelsOverviewComponent {
+export class ExperienceLevelsOverviewComponent implements OnInit {
   experienceLevelsRank$!: Observable<ExperienceLevelData[]>;
   jobsQuantity!: number;
   selectedLevel!: ExperienceLevels;
@@ -47,7 +47,7 @@ export class ExperienceLevelsOverviewComponent {
 
   constructor(
     private statisticsService: StatisticsService,
-    private jobService: JobService
+    private jobService: JobService,
   ) {}
 
   ngOnInit(): void {
@@ -58,14 +58,14 @@ export class ExperienceLevelsOverviewComponent {
       this.selectedLevel = experienceLevelsRank[0].level;
 
       this.jobsByExperienceLevel$ = this.jobService.getJobsByExperienceLevel(
-        this.selectedLevel
+        this.selectedLevel,
       );
     });
 
     this.experienceLevelsRank$.subscribe((experienceLevelsRank) => {
       this.jobsQuantity = experienceLevelsRank.reduce(
         (acc, Type) => acc + Type.count,
-        0
+        0,
       );
     });
   }
@@ -73,7 +73,7 @@ export class ExperienceLevelsOverviewComponent {
   onExperienceLevelClick(experienceLevel: ExperienceLevels): void {
     this.selectedLevel = experienceLevel;
     this.jobsByExperienceLevel$ = this.jobService.getJobsByExperienceLevel(
-      this.selectedLevel
+      this.selectedLevel,
     );
   }
 }

@@ -23,20 +23,12 @@ export class JobPostingsComparisonComponent {
   trackByMonth = trackByMonth;
 
   constructor(private statisticsService: StatisticsService) {
-    this.monthlyComparativeData$ = this.statisticsService.getMonthlyComparison(
-      this.jobs$
-    );
-    this.annualComparativeData$ = this.statisticsService.getAnnualComparison(
-      this.jobs$
-    );
+    this.monthlyComparativeData$ = this.statisticsService.getMonthlyComparison(this.jobs$);
+    this.annualComparativeData$ = this.statisticsService.getAnnualComparison(this.jobs$);
   }
 
   ngOnChanges(): void {
-    this.monthlyComparativeData$ = this.statisticsService.getMonthlyComparison(
-      this.jobs$
-    );
-    this.annualComparativeData$ = this.statisticsService.getAnnualComparison(
-      this.jobs$
-    );
+    this.monthlyComparativeData$ = this.statisticsService.getMonthlyComparison(this.jobs$);
+    this.annualComparativeData$ = this.statisticsService.getAnnualComparison(this.jobs$);
   }
 }

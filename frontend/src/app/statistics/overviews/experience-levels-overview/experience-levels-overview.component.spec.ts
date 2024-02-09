@@ -8,7 +8,7 @@ describe('ExperienceLevelsOverviewComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ExperienceLevelsOverviewComponent]
+      imports: [ExperienceLevelsOverviewComponent],
     });
     fixture = TestBed.createComponent(ExperienceLevelsOverviewComponent);
     component = fixture.componentInstance;

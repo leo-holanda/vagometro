@@ -1,6 +1,4 @@
-<ng-container
-  *ngIf="experienceLevelsRank$ | async as experienceLevelsRank; else loading"
->
+<ng-container *ngIf="experienceLevelsRank$ | async as experienceLevelsRank; else loading">
   <div class="overflow-auto max-h-96 w-full">
     <table class="table">
       <thead>
@@ -11,13 +9,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr
-          *ngFor="
-            let experienceLevel of experienceLevelsRank;
-            index as i;
-            trackBy: trackByExperienceLevel
-          "
-        >
+        <tr *ngFor="let experienceLevel of experienceLevelsRank; index as i; trackBy: trackByExperienceLevel">
           <th>{{ i + 1 }}</th>
           <td>
             {{ experienceLevel.level }}

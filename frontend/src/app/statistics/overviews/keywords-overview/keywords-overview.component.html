@@ -7,22 +7,14 @@
             <i class="bx bxs-chip"></i>
             <h1>Vagas que pedem {{ selectedKeyword }} também pedem...</h1>
           </div>
-          <button (click)="resetSelectedKeyword()" class="btn">
-            Escolher outra tecnologia
-          </button>
+          <button (click)="resetSelectedKeyword()" class="btn">Escolher outra tecnologia</button>
         </header>
 
         <section class="card-body max-h-96 overflow-y-auto">
-          <ng-container
-            *ngIf="keywordsRank$ | async as keywordsRank; else loading"
-          >
+          <ng-container *ngIf="keywordsRank$ | async as keywordsRank; else loading">
             <button
               class="btn btn-ghost p-2"
-              *ngFor="
-                let keyword of keywordsRank;
-                index as i;
-                trackBy: trackByKeyword
-              "
+              *ngFor="let keyword of keywordsRank; index as i; trackBy: trackByKeyword"
               [ngClass]="{ 'btn-active': selectedKeyword == keyword.word }"
               (click)="onKeywordClick(keyword.word)"
             >
@@ -30,11 +22,7 @@
                 <span>{{ i + 1 + ". " + keyword.word }}</span>
                 <span>{{ keyword.count | number }}</span>
               </div>
-              <progress
-                class="progress w-full"
-                [value]="keyword.count"
-                [max]="keywordsQuantity"
-              ></progress>
+              <progress class="progress w-full" [value]="keyword.count" [max]="keywordsQuantity"></progress>
             </button>
           </ng-container>
 
@@ -50,24 +38,18 @@
         </section>
       </div>
 
-      <div
-        class="card card-bordered card-compact w-full bg-base-300 flex flex-col gap-4 h-min"
-      >
+      <div class="card card-bordered card-compact w-full bg-base-300 flex flex-col gap-4 h-min">
         <header class="card-title items-center p-4">
           <i class="bx bxs-calendar"></i>
           <h1>Vagas publicadas ao longo do tempo</h1>
         </header>
 
         <section class="card-body">
-          <vgm-publication-chart
-            [jobs$]="jobsByKeyword$"
-          ></vgm-publication-chart>
+          <vgm-publication-chart [jobs$]="jobsByKeyword$"></vgm-publication-chart>
         </section>
       </div>
 
-      <vgm-job-postings-comparison
-        [jobs$]="jobsByKeyword$"
-      ></vgm-job-postings-comparison>
+      <vgm-job-postings-comparison [jobs$]="jobsByKeyword$"></vgm-job-postings-comparison>
     </section>
 
     <section class="card card-bordered card-compact w-full bg-base-300">
@@ -101,9 +83,7 @@
             <i class="bx bxs-user-detail"></i>
             <h3>Níveis de experiência mais requisitados</h3>
           </div>
-          <vgm-experience-levels-rank
-            [jobs$]="jobsByKeyword$"
-          ></vgm-experience-levels-rank>
+          <vgm-experience-levels-rank [jobs$]="jobsByKeyword$"></vgm-experience-levels-rank>
         </section>
 
         <div class="divider"></div>
@@ -157,9 +137,7 @@
 
 <ng-template #unselectedKeywordTemplate>
   <main class="h-full flex items-center justify-center mb-8">
-    <section
-      class="card card-bordered card-compact w-full lg:w-1/2 bg-base-300"
-    >
+    <section class="card card-bordered card-compact w-full lg:w-1/2 bg-base-300">
       <header class="card-title items-center p-4">
         <i class="bx bxs-hand-up"></i>
         <h1>Selecione uma tecnologia para acessar as vagas</h1>
@@ -181,16 +159,10 @@
       </label>
 
       <section class="card-body max-h-96 overflow-y-auto">
-        <ng-container
-          *ngIf="filteredKeywords$ | async as keywordsRank; else loading"
-        >
+        <ng-container *ngIf="filteredKeywords$ | async as keywordsRank; else loading">
           <button
             class="btn btn-ghost p-2"
-            *ngFor="
-              let keyword of keywordsRank;
-              index as i;
-              trackBy: trackByKeyword
-            "
+            *ngFor="let keyword of keywordsRank; index as i; trackBy: trackByKeyword"
             [ngClass]="{ 'btn-active': selectedKeyword == keyword.word }"
             (click)="onKeywordClick(keyword.word)"
           >
@@ -198,11 +170,7 @@
               <span>{{ i + 1 + ". " + keyword.word }}</span>
               <span>{{ keyword.count | number }}</span>
             </div>
-            <progress
-              class="progress w-full"
-              [value]="keyword.count"
-              [max]="keywordsQuantity"
-            ></progress>
+            <progress class="progress w-full" [value]="keyword.count" [max]="keywordsQuantity"></progress>
           </button>
         </ng-container>
 
@@ -219,12 +187,7 @@
 
       <span class="text-slate-300 text-sm p-4"
         >Não achou a tecnologia que procurava?
-        <a
-          class="link"
-          target="_blank"
-          href="https://github.com/leo-holanda/vagometro/issues"
-          >Crie uma issue!</a
-        >
+        <a class="link" target="_blank" href="https://github.com/leo-holanda/vagometro/issues">Crie uma issue!</a>
       </span>
     </section>
   </main>

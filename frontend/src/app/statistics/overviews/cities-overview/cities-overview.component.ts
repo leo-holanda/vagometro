@@ -53,8 +53,8 @@ export class CitiesOverviewComponent implements OnInit {
   jobsByCity$!: Observable<Job[]>;
   jobs$!: Observable<Job[]>;
 
-  selectedState: string = 'São Paulo';
-  selectedCity: string = 'São Paulo';
+  selectedState = 'São Paulo';
+  selectedCity = 'São Paulo';
 
   citiesQuantity = 0;
   statesQuantity = 0;
@@ -71,7 +71,7 @@ export class CitiesOverviewComponent implements OnInit {
 
   constructor(
     private jobService: JobService,
-    private statisticsService: StatisticsService
+    private statisticsService: StatisticsService,
   ) {}
 
   ngOnInit(): void {
@@ -81,19 +81,13 @@ export class CitiesOverviewComponent implements OnInit {
     this.citiesRank$.subscribe((citiesRank) => {
       this.selectedCity = citiesRank[0].name;
       this.jobsByCity$ = this.jobService.getJobsByCity(this.selectedCity);
-      this.citiesQuantity = citiesRank.reduce(
-        (acc, cityData) => acc + cityData.count,
-        0
-      );
+      this.citiesQuantity = citiesRank.reduce((acc, cityData) => acc + cityData.count, 0);
     });
 
     this.statesRank$.subscribe((statesRank) => {
       this.selectedState = statesRank[0].name;
       this.jobsByState$ = this.jobService.getJobsByState(this.selectedState);
-      this.statesQuantity = statesRank.reduce(
-        (acc, stateData) => acc + stateData.count,
-        0
-      );
+      this.statesQuantity = statesRank.reduce((acc, stateData) => acc + stateData.count, 0);
     });
   }
 

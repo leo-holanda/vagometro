@@ -2,7 +2,7 @@
   <button
     class="btn join-item flex-1"
     [ngClass]="{
-      'btn-primary': selectedJobSource == jobSources.gupy
+      'btn-primary': selectedJobSource === jobSources.gupy
     }"
     (click)="setJobSource(jobSources.gupy)"
   >
@@ -12,7 +12,7 @@
   <button
     class="btn join-item flex-1"
     [ngClass]="{
-      'btn-primary': selectedJobSource == jobSources.github
+      'btn-primary': selectedJobSource === jobSources.github
     }"
     (click)="setJobSource(jobSources.github)"
   >
@@ -22,7 +22,7 @@
   <button
     class="btn join-item flex-1"
     [ngClass]="{
-      'btn-primary': selectedJobSource == jobSources.linkedin
+      'btn-primary': selectedJobSource === jobSources.linkedin
     }"
     (click)="setJobSource(jobSources.linkedin)"
   >
@@ -32,14 +32,8 @@
 </div>
 
 <main class="flex flex-col gap-4 rounded-box overflow-y-auto overflow-x-hidden">
-  <div
-    class="flex items-center gap-2"
-    *ngFor="let jobCollection of selectedJobCollections | keyvalue"
-  >
-    <button
-      class="btn btn-info btn-square"
-      (click)="onInfoButtonClick(jobCollection.value)"
-    >
+  <div class="flex items-center gap-2" *ngFor="let jobCollection of selectedJobCollections | keyvalue">
+    <button class="btn btn-info btn-square" (click)="onInfoButtonClick(jobCollection.value)">
       <i class="bx bxs-info-circle"></i>
     </button>
     <div class="w-full">
@@ -48,46 +42,25 @@
         (click)="toggleJobCollection(jobCollection.key)"
         [ngClass]="{
           'btn-warning': jobCollection.value.isActive,
-          'btn-disabled':
-            jobCollection.value.isLoading || jobCollection.value.hasFailedToLoad
+          'btn-disabled': jobCollection.value.isLoading || jobCollection.value.hasFailedToLoad
         }"
       >
         <div class="flex items-center gap-2">
-          <span
-            class="text-balance"
-            *ngIf="
-              !jobCollection.value.isLoading &&
-              !jobCollection.value.hasFailedToLoad
-            "
-          >
+          <span class="text-balance" *ngIf="!jobCollection.value.isLoading && !jobCollection.value.hasFailedToLoad">
             {{ jobCollection.value.name }}
           </span>
 
-          <span *ngIf="jobCollection.value.isLoading">
-            Carregando dados...
-          </span>
+          <span *ngIf="jobCollection.value.isLoading"> Carregando dados... </span>
 
-          <span *ngIf="jobCollection.value.hasFailedToLoad">
-            Falha ao carregar - Tente mais tarde
-          </span>
+          <span *ngIf="jobCollection.value.hasFailedToLoad"> Falha ao carregar - Tente mais tarde </span>
         </div>
 
-        <span
-          *ngIf="jobCollection.value.isLoading"
-          class="loading loading-spinner"
-        ></span>
+        <span *ngIf="jobCollection.value.isLoading" class="loading loading-spinner"></span>
         <i
-          *ngIf="
-            jobCollection.value.isLoading == false &&
-            jobCollection.value.isLoaded == false &&
-            jobCollection.value.hasFailedToLoad == false
-          "
+          *ngIf="jobCollection.value.isLoading === false && jobCollection.value.isLoaded === false && jobCollection.value.hasFailedToLoad === false"
           class="bx bxs-plus-circle"
         ></i>
-        <i
-          *ngIf="jobCollection.value.hasFailedToLoad"
-          class="bx bxs-x-circle"
-        ></i>
+        <i *ngIf="jobCollection.value.hasFailedToLoad" class="bx bxs-x-circle"></i>
         <i *ngIf="jobCollection.value.isLoaded" class="bx bxs-check-circle"></i>
       </button>
     </div>
@@ -105,12 +78,7 @@
           <h3>Palavras-chave usadas na busca</h3>
         </header>
         <div class="flex flex-wrap gap-2">
-          <div
-            class="badge badge-neutral"
-            *ngFor="
-              let keyword of selectedJobCollectionInfo?.searchStringKeywords
-            "
-          >
+          <div class="badge badge-neutral" *ngFor="let keyword of selectedJobCollectionInfo?.searchStringKeywords">
             {{ keyword }}
           </div>
         </div>

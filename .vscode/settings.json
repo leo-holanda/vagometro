@@ -1,15 +1,21 @@
 {
-  "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
-  "editor.formatOnPaste": false, // required
-  "editor.formatOnType": false, // required
-  "editor.formatOnSave": true, // optional
-  "editor.formatOnSaveMode": "file", // required to format on save
-  "files.autoSave": "off", // optional but recommended
-  "vs-code-prettier-eslint.prettierLast": "false",
-  "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    },
+    "editor.formatOnSave": false
   },
-  "[python]": {
-    "editor.defaultFormatter": "ms-python.autopep8"
-  } // set as "true" to run 'prettier' last not first
+  "[typescript]": {
+    "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    },
+    "editor.formatOnSave": false
+  },
+  "[html][typescript]": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "explicit"
+    }
+  }
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EducationData } from '../../ranks/education-rank/education-rank.types';
 import { trackByEducationStatus } from 'src/app/shared/track-by-functions';
@@ -35,7 +35,7 @@ import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-c
   templateUrl: './education-overview.component.html',
   styleUrls: ['./education-overview.component.scss'],
 })
-export class EducationOverviewComponent {
+export class EducationOverviewComponent implements OnInit {
   educationRank$!: Observable<EducationData[]>;
   selectedEducationTerm!: string;
 
@@ -55,7 +55,7 @@ export class EducationOverviewComponent {
 
   constructor(
     private statisticsService: StatisticsService,
-    private jobService: JobService
+    private jobService: JobService,
   ) {}
 
   ngOnInit(): void {
@@ -68,11 +68,11 @@ export class EducationOverviewComponent {
 
       this.educationTermFrequency = educationRank.reduce(
         (acc, term) => acc + term.count,
-        0
+        0,
       );
 
       this.jobsByEducationTerm$ = this.jobService.getJobsByEducationTerms(
-        this.selectedEducationTerm
+        this.selectedEducationTerm,
       );
     });
 
@@ -81,12 +81,12 @@ export class EducationOverviewComponent {
 
       this.educationalLevelFrequency = educationalLevelRank.reduce(
         (acc, term) => acc + term.count,
-        0
+        0,
       );
 
       this.jobsByEducationalLevel$ =
         this.jobService.getJobsByEducationalLevelTerms(
-          this.selectedEducationalLevelTerm
+          this.selectedEducationalLevelTerm,
         );
     });
   }
@@ -94,7 +94,7 @@ export class EducationOverviewComponent {
   onEducationTermClick(TypeName: string): void {
     this.selectedEducationTerm = TypeName;
     this.jobsByEducationTerm$ = this.jobService.getJobsByEducationTerms(
-      this.selectedEducationTerm
+      this.selectedEducationTerm,
     );
   }
 
@@ -103,7 +103,7 @@ export class EducationOverviewComponent {
 
     this.jobsByEducationalLevel$ =
       this.jobService.getJobsByEducationalLevelTerms(
-        this.selectedEducationalLevelTerm
+        this.selectedEducationalLevelTerm,
       );
   }
 

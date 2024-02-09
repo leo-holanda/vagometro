@@ -1,11 +1,5 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-} from '@angular/core';
-import { CommonModule, TitleCasePipe } from '@angular/common';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { StatisticsService } from '../../statistics.service';
 import { WorkplaceData } from './workplace-rank.model';
 import { Observable } from 'rxjs';

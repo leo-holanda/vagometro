@@ -24,11 +24,10 @@ export class HeaderComponent {
   constructor(
     private jobService: JobService,
     private windowResolutionObserver: WindowResolutionObserverService,
-    private jobSourcesService: JobSourcesService
+    private jobSourcesService: JobSourcesService,
   ) {
     this.currentTimeWindow$ = this.jobService.currentTimeWindow$;
-    this.matchesMobileBreakpoint$ =
-      this.windowResolutionObserver.matchesMobileBreakpoint();
+    this.matchesMobileBreakpoint$ = this.windowResolutionObserver.matchesMobileBreakpoint();
 
     this.hasOneJobSourceActive$ = this.jobSourcesService.hasOneActiveJobSource$;
   }

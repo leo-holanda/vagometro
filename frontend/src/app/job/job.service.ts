@@ -19,16 +19,14 @@ export class JobService {
   jobs$ = this._jobs$.asObservable();
 
   private _currentTimeWindow$ = new BehaviorSubject<TimeWindows>(
-    TimeWindows.all
+    TimeWindows.all,
   );
   currentTimeWindow$ = this._currentTimeWindow$.asObservable();
 
   private _oldestJobPublishedDate$ = new BehaviorSubject<Date | undefined>(
-    undefined
+    undefined,
   );
   oldestJobPublishedDate$ = this._oldestJobPublishedDate$.asObservable();
-
-  constructor() {}
 
   setJobs(jobs: Job[] | undefined): void {
     if (jobs) {
@@ -44,7 +42,7 @@ export class JobService {
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
         return jobs.filter((job) => job.state == state);
-      })
+      }),
     );
   }
 
@@ -53,7 +51,7 @@ export class JobService {
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
         return jobs.filter((job) => job.city == city);
-      })
+      }),
     );
   }
 
@@ -62,9 +60,9 @@ export class JobService {
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
         return jobs.filter((job) =>
-          job.workplaceTypes.includes(workplace as WorkplaceTypes)
+          job.workplaceTypes.includes(workplace as WorkplaceTypes),
         );
-      })
+      }),
     );
   }
 
@@ -73,7 +71,7 @@ export class JobService {
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
         return jobs.filter((job) => job.keywords.includes(keyword));
-      })
+      }),
     );
   }
 
@@ -82,7 +80,7 @@ export class JobService {
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
         return jobs.filter((job) => job.companyName == companyName);
-      })
+      }),
     );
   }
 
@@ -91,26 +89,26 @@ export class JobService {
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
         return jobs.filter((job) => job.contractTypes.includes(contracType));
-      })
+      }),
     );
   }
 
   getJobsByExperienceLevel(
-    experienceLevel: ExperienceLevels
+    experienceLevel: ExperienceLevels,
   ): Observable<Job[]> {
     return this.jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
         return jobs.filter((job) =>
-          job.experienceLevels.includes(experienceLevel)
+          job.experienceLevels.includes(experienceLevel),
         );
-      })
+      }),
     );
   }
 
   filterJobsByTime(timeWindow: TimeWindows): void {
     this._currentTimeWindow$.next(timeWindow);
-    let jobs = [...this.pristineJobs];
+    const jobs = [...this.pristineJobs];
     if (jobs.length > 0) {
       const minDate = this.createDateByTimeWindow(timeWindow);
       const filteredJobs = jobs.filter((job) => job.publishedDate >= minDate);
@@ -154,13 +152,13 @@ export class JobService {
   }
 
   getJobsByDisabilityStatus(
-    disabilityStatus: DisabilityStatuses
+    disabilityStatus: DisabilityStatuses,
   ): Observable<Job[]> {
     return this.jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
         return jobs.filter((job) => job.disabilityStatus == disabilityStatus);
-      })
+      }),
     );
   }
 
@@ -171,12 +169,12 @@ export class JobService {
         if (educationTerm == 'Desconhecido')
           return jobs.filter((job) => job.educationTerms.length == 0);
         return jobs.filter((job) => job.educationTerms.includes(educationTerm));
-      })
+      }),
     );
   }
 
   getJobsByEducationalLevelTerms(
-    educationalLevelTerm: string
+    educationalLevelTerm: string,
   ): Observable<Job[]> {
     return this.jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
@@ -184,9 +182,9 @@ export class JobService {
         if (educationalLevelTerm == 'Desconhecido')
           return jobs.filter((job) => job.educationalLevelTerms.length == 0);
         return jobs.filter((job) =>
-          job.educationalLevelTerms.includes(educationalLevelTerm)
+          job.educationalLevelTerms.includes(educationalLevelTerm),
         );
-      })
+      }),
     );
   }
 
@@ -197,7 +195,7 @@ export class JobService {
         if (language == 'Desconhecido')
           return jobs.filter((job) => job.languages.length == 0);
         return jobs.filter((job) => job.languages.includes(language));
-      })
+      }),
     );
   }
 
@@ -206,7 +204,7 @@ export class JobService {
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
         return jobs.filter((job) => this.getJobMonth(job) == month);
-      })
+      }),
     );
   }
 

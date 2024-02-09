@@ -1,13 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as Realm from 'realm-web';
-import {
-  Observable,
-  defer,
-  shareReplay,
-  mergeMap,
-  first,
-  switchMap,
-} from 'rxjs';
+import { Observable, defer, shareReplay, switchMap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { GupyJob } from '../job-sources/gupy/gupy.types';
 import { LinkedInJob } from '../job-sources/linkedin/linked-in.types';
@@ -28,7 +21,7 @@ export class AtlasService {
 
   constructor() {
     this.connectionObservable$ = defer(() => this.openConnection()).pipe(
-      shareReplay()
+      shareReplay(),
     );
   }
 
@@ -69,38 +62,45 @@ export class AtlasService {
   getLinkedInDevJobs(): Observable<LinkedInJob[]> {
     return this.connectionObservable$.pipe(
       switchMap(
-        () => this.linkedInDevJobsCollection.find() as Observable<LinkedInJob[]>
-      )
+        () =>
+          this.linkedInDevJobsCollection.find() as Observable<LinkedInJob[]>,
+      ),
     );
   }
 
   getDataJobs(): Observable<GupyJob[]> {
     return this.connectionObservable$.pipe(
-      switchMap(() => this.dataJobsCollection.find() as Observable<GupyJob[]>)
+      switchMap(() => this.dataJobsCollection.find() as Observable<GupyJob[]>),
     );
   }
 
   getWebDevJobs(): Observable<GupyJob[]> {
     return this.connectionObservable$.pipe(
-      switchMap(() => this.webdevJobsCollection.find() as Observable<GupyJob[]>)
+      switchMap(
+        () => this.webdevJobsCollection.find() as Observable<GupyJob[]>,
+      ),
     );
   }
 
   getUIUXJobs(): Observable<GupyJob[]> {
     return this.connectionObservable$.pipe(
-      switchMap(() => this.uiuxJobsCollection.find() as Observable<GupyJob[]>)
+      switchMap(() => this.uiuxJobsCollection.find() as Observable<GupyJob[]>),
     );
   }
 
   getMobileJobs(): Observable<GupyJob[]> {
     return this.connectionObservable$.pipe(
-      switchMap(() => this.mobileJobsCollection.find() as Observable<GupyJob[]>)
+      switchMap(
+        () => this.mobileJobsCollection.find() as Observable<GupyJob[]>,
+      ),
     );
   }
 
   getDevOpsJobs(): Observable<GupyJob[]> {
     return this.connectionObservable$.pipe(
-      switchMap(() => this.devopsJobsCollection.find() as Observable<GupyJob[]>)
+      switchMap(
+        () => this.devopsJobsCollection.find() as Observable<GupyJob[]>,
+      ),
     );
   }
 }

@@ -7,16 +7,10 @@
       </div>
 
       <div class="card-body max-h-96 overflow-y-auto">
-        <ng-container
-          *ngIf="workplacesRank$ | async as workplacesRank; else loading"
-        >
+        <ng-container *ngIf="workplacesRank$ | async as workplacesRank; else loading">
           <button
             class="btn btn-ghost p-2"
-            *ngFor="
-              let workplace of workplacesRank;
-              index as i;
-              trackBy: trackByWorkplace
-            "
+            *ngFor="let workplace of workplacesRank; index as i; trackBy: trackByWorkplace"
             [ngClass]="{ 'btn-active': selectedWorkplace == workplace.type }"
             (click)="onWorkplaceClick(workplace.type)"
           >
@@ -25,11 +19,7 @@
               <span>{{ workplace.count | number }}</span>
             </div>
 
-            <progress
-              class="progress w-full"
-              [value]="workplace.count"
-              [max]="workplacesQuantity"
-            ></progress>
+            <progress class="progress w-full" [value]="workplace.count" [max]="workplacesQuantity"></progress>
           </button>
         </ng-container>
 
@@ -43,31 +33,23 @@
       </div>
     </div>
 
-    <div
-      class="card card-bordered card-compact w-full bg-base-300 flex flex-col gap-4 h-min"
-    >
+    <div class="card card-bordered card-compact w-full bg-base-300 flex flex-col gap-4 h-min">
       <div class="card-title items-center p-4">
         <i class="bx bxs-calendar"></i>
         <h1>Vagas publicadas ao longo do tempo</h1>
       </div>
 
       <div class="card-body">
-        <vgm-publication-chart
-          [jobs$]="jobsByWorkplace$"
-        ></vgm-publication-chart>
+        <vgm-publication-chart [jobs$]="jobsByWorkplace$"></vgm-publication-chart>
       </div>
     </div>
 
-    <vgm-job-postings-comparison
-      [jobs$]="jobsByWorkplace$"
-    ></vgm-job-postings-comparison>
+    <vgm-job-postings-comparison [jobs$]="jobsByWorkplace$"></vgm-job-postings-comparison>
   </div>
 
   <div class="card card-bordered card-compact w-full bg-base-300">
     <div class="card-body">
-      <h1 class="font-bold text-lg mb-4">
-        Sobre vagas na modalidade {{ selectedWorkplace | titlecase }}
-      </h1>
+      <h1 class="font-bold text-lg mb-4">Sobre vagas na modalidade {{ selectedWorkplace | titlecase }}</h1>
 
       <section>
         <div class="flex items-center gap-2 mb-2">
@@ -94,9 +76,7 @@
           <i class="bx bxs-user-detail"></i>
           <h3>Níveis de experiência mais requisitados</h3>
         </div>
-        <vgm-experience-levels-rank
-          [jobs$]="jobsByWorkplace$"
-        ></vgm-experience-levels-rank>
+        <vgm-experience-levels-rank [jobs$]="jobsByWorkplace$"></vgm-experience-levels-rank>
       </section>
 
       <div class="divider"></div>

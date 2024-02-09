@@ -25,14 +25,12 @@ export class JobCountComponent {
 
   constructor(
     private statisticsService: StatisticsService,
-    private jobService: JobService
+    private jobService: JobService,
   ) {
     this.currentTimeWindow$ = this.jobService.currentTimeWindow$;
     this.jobsCount$ = this.statisticsService.getJobsCount();
     this.oldestJobPublishedDate$ = this.jobService.oldestJobPublishedDate$;
 
-    this.lastMonthDifference$ = this.statisticsService
-      .getMonthlyComparison()
-      .pipe(map((monthlyData) => monthlyData[0]));
+    this.lastMonthDifference$ = this.statisticsService.getMonthlyComparison().pipe(map((monthlyData) => monthlyData[0]));
   }
 }

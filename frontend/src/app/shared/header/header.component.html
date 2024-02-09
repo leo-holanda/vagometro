@@ -18,7 +18,7 @@
             <div class="flex flex-wrap gap-2">
               <button
                 [ngClass]="{
-                  'btn-active': (currentTimeWindow$ | async) == timeWindows.day
+                  'btn-active': (currentTimeWindow$ | async) === timeWindows.day
                 }"
                 (click)="onTimeWindowClick(timeWindows.day)"
                 class="btn btn-outline"
@@ -28,7 +28,8 @@
 
               <button
                 [ngClass]="{
-                  'btn-active': (currentTimeWindow$ | async) == timeWindows.week
+                  'btn-active':
+                    (currentTimeWindow$ | async) === timeWindows.week
                 }"
                 (click)="onTimeWindowClick(timeWindows.week)"
                 class="btn btn-outline"
@@ -39,7 +40,7 @@
               <button
                 [ngClass]="{
                   'btn-active':
-                    (currentTimeWindow$ | async) == timeWindows.month
+                    (currentTimeWindow$ | async) === timeWindows.month
                 }"
                 (click)="onTimeWindowClick(timeWindows.month)"
                 class="btn btn-outline"
@@ -50,7 +51,7 @@
               <button
                 [ngClass]="{
                   'btn-active':
-                    (currentTimeWindow$ | async) == timeWindows['6months']
+                    (currentTimeWindow$ | async) === timeWindows['6months']
                 }"
                 (click)="onTimeWindowClick(timeWindows['6months'])"
                 class="btn btn-outline"
@@ -60,7 +61,8 @@
 
               <button
                 [ngClass]="{
-                  'btn-active': (currentTimeWindow$ | async) == timeWindows.year
+                  'btn-active':
+                    (currentTimeWindow$ | async) === timeWindows.year
                 }"
                 (click)="onTimeWindowClick(timeWindows.year)"
                 class="btn btn-outline"
@@ -70,7 +72,7 @@
 
               <button
                 [ngClass]="{
-                  'btn-active': (currentTimeWindow$ | async) == timeWindows.all
+                  'btn-active': (currentTimeWindow$ | async) === timeWindows.all
                 }"
                 (click)="onTimeWindowClick(timeWindows.all)"
                 class="btn btn-outline"
@@ -134,7 +136,7 @@
       <div class="flex flex-wrap items-center justify-center gap-2 m-4">
         <button
           [ngClass]="{
-            'btn-active': (currentTimeWindow$ | async) == timeWindows.day
+            'btn-active': (currentTimeWindow$ | async) === timeWindows.day
           }"
           (click)="onTimeWindowClick(timeWindows.day)"
           class="btn btn-outline"
@@ -144,7 +146,7 @@
 
         <button
           [ngClass]="{
-            'btn-active': (currentTimeWindow$ | async) == timeWindows.week
+            'btn-active': (currentTimeWindow$ | async) === timeWindows.week
           }"
           (click)="onTimeWindowClick(timeWindows.week)"
           class="btn btn-outline"
@@ -154,7 +156,7 @@
 
         <button
           [ngClass]="{
-            'btn-active': (currentTimeWindow$ | async) == timeWindows.month
+            'btn-active': (currentTimeWindow$ | async) === timeWindows.month
           }"
           (click)="onTimeWindowClick(timeWindows.month)"
           class="btn btn-outline"
@@ -164,7 +166,8 @@
 
         <button
           [ngClass]="{
-            'btn-active': (currentTimeWindow$ | async) == timeWindows['6months']
+            'btn-active':
+              (currentTimeWindow$ | async) === timeWindows['6months']
           }"
           (click)="onTimeWindowClick(timeWindows['6months'])"
           class="btn btn-outline"
@@ -174,7 +177,7 @@
 
         <button
           [ngClass]="{
-            'btn-active': (currentTimeWindow$ | async) == timeWindows.year
+            'btn-active': (currentTimeWindow$ | async) === timeWindows.year
           }"
           (click)="onTimeWindowClick(timeWindows.year)"
           class="btn btn-outline"
@@ -184,7 +187,7 @@
 
         <button
           [ngClass]="{
-            'btn-active': (currentTimeWindow$ | async) == timeWindows.all
+            'btn-active': (currentTimeWindow$ | async) === timeWindows.all
           }"
           (click)="onTimeWindowClick(timeWindows.all)"
           class="btn btn-outline"

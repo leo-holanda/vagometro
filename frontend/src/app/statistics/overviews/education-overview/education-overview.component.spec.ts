@@ -8,7 +8,7 @@ describe('EducationOverviewComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [EducationOverviewComponent]
+      imports: [EducationOverviewComponent],
     });
     fixture = TestBed.createComponent(EducationOverviewComponent);
     component = fixture.componentInstance;

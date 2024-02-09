@@ -9,13 +9,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr
-          *ngFor="
-            let education of educationRank;
-            index as i;
-            trackBy: trackByEducationStatus
-          "
-        >
+        <tr *ngFor="let education of educationRank; index as i; trackBy: trackByEducationStatus">
           <th>{{ i + 1 }}</th>
           <td>{{ education.name }}</td>
           <td>{{ education.count | number }}</td>

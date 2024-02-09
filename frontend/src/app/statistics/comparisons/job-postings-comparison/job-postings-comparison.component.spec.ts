@@ -8,7 +8,7 @@ describe('JobPostingsComparisonComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [JobPostingsComparisonComponent]
+      imports: [JobPostingsComparisonComponent],
     });
     fixture = TestBed.createComponent(JobPostingsComparisonComponent);
     component = fixture.componentInstance;

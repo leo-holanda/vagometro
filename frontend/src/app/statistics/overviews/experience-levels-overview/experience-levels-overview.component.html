@@ -7,19 +7,10 @@
       </div>
 
       <div class="card-body max-h-96 overflow-y-auto">
-        <ng-container
-          *ngIf="
-            experienceLevelsRank$ | async as experienceLevelsRank;
-            else loading
-          "
-        >
+        <ng-container *ngIf="experienceLevelsRank$ | async as experienceLevelsRank; else loading">
           <button
             class="btn btn-ghost p-2"
-            *ngFor="
-              let experienceLevel of experienceLevelsRank;
-              index as i;
-              trackBy: trackByExperienceLevel
-            "
+            *ngFor="let experienceLevel of experienceLevelsRank; index as i; trackBy: trackByExperienceLevel"
             [ngClass]="{ 'btn-active': selectedLevel == experienceLevel.level }"
             (click)="onExperienceLevelClick(experienceLevel.level)"
           >
@@ -27,11 +18,7 @@
               <span>{{ i + 1 + ". " + experienceLevel.level }}</span>
               <span>{{ experienceLevel.count | number }}</span>
             </div>
-            <progress
-              class="progress w-full"
-              [value]="experienceLevel.count"
-              [max]="jobsQuantity"
-            ></progress>
+            <progress class="progress w-full" [value]="experienceLevel.count" [max]="jobsQuantity"></progress>
           </button>
         </ng-container>
 
@@ -47,31 +34,23 @@
       </div>
     </div>
 
-    <div
-      class="card card-bordered card-compact w-full bg-base-300 flex flex-col gap-4 h-min"
-    >
+    <div class="card card-bordered card-compact w-full bg-base-300 flex flex-col gap-4 h-min">
       <div class="card-title items-center p-4">
         <i class="bx bxs-calendar"></i>
         <h1>Vagas publicadas ao longo do tempo</h1>
       </div>
 
       <div class="card-body">
-        <vgm-publication-chart
-          [jobs$]="jobsByExperienceLevel$"
-        ></vgm-publication-chart>
+        <vgm-publication-chart [jobs$]="jobsByExperienceLevel$"></vgm-publication-chart>
       </div>
     </div>
 
-    <vgm-job-postings-comparison
-      [jobs$]="jobsByExperienceLevel$"
-    ></vgm-job-postings-comparison>
+    <vgm-job-postings-comparison [jobs$]="jobsByExperienceLevel$"></vgm-job-postings-comparison>
   </div>
 
   <div class="card card-bordered card-compact w-full bg-base-300">
     <div class="card-body">
-      <h1 class="font-bold text-lg mb-4">
-        Sobre as vagas de nível {{ selectedLevel | titlecase }}
-      </h1>
+      <h1 class="font-bold text-lg mb-4">Sobre as vagas de nível {{ selectedLevel | titlecase }}</h1>
 
       <section>
         <div class="flex items-center gap-2 mb-2">
@@ -88,9 +67,7 @@
           <i class="bx bxs-business"></i>
           <h3>Empresas que mais contratam</h3>
         </div>
-        <vgm-companies-rank
-          [jobs$]="jobsByExperienceLevel$"
-        ></vgm-companies-rank>
+        <vgm-companies-rank [jobs$]="jobsByExperienceLevel$"></vgm-companies-rank>
       </section>
 
       <div class="divider"></div>
@@ -100,9 +77,7 @@
           <i class="bx bxs-home"></i>
           <h3>Modalidades mais frequentes</h3>
         </div>
-        <vgm-workplace-rank
-          [jobs$]="jobsByExperienceLevel$"
-        ></vgm-workplace-rank>
+        <vgm-workplace-rank [jobs$]="jobsByExperienceLevel$"></vgm-workplace-rank>
       </section>
 
       <div class="divider"></div>
@@ -122,9 +97,7 @@
           <i class="bx bxs-graduation"></i>
           <h3>Níveis de formação mais requisitados</h3>
         </div>
-        <vgm-education-rank
-          [jobs$]="jobsByExperienceLevel$"
-        ></vgm-education-rank>
+        <vgm-education-rank [jobs$]="jobsByExperienceLevel$"></vgm-education-rank>
       </section>
 
       <div class="divider"></div>
@@ -134,9 +107,7 @@
           <i class="bx bx-globe"></i>
           <h3>Idiomas mais requisitados</h3>
         </div>
-        <vgm-languages-rank
-          [jobs$]="jobsByExperienceLevel$"
-        ></vgm-languages-rank>
+        <vgm-languages-rank [jobs$]="jobsByExperienceLevel$"></vgm-languages-rank>
       </section>
     </div>
   </div>
@@ -148,10 +119,7 @@
   <div class="card card-bordered card-compact w-full lg:w-1/2 bg-base-300">
     <div class="card-title justify-between p-4">
       <h1>Vagas consideradas nos dados acima</h1>
-      <span
-        >Total:
-        {{ ((jobsByExperienceLevel$ | async) || []).length }} vagas</span
-      >
+      <span>Total: {{ ((jobsByExperienceLevel$ | async) || []).length }} vagas</span>
     </div>
 
     <div class="card-body overflow-y-hidden">

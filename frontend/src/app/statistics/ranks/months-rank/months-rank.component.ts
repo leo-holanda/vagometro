@@ -1,8 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable, map } from 'rxjs';
 import { Job } from 'src/app/job/job.types';
-import { trackByCity, trackByMonth } from 'src/app/shared/track-by-functions';
+import { trackByMonth } from 'src/app/shared/track-by-functions';
 import { StatisticsService } from '../../statistics.service';
 import { MonthData } from './months-rank.types';
 
@@ -13,7 +13,7 @@ import { MonthData } from './months-rank.types';
   templateUrl: './months-rank.component.html',
   styleUrls: ['./months-rank.component.scss'],
 })
-export class MonthsRankComponent {
+export class MonthsRankComponent implements OnInit, OnChanges {
   @Input() jobs$?: Observable<Job[]>;
   @Input() rankSize: number | undefined;
 
@@ -27,7 +27,7 @@ export class MonthsRankComponent {
     this.monthsRank$ = this.statisticsService.getMonthsRank(this.jobs$);
     if (this.rankSize)
       this.monthsRank$ = this.monthsRank$.pipe(
-        map((monthsRank) => monthsRank.slice(0, this.rankSize))
+        map((monthsRank) => monthsRank.slice(0, this.rankSize)),
       );
   }
 
@@ -35,7 +35,7 @@ export class MonthsRankComponent {
     this.monthsRank$ = this.statisticsService.getMonthsRank(this.jobs$);
     if (this.rankSize)
       this.monthsRank$ = this.monthsRank$.pipe(
-        map((monthsRank) => monthsRank.slice(0, this.rankSize))
+        map((monthsRank) => monthsRank.slice(0, this.rankSize)),
       );
   }
 }

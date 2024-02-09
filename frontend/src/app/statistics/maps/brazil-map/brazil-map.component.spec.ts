@@ -8,7 +8,7 @@ describe('BrazilMapComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [BrazilMapComponent]
+      imports: [BrazilMapComponent],
     });
     fixture = TestBed.createComponent(BrazilMapComponent);
     component = fixture.componentInstance;

@@ -11,7 +11,7 @@ export class WindowResolutionObserverService {
     return fromEvent(window, 'resize').pipe(
       debounceTime(250),
       map(() => window.innerWidth < 1280),
-      startWith(window.innerWidth < 1280)
+      startWith(window.innerWidth < 1280),
     );
   }
 }

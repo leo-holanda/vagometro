@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable, map } from 'rxjs';
 import { LanguageData } from './languages-rank.types';
@@ -13,7 +13,7 @@ import { StatisticsService } from '../../statistics.service';
   templateUrl: './languages-rank.component.html',
   styleUrls: ['./languages-rank.component.scss'],
 })
-export class LanguagesRankComponent {
+export class LanguagesRankComponent implements OnChanges {
   @Input() jobs$?: Observable<Job[]>;
   @Input() rankSize: number | undefined;
 
@@ -26,7 +26,7 @@ export class LanguagesRankComponent {
 
     if (this.rankSize)
       this.languagesRank$ = this.languagesRank$.pipe(
-        map((languagesRank) => languagesRank.slice(0, this.rankSize))
+        map((languagesRank) => languagesRank.slice(0, this.rankSize)),
       );
   }
 
@@ -35,7 +35,7 @@ export class LanguagesRankComponent {
 
     if (this.rankSize)
       this.languagesRank$ = this.languagesRank$.pipe(
-        map((languagesRank) => languagesRank.slice(0, this.rankSize))
+        map((languagesRank) => languagesRank.slice(0, this.rankSize)),
       );
   }
 }

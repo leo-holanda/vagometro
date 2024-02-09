@@ -7,16 +7,11 @@
 
       <div class="stat-desc text-center text-lg lg:text-xl text-wrap">
         vagas publicadas desde o dia
-        {{ oldestJobPublishedDate$ | async | date : "dd/MM/yyyy" }}
+        {{ oldestJobPublishedDate$ | async | date: "dd/MM/yyyy" }}
       </div>
     </div>
 
-    <ng-container
-      *ngIf="
-        (currentTimeWindow$ | async) == timeWindows.all &&
-        (lastMonthDifference$ | async) as lastMonthDifference
-      "
-    >
+    <ng-container *ngIf="(currentTimeWindow$ | async) == timeWindows.all && (lastMonthDifference$ | async) as lastMonthDifference">
       <div class="stat place-items-center">
         <div class="stat-title">Comparação com o último mês</div>
         <div class="stat-value">
@@ -28,14 +23,8 @@
           >
             {{ lastMonthDifference.difference | number }}
           </span>
-          <i
-            *ngIf="lastMonthDifference.difference > 0"
-            class="bx bxs-up-arrow-alt text-3xl text-green-500"
-          ></i>
-          <i
-            *ngIf="lastMonthDifference.difference < 0"
-            class="bx bxs-down-arrow-alt text-3xl text-red-500"
-          ></i>
+          <i *ngIf="lastMonthDifference.difference > 0" class="bx bxs-up-arrow-alt text-3xl text-green-500"></i>
+          <i *ngIf="lastMonthDifference.difference < 0" class="bx bxs-down-arrow-alt text-3xl text-red-500"></i>
         </div>
         <div
           class="stat-desc flex items-center flex-col"

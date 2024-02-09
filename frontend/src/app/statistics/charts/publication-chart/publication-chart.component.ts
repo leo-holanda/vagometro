@@ -1,12 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  Input,
-  OnChanges,
-  OnDestroy,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import * as echarts from 'echarts';
 import { PublicationSeries } from './publication-chart.model';
@@ -21,9 +13,7 @@ import { Job } from 'src/app/job/job.types';
   templateUrl: './publication-chart.component.html',
   styleUrls: ['./publication-chart.component.scss'],
 })
-export class PublicationChartComponent
-  implements AfterViewInit, OnChanges, OnDestroy
-{
+export class PublicationChartComponent implements AfterViewInit, OnChanges, OnDestroy {
   @Input() jobs$?: Observable<Job[]>;
   @ViewChild('chartwrapper') chartWrapper!: ElementRef<HTMLElement>;
 

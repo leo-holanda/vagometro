@@ -1,10 +1,4 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable, map } from 'rxjs';
 import { KeywordData } from './keywords-rank.model';
@@ -32,18 +26,12 @@ export class KeywordsRankComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.keywordsRank$ = this.statisticsService.getKeywordsRank(this.jobs$);
 
-    if (this.rankSize)
-      this.keywordsRank$ = this.keywordsRank$.pipe(
-        map((keywordsRank) => keywordsRank.slice(0, this.rankSize))
-      );
+    if (this.rankSize) this.keywordsRank$ = this.keywordsRank$.pipe(map((keywordsRank) => keywordsRank.slice(0, this.rankSize)));
   }
 
   ngOnChanges(): void {
     this.keywordsRank$ = this.statisticsService.getKeywordsRank(this.jobs$);
 
-    if (this.rankSize)
-      this.keywordsRank$ = this.keywordsRank$.pipe(
-        map((keywordsRank) => keywordsRank.slice(0, this.rankSize))
-      );
+    if (this.rankSize) this.keywordsRank$ = this.keywordsRank$.pipe(map((keywordsRank) => keywordsRank.slice(0, this.rankSize)));
   }
 }

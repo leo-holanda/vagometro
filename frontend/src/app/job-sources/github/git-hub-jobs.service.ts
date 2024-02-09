@@ -2,23 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { GitHubJob } from './git-hub-jobs.types';
 import { environment } from 'src/environments/environment';
-import {
-  Observable,
-  asyncScheduler,
-  defer,
-  first,
-  map,
-  scheduled,
-  shareReplay,
-  throwError,
-} from 'rxjs';
-import {
-  ContractTypes,
-  Job,
-  WorkplaceTypes,
-  contractTypeRelatedTerms,
-  workplaceTypeRelatedTerms,
-} from '../../job/job.types';
+import { Observable, defer, first, map, shareReplay } from 'rxjs';
+import { ContractTypes, Job, WorkplaceTypes, contractTypeRelatedTerms, workplaceTypeRelatedTerms } from '../../job/job.types';
 import { ExperienceLevels } from '../../statistics/ranks/experience-levels-rank/experience-levels-rank.model';
 import { MapDataService } from '../../statistics/maps/map-data.service';
 import {
@@ -30,10 +15,7 @@ import {
   specialistLevelRelatedTerms,
 } from '../../statistics/ranks/experience-levels-rank/experience-levels-rank.data';
 import { keywords } from '../../statistics/ranks/keywords-rank/keywords-rank.data';
-import {
-  educationRelatedTerms,
-  educationalLevelTerms,
-} from '../../statistics/ranks/education-rank/education-rank.data';
+import { educationRelatedTerms, educationalLevelTerms } from '../../statistics/ranks/education-rank/education-rank.data';
 import { languageRelatedTerms } from '../../statistics/ranks/languages-rank/languages-rank.data';
 import { DisabilityStatuses } from '../../statistics/ranks/disability-rank/disability-rank.model';
 import * as zip from '@zip.js/zip.js';
@@ -50,7 +32,7 @@ export class GitHubJobsService {
 
   constructor(
     private httpClient: HttpClient,
-    private mapDataService: MapDataService
+    private mapDataService: MapDataService,
   ) {
     //https://github.com/frontendbr/vagas/issues
     this.frontendJobs$ = this.getJobsObservable('frontend');
@@ -59,14 +41,12 @@ export class GitHubJobsService {
     //https://github.com/soujava/vagas-java/issues
     this.soujavaJobs$ = this.getJobsObservable('soujava');
 
-    this.citiesNames = this.mapDataService
-      .getCitiesNames()
-      .map((cityName) => this.removeAccents(cityName).toLowerCase());
+    this.citiesNames = this.mapDataService.getCitiesNames().map((cityName) => this.removeAccents(cityName).toLowerCase());
   }
 
   async getJobsPromise(
     //TODO: Auto generate this types
-    type: 'frontend' | 'backend' | 'soujava'
+    type: 'frontend' | 'backend' | 'soujava',
   ): Promise<GitHubJob[]> {
     // https://gildas-lormeau.github.io/zip.js/
     // Try catch is not necessary. Errors are handled in Job Source Service.
@@ -83,17 +63,11 @@ export class GitHubJobsService {
     return JSON.parse(jobs);
   }
 
-  getJobsObservable(
-    type: 'frontend' | 'backend' | 'soujava'
-  ): Observable<Job[]> {
+  getJobsObservable(type: 'frontend' | 'backend' | 'soujava'): Observable<Job[]> {
     return defer(() => this.getJobsPromise(type)).pipe(
       first(),
-      map((jobs) =>
-        jobs
-          .map((job) => this.mapToJob(job))
-          .sort((a, b) => (a.publishedDate > b.publishedDate ? -1 : 1))
-      ),
-      shareReplay()
+      map((jobs) => jobs.map((job) => this.mapToJob(job)).sort((a, b) => (a.publishedDate > b.publishedDate ? -1 : 1))),
+      shareReplay(),
     );
   }
 
@@ -128,17 +102,13 @@ export class GitHubJobsService {
 
       const matchedWorkplaceType = workplaceTypeRelatedTerms[labelContent];
 
-      if (matchedWorkplaceType)
-        matchedWorkplaceTypes.push(matchedWorkplaceType);
+      if (matchedWorkplaceType) matchedWorkplaceTypes.push(matchedWorkplaceType);
     });
 
     Object.keys(workplaceTypeRelatedTerms).forEach((term) => {
-      const titleHasTerm = this.removeAccents(githubJob.title)
-        .toLowerCase()
-        .includes(term);
+      const titleHasTerm = this.removeAccents(githubJob.title).toLowerCase().includes(term);
 
-      if (titleHasTerm)
-        matchedWorkplaceTypes.push(workplaceTypeRelatedTerms[term]);
+      if (titleHasTerm) matchedWorkplaceTypes.push(workplaceTypeRelatedTerms[term]);
     });
 
     if (matchedWorkplaceTypes.length == 0) {
@@ -147,16 +117,12 @@ export class GitHubJobsService {
         return this.citiesNames.includes(labelContent);
       });
 
-      if (hasMatchedLabelWithCityName)
-        matchedWorkplaceTypes.push(WorkplaceTypes['on-site']);
+      if (hasMatchedLabelWithCityName) matchedWorkplaceTypes.push(WorkplaceTypes['on-site']);
 
       const titleContent = this.removeAccents(githubJob.title).toLowerCase();
 
-      const hasMatchedTitleWithCityName = this.citiesNames.some((cityName) =>
-        titleContent.includes(cityName)
-      );
-      if (hasMatchedTitleWithCityName)
-        matchedWorkplaceTypes.push(WorkplaceTypes['on-site']);
+      const hasMatchedTitleWithCityName = this.citiesNames.some((cityName) => titleContent.includes(cityName));
+      if (hasMatchedTitleWithCityName) matchedWorkplaceTypes.push(WorkplaceTypes['on-site']);
     }
 
     if (matchedWorkplaceTypes.length == 0) return [WorkplaceTypes.unknown];
@@ -166,15 +132,11 @@ export class GitHubJobsService {
   private findJobExperienceLevel(githubJob: GitHubJob): ExperienceLevels[] {
     const jobExperienceLevels: ExperienceLevels[] = [];
 
-    const termsMatchedWithLabel = this.matchExperienceLevelTerms(
-      githubJob.labels
-    );
+    const termsMatchedWithLabel = this.matchExperienceLevelTerms(githubJob.labels);
 
     jobExperienceLevels.push(...termsMatchedWithLabel);
 
-    const termsMatchedWithTitle = this.matchExperienceLevelTerms(
-      githubJob.title.split(' ')
-    );
+    const termsMatchedWithTitle = this.matchExperienceLevelTerms(githubJob.title.split(' '));
 
     jobExperienceLevels.push(...termsMatchedWithTitle);
 
@@ -183,47 +145,27 @@ export class GitHubJobsService {
   }
 
   private matchExperienceLevelTerms(labels: string[]): ExperienceLevels[] {
-    const labelContent = labels.map((label) =>
-      this.removeAccents(label).toLowerCase()
-    );
+    const labelContent = labels.map((label) => this.removeAccents(label).toLowerCase());
 
     const matchedExperienceLevels = [];
 
-    const hasSpecialistLevelRelatedTerms = specialistLevelRelatedTerms.some(
-      (term) => labelContent.includes(term)
-    );
-    if (hasSpecialistLevelRelatedTerms)
-      matchedExperienceLevels.push(ExperienceLevels.specialist);
+    const hasSpecialistLevelRelatedTerms = specialistLevelRelatedTerms.some((term) => labelContent.includes(term));
+    if (hasSpecialistLevelRelatedTerms) matchedExperienceLevels.push(ExperienceLevels.specialist);
 
-    const hasSeniorLevelRelatedTerms = seniorLevelRelatedTerms.some((term) =>
-      labelContent.includes(term)
-    );
-    if (hasSeniorLevelRelatedTerms)
-      matchedExperienceLevels.push(ExperienceLevels.senior);
+    const hasSeniorLevelRelatedTerms = seniorLevelRelatedTerms.some((term) => labelContent.includes(term));
+    if (hasSeniorLevelRelatedTerms) matchedExperienceLevels.push(ExperienceLevels.senior);
 
-    const hasMidLevelRelatedTerms = midLevelRelatedTerms.some((term) =>
-      labelContent.includes(term)
-    );
-    if (hasMidLevelRelatedTerms)
-      matchedExperienceLevels.push(ExperienceLevels.mid);
+    const hasMidLevelRelatedTerms = midLevelRelatedTerms.some((term) => labelContent.includes(term));
+    if (hasMidLevelRelatedTerms) matchedExperienceLevels.push(ExperienceLevels.mid);
 
-    const hasJuniorLevelRelatedTerms = juniorLevelRelatedTerms.some((term) =>
-      labelContent.includes(term)
-    );
-    if (hasJuniorLevelRelatedTerms)
-      matchedExperienceLevels.push(ExperienceLevels.junior);
+    const hasJuniorLevelRelatedTerms = juniorLevelRelatedTerms.some((term) => labelContent.includes(term));
+    if (hasJuniorLevelRelatedTerms) matchedExperienceLevels.push(ExperienceLevels.junior);
 
-    const hasTraineeLevelRelatedTerms = traineeLevelRelatedTerms.some((term) =>
-      labelContent.includes(term)
-    );
-    if (hasTraineeLevelRelatedTerms)
-      matchedExperienceLevels.push(ExperienceLevels.intern);
+    const hasTraineeLevelRelatedTerms = traineeLevelRelatedTerms.some((term) => labelContent.includes(term));
+    if (hasTraineeLevelRelatedTerms) matchedExperienceLevels.push(ExperienceLevels.intern);
 
-    const hasInternLevelRelatedTerms = internLevelRelatedTerms.some((term) =>
-      labelContent.includes(term)
-    );
-    if (hasInternLevelRelatedTerms)
-      matchedExperienceLevels.push(ExperienceLevels.intern);
+    const hasInternLevelRelatedTerms = internLevelRelatedTerms.some((term) => labelContent.includes(term));
+    if (hasInternLevelRelatedTerms) matchedExperienceLevels.push(ExperienceLevels.intern);
 
     return matchedExperienceLevels;
   }
@@ -245,8 +187,7 @@ export class GitHubJobsService {
 
       splittedTitle.forEach((substring: string) => {
         // The typeof check is necessary to prevent the keywords constructor being matched.
-        if (keywords[substring] && typeof keywords[substring] === 'string')
-          jobKeywords.push(keywords[substring]);
+        if (keywords[substring] && typeof keywords[substring] === 'string') jobKeywords.push(keywords[substring]);
       });
     }
 
@@ -261,8 +202,7 @@ export class GitHubJobsService {
         .map((substring) => substring.toLowerCase());
 
       splittedDescription.forEach((substring: string) => {
-        if (keywords[substring] && typeof keywords[substring] === 'string')
-          jobKeywords.push(keywords[substring]);
+        if (keywords[substring] && typeof keywords[substring] === 'string') jobKeywords.push(keywords[substring]);
       });
     }
 
@@ -274,9 +214,7 @@ export class GitHubJobsService {
     if (githubJob.body) {
       const jobDescription = this.removeAccents(githubJob.body).toLowerCase();
 
-      return educationRelatedTerms
-        .filter((term) => jobDescription.includes(term.termForMatching))
-        .map((term) => term.termForListing);
+      return educationRelatedTerms.filter((term) => jobDescription.includes(term.termForMatching)).map((term) => term.termForListing);
     }
 
     return [];
@@ -286,9 +224,7 @@ export class GitHubJobsService {
     if (githubJob.body) {
       const jobDescription = this.removeAccents(githubJob.body).toLowerCase();
 
-      return educationalLevelTerms
-        .filter((term) => jobDescription.includes(term.termForMatching))
-        .map((term) => term.termForListing);
+      return educationalLevelTerms.filter((term) => jobDescription.includes(term.termForMatching)).map((term) => term.termForListing);
     }
 
     return [];
@@ -298,9 +234,7 @@ export class GitHubJobsService {
     if (githubJob.body) {
       const jobDescription = this.removeAccents(githubJob.body).toLowerCase();
 
-      return languageRelatedTerms
-        .filter((term) => jobDescription.includes(term.termForMatching))
-        .map((term) => term.termForListing);
+      return languageRelatedTerms.filter((term) => jobDescription.includes(term.termForMatching)).map((term) => term.termForListing);
     }
 
     return [];
@@ -316,12 +250,9 @@ export class GitHubJobsService {
     });
 
     Object.keys(contractTypeRelatedTerms).forEach((term) => {
-      const titleHasTerm = this.removeAccents(job.title)
-        .toLowerCase()
-        .includes(term);
+      const titleHasTerm = this.removeAccents(job.title).toLowerCase().includes(term);
 
-      if (titleHasTerm)
-        matchedContractTypes.push(contractTypeRelatedTerms[term]);
+      if (titleHasTerm) matchedContractTypes.push(contractTypeRelatedTerms[term]);
     });
 
     if (matchedContractTypes.length == 0) return [ContractTypes.unknown];

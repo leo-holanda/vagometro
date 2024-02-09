@@ -7,19 +7,10 @@ import { TypeData } from './ranks/type-rank/type-rank.model';
 import { CompanyData } from './ranks/companies-rank/companies-rank.model';
 import { ContractTypes, Job } from '../job/job.types';
 import { KeywordData } from './ranks/keywords-rank/keywords-rank.model';
-import {
-  ExperienceLevelData,
-  ExperienceLevels,
-} from './ranks/experience-levels-rank/experience-levels-rank.model';
-import {
-  DisabilityData,
-  DisabilityStatuses,
-} from './ranks/disability-rank/disability-rank.model';
+import { ExperienceLevelData, ExperienceLevels } from './ranks/experience-levels-rank/experience-levels-rank.model';
+import { DisabilityData, DisabilityStatuses } from './ranks/disability-rank/disability-rank.model';
 import { EducationData } from './ranks/education-rank/education-rank.types';
-import {
-  MonthData,
-  ComparisonData,
-} from './ranks/months-rank/months-rank.types';
+import { MonthData, ComparisonData } from './ranks/months-rank/months-rank.types';
 
 @Injectable({
   providedIn: 'root',
@@ -27,9 +18,7 @@ import {
 export class StatisticsService {
   constructor(private jobService: JobService) {}
 
-  getCitiesRank(
-    jobs$: Observable<Job[] | undefined> = this.jobService.jobs$
-  ): Observable<CityData[]> {
+  getCitiesRank(jobs$: Observable<Job[] | undefined> = this.jobService.jobs$): Observable<CityData[]> {
     return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
@@ -41,9 +30,7 @@ export class StatisticsService {
           citiesMap.set(job.city, currentCityCount + 1);
         });
 
-        const sortedEntries = Array.from(citiesMap.entries()).sort(
-          (a, b) => b[1] - a[1]
-        );
+        const sortedEntries = Array.from(citiesMap.entries()).sort((a, b) => b[1] - a[1]);
 
         const sortedObjects = sortedEntries.map(([key, value]) => ({
           name: key,
@@ -52,13 +39,11 @@ export class StatisticsService {
         }));
 
         return sortedObjects;
-      })
+      }),
     );
   }
 
-  getStatesRank(
-    jobs$: Observable<Job[] | undefined> = this.jobService.jobs$
-  ): Observable<StateData[]> {
+  getStatesRank(jobs$: Observable<Job[] | undefined> = this.jobService.jobs$): Observable<StateData[]> {
     return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
@@ -70,9 +55,7 @@ export class StatisticsService {
           statesMap.set(job.state, currentStateCount + 1);
         });
 
-        const sortedEntries = Array.from(statesMap.entries()).sort(
-          (a, b) => b[1] - a[1]
-        );
+        const sortedEntries = Array.from(statesMap.entries()).sort((a, b) => b[1] - a[1]);
 
         const sortedObjects = sortedEntries.map(([key, value]) => ({
           name: key,
@@ -80,20 +63,18 @@ export class StatisticsService {
         }));
 
         return sortedObjects;
-      })
+      }),
     );
   }
 
   getJobsCount(): Observable<number> {
     return this.jobService.jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
-      map((jobs) => jobs.length)
+      map((jobs) => jobs.length),
     );
   }
 
-  getWorkplaceRank(
-    jobs$: Observable<Job[] | undefined> = this.jobService.jobs$
-  ): Observable<WorkplaceData[]> {
+  getWorkplaceRank(jobs$: Observable<Job[] | undefined> = this.jobService.jobs$): Observable<WorkplaceData[]> {
     return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
 
@@ -107,9 +88,7 @@ export class StatisticsService {
           });
         });
 
-        const sortedEntries = Array.from(workplaceMap.entries()).sort(
-          (a, b) => b[1] - a[1]
-        );
+        const sortedEntries = Array.from(workplaceMap.entries()).sort((a, b) => b[1] - a[1]);
 
         const sortedObjects = sortedEntries.map(([key, value]) => ({
           type: key,
@@ -117,13 +96,11 @@ export class StatisticsService {
         }));
 
         return sortedObjects;
-      })
+      }),
     );
   }
 
-  getTypesRank(
-    jobs$: Observable<Job[] | undefined> = this.jobService.jobs$
-  ): Observable<TypeData[]> {
+  getTypesRank(jobs$: Observable<Job[] | undefined> = this.jobService.jobs$): Observable<TypeData[]> {
     return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
@@ -131,15 +108,12 @@ export class StatisticsService {
 
         jobs.forEach((job) => {
           job.contractTypes.forEach((contractType) => {
-            const currentWorkplaceCount =
-              contractTypesMap.get(contractType) || 0;
+            const currentWorkplaceCount = contractTypesMap.get(contractType) || 0;
             contractTypesMap.set(contractType, currentWorkplaceCount + 1);
           });
         });
 
-        const sortedEntries = Array.from(contractTypesMap.entries()).sort(
-          (a, b) => b[1] - a[1]
-        );
+        const sortedEntries = Array.from(contractTypesMap.entries()).sort((a, b) => b[1] - a[1]);
 
         const sortedObjects = sortedEntries.map(([key, value]) => ({
           name: key,
@@ -147,13 +121,11 @@ export class StatisticsService {
         }));
 
         return sortedObjects;
-      })
+      }),
     );
   }
 
-  getCompanyRank(
-    jobs$: Observable<Job[] | undefined> = this.jobService.jobs$
-  ): Observable<CompanyData[]> {
+  getCompanyRank(jobs$: Observable<Job[] | undefined> = this.jobService.jobs$): Observable<CompanyData[]> {
     return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
 
@@ -167,9 +139,7 @@ export class StatisticsService {
           companyMap.set(job.companyName, currentCompanyCount + 1);
         });
 
-        const sortedEntries = Array.from(companyMap.entries()).sort(
-          (a, b) => b[1] - a[1]
-        );
+        const sortedEntries = Array.from(companyMap.entries()).sort((a, b) => b[1] - a[1]);
 
         const sortedObjects = sortedEntries.map(([key, value]) => ({
           name: key,
@@ -178,13 +148,11 @@ export class StatisticsService {
         }));
 
         return sortedObjects;
-      })
+      }),
     );
   }
 
-  getKeywordsRank(
-    jobs$: Observable<Job[] | undefined> = this.jobService.jobs$
-  ): Observable<KeywordData[]> {
+  getKeywordsRank(jobs$: Observable<Job[] | undefined> = this.jobService.jobs$): Observable<KeywordData[]> {
     return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
@@ -207,13 +175,11 @@ export class StatisticsService {
         }));
 
         return sortedObjects;
-      })
+      }),
     );
   }
 
-  getExperienceLevelsRank(
-    jobs$: Observable<Job[] | undefined> = this.jobService.jobs$
-  ): Observable<ExperienceLevelData[]> {
+  getExperienceLevelsRank(jobs$: Observable<Job[] | undefined> = this.jobService.jobs$): Observable<ExperienceLevelData[]> {
     return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
@@ -221,65 +187,52 @@ export class StatisticsService {
 
         jobs.forEach((job) => {
           job.experienceLevels.forEach((experienceLevel) => {
-            const currentExperienceLevelCount =
-              experienceLevelsMap.get(experienceLevel) || 0;
+            const currentExperienceLevelCount = experienceLevelsMap.get(experienceLevel) || 0;
 
-            experienceLevelsMap.set(
-              experienceLevel,
-              currentExperienceLevelCount + 1
-            );
+            experienceLevelsMap.set(experienceLevel, currentExperienceLevelCount + 1);
           });
         });
 
-        const sortedEntries = Array.from(experienceLevelsMap.entries()).sort(
-          (a, b) => b[1] - a[1]
-        );
+        const sortedEntries = Array.from(experienceLevelsMap.entries()).sort((a, b) => b[1] - a[1]);
 
         const sortedObjects = sortedEntries.map(
           ([key, value]): ExperienceLevelData => ({
             level: key as ExperienceLevels,
             count: value,
-          })
+          }),
         );
 
         return sortedObjects;
-      })
+      }),
     );
   }
 
-  getDisabilityStatusesRank(
-    jobs$: Observable<Job[] | undefined> = this.jobService.jobs$
-  ): Observable<DisabilityData[]> {
+  getDisabilityStatusesRank(jobs$: Observable<Job[] | undefined> = this.jobService.jobs$): Observable<DisabilityData[]> {
     return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
         const disabilitiesMap = new Map<DisabilityStatuses, number>();
 
         jobs.forEach((job) => {
-          const currentDisabilityCount =
-            disabilitiesMap.get(job.disabilityStatus) || 0;
+          const currentDisabilityCount = disabilitiesMap.get(job.disabilityStatus) || 0;
           disabilitiesMap.set(job.disabilityStatus, currentDisabilityCount + 1);
         });
 
-        const sortedEntries = Array.from(disabilitiesMap.entries()).sort(
-          (a, b) => b[1] - a[1]
-        );
+        const sortedEntries = Array.from(disabilitiesMap.entries()).sort((a, b) => b[1] - a[1]);
 
         const sortedObjects = sortedEntries.map(
           ([key, value]): DisabilityData => ({
             name: key,
             count: value,
-          })
+          }),
         );
 
         return sortedObjects;
-      })
+      }),
     );
   }
 
-  getEducationRank(
-    jobs$: Observable<Job[] | undefined> = this.jobService.jobs$
-  ): Observable<EducationData[]> {
+  getEducationRank(jobs$: Observable<Job[] | undefined> = this.jobService.jobs$): Observable<EducationData[]> {
     return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
@@ -297,25 +250,21 @@ export class StatisticsService {
           });
         });
 
-        const sortedEntries = Array.from(educationMap.entries()).sort(
-          (a, b) => b[1] - a[1]
-        );
+        const sortedEntries = Array.from(educationMap.entries()).sort((a, b) => b[1] - a[1]);
 
         const sortedObjects = sortedEntries.map(
           ([key, value]): EducationData => ({
             name: key,
             count: value,
-          })
+          }),
         );
 
         return sortedObjects;
-      })
+      }),
     );
   }
 
-  getEducationalLevelRank(
-    jobs$: Observable<Job[] | undefined> = this.jobService.jobs$
-  ): Observable<EducationData[]> {
+  getEducationalLevelRank(jobs$: Observable<Job[] | undefined> = this.jobService.jobs$): Observable<EducationData[]> {
     return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
@@ -333,25 +282,21 @@ export class StatisticsService {
           });
         });
 
-        const sortedEntries = Array.from(educationMap.entries()).sort(
-          (a, b) => b[1] - a[1]
-        );
+        const sortedEntries = Array.from(educationMap.entries()).sort((a, b) => b[1] - a[1]);
 
         const sortedObjects = sortedEntries.map(
           ([key, value]): EducationData => ({
             name: key,
             count: value,
-          })
+          }),
         );
 
         return sortedObjects;
-      })
+      }),
     );
   }
 
-  getLanguagesRank(
-    jobs$: Observable<Job[] | undefined> = this.jobService.jobs$
-  ): Observable<EducationData[]> {
+  getLanguagesRank(jobs$: Observable<Job[] | undefined> = this.jobService.jobs$): Observable<EducationData[]> {
     return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
@@ -369,25 +314,21 @@ export class StatisticsService {
           });
         });
 
-        const sortedEntries = Array.from(languageMap.entries()).sort(
-          (a, b) => b[1] - a[1]
-        );
+        const sortedEntries = Array.from(languageMap.entries()).sort((a, b) => b[1] - a[1]);
 
         const sortedObjects = sortedEntries.map(
           ([key, value]): EducationData => ({
             name: key,
             count: value,
-          })
+          }),
         );
 
         return sortedObjects;
-      })
+      }),
     );
   }
 
-  getMonthsRank(
-    jobs$: Observable<Job[] | undefined> = this.jobService.jobs$
-  ): Observable<MonthData[]> {
+  getMonthsRank(jobs$: Observable<Job[] | undefined> = this.jobService.jobs$): Observable<MonthData[]> {
     return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
@@ -395,14 +336,11 @@ export class StatisticsService {
 
         jobs.forEach((job) => {
           const monthWhenJobWasPublished = this.jobService.getJobMonth(job);
-          const currentMonthCount =
-            monthsMap.get(monthWhenJobWasPublished) || 0;
+          const currentMonthCount = monthsMap.get(monthWhenJobWasPublished) || 0;
           monthsMap.set(monthWhenJobWasPublished, currentMonthCount + 1);
         });
 
-        const sortedEntries = Array.from(monthsMap.entries()).sort(
-          (a, b) => b[1] - a[1]
-        );
+        const sortedEntries = Array.from(monthsMap.entries()).sort((a, b) => b[1] - a[1]);
 
         const sortedObjects = sortedEntries.map(([key, value]) => ({
           name: key,
@@ -410,32 +348,26 @@ export class StatisticsService {
         }));
 
         return sortedObjects;
-      })
+      }),
     );
   }
 
-  getMonthlyComparison(
-    jobs$: Observable<Job[] | undefined> = this.jobService.jobs$
-  ): Observable<ComparisonData[]> {
+  getMonthlyComparison(jobs$: Observable<Job[] | undefined> = this.jobService.jobs$): Observable<ComparisonData[]> {
     return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
         const monthsMap = new Map<string, number>();
 
         jobs.forEach((job) => {
-          const monthAndYearWhenJobWasPublished =
-            this.jobService.getJobMonthAndYear(job);
-          const currentMonthCount =
-            monthsMap.get(monthAndYearWhenJobWasPublished) || 0;
+          const monthAndYearWhenJobWasPublished = this.jobService.getJobMonthAndYear(job);
+          const currentMonthCount = monthsMap.get(monthAndYearWhenJobWasPublished) || 0;
           monthsMap.set(monthAndYearWhenJobWasPublished, currentMonthCount + 1);
         });
 
-        const sortedObjects = Array.from(monthsMap.entries()).map(
-          ([key, value]) => ({
-            name: key,
-            count: value,
-          })
-        );
+        const sortedObjects = Array.from(monthsMap.entries()).map(([key, value]) => ({
+          name: key,
+          count: value,
+        }));
 
         return sortedObjects;
       }),
@@ -463,13 +395,11 @@ export class StatisticsService {
         }
 
         return monthlyComparativeData;
-      })
+      }),
     );
   }
 
-  getAnnualComparison(
-    jobs$: Observable<Job[] | undefined> = this.jobService.jobs$
-  ): Observable<ComparisonData[]> {
+  getAnnualComparison(jobs$: Observable<Job[] | undefined> = this.jobService.jobs$): Observable<ComparisonData[]> {
     return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
@@ -481,12 +411,10 @@ export class StatisticsService {
           yearsMap.set(yearWhenJobWasPublished, currentYearCount + 1);
         });
 
-        const sortedObjects = Array.from(yearsMap.entries()).map(
-          ([key, value]) => ({
-            name: key,
-            count: value,
-          })
-        );
+        const sortedObjects = Array.from(yearsMap.entries()).map(([key, value]) => ({
+          name: key,
+          count: value,
+        }));
 
         return sortedObjects;
       }),
@@ -514,7 +442,7 @@ export class StatisticsService {
         }
 
         return yearlyComparativeData;
-      })
+      }),
     );
   }
 }

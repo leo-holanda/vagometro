@@ -1,11 +1,7 @@
 import { Injectable } from '@angular/core';
-import {
-  JobCollections,
-  JobSources,
-  jobCollectionsMap,
-} from './job-sources.types';
+import { JobCollections, jobCollectionsMap } from './job-sources.types';
 import { JobService } from '../job/job.service';
-import { BehaviorSubject, combineLatest, first, last } from 'rxjs';
+import { BehaviorSubject, first } from 'rxjs';
 import { GupyService } from './gupy/gupy.service';
 import { GitHubJobsService } from './github/git-hub-jobs.service';
 import { Job } from '../job/job.types';
@@ -24,7 +20,7 @@ export class JobSourcesService {
     private jobService: JobService,
     private gupyService: GupyService,
     private githubJobsService: GitHubJobsService,
-    private linkedInService: LinkedInService
+    private linkedInService: LinkedInService,
   ) {
     this.jobCollectionsMap.gupy.dataSource = this.gupyService.jobs$;
     this.jobCollectionsMap.gupymobile.dataSource = this.gupyService.mobileJobs$;
@@ -59,7 +55,7 @@ export class JobSourcesService {
     const currentJobs: Job[] = [];
 
     const activeJobSources = Object.values(this.jobCollectionsMap).filter(
-      (jobSource) => jobSource.isActive
+      (jobSource) => jobSource.isActive,
     );
 
     activeJobSources.forEach((jobSource) => {
@@ -93,7 +89,7 @@ export class JobSourcesService {
 
   private updateOneSourceFlag(): void {
     const hasOneActiveJobSource = Object.values(jobCollectionsMap).some(
-      (jobSource) => jobSource.isLoaded && jobSource.isActive
+      (jobSource) => jobSource.isLoaded && jobSource.isActive,
     );
 
     this._hasOneActiveJobSource$.next(hasOneActiveJobSource);

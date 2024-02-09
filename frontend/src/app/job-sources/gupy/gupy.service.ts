@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, last, map, shareReplay } from 'rxjs';
+import { Observable, map, shareReplay } from 'rxjs';
 import { ContractTypes, Job, WorkplaceTypes } from 'src/app/job/job.types';
 import { DisabilityStatuses } from 'src/app/statistics/ranks/disability-rank/disability-rank.model';
 import {
@@ -49,7 +49,7 @@ export class GupyService {
           .map((job) => this.mapToJob(job))
           .sort((a, b) => (a.publishedDate > b.publishedDate ? -1 : 1));
       }),
-      shareReplay()
+      shareReplay(),
     );
   }
 
@@ -60,7 +60,7 @@ export class GupyService {
           .map((job) => this.mapToJob(job))
           .sort((a, b) => (a.publishedDate > b.publishedDate ? -1 : 1));
       }),
-      shareReplay()
+      shareReplay(),
     );
   }
 
@@ -71,7 +71,7 @@ export class GupyService {
           .map((job) => this.mapToJob(job))
           .sort((a, b) => (a.publishedDate > b.publishedDate ? -1 : 1));
       }),
-      shareReplay()
+      shareReplay(),
     );
   }
 
@@ -82,7 +82,7 @@ export class GupyService {
           .map((job) => this.mapToJob(job))
           .sort((a, b) => (a.publishedDate > b.publishedDate ? -1 : 1));
       }),
-      shareReplay()
+      shareReplay(),
     );
   }
 
@@ -93,7 +93,7 @@ export class GupyService {
           .map((job) => this.mapToJob(job))
           .sort((a, b) => (a.publishedDate > b.publishedDate ? -1 : 1));
       }),
-      shareReplay()
+      shareReplay(),
     );
   }
 
@@ -140,7 +140,7 @@ export class GupyService {
 
   private getJobLanguages(gupyJob: GupyJob): string[] {
     const jobDescription = this.removeAccents(
-      gupyJob.description.toLowerCase()
+      gupyJob.description.toLowerCase(),
     );
     return languageRelatedTerms
       .filter((term) => jobDescription.includes(term.termForMatching))
@@ -172,7 +172,7 @@ export class GupyService {
     if (experienceLevelInTitle) return [experienceLevelInTitle];
 
     const experienceLevelInDescription = this.matchExperienceLevelTerms(
-      gupyJob.description
+      gupyJob.description,
     );
     if (experienceLevelInDescription) return [experienceLevelInDescription];
 
@@ -180,39 +180,39 @@ export class GupyService {
   }
 
   private matchExperienceLevelTerms(
-    content: string
+    content: string,
   ): ExperienceLevels | undefined {
     const splittedContent = content
       .split(' ')
       .map((word) => word.toLowerCase());
 
     const hasSpecialistLevelRelatedTerms = specialistLevelRelatedTerms.some(
-      (term) => splittedContent.includes(term)
+      (term) => splittedContent.includes(term),
     );
     if (hasSpecialistLevelRelatedTerms) return ExperienceLevels.specialist;
 
     const hasSeniorLevelRelatedTerms = seniorLevelRelatedTerms.some((term) =>
-      splittedContent.includes(term)
+      splittedContent.includes(term),
     );
     if (hasSeniorLevelRelatedTerms) return ExperienceLevels.senior;
 
     const hasMidLevelRelatedTerms = midLevelRelatedTerms.some((term) =>
-      splittedContent.includes(term)
+      splittedContent.includes(term),
     );
     if (hasMidLevelRelatedTerms) return ExperienceLevels.mid;
 
     const hasJuniorLevelRelatedTerms = juniorLevelRelatedTerms.some((term) =>
-      splittedContent.includes(term)
+      splittedContent.includes(term),
     );
     if (hasJuniorLevelRelatedTerms) return ExperienceLevels.junior;
 
     const hasTraineeLevelRelatedTerms = traineeLevelRelatedTerms.some((term) =>
-      splittedContent.includes(term)
+      splittedContent.includes(term),
     );
     if (hasTraineeLevelRelatedTerms) return ExperienceLevels.intern;
 
     const hasInternLevelRelatedTerms = internLevelRelatedTerms.some((term) =>
-      splittedContent.includes(term)
+      splittedContent.includes(term),
     );
     if (hasInternLevelRelatedTerms) return ExperienceLevels.intern;
 

@@ -9,13 +9,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr
-          *ngFor="
-            let workplace of workplaceRank;
-            index as i;
-            trackBy: trackByWorkplace
-          "
-        >
+        <tr *ngFor="let workplace of workplaceRank; index as i; trackBy: trackByWorkplace">
           <th>{{ i + 1 }}</th>
           <td>{{ workplace.type | titlecase }}</td>
           <td>{{ workplace.count | number }}</td>

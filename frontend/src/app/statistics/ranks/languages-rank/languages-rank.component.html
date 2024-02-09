@@ -9,13 +9,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr
-          *ngFor="
-            let language of languagesRank;
-            index as i;
-            trackBy: trackByLanguage
-          "
-        >
+        <tr *ngFor="let language of languagesRank; index as i; trackBy: trackByLanguage">
           <th>{{ i + 1 }}</th>
           <td>{{ language.name }}</td>
           <td>{{ language.count | number }}</td>

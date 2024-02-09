@@ -18,11 +18,7 @@
               <span>{{ i + 1 + ". " + month.name | titlecase }}</span>
               <span>{{ month.count | number }}</span>
             </div>
-            <progress
-              class="progress w-full"
-              [value]="month.count"
-              [max]="jobsQuantity"
-            ></progress>
+            <progress class="progress w-full" [value]="month.count" [max]="jobsQuantity"></progress>
           </button>
         </ng-container>
 
@@ -38,9 +34,7 @@
       </div>
     </div>
 
-    <div
-      class="card card-bordered card-compact w-full bg-base-300 flex flex-col gap-4 h-min"
-    >
+    <div class="card card-bordered card-compact w-full bg-base-300 flex flex-col gap-4 h-min">
       <div class="card-title items-center p-4">
         <i class="bx bxs-calendar"></i>
         <h1>Vagas publicadas ao longo do tempo</h1>
@@ -56,9 +50,7 @@
 
   <div class="card card-bordered card-compact w-full bg-base-300">
     <div class="card-body">
-      <ng-container
-        *ngIf="selectedMonth != 'Desconhecido'; else unknownMonthTemplate"
-      >
+      <ng-container *ngIf="selectedMonth !== 'Desconhecido'; else unknownMonthTemplate">
         <h1 class="font-bold text-lg mb-4">
           Sobre as vagas que publicadas no mês de
           {{ selectedMonth | titlecase }}
@@ -66,9 +58,7 @@
       </ng-container>
 
       <ng-template #unknownMonthTemplate>
-        <h1 class="font-bold text-lg mb-4">
-          Sobre as vagas que não mencionam idioma
-        </h1>
+        <h1 class="font-bold text-lg mb-4">Sobre as vagas que não mencionam idioma</h1>
       </ng-template>
 
       <section>
@@ -106,9 +96,7 @@
           <i class="bx bxs-user-detail"></i>
           <h3>Níveis de experiência mais requisitados</h3>
         </div>
-        <vgm-experience-levels-rank
-          [jobs$]="jobsByMonth$"
-        ></vgm-experience-levels-rank>
+        <vgm-experience-levels-rank [jobs$]="jobsByMonth$"></vgm-experience-levels-rank>
       </section>
 
       <div class="divider"></div>

@@ -44,7 +44,7 @@ export class CompaniesOverviewComponent implements OnInit {
 
   constructor(
     private statisticsService: StatisticsService,
-    private jobService: JobService
+    private jobService: JobService,
   ) {}
 
   ngOnInit(): void {
@@ -53,24 +53,17 @@ export class CompaniesOverviewComponent implements OnInit {
     this.companiesRank$.subscribe((companiesRank) => {
       this.selectedCompany = companiesRank[0].name;
 
-      this.jobsByCompany$ = this.jobService.getJobsByCompany(
-        this.selectedCompany
-      );
+      this.jobsByCompany$ = this.jobService.getJobsByCompany(this.selectedCompany);
     });
 
     this.companiesRank$.subscribe((companiesRank) => {
-      this.companiesQuantity = companiesRank.reduce(
-        (acc, company) => acc + company.count,
-        0
-      );
+      this.companiesQuantity = companiesRank.reduce((acc, company) => acc + company.count, 0);
     });
   }
 
   onCompanyClick(companyName: string): void {
     this.selectedCompany = companyName;
 
-    this.jobsByCompany$ = this.jobService.getJobsByCompany(
-      this.selectedCompany
-    );
+    this.jobsByCompany$ = this.jobService.getJobsByCompany(this.selectedCompany);
   }
 }

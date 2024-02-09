@@ -10,15 +10,11 @@ import { PublicationSeries } from './publication-chart/publication-chart.model';
 export class ChartService {
   constructor(private jobService: JobService) {}
 
-  getPublicationSeries(
-    jobs$: Observable<Job[] | undefined> = this.jobService.jobs$
-  ): Observable<PublicationSeries> {
+  getPublicationSeries(jobs$: Observable<Job[] | undefined> = this.jobService.jobs$): Observable<PublicationSeries> {
     return combineLatest([jobs$, this.jobService.currentTimeWindow$]).pipe(
-      filter(
-        (params): params is [Job[], TimeWindows] => params[0] != undefined
-      ),
+      filter((params): params is [Job[], TimeWindows] => params[0] != undefined),
       map(([jobs, currentTimeWindow]) => {
-        let minDate = this.jobService.createDateByTimeWindow(currentTimeWindow);
+        const minDate = this.jobService.createDateByTimeWindow(currentTimeWindow);
 
         const publicationMap = new Map<string, number>();
         publicationMap.set(minDate.toDateString(), 0);
@@ -46,7 +42,7 @@ export class ChartService {
           });
 
         return mapEntries;
-      })
+      }),
     );
   }
 }

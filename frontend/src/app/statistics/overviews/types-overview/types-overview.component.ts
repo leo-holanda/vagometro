@@ -44,15 +44,13 @@ export class TypesOverviewComponent {
 
   constructor(
     private statisticsService: StatisticsService,
-    private jobService: JobService
+    private jobService: JobService,
   ) {
     this.typesRank$ = this.statisticsService.getTypesRank();
 
     this.typesRank$.subscribe((typesRank) => {
       this.selectedType = typesRank[0].name;
-      this.jobsByType$ = this.jobService.getJobsByContractType(
-        this.selectedType
-      );
+      this.jobsByType$ = this.jobService.getJobsByContractType(this.selectedType);
     });
 
     this.typesRank$.subscribe((typesRank) => {

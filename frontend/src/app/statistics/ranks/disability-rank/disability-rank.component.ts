@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DisabilityData } from './disability-rank.model';
 import { Observable, map } from 'rxjs';
@@ -13,7 +13,7 @@ import { trackByDisabilityStatus } from 'src/app/shared/track-by-functions';
   templateUrl: './disability-rank.component.html',
   styleUrls: ['./disability-rank.component.scss'],
 })
-export class DisabilityRankComponent {
+export class DisabilityRankComponent implements OnInit, OnChanges {
   @Input() jobs$?: Observable<Job[]>;
   @Input() rankSize: number | undefined;
 
@@ -25,23 +25,23 @@ export class DisabilityRankComponent {
 
   ngOnInit(): void {
     this.disabilityRank$ = this.statisticsService.getDisabilityStatusesRank(
-      this.jobs$
+      this.jobs$,
     );
 
     if (this.rankSize)
       this.disabilityRank$ = this.disabilityRank$.pipe(
-        map((disabilityRank) => disabilityRank.slice(0, this.rankSize))
+        map((disabilityRank) => disabilityRank.slice(0, this.rankSize)),
       );
   }
 
   ngOnChanges(): void {
     this.disabilityRank$ = this.statisticsService.getDisabilityStatusesRank(
-      this.jobs$
+      this.jobs$,
     );
 
     if (this.rankSize)
       this.disabilityRank$ = this.disabilityRank$.pipe(
-        map((disabilityRank) => disabilityRank.slice(0, this.rankSize))
+        map((disabilityRank) => disabilityRank.slice(0, this.rankSize)),
       );
   }
 }

@@ -8,7 +8,11 @@ import {
   contractTypeRelatedTerms,
   workplaceTypeRelatedTerms,
 } from 'src/app/job/job.types';
-import { LinkedInJob } from './linked-in.types';
+import {
+  LinkedInJob,
+  linkedInEmploymentTypesMap,
+  linkedInSeniorityLevelsMap,
+} from './linked-in.types';
 import { DisabilityStatuses } from 'src/app/statistics/ranks/disability-rank/disability-rank.model';
 import { ExperienceLevels } from 'src/app/statistics/ranks/experience-levels-rank/experience-levels-rank.model';
 import { keywords } from 'src/app/statistics/ranks/keywords-rank/keywords-rank.data';
@@ -186,6 +190,13 @@ export class LinkedInService {
         matchedContractTypes.push(contractTypeRelatedTerms[term]);
     });
 
+    if (matchedContractTypes.length == 0 && job.employment_type) {
+      matchedContractTypes.push(
+        linkedInEmploymentTypesMap[job.employment_type] || ContractTypes.unknown
+      );
+      return matchedContractTypes;
+    }
+
     if (matchedContractTypes.length == 0) return [ContractTypes.unknown];
     return this.getUniqueStrings(matchedContractTypes) as ContractTypes[];
   }
@@ -202,6 +213,14 @@ export class LinkedInService {
       job.description.split(' ')
     );
     jobExperienceLevels.push(...termsMatchedWithDescription);
+
+    if (jobExperienceLevels.length == 0 && job.seniority_level) {
+      jobExperienceLevels.push(
+        linkedInSeniorityLevelsMap[job.seniority_level] ||
+          ExperienceLevels.unknown
+      );
+      return jobExperienceLevels;
+    }
 
     if (jobExperienceLevels.length == 0) return [ExperienceLevels.unknown];
     return this.getUniqueStrings(jobExperienceLevels) as ExperienceLevels[];

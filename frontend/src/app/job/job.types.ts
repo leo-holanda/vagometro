@@ -23,6 +23,7 @@ export enum ContractTypes {
   volunteer = 'Voluntário',
   lecturer = 'Palestrante',
   autonomous = 'Autônomo',
+  trainee = 'Trainee',
   unknown = 'Desconhecido',
 }
 

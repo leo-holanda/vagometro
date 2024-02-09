@@ -1,9 +1,8 @@
-<div class="join join-vertical lg:join-horizontal w-full mb-4">
+<div class="join flex join-vertical sm:join-horizontal gap-2 mb-4">
   <button
     class="btn join-item flex-1"
     [ngClass]="{
-      'btn-primary': selectedJobSource == jobSources.gupy,
-      'btn-neutral': selectedJobSource != jobSources.gupy
+      'btn-primary': selectedJobSource == jobSources.gupy
     }"
     (click)="setJobSource(jobSources.gupy)"
   >
@@ -13,8 +12,7 @@
   <button
     class="btn join-item flex-1"
     [ngClass]="{
-      'btn-primary': selectedJobSource == jobSources.github,
-      'btn-neutral': selectedJobSource != jobSources.github
+      'btn-primary': selectedJobSource == jobSources.github
     }"
     (click)="setJobSource(jobSources.github)"
   >
@@ -24,8 +22,7 @@
   <button
     class="btn join-item flex-1"
     [ngClass]="{
-      'btn-primary': selectedJobSource == jobSources.linkedin,
-      'btn-neutral': selectedJobSource != jobSources.linkedin
+      'btn-primary': selectedJobSource == jobSources.linkedin
     }"
     (click)="setJobSource(jobSources.linkedin)"
   >

@@ -85,19 +85,46 @@ def get_parsed_jobs():
     return unique_jobs
 
 
-def parse_job_description(soup):
+def parse_job_page(soup):
+    try:
+        seniority_level_title_tag = soup.find(
+            lambda tag: tag.name == 'h3' and 'Seniority level' in tag.get_text(strip=True))
+
+        if seniority_level_title_tag:
+            seniority_level_content_tag = seniority_level_title_tag.find_next(
+                'span', class_='description__job-criteria-text--criteria')
+            if seniority_level_content_tag:
+                seniority_level = seniority_level_content_tag.get_text(
+                    strip=True)
+    except:
+        seniority_level = None
+
+    try:
+        employment_type_title_tag = soup.find(
+            lambda tag: tag.name == 'h3' and 'Employment type' in tag.get_text(strip=True))
+
+        if employment_type_title_tag:
+            employment_type_content_Tag = employment_type_title_tag.find_next(
+                'span', class_='description__job-criteria-text--criteria')
+            if employment_type_content_Tag:
+                employment_type = employment_type_content_Tag.get_text(
+                    strip=True)
+    except:
+        employment_type = None
+
     try:
         div = soup.find(
             'div', class_='description__text description__text--rich')
-
-        text = div.get_text(" ").strip()
-        text = text.replace('\n\n', '')
-        text = text.replace('::marker', '-')
-        text = text.replace('-\n', '- ')
-        text = text.replace('Show less', '').replace('Show more', '')
-        return text
+        description = div.get_text(" ").strip()
+        description = description.replace('\n\n', '')
+        description = description.replace('::marker', '-')
+        description = description.replace('-\n', '- ')
+        description = description.replace(
+            'Show less', '').replace('Show more', '')
     except:
-        return None
+        description = None
+
+    return {description: description, seniority_level: seniority_level, employment_type: employment_type}
 
 
 def parse_jobs_data(soup):
@@ -131,7 +158,10 @@ def parse_jobs_data(soup):
             'company_url': company.get('href') if company else '',
             'location': location.text.strip() if location else '',
             'created_at': date,
-            'url': job_url
+            'url': job_url,
+            'description': None,
+            'seniority_level': None,
+            'employment_type': None
         }
 
         joblist.append(job)
@@ -164,10 +194,14 @@ def main():
     for job in all_jobs:
         tm.sleep(1)
 
-        description_soup = get_with_retry(job['url'])
-        job['description'] = parse_job_description(description_soup)
+        job_page = get_with_retry(job['url'])
+        description, seniority_level, employment_type = parse_job_page(
+            job_page)
+        job['description'] = description
+        job['seniority_level'] = seniority_level
+        job['employment_type'] = employment_type
+
         if (job['description'] is None):
-            job['description'] = ""
             print('Failed to get job description for',
                   job['title'], 'at ', job['company_name'], job['url'])
 

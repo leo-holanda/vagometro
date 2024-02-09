@@ -167,11 +167,6 @@ export class LinkedInService {
     const termsMatchedWithDescription = this.matchExperienceLevelTerms(job.description.split(' '));
     jobExperienceLevels.push(...termsMatchedWithDescription);
 
-    if (jobExperienceLevels.length == 0 && job.seniority_level) {
-      jobExperienceLevels.push(linkedInSeniorityLevelsMap[job.seniority_level] || ExperienceLevels.unknown);
-      return jobExperienceLevels;
-    }
-
     if (jobExperienceLevels.length == 0) return [ExperienceLevels.unknown];
     return this.getUniqueStrings(jobExperienceLevels) as ExperienceLevels[];
   }

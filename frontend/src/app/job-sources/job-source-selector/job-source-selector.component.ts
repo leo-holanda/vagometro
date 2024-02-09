@@ -52,7 +52,7 @@ export class JobSourceSelectorComponent {
     this.selectedJobSource = jobSource;
     if (jobSource == JobSources.github)
       this.selectedJobCollections = this.githubJobCollections;
-    if (jobSource == JobSources.gupy)
+    else if (jobSource == JobSources.gupy)
       this.selectedJobCollections = this.gupyJobCollections;
     else this.selectedJobCollections = this.linkedInJobCollections;
   }

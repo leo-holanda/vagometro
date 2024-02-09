@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { JobService } from 'src/app/job/job.service';
 import { WorkplacesChartComponent } from '../../charts/workplaces-chart/workplaces-chart.component';
@@ -15,7 +15,7 @@ import { ExperienceLevelsRankComponent } from '../../ranks/experience-levels-ran
 import { trackByWorkplace } from 'src/app/shared/track-by-functions';
 import { EducationRankComponent } from '../../ranks/education-rank/education-rank.component';
 import { LanguagesRankComponent } from '../../ranks/languages-rank/languages-rank.component';
-import { ComparisonOverviewComponent } from '../comparison-overview/comparison-overview.component';
+import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-comparison/job-postings-comparison.component';
 
 @Component({
   selector: 'vgm-workplaces-overview',
@@ -31,7 +31,7 @@ import { ComparisonOverviewComponent } from '../comparison-overview/comparison-o
     ExperienceLevelsRankComponent,
     EducationRankComponent,
     LanguagesRankComponent,
-    ComparisonOverviewComponent,
+    JobPostingsComparisonComponent,
   ],
   templateUrl: './workplaces-overview.component.html',
   styleUrls: ['./workplaces-overview.component.scss'],

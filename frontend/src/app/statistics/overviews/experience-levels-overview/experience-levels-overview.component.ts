@@ -17,7 +17,7 @@ import { TypeRankComponent } from '../../ranks/type-rank/type-rank.component';
 import { trackByExperienceLevel } from 'src/app/shared/track-by-functions';
 import { EducationRankComponent } from '../../ranks/education-rank/education-rank.component';
 import { LanguagesRankComponent } from '../../ranks/languages-rank/languages-rank.component';
-import { ComparisonOverviewComponent } from '../comparison-overview/comparison-overview.component';
+import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-comparison/job-postings-comparison.component';
 
 @Component({
   selector: 'vgm-experience-levels-overview',
@@ -32,7 +32,7 @@ import { ComparisonOverviewComponent } from '../comparison-overview/comparison-o
     TypeRankComponent,
     EducationRankComponent,
     LanguagesRankComponent,
-    ComparisonOverviewComponent,
+    JobPostingsComparisonComponent,
   ],
   templateUrl: './experience-levels-overview.component.html',
   styleUrls: ['./experience-levels-overview.component.scss'],

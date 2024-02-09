@@ -15,7 +15,7 @@ import { trackByKeyword } from 'src/app/shared/track-by-functions';
 import { FormsModule } from '@angular/forms';
 import { EducationRankComponent } from '../../ranks/education-rank/education-rank.component';
 import { LanguagesRankComponent } from '../../ranks/languages-rank/languages-rank.component';
-import { ComparisonOverviewComponent } from '../comparison-overview/comparison-overview.component';
+import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-comparison/job-postings-comparison.component';
 
 @Component({
   selector: 'vgm-keywords-overview',
@@ -31,7 +31,7 @@ import { ComparisonOverviewComponent } from '../comparison-overview/comparison-o
     FormsModule,
     EducationRankComponent,
     LanguagesRankComponent,
-    ComparisonOverviewComponent,
+    JobPostingsComparisonComponent,
   ],
   templateUrl: './keywords-overview.component.html',
   styleUrls: ['./keywords-overview.component.scss'],

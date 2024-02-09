@@ -14,16 +14,12 @@ import { TypeData } from '../../ranks/type-rank/type-rank.model';
 import { PublicationChartComponent } from '../../charts/publication-chart/publication-chart.component';
 import { JobListComponent } from 'src/app/job/job-list/job-list.component';
 import { ExperienceLevelsRankComponent } from '../../ranks/experience-levels-rank/experience-levels-rank.component';
-import {
-  trackByCity,
-  trackByJobId,
-  trackByState,
-} from 'src/app/shared/track-by-functions';
+import { trackByCity, trackByState } from 'src/app/shared/track-by-functions';
 import { StatisticsService } from '../../statistics.service';
 import { StateAbbreviationPipe } from 'src/app/shared/pipes/state-abbreviation.pipe';
 import { EducationRankComponent } from '../../ranks/education-rank/education-rank.component';
 import { LanguagesRankComponent } from '../../ranks/languages-rank/languages-rank.component';
-import { ComparisonOverviewComponent } from '../comparison-overview/comparison-overview.component';
+import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-comparison/job-postings-comparison.component';
 
 @Component({
   selector: 'vgm-cities-overview',
@@ -41,7 +37,7 @@ import { ComparisonOverviewComponent } from '../comparison-overview/comparison-o
     StateAbbreviationPipe,
     EducationRankComponent,
     LanguagesRankComponent,
-    ComparisonOverviewComponent,
+    JobPostingsComparisonComponent,
   ],
   templateUrl: './cities-overview.component.html',
   styleUrls: ['./cities-overview.component.scss'],

@@ -123,13 +123,13 @@
       </div>
     </div>
 
-    <vgm-comparison-overview
+    <vgm-job-postings-comparison
       [jobs$]="
         selectedDataType == educationalDataTypes.level
           ? jobsByEducationalLevel$
           : jobsByEducationTerm$
       "
-    ></vgm-comparison-overview>
+    ></vgm-job-postings-comparison>
   </div>
 
   <div class="card card-bordered card-compact w-full bg-base-300 -xl">

@@ -12,8 +12,8 @@ import { WorkplaceRankComponent } from '../../ranks/workplace-rank/workplace-ran
 import { ExperienceLevelsRankComponent } from '../../ranks/experience-levels-rank/experience-levels-rank.component';
 import { EducationRankComponent } from '../../ranks/education-rank/education-rank.component';
 import { JobListComponent } from 'src/app/job/job-list/job-list.component';
-import { ComparisonOverviewComponent } from '../comparison-overview/comparison-overview.component';
 import { LanguageData } from '../../ranks/languages-rank/languages-rank.types';
+import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-comparison/job-postings-comparison.component';
 
 @Component({
   selector: 'vgm-languages-overview',
@@ -27,7 +27,7 @@ import { LanguageData } from '../../ranks/languages-rank/languages-rank.types';
     ExperienceLevelsRankComponent,
     EducationRankComponent,
     JobListComponent,
-    ComparisonOverviewComponent,
+    JobPostingsComparisonComponent,
   ],
   templateUrl: './languages-overview.component.html',
   styleUrls: ['./languages-overview.component.scss'],

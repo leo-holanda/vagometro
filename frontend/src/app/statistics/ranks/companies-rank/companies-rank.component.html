@@ -23,11 +23,11 @@
               class="link"
               [href]="company.link"
               target="_blank"
-              >{{ company.name | titlecase }}</a
+              >{{ company.name }}</a
             >
 
             <ng-template #companyWithoutLinkTemplate>
-              <a target="_blank">{{ company.name | titlecase }}</a>
+              <a target="_blank">{{ company.name }}</a>
             </ng-template>
           </td>
           <td>{{ company.count | number }}</td>

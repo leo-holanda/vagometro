@@ -77,6 +77,9 @@ export const keywords: Keywords = {
   jekyll: 'Jekyll',
   hugo: 'Hugo',
   remix: 'Remix',
+  zustand: 'Zustand',
+  rxjs: 'RxJS',
+  //END OF FRONTEND
 
   //BACKEND
   kotlin: 'Kotlin',
@@ -133,10 +136,6 @@ export const keywords: Keywords = {
   nest: 'NestJS',
   'nest.js': 'NestJS',
   hibernate: 'Hibernate',
-  sqs: 'AWS SQS',
-  s3: 'AWS S3',
-  lambda: 'AWS Lambda',
-  sns: 'AWS SNS',
   websocket: 'WebSocket',
   websockets: 'WebSocket',
   ssr: 'Server-Side Rendering',
@@ -148,6 +147,10 @@ export const keywords: Keywords = {
   fastify: 'Fastify',
   groovy: 'Groovy',
   grails: 'Grails',
+  marshmallow: 'Marshmallow',
+  alembic: 'Alembic',
+  sqlalchemy: 'SQLAlchemy',
+  //END OF BACKEND
 
   //DATABASE
   sql: 'SQL',
@@ -159,6 +162,8 @@ export const keywords: Keywords = {
   oracle: 'Oracle',
   redis: 'Redis',
   plsql: 'PL/SQL',
+  aurora: 'AWS Aurora',
+  //END OF DATABASE
 
   //MOBILE
   android: 'Android',
@@ -172,10 +177,13 @@ export const keywords: Keywords = {
   native: 'React Native',
   xamarin: 'Xamarin',
   expo: 'Expo',
+  //END OF MOBILE
 
   //CLOUD
   microservices: 'Microsserviços',
   'micro serviços': 'Microsserviços',
+  microserviços: 'Microsserviços',
+  microsserviços: 'Microsserviços',
   aws: 'AWS',
   cloudflare: 'Cloudflare',
   gcp: 'GCP',
@@ -186,7 +194,6 @@ export const keywords: Keywords = {
   apache: 'Apache',
   docker: 'Docker',
   dockers: 'Docker',
-
   'ci/cd': 'CI/CD',
   ci: 'CI/CD',
   cd: 'CI/CD',
@@ -194,9 +201,20 @@ export const keywords: Keywords = {
   terraform: 'Terraform',
   kubernetes: 'Kubernetes',
   kubernets: 'Kubernetes', //sic
+  k8s: 'Kubernetes',
   firebase: 'Firebase',
   tomcat: 'Tomcat',
-  amplify: 'Amplify',
+  amplify: 'AWS Amplify',
+  kynesis: 'AWS Kynesis',
+  cloudfront: 'AWS Cloudfront',
+  ecs: 'AWS ECS',
+  rds: 'AWS RDS',
+  sqs: 'AWS SQS',
+  s3: 'AWS S3',
+  lambda: 'AWS Lambda',
+  sns: 'AWS SNS',
+  cloudwatch: 'AWS Cloudwatch',
+  //END OF CLOUD
 
   //TESTING,
   junit: 'JUnit',
@@ -210,6 +228,8 @@ export const keywords: Keywords = {
   tdd: 'TDD',
   bdd: 'BDD',
   ddd: 'DDD',
+  pytest: 'pytest',
+  //END OF TESTING
 
   //MISCELLANEOUS
   git: 'Git',
@@ -220,7 +240,8 @@ export const keywords: Keywords = {
   'clean code': 'Clean Code',
   'clean architecture': 'Clean Architecture',
   lean: 'Lean',
-  kanbam: 'Kanbam',
+  kanbam: 'Kanban', //sic
+  kanban: 'Kanban',
   salesforce: 'Salesforce',
   yaml: 'YAML',
   assembly: 'Assembly',
@@ -243,6 +264,10 @@ export const keywords: Keywords = {
   windows: 'Windows',
   //Design Patterns - multi-word keyword
   iot: 'IoT',
+  xp: 'XP',
+  crm: 'CRM',
+  erp: 'ERP',
+  //END OF MISCELLANEOUS
 
   //DATA SCIENCE
   excel: 'Excel',
@@ -275,4 +300,10 @@ export const keywords: Keywords = {
   kafka: 'Kafka',
   hadoop: 'Hadoop',
   primavera: 'Primavera',
+  //END OF DATA SCIENCE
+
+  //GAME DEVELOPMENT
+  unity: 'Unity',
+  godot: 'Godot',
+  //END OF GAME DEVELOPMENT
 };

@@ -280,6 +280,7 @@ export class LinkedInService {
     if (job.title) {
       const splittedTitle = job.title
         .replaceAll('/', ' ')
+        .replaceAll('\\', ' ')
         .replaceAll(',', ' ')
         .replaceAll('(', ' ')
         .replaceAll(')', ' ')

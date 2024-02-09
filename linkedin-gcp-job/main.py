@@ -217,7 +217,7 @@ def main():
 
     print("Total jobs to add: ", len(job_list))
     try:
-        collection.insert_many(job_list)
+        collection.insert_many(job_list, ordered=False)
     except Exception as e:
         print(f"Error: {e}")
 

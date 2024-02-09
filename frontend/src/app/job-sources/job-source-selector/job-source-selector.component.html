@@ -44,7 +44,7 @@
     </button>
     <div class="w-full">
       <button
-        class="btn btn-accent w-full justify-between"
+        class="btn btn-accent w-full flex-nowrap justify-between"
         (click)="toggleJobCollection(jobCollection.key)"
         [ngClass]="{
           'btn-warning': jobCollection.value.isActive,
@@ -54,6 +54,7 @@
       >
         <div class="flex items-center gap-2">
           <span
+            class="text-balance"
             *ngIf="
               !jobCollection.value.isLoading &&
               !jobCollection.value.hasFailedToLoad

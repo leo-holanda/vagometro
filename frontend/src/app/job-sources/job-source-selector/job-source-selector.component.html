@@ -1,37 +1,37 @@
-<div role="tablist" class="tabs tabs-boxed gap-2 mb-4">
-  <a
-    role="tab"
-    class="tab gap-2 tab-active"
+<div class="join join-vertical lg:join-horizontal w-full mb-4">
+  <button
+    class="btn join-item flex-1"
     [ngClass]="{
-      'tab-active': selectedJobSource == jobSources.gupy
+      'btn-primary': selectedJobSource == jobSources.gupy,
+      'btn-neutral': selectedJobSource != jobSources.gupy
     }"
     (click)="setJobSource(jobSources.gupy)"
   >
     <i class="bx bxs-business"></i>
-    Gupy</a
-  >
-  <a
-    role="tab"
-    class="tab gap-2"
+    Gupy
+  </button>
+  <button
+    class="btn join-item flex-1"
     [ngClass]="{
-      'tab-active': selectedJobSource == jobSources.github
+      'btn-primary': selectedJobSource == jobSources.github,
+      'btn-neutral': selectedJobSource != jobSources.github
     }"
     (click)="setJobSource(jobSources.github)"
   >
     <i class="bx bxl-github"></i>
-    GitHub</a
-  >
-  <a
-    role="tab"
-    class="tab gap-2"
+    GitHub
+  </button>
+  <button
+    class="btn join-item flex-1"
     [ngClass]="{
-      'tab-active': selectedJobSource == jobSources.linkedin
+      'btn-primary': selectedJobSource == jobSources.linkedin,
+      'btn-neutral': selectedJobSource != jobSources.linkedin
     }"
     (click)="setJobSource(jobSources.linkedin)"
   >
-  <i class='bx bxl-linkedin-square'></i>
-    LinkedIn</a
-  >
+    <i class="bx bxl-linkedin-square"></i>
+    LinkedIn
+  </button>
 </div>
 
 <main class="flex flex-col gap-4 rounded-box overflow-y-auto overflow-x-hidden">

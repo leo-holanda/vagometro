@@ -89,26 +89,14 @@ def parse_job_description(soup):
     try:
         div = soup.find(
             'div', class_='description__text description__text--rich')
-    except:
-        return None
 
-    if div:
-        # Remove unwanted elements
-        for element in div.find_all(['span', 'a']):
-            element.decompose()
-
-        # Replace bullet points
-        for ul in div.find_all('ul'):
-            for li in ul.find_all('li'):
-                li.insert(0, '-')
-
-        text = div.get_text(separator='\n').strip()
+        text = div.get_text(" ").strip()
         text = text.replace('\n\n', '')
         text = text.replace('::marker', '-')
         text = text.replace('-\n', '- ')
         text = text.replace('Show less', '').replace('Show more', '')
         return text
-    else:
+    except:
         return None
 
 

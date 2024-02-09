@@ -27,7 +27,7 @@ def get_with_retry(url):
         try:
             response = requests.get(url, headers=headers, timeout=5)
             response.raise_for_status()
-            return BeautifulSoup(response.content, 'html.parser')
+            return BeautifulSoup(response.content, "lxml")
         except Exception as e:
             tm.sleep(delay)
             if (delay < 120):
@@ -116,9 +116,8 @@ def parse_job_page(soup):
         div = soup.find(
             'div', class_='description__text description__text--rich')
         description = div.get_text(" ").strip()
-        description = description.replace('\n\n', '')
-        description = description.replace('::marker', '-')
-        description = description.replace('-\n', '- ')
+        description = description.replace('\n', ' ')
+        description = description.replace('::marker', ' ')
         description = description.replace(
             'Show less', '').replace('Show more', '')
     except:

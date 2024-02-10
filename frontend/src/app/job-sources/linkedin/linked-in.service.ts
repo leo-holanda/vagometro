@@ -4,21 +4,13 @@ import { AtlasService } from 'src/app/atlas/atlas.service';
 import { LinkedInJob, linkedInEmploymentTypesMap } from './linked-in.types';
 import { DisabilityStatuses } from 'src/app/statistics/ranks/disability-rank/disability-rank.model';
 import { MapDataService } from 'src/app/statistics/maps/map-data.service';
-import {
-  specialistLevelRelatedTerms,
-  seniorLevelRelatedTerms,
-  midLevelRelatedTerms,
-  juniorLevelRelatedTerms,
-  traineeLevelRelatedTerms,
-  internLevelRelatedTerms,
-  ExperienceLevels,
-} from 'src/app/shared/keywords-matcher/experience-levels.data';
+import { ExperienceLevels } from 'src/app/shared/keywords-matcher/experience-levels.data';
 import { keywords } from 'src/app/shared/keywords-matcher/technologies.data';
 import { educationRelatedTerms, educationalLevelTerms } from 'src/app/shared/keywords-matcher/education.data';
 import { Job } from 'src/app/job/job.types';
 import { ContractTypes, contractTypeRelatedTerms } from 'src/app/shared/keywords-matcher/contract-types.data';
 import { WorkplaceTypes, workplaceTypeRelatedTerms } from 'src/app/shared/keywords-matcher/workplace.data';
-import { matchLanguages } from 'src/app/shared/keywords-matcher/keywords-matcher';
+import { matchExperienceLevel, matchLanguages } from 'src/app/shared/keywords-matcher/keywords-matcher';
 
 @Injectable({
   providedIn: 'root',
@@ -161,42 +153,7 @@ export class LinkedInService {
   }
 
   private findExperienceLevels(job: LinkedInJob): ExperienceLevels[] {
-    const jobExperienceLevels: ExperienceLevels[] = [];
-
-    const termsMatchedWithTitle = this.matchExperienceLevelTerms(job.title.split(' '));
-    jobExperienceLevels.push(...termsMatchedWithTitle);
-
-    const termsMatchedWithDescription = this.matchExperienceLevelTerms(job.description.split(' '));
-    jobExperienceLevels.push(...termsMatchedWithDescription);
-
-    if (jobExperienceLevels.length == 0) return [ExperienceLevels.unknown];
-    return this.getUniqueStrings(jobExperienceLevels) as ExperienceLevels[];
-  }
-
-  private matchExperienceLevelTerms(content: string[]): ExperienceLevels[] {
-    const sanitizedContent = content.map((contentItem) => this.removeAccents(contentItem).toLowerCase());
-
-    const matchedExperienceLevels = [];
-
-    const hasSpecialistLevelRelatedTerms = specialistLevelRelatedTerms.some((term) => sanitizedContent.includes(term));
-    if (hasSpecialistLevelRelatedTerms) matchedExperienceLevels.push(ExperienceLevels.specialist);
-
-    const hasSeniorLevelRelatedTerms = seniorLevelRelatedTerms.some((term) => sanitizedContent.includes(term));
-    if (hasSeniorLevelRelatedTerms) matchedExperienceLevels.push(ExperienceLevels.senior);
-
-    const hasMidLevelRelatedTerms = midLevelRelatedTerms.some((term) => sanitizedContent.includes(term));
-    if (hasMidLevelRelatedTerms) matchedExperienceLevels.push(ExperienceLevels.mid);
-
-    const hasJuniorLevelRelatedTerms = juniorLevelRelatedTerms.some((term) => sanitizedContent.includes(term));
-    if (hasJuniorLevelRelatedTerms) matchedExperienceLevels.push(ExperienceLevels.junior);
-
-    const hasTraineeLevelRelatedTerms = traineeLevelRelatedTerms.some((term) => sanitizedContent.includes(term));
-    if (hasTraineeLevelRelatedTerms) matchedExperienceLevels.push(ExperienceLevels.intern);
-
-    const hasInternLevelRelatedTerms = internLevelRelatedTerms.some((term) => sanitizedContent.includes(term));
-    if (hasInternLevelRelatedTerms) matchedExperienceLevels.push(ExperienceLevels.intern);
-
-    return matchedExperienceLevels;
+    return matchExperienceLevel({ title: job.title, description: job.description });
   }
 
   private findJobKeywords(job: LinkedInJob): string[] {

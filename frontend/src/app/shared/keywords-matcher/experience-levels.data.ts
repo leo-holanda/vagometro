@@ -17,12 +17,34 @@ export const internLevelRelatedTypes = ['vacancy_type_internship'];
 export const traineeLevelRelatedTypes = ['vacancy_type_trainee'];
 export const juniorLevelRelatedTypes = ['vacancy_type_apprentice', 'vacancy_type_associate'];
 
-export const internLevelRelatedTerms = ['estagiario', 'estagiaria'];
-export const traineeLevelRelatedTerms = ['trainee'];
-export const juniorLevelRelatedTerms = ['júnior', 'junior', 'jr', 'jr.', 'i', 'l'];
+export interface ExperienceLevelRelatedTerms {
+  termsForMatching: string[];
+  defaultTerm: ExperienceLevels;
+}
 
-export const midLevelRelatedTerms = ['plena', 'pleno', 'pleno/sênior', 'pleno/senior', 'pl/sr', 'pl', 'pl.', 'pl/sr.', 'ii', 'll'];
-
-export const seniorLevelRelatedTerms = ['sênior', 'senior', 'sr', 'sr.', 'iii', 'lll'];
-
-export const specialistLevelRelatedTerms = ['especialista'];
+export const experienceLevelRelatedTerms: ExperienceLevelRelatedTerms[] = [
+  {
+    termsForMatching: ['estagiario', 'estagiaria'],
+    defaultTerm: ExperienceLevels.intern,
+  },
+  {
+    termsForMatching: ['trainee'],
+    defaultTerm: ExperienceLevels.trainee,
+  },
+  {
+    termsForMatching: ['júnior', 'junior', 'jr', 'jr.'],
+    defaultTerm: ExperienceLevels.junior,
+  },
+  {
+    termsForMatching: ['plena', 'pleno', 'pleno/sênior', 'pleno/senior', 'pl/sr', 'pl', 'pl.', 'pl/sr.'],
+    defaultTerm: ExperienceLevels.mid,
+  },
+  {
+    termsForMatching: ['sênior', 'senior', 'sr', 'sr.', 'iii', 'lll'],
+    defaultTerm: ExperienceLevels.senior,
+  },
+  {
+    termsForMatching: ['especialista'],
+    defaultTerm: ExperienceLevels.specialist,
+  },
+];

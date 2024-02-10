@@ -4,24 +4,15 @@ import { GitHubJob } from './git-hub-jobs.types';
 import { environment } from 'src/environments/environment';
 import { Observable, defer, first, map, shareReplay } from 'rxjs';
 import { MapDataService } from '../../statistics/maps/map-data.service';
-import {
-  seniorLevelRelatedTerms,
-  midLevelRelatedTerms,
-  juniorLevelRelatedTerms,
-  traineeLevelRelatedTerms,
-  internLevelRelatedTerms,
-  specialistLevelRelatedTerms,
-  ExperienceLevels,
-} from '../../shared/keywords-matcher/experience-levels.data';
+import { ExperienceLevels } from '../../shared/keywords-matcher/experience-levels.data';
 import { keywords } from '../../shared/keywords-matcher/technologies.data';
 import { educationRelatedTerms, educationalLevelTerms } from '../../shared/keywords-matcher/education.data';
-import { languageRelatedTerms } from '../../shared/keywords-matcher/languages.data';
 import { DisabilityStatuses } from '../../statistics/ranks/disability-rank/disability-rank.model';
 import * as zip from '@zip.js/zip.js';
 import { Job } from 'src/app/job/job.types';
 import { ContractTypes, contractTypeRelatedTerms } from 'src/app/shared/keywords-matcher/contract-types.data';
 import { WorkplaceTypes, workplaceTypeRelatedTerms } from 'src/app/shared/keywords-matcher/workplace.data';
-import { matchLanguages } from 'src/app/shared/keywords-matcher/keywords-matcher';
+import { matchExperienceLevel, matchLanguages } from 'src/app/shared/keywords-matcher/keywords-matcher';
 
 @Injectable({
   providedIn: 'root',
@@ -132,45 +123,8 @@ export class GitHubJobsService {
     return this.getUniqueStrings(matchedWorkplaceTypes) as WorkplaceTypes[];
   }
 
-  private findJobExperienceLevel(githubJob: GitHubJob): ExperienceLevels[] {
-    const jobExperienceLevels: ExperienceLevels[] = [];
-
-    const termsMatchedWithLabel = this.matchExperienceLevelTerms(githubJob.labels);
-
-    jobExperienceLevels.push(...termsMatchedWithLabel);
-
-    const termsMatchedWithTitle = this.matchExperienceLevelTerms(githubJob.title.split(' '));
-
-    jobExperienceLevels.push(...termsMatchedWithTitle);
-
-    if (jobExperienceLevels.length == 0) return [ExperienceLevels.unknown];
-    return this.getUniqueStrings(jobExperienceLevels) as ExperienceLevels[];
-  }
-
-  private matchExperienceLevelTerms(labels: string[]): ExperienceLevels[] {
-    const labelContent = labels.map((label) => this.removeAccents(label).toLowerCase());
-
-    const matchedExperienceLevels = [];
-
-    const hasSpecialistLevelRelatedTerms = specialistLevelRelatedTerms.some((term) => labelContent.includes(term));
-    if (hasSpecialistLevelRelatedTerms) matchedExperienceLevels.push(ExperienceLevels.specialist);
-
-    const hasSeniorLevelRelatedTerms = seniorLevelRelatedTerms.some((term) => labelContent.includes(term));
-    if (hasSeniorLevelRelatedTerms) matchedExperienceLevels.push(ExperienceLevels.senior);
-
-    const hasMidLevelRelatedTerms = midLevelRelatedTerms.some((term) => labelContent.includes(term));
-    if (hasMidLevelRelatedTerms) matchedExperienceLevels.push(ExperienceLevels.mid);
-
-    const hasJuniorLevelRelatedTerms = juniorLevelRelatedTerms.some((term) => labelContent.includes(term));
-    if (hasJuniorLevelRelatedTerms) matchedExperienceLevels.push(ExperienceLevels.junior);
-
-    const hasTraineeLevelRelatedTerms = traineeLevelRelatedTerms.some((term) => labelContent.includes(term));
-    if (hasTraineeLevelRelatedTerms) matchedExperienceLevels.push(ExperienceLevels.intern);
-
-    const hasInternLevelRelatedTerms = internLevelRelatedTerms.some((term) => labelContent.includes(term));
-    if (hasInternLevelRelatedTerms) matchedExperienceLevels.push(ExperienceLevels.intern);
-
-    return matchedExperienceLevels;
+  private findJobExperienceLevel(job: GitHubJob): ExperienceLevels[] {
+    return matchExperienceLevel({ title: job.title, description: job.body });
   }
 
   private findJobKeywords(githubJob: GitHubJob): string[] {

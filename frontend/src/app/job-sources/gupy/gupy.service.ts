@@ -3,25 +3,13 @@ import { Observable, map, shareReplay } from 'rxjs';
 import { DisabilityStatuses } from 'src/app/statistics/ranks/disability-rank/disability-rank.model';
 import { GupyJob, gupyContractTypeMap } from './gupy.types';
 import { AtlasService } from 'src/app/atlas/atlas.service';
-import {
-  internLevelRelatedTypes,
-  traineeLevelRelatedTypes,
-  juniorLevelRelatedTypes,
-  specialistLevelRelatedTerms,
-  seniorLevelRelatedTerms,
-  midLevelRelatedTerms,
-  juniorLevelRelatedTerms,
-  traineeLevelRelatedTerms,
-  internLevelRelatedTerms,
-  ExperienceLevels,
-} from 'src/app/shared/keywords-matcher/experience-levels.data';
+import { internLevelRelatedTypes, traineeLevelRelatedTypes, juniorLevelRelatedTypes, ExperienceLevels } from 'src/app/shared/keywords-matcher/experience-levels.data';
 import { keywords } from 'src/app/shared/keywords-matcher/technologies.data';
 import { Job } from 'src/app/job/job.types';
 import { ContractTypes } from 'src/app/shared/keywords-matcher/contract-types.data';
 import { educationRelatedTerms, educationalLevelTerms } from 'src/app/shared/keywords-matcher/education.data';
-import { languageRelatedTerms } from 'src/app/shared/keywords-matcher/languages.data';
 import { WorkplaceTypes } from 'src/app/shared/keywords-matcher/workplace.data';
-import { matchLanguages } from 'src/app/shared/keywords-matcher/keywords-matcher';
+import { matchExperienceLevel, matchLanguages } from 'src/app/shared/keywords-matcher/keywords-matcher';
 
 @Injectable({
   providedIn: 'root',
@@ -151,54 +139,12 @@ export class GupyService {
     return matchLanguages(job.description);
   }
 
-  private findExperienceLevel(gupyJob: GupyJob): ExperienceLevels[] {
-    if (internLevelRelatedTypes.includes(gupyJob.type)) return [ExperienceLevels.intern];
+  private findExperienceLevel(job: GupyJob): ExperienceLevels[] {
+    if (internLevelRelatedTypes.includes(job.type)) return [ExperienceLevels.intern];
+    if (traineeLevelRelatedTypes.includes(job.type)) return [ExperienceLevels.trainee];
+    if (juniorLevelRelatedTypes.includes(job.type)) return [ExperienceLevels.junior];
 
-    if (traineeLevelRelatedTypes.includes(gupyJob.type)) return [ExperienceLevels.trainee];
-
-    if (juniorLevelRelatedTypes.includes(gupyJob.type)) return [ExperienceLevels.junior];
-
-    //TODO: Create function for cleaning string data
-    const contentFromJobTitle = this.removeAccents(gupyJob.name)
-      .replaceAll('/', ' ')
-      .replaceAll(',', ' ')
-      .replaceAll('(', ' ')
-      .replaceAll(')', ' ')
-      .replaceAll('-', ' ')
-      .replaceAll('[', ' ')
-      .replaceAll(']', ' ')
-      .replaceAll(';', ' ');
-    const experienceLevelInTitle = this.matchExperienceLevelTerms(contentFromJobTitle);
-    if (experienceLevelInTitle) return [experienceLevelInTitle];
-
-    const experienceLevelInDescription = this.matchExperienceLevelTerms(gupyJob.description);
-    if (experienceLevelInDescription) return [experienceLevelInDescription];
-
-    return [ExperienceLevels.unknown];
-  }
-
-  private matchExperienceLevelTerms(content: string): ExperienceLevels | undefined {
-    const splittedContent = content.split(' ').map((word) => word.toLowerCase());
-
-    const hasSpecialistLevelRelatedTerms = specialistLevelRelatedTerms.some((term) => splittedContent.includes(term));
-    if (hasSpecialistLevelRelatedTerms) return ExperienceLevels.specialist;
-
-    const hasSeniorLevelRelatedTerms = seniorLevelRelatedTerms.some((term) => splittedContent.includes(term));
-    if (hasSeniorLevelRelatedTerms) return ExperienceLevels.senior;
-
-    const hasMidLevelRelatedTerms = midLevelRelatedTerms.some((term) => splittedContent.includes(term));
-    if (hasMidLevelRelatedTerms) return ExperienceLevels.mid;
-
-    const hasJuniorLevelRelatedTerms = juniorLevelRelatedTerms.some((term) => splittedContent.includes(term));
-    if (hasJuniorLevelRelatedTerms) return ExperienceLevels.junior;
-
-    const hasTraineeLevelRelatedTerms = traineeLevelRelatedTerms.some((term) => splittedContent.includes(term));
-    if (hasTraineeLevelRelatedTerms) return ExperienceLevels.intern;
-
-    const hasInternLevelRelatedTerms = internLevelRelatedTerms.some((term) => splittedContent.includes(term));
-    if (hasInternLevelRelatedTerms) return ExperienceLevels.intern;
-
-    return undefined;
+    return matchExperienceLevel({ title: job.name, description: job.description });
   }
 
   private getJobKeywords(job: GupyJob): string[] {

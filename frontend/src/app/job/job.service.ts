@@ -1,15 +1,10 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, filter, map } from 'rxjs';
 import { DisabilityStatuses } from '../statistics/ranks/disability-rank/disability-rank.model';
-import { ExperienceLevels } from '../statistics/ranks/experience-levels-rank/experience-levels-rank.model';
-import {
-  ContractTypes,
-  Job,
-  TimeWindows,
-  WorkplaceTypes,
-  monthsMap,
-} from './job.types';
-
+import { ContractTypes } from '../shared/keywords-matcher/contract-types.data';
+import { WorkplaceTypes } from '../shared/keywords-matcher/workplace.data';
+import { Job, TimeWindows, monthsMap } from './job.types';
+import { ExperienceLevels } from '../shared/keywords-matcher/experience-levels.data';
 @Injectable({
   providedIn: 'root',
 })
@@ -18,14 +13,10 @@ export class JobService {
   private _jobs$ = new BehaviorSubject<Job[] | undefined>(undefined);
   jobs$ = this._jobs$.asObservable();
 
-  private _currentTimeWindow$ = new BehaviorSubject<TimeWindows>(
-    TimeWindows.all,
-  );
+  private _currentTimeWindow$ = new BehaviorSubject<TimeWindows>(TimeWindows.all);
   currentTimeWindow$ = this._currentTimeWindow$.asObservable();
 
-  private _oldestJobPublishedDate$ = new BehaviorSubject<Date | undefined>(
-    undefined,
-  );
+  private _oldestJobPublishedDate$ = new BehaviorSubject<Date | undefined>(undefined);
   oldestJobPublishedDate$ = this._oldestJobPublishedDate$.asObservable();
 
   setJobs(jobs: Job[] | undefined): void {
@@ -59,9 +50,7 @@ export class JobService {
     return this.jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
-        return jobs.filter((job) =>
-          job.workplaceTypes.includes(workplace as WorkplaceTypes),
-        );
+        return jobs.filter((job) => job.workplaceTypes.includes(workplace as WorkplaceTypes));
       }),
     );
   }
@@ -93,15 +82,11 @@ export class JobService {
     );
   }
 
-  getJobsByExperienceLevel(
-    experienceLevel: ExperienceLevels,
-  ): Observable<Job[]> {
+  getJobsByExperienceLevel(experienceLevel: ExperienceLevels): Observable<Job[]> {
     return this.jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
-        return jobs.filter((job) =>
-          job.experienceLevels.includes(experienceLevel),
-        );
+        return jobs.filter((job) => job.experienceLevels.includes(experienceLevel));
       }),
     );
   }
@@ -151,9 +136,7 @@ export class JobService {
     return minDate;
   }
 
-  getJobsByDisabilityStatus(
-    disabilityStatus: DisabilityStatuses,
-  ): Observable<Job[]> {
+  getJobsByDisabilityStatus(disabilityStatus: DisabilityStatuses): Observable<Job[]> {
     return this.jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
@@ -166,24 +149,18 @@ export class JobService {
     return this.jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
-        if (educationTerm == 'Desconhecido')
-          return jobs.filter((job) => job.educationTerms.length == 0);
+        if (educationTerm == 'Desconhecido') return jobs.filter((job) => job.educationTerms.length == 0);
         return jobs.filter((job) => job.educationTerms.includes(educationTerm));
       }),
     );
   }
 
-  getJobsByEducationalLevelTerms(
-    educationalLevelTerm: string,
-  ): Observable<Job[]> {
+  getJobsByEducationalLevelTerms(educationalLevelTerm: string): Observable<Job[]> {
     return this.jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
-        if (educationalLevelTerm == 'Desconhecido')
-          return jobs.filter((job) => job.educationalLevelTerms.length == 0);
-        return jobs.filter((job) =>
-          job.educationalLevelTerms.includes(educationalLevelTerm),
-        );
+        if (educationalLevelTerm == 'Desconhecido') return jobs.filter((job) => job.educationalLevelTerms.length == 0);
+        return jobs.filter((job) => job.educationalLevelTerms.includes(educationalLevelTerm));
       }),
     );
   }
@@ -192,8 +169,7 @@ export class JobService {
     return this.jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
-        if (language == 'Desconhecido')
-          return jobs.filter((job) => job.languages.length == 0);
+        if (language == 'Desconhecido') return jobs.filter((job) => job.languages.length == 0);
         return jobs.filter((job) => job.languages.includes(language));
       }),
     );

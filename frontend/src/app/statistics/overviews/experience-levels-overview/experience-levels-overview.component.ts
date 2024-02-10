@@ -1,9 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  ExperienceLevelData,
-  ExperienceLevels,
-} from '../../ranks/experience-levels-rank/experience-levels-rank.model';
 import { Observable } from 'rxjs';
 import { Job } from 'src/app/job/job.types';
 import { JobService } from 'src/app/job/job.service';
@@ -18,6 +14,7 @@ import { trackByExperienceLevel } from 'src/app/shared/track-by-functions';
 import { EducationRankComponent } from '../../ranks/education-rank/education-rank.component';
 import { LanguagesRankComponent } from '../../ranks/languages-rank/languages-rank.component';
 import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-comparison/job-postings-comparison.component';
+import { ExperienceLevelData, ExperienceLevels } from 'src/app/shared/keywords-matcher/experience-levels.data';
 
 @Component({
   selector: 'vgm-experience-levels-overview',
@@ -51,29 +48,21 @@ export class ExperienceLevelsOverviewComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.experienceLevelsRank$ =
-      this.statisticsService.getExperienceLevelsRank();
+    this.experienceLevelsRank$ = this.statisticsService.getExperienceLevelsRank();
 
     this.experienceLevelsRank$.subscribe((experienceLevelsRank) => {
       this.selectedLevel = experienceLevelsRank[0].level;
 
-      this.jobsByExperienceLevel$ = this.jobService.getJobsByExperienceLevel(
-        this.selectedLevel,
-      );
+      this.jobsByExperienceLevel$ = this.jobService.getJobsByExperienceLevel(this.selectedLevel);
     });
 
     this.experienceLevelsRank$.subscribe((experienceLevelsRank) => {
-      this.jobsQuantity = experienceLevelsRank.reduce(
-        (acc, Type) => acc + Type.count,
-        0,
-      );
+      this.jobsQuantity = experienceLevelsRank.reduce((acc, Type) => acc + Type.count, 0);
     });
   }
 
   onExperienceLevelClick(experienceLevel: ExperienceLevels): void {
     this.selectedLevel = experienceLevel;
-    this.jobsByExperienceLevel$ = this.jobService.getJobsByExperienceLevel(
-      this.selectedLevel,
-    );
+    this.jobsByExperienceLevel$ = this.jobService.getJobsByExperienceLevel(this.selectedLevel);
   }
 }

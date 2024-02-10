@@ -1,5 +1,5 @@
-import { ContractTypes } from 'src/app/job/job.types';
-import { ExperienceLevels } from 'src/app/statistics/ranks/experience-levels-rank/experience-levels-rank.model';
+import { ContractTypes } from 'src/app/shared/keywords-matcher/contract-types.data';
+import { ExperienceLevels } from 'src/app/shared/keywords-matcher/experience-levels.data';
 
 export type LinkedInJob = {
   _id: number;

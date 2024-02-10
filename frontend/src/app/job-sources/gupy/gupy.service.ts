@@ -1,25 +1,26 @@
 import { Injectable } from '@angular/core';
 import { Observable, map, shareReplay } from 'rxjs';
-import { ContractTypes, Job, WorkplaceTypes } from 'src/app/job/job.types';
 import { DisabilityStatuses } from 'src/app/statistics/ranks/disability-rank/disability-rank.model';
-import { educationRelatedTerms, educationalLevelTerms } from 'src/app/statistics/ranks/education-rank/education-rank.data';
+import { GupyJob, gupyContractTypeMap } from './gupy.types';
+import { AtlasService } from 'src/app/atlas/atlas.service';
 import {
   internLevelRelatedTypes,
   traineeLevelRelatedTypes,
   juniorLevelRelatedTypes,
+  specialistLevelRelatedTerms,
   seniorLevelRelatedTerms,
   midLevelRelatedTerms,
   juniorLevelRelatedTerms,
   traineeLevelRelatedTerms,
   internLevelRelatedTerms,
-  specialistLevelRelatedTerms,
-} from 'src/app/statistics/ranks/experience-levels-rank/experience-levels-rank.data';
-import { ExperienceLevels } from 'src/app/statistics/ranks/experience-levels-rank/experience-levels-rank.model';
-import { keywords } from 'src/app/statistics/ranks/keywords-rank/keywords-rank.data';
-import { languageRelatedTerms } from 'src/app/statistics/ranks/languages-rank/languages-rank.data';
-import { GupyJob } from './gupy.types';
-import { gupyContractTypeMap } from 'src/app/statistics/ranks/type-rank/type-rank.translations';
-import { AtlasService } from 'src/app/atlas/atlas.service';
+  ExperienceLevels,
+} from 'src/app/shared/keywords-matcher/experience-levels.data';
+import { keywords } from 'src/app/shared/keywords-matcher/technologies.data';
+import { Job } from 'src/app/job/job.types';
+import { ContractTypes } from 'src/app/shared/keywords-matcher/contract-types.data';
+import { educationRelatedTerms, educationalLevelTerms } from 'src/app/shared/keywords-matcher/education.data';
+import { languageRelatedTerms } from 'src/app/shared/keywords-matcher/languages.data';
+import { WorkplaceTypes } from 'src/app/shared/keywords-matcher/workplace.data';
 
 @Injectable({
   providedIn: 'root',

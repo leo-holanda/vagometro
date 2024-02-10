@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { Observable, map } from 'rxjs';
 import { Job } from 'src/app/job/job.types';
 import { StatisticsService } from '../../statistics.service';
-import { ExperienceLevelData } from './experience-levels-rank.model';
 import { trackByExperienceLevel } from 'src/app/shared/track-by-functions';
+import { ExperienceLevelData } from 'src/app/shared/keywords-matcher/experience-levels.data';
 
 @Component({
   selector: 'vgm-experience-levels-rank',

@@ -1,68 +1,7 @@
+import { ContractTypes } from '../shared/keywords-matcher/contract-types.data';
+import { ExperienceLevels } from '../shared/keywords-matcher/experience-levels.data';
+import { WorkplaceTypes } from '../shared/keywords-matcher/workplace.data';
 import { DisabilityStatuses } from '../statistics/ranks/disability-rank/disability-rank.model';
-import { ExperienceLevels } from '../statistics/ranks/experience-levels-rank/experience-levels-rank.model';
-
-export enum WorkplaceTypes {
-  remote = 'Remoto',
-  hybrid = 'Híbrido',
-  'on-site' = 'Presencial',
-  unknown = 'Desconhecido',
-}
-
-export enum ContractTypes {
-  CLT = 'CLT',
-  PJ = 'Pessoa Jurídica',
-  intern = 'Estágio',
-  freelance = 'Freelance',
-  allocated = 'Alocado',
-  apprentice = 'Aprendiz',
-  associate = 'Associado',
-  talent_pool = 'Piscina de Talentos',
-  summer = 'Verão',
-  temporary = 'Temporário',
-  outsource = 'Terceirizado',
-  volunteer = 'Voluntário',
-  lecturer = 'Palestrante',
-  autonomous = 'Autônomo',
-  trainee = 'Trainee',
-  unknown = 'Desconhecido',
-}
-
-interface workplaceTypeRelatedTerms {
-  [key: string]: WorkplaceTypes;
-}
-
-interface contractTypesRelatedTerms {
-  [key: string]: ContractTypes;
-}
-
-export const workplaceTypeRelatedTerms: workplaceTypeRelatedTerms = {
-  remoto: WorkplaceTypes.remote,
-  remote: WorkplaceTypes.remote,
-  remota: WorkplaceTypes.remote,
-  'home office': WorkplaceTypes.remote,
-  hibrido: WorkplaceTypes.hybrid,
-  hibrida: WorkplaceTypes.hybrid,
-  presencial: WorkplaceTypes['on-site'],
-  'on-site': WorkplaceTypes['on-site'],
-};
-
-export const contractTypeRelatedTerms: contractTypesRelatedTerms = {
-  clt: ContractTypes.CLT,
-  efetivo: ContractTypes.CLT,
-  pj: ContractTypes.PJ,
-  freelance: ContractTypes.freelance,
-  freela: ContractTypes.freelance,
-  estagio: ContractTypes.intern,
-  estagiario: ContractTypes.intern,
-  aprendiz: ContractTypes.apprentice,
-  associado: ContractTypes.associate,
-  piscina: ContractTypes.talent_pool,
-  temporario: ContractTypes.temporary,
-  outsource: ContractTypes.outsource,
-  voluntario: ContractTypes.volunteer,
-  palestrante: ContractTypes.lecturer,
-  autonomo: ContractTypes.autonomous,
-};
 
 export type Job = {
   id: number;

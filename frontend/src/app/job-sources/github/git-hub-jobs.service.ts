@@ -3,8 +3,6 @@ import { Injectable } from '@angular/core';
 import { GitHubJob } from './git-hub-jobs.types';
 import { environment } from 'src/environments/environment';
 import { Observable, defer, first, map, shareReplay } from 'rxjs';
-import { ContractTypes, Job, WorkplaceTypes, contractTypeRelatedTerms, workplaceTypeRelatedTerms } from '../../job/job.types';
-import { ExperienceLevels } from '../../statistics/ranks/experience-levels-rank/experience-levels-rank.model';
 import { MapDataService } from '../../statistics/maps/map-data.service';
 import {
   seniorLevelRelatedTerms,
@@ -13,12 +11,16 @@ import {
   traineeLevelRelatedTerms,
   internLevelRelatedTerms,
   specialistLevelRelatedTerms,
-} from '../../statistics/ranks/experience-levels-rank/experience-levels-rank.data';
-import { keywords } from '../../statistics/ranks/keywords-rank/keywords-rank.data';
-import { educationRelatedTerms, educationalLevelTerms } from '../../statistics/ranks/education-rank/education-rank.data';
-import { languageRelatedTerms } from '../../statistics/ranks/languages-rank/languages-rank.data';
+  ExperienceLevels,
+} from '../../shared/keywords-matcher/experience-levels.data';
+import { keywords } from '../../shared/keywords-matcher/technologies.data';
+import { educationRelatedTerms, educationalLevelTerms } from '../../shared/keywords-matcher/education.data';
+import { languageRelatedTerms } from '../../shared/keywords-matcher/languages.data';
 import { DisabilityStatuses } from '../../statistics/ranks/disability-rank/disability-rank.model';
 import * as zip from '@zip.js/zip.js';
+import { Job } from 'src/app/job/job.types';
+import { ContractTypes, contractTypeRelatedTerms } from 'src/app/shared/keywords-matcher/contract-types.data';
+import { WorkplaceTypes, workplaceTypeRelatedTerms } from 'src/app/shared/keywords-matcher/workplace.data';
 
 @Injectable({
   providedIn: 'root',

@@ -1,14 +1,16 @@
 import { Component, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable, Subject, filter, takeUntil } from 'rxjs';
-import { ContractTypes, Job, WorkplaceTypes } from '../job.types';
 import { StateAbbreviationPipe } from 'src/app/shared/pipes/state-abbreviation.pipe';
-import { ExperienceLevels } from 'src/app/statistics/ranks/experience-levels-rank/experience-levels-rank.model';
 import { FormsModule } from '@angular/forms';
 import { trackByJobId } from 'src/app/shared/track-by-functions';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { DisabilityStatuses } from 'src/app/statistics/ranks/disability-rank/disability-rank.model';
 import { Filter } from './job-list.types';
+import { ContractTypes } from 'src/app/shared/keywords-matcher/contract-types.data';
+import { WorkplaceTypes } from 'src/app/shared/keywords-matcher/workplace.data';
+import { Job } from '../job.types';
+import { ExperienceLevels } from 'src/app/shared/keywords-matcher/experience-levels.data';
 
 @Component({
   selector: 'vgm-job-list',
@@ -80,59 +82,35 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
     console.log(this.filters);
     if (this.filters['jobTitle']) {
       console.log('title');
-      this.filteredJobs = this.filteredJobs.filter((job) =>
-        job.title
-          .toLowerCase()
-          .includes(this.filters['jobTitle']!.toLowerCase()),
-      );
+      this.filteredJobs = this.filteredJobs.filter((job) => job.title.toLowerCase().includes(this.filters['jobTitle']!.toLowerCase()));
     }
 
     if (this.filters['companyName']) {
       console.log('companyName');
 
       const filterCompanyName = this.filters['companyName'].toLowerCase();
-      this.filteredJobs = this.filteredJobs.filter((job) =>
-        job.companyName.toLowerCase().includes(filterCompanyName),
-      );
+      this.filteredJobs = this.filteredJobs.filter((job) => job.companyName.toLowerCase().includes(filterCompanyName));
     }
 
     if (this.filters['experienceLevel']) {
       console.log('experienceLevel');
-      this.filteredJobs = this.filteredJobs.filter((job) =>
-        job.experienceLevels.includes(
-          this.filters['experienceLevel']! as ExperienceLevels,
-        ),
-      );
+      this.filteredJobs = this.filteredJobs.filter((job) => job.experienceLevels.includes(this.filters['experienceLevel']! as ExperienceLevels));
     }
 
     if (this.filters['workplaceType']) {
       console.log('workplaceType');
-      this.filteredJobs = this.filteredJobs.filter((job) =>
-        job.workplaceTypes.includes(
-          this.filters['workplaceType'] as WorkplaceTypes,
-        ),
-      );
+      this.filteredJobs = this.filteredJobs.filter((job) => job.workplaceTypes.includes(this.filters['workplaceType'] as WorkplaceTypes));
     }
 
     if (this.filters['jobLocation']) {
       this.filteredJobs = this.filteredJobs.filter(
-        (job) =>
-          job.city
-            .toLowerCase()
-            .includes(this.filters['jobLocation']!.toLowerCase()) ||
-          job.state
-            .toLowerCase()
-            .includes(this.filters['jobLocation']!.toLowerCase()),
+        (job) => job.city.toLowerCase().includes(this.filters['jobLocation']!.toLowerCase()) || job.state.toLowerCase().includes(this.filters['jobLocation']!.toLowerCase()),
       );
     }
 
     if (this.filters['jobContractType']) {
       console.log('jobContractType');
-      this.filteredJobs = this.filteredJobs.filter((job) =>
-        job.contractTypes.includes(
-          this.filters['jobContractType']! as ContractTypes,
-        ),
-      );
+      this.filteredJobs = this.filteredJobs.filter((job) => job.contractTypes.includes(this.filters['jobContractType']! as ContractTypes));
     }
 
     if (this.filters['publishedDate']) {
@@ -141,9 +119,7 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
       this.filteredJobs = this.filteredJobs.filter((job) => {
         const jobPublishedDate = job.publishedDate.toDateString();
 
-        const filterPublishedDate = new Date(
-          this.filters['publishedDate'] + ' EDT',
-        ).toDateString();
+        const filterPublishedDate = new Date(this.filters['publishedDate'] + ' EDT').toDateString();
 
         return jobPublishedDate == filterPublishedDate;
       });
@@ -151,9 +127,7 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
 
     if (this.filters['disabilityStatus']) {
       console.log('disabilityStatus');
-      this.filteredJobs = this.filteredJobs.filter(
-        (job) => job.disabilityStatus == this.filters['disabilityStatus'],
-      );
+      this.filteredJobs = this.filteredJobs.filter((job) => job.disabilityStatus == this.filters['disabilityStatus']);
     }
   }
 

@@ -1,13 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable, map, shareReplay } from 'rxjs';
 import { AtlasService } from 'src/app/atlas/atlas.service';
-import { ContractTypes, Job, WorkplaceTypes, contractTypeRelatedTerms, workplaceTypeRelatedTerms } from 'src/app/job/job.types';
-import { LinkedInJob, linkedInEmploymentTypesMap, linkedInSeniorityLevelsMap } from './linked-in.types';
+import { LinkedInJob, linkedInEmploymentTypesMap } from './linked-in.types';
 import { DisabilityStatuses } from 'src/app/statistics/ranks/disability-rank/disability-rank.model';
-import { ExperienceLevels } from 'src/app/statistics/ranks/experience-levels-rank/experience-levels-rank.model';
-import { keywords } from 'src/app/statistics/ranks/keywords-rank/keywords-rank.data';
-import { educationRelatedTerms, educationalLevelTerms } from 'src/app/statistics/ranks/education-rank/education-rank.data';
-import { languageRelatedTerms } from 'src/app/statistics/ranks/languages-rank/languages-rank.data';
+import { MapDataService } from 'src/app/statistics/maps/map-data.service';
 import {
   specialistLevelRelatedTerms,
   seniorLevelRelatedTerms,
@@ -15,8 +11,14 @@ import {
   juniorLevelRelatedTerms,
   traineeLevelRelatedTerms,
   internLevelRelatedTerms,
-} from 'src/app/statistics/ranks/experience-levels-rank/experience-levels-rank.data';
-import { MapDataService } from 'src/app/statistics/maps/map-data.service';
+  ExperienceLevels,
+} from 'src/app/shared/keywords-matcher/experience-levels.data';
+import { keywords } from 'src/app/shared/keywords-matcher/technologies.data';
+import { educationRelatedTerms, educationalLevelTerms } from 'src/app/shared/keywords-matcher/education.data';
+import { languageRelatedTerms } from 'src/app/shared/keywords-matcher/languages.data';
+import { Job } from 'src/app/job/job.types';
+import { ContractTypes, contractTypeRelatedTerms } from 'src/app/shared/keywords-matcher/contract-types.data';
+import { WorkplaceTypes, workplaceTypeRelatedTerms } from 'src/app/shared/keywords-matcher/workplace.data';
 
 @Injectable({
   providedIn: 'root',

@@ -4,7 +4,7 @@ import { TypeData } from '../../ranks/type-rank/type-rank.model';
 import { Observable } from 'rxjs';
 import { JobService } from 'src/app/job/job.service';
 import { StatisticsService } from '../../statistics.service';
-import { ContractTypes, Job } from 'src/app/job/job.types';
+import { Job } from 'src/app/job/job.types';
 import { KeywordsRankComponent } from '../../ranks/keywords-rank/keywords-rank.component';
 import { CompaniesRankComponent } from '../../ranks/companies-rank/companies-rank.component';
 import { WorkplaceRankComponent } from '../../ranks/workplace-rank/workplace-rank.component';
@@ -15,6 +15,7 @@ import { trackByType } from 'src/app/shared/track-by-functions';
 import { EducationRankComponent } from '../../ranks/education-rank/education-rank.component';
 import { LanguagesRankComponent } from '../../ranks/languages-rank/languages-rank.component';
 import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-comparison/job-postings-comparison.component';
+import { ContractTypes } from 'src/app/shared/keywords-matcher/contract-types.data';
 
 @Component({
   selector: 'vgm-types-overview',

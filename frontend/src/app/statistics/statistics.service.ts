@@ -5,12 +5,13 @@ import { CityData, StateData } from './ranks/cities-rank/cities-rank.model';
 import { WorkplaceData } from './ranks/workplace-rank/workplace-rank.model';
 import { TypeData } from './ranks/type-rank/type-rank.model';
 import { CompanyData } from './ranks/companies-rank/companies-rank.model';
-import { ContractTypes, Job } from '../job/job.types';
+import { Job } from '../job/job.types';
 import { KeywordData } from './ranks/keywords-rank/keywords-rank.model';
-import { ExperienceLevelData, ExperienceLevels } from './ranks/experience-levels-rank/experience-levels-rank.model';
 import { DisabilityData, DisabilityStatuses } from './ranks/disability-rank/disability-rank.model';
 import { EducationData } from './ranks/education-rank/education-rank.types';
 import { MonthData, ComparisonData } from './ranks/months-rank/months-rank.types';
+import { ContractTypes } from '../shared/keywords-matcher/contract-types.data';
+import { ExperienceLevelData, ExperienceLevels } from '../shared/keywords-matcher/experience-levels.data';
 
 @Injectable({
   providedIn: 'root',

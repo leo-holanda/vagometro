@@ -1,3 +1,18 @@
+export enum ExperienceLevels {
+  intern = 'Estagiário',
+  trainee = 'Trainee',
+  junior = 'Júnior',
+  mid = 'Pleno',
+  senior = 'Sênior',
+  specialist = 'Especialista',
+  unknown = 'Desconhecido',
+}
+
+export type ExperienceLevelData = {
+  level: ExperienceLevels;
+  count: number;
+};
+
 export const internLevelRelatedTypes = ['vacancy_type_internship'];
 export const traineeLevelRelatedTypes = ['vacancy_type_trainee'];
 export const juniorLevelRelatedTypes = ['vacancy_type_apprentice', 'vacancy_type_associate'];

@@ -3,12 +3,12 @@ import { CityData, StateData } from '../statistics/ranks/cities-rank/cities-rank
 import { CompanyData } from '../statistics/ranks/companies-rank/companies-rank.model';
 import { DisabilityData } from '../statistics/ranks/disability-rank/disability-rank.model';
 import { EducationData } from '../statistics/ranks/education-rank/education-rank.types';
-import { ExperienceLevelData } from '../statistics/ranks/experience-levels-rank/experience-levels-rank.model';
 import { KeywordData } from '../statistics/ranks/keywords-rank/keywords-rank.model';
 import { LanguageData } from '../statistics/ranks/languages-rank/languages-rank.types';
 import { MonthData } from '../statistics/ranks/months-rank/months-rank.types';
 import { TypeData } from '../statistics/ranks/type-rank/type-rank.model';
 import { WorkplaceData } from '../statistics/ranks/workplace-rank/workplace-rank.model';
+import { ExperienceLevelData } from './keywords-matcher/experience-levels.data';
 
 export function trackByType(index: number, item: TypeData): string {
   return item.name;

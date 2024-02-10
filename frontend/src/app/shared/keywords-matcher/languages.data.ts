@@ -1,35 +1,45 @@
+export enum Languages {
+  english = 'Inglês',
+  spanish = 'Espanhol',
+  french = 'Francês',
+  german = 'Alemão',
+  mandarin = 'Mandarim',
+  italian = 'Italiano',
+  japanese = 'Japonês',
+}
+
 export interface LanguageRelatedTerms {
-  termForMatching: string;
-  termForListing: string;
+  termsForMatching: string[];
+  defaultTerm: Languages;
 }
 
 export const languageRelatedTerms: LanguageRelatedTerms[] = [
   {
-    termForMatching: 'ingles',
-    termForListing: 'Inglês',
+    termsForMatching: ['ingles', 'inglês', 'english'],
+    defaultTerm: Languages.english,
   },
   {
-    termForMatching: 'english',
-    termForListing: 'Inglês',
+    termsForMatching: ['espanhol', 'español', 'spanish'],
+    defaultTerm: Languages.spanish,
   },
   {
-    termForMatching: 'espanhol',
-    termForListing: 'Espanhol',
+    termsForMatching: ['frances', 'french'],
+    defaultTerm: Languages.french,
   },
   {
-    termForMatching: 'español',
-    termForListing: 'Espanhol',
+    termsForMatching: ['alemao', 'german'],
+    defaultTerm: Languages.german,
   },
   {
-    termForMatching: 'frances',
-    termForListing: 'Francês',
+    termsForMatching: ['mandarim', 'mandarin'],
+    defaultTerm: Languages.mandarin,
   },
   {
-    termForMatching: 'alemao',
-    termForListing: 'Alemão',
+    termsForMatching: ['italiano', 'italian'],
+    defaultTerm: Languages.italian,
   },
   {
-    termForMatching: 'mandarim',
-    termForListing: 'Mandarim',
+    termsForMatching: ['japones', 'japanese'],
+    defaultTerm: Languages.japanese,
   },
 ];

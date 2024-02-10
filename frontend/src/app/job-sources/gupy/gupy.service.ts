@@ -21,6 +21,7 @@ import { ContractTypes } from 'src/app/shared/keywords-matcher/contract-types.da
 import { educationRelatedTerms, educationalLevelTerms } from 'src/app/shared/keywords-matcher/education.data';
 import { languageRelatedTerms } from 'src/app/shared/keywords-matcher/languages.data';
 import { WorkplaceTypes } from 'src/app/shared/keywords-matcher/workplace.data';
+import { matchLanguages } from 'src/app/shared/keywords-matcher/keywords-matcher';
 
 @Injectable({
   providedIn: 'root',
@@ -126,7 +127,7 @@ export class GupyService {
       keywords: this.getJobKeywords(gupyJob),
       educationTerms: this.getJobEducationTerms(gupyJob),
       educationalLevelTerms: this.getJobEducationalLevelTerms(gupyJob),
-      languages: this.getJobLanguages(gupyJob),
+      languages: this.findJobLanguages(gupyJob),
     };
   }
 
@@ -146,9 +147,8 @@ export class GupyService {
     return [WorkplaceTypes.unknown];
   }
 
-  private getJobLanguages(gupyJob: GupyJob): string[] {
-    const jobDescription = this.removeAccents(gupyJob.description.toLowerCase());
-    return languageRelatedTerms.filter((term) => jobDescription.includes(term.termForMatching)).map((term) => term.termForListing);
+  private findJobLanguages(job: GupyJob): string[] {
+    return matchLanguages(job.description);
   }
 
   private findExperienceLevel(gupyJob: GupyJob): ExperienceLevels[] {

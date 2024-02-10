@@ -15,10 +15,10 @@ import {
 } from 'src/app/shared/keywords-matcher/experience-levels.data';
 import { keywords } from 'src/app/shared/keywords-matcher/technologies.data';
 import { educationRelatedTerms, educationalLevelTerms } from 'src/app/shared/keywords-matcher/education.data';
-import { languageRelatedTerms } from 'src/app/shared/keywords-matcher/languages.data';
 import { Job } from 'src/app/job/job.types';
 import { ContractTypes, contractTypeRelatedTerms } from 'src/app/shared/keywords-matcher/contract-types.data';
 import { WorkplaceTypes, workplaceTypeRelatedTerms } from 'src/app/shared/keywords-matcher/workplace.data';
+import { matchLanguages } from 'src/app/shared/keywords-matcher/keywords-matcher';
 
 @Injectable({
   providedIn: 'root',
@@ -68,7 +68,7 @@ export class LinkedInService {
       educationalLevelTerms: educationalLevelTerms,
       experienceLevels: this.findExperienceLevels(job),
       keywords: this.findJobKeywords(job),
-      languages: this.getJobLanguages(job),
+      languages: this.findJobLanguages(job),
       publishedDate: new Date(job.created_at),
       state: this.findJobState(job),
       workplaceTypes: this.getJobWorkplaceType(job),
@@ -263,14 +263,8 @@ export class LinkedInService {
     return [];
   }
 
-  private getJobLanguages(job: LinkedInJob): string[] {
-    if (job.description) {
-      const jobDescription = this.removeAccents(job.description).toLowerCase();
-
-      return languageRelatedTerms.filter((term) => jobDescription.includes(term.termForMatching)).map((term) => term.termForListing);
-    }
-
-    return [];
+  private findJobLanguages(job: LinkedInJob): string[] {
+    return matchLanguages(job.description);
   }
 
   //TODO: Move this function to a utils module

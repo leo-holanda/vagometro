@@ -21,6 +21,7 @@ import * as zip from '@zip.js/zip.js';
 import { Job } from 'src/app/job/job.types';
 import { ContractTypes, contractTypeRelatedTerms } from 'src/app/shared/keywords-matcher/contract-types.data';
 import { WorkplaceTypes, workplaceTypeRelatedTerms } from 'src/app/shared/keywords-matcher/workplace.data';
+import { matchLanguages } from 'src/app/shared/keywords-matcher/keywords-matcher';
 
 @Injectable({
   providedIn: 'root',
@@ -92,7 +93,7 @@ export class GitHubJobsService {
       keywords: this.findJobKeywords(githubJob),
       educationTerms: this.findCitedCoursesInJob(githubJob),
       educationalLevelTerms: this.findEducationalLevelsCitedInJob(githubJob),
-      languages: this.findLanguagesCitedInJob(githubJob),
+      languages: this.findJobLanguages(githubJob),
     };
   }
 
@@ -232,14 +233,8 @@ export class GitHubJobsService {
     return [];
   }
 
-  private findLanguagesCitedInJob(githubJob: GitHubJob): string[] {
-    if (githubJob.body) {
-      const jobDescription = this.removeAccents(githubJob.body).toLowerCase();
-
-      return languageRelatedTerms.filter((term) => jobDescription.includes(term.termForMatching)).map((term) => term.termForListing);
-    }
-
-    return [];
+  private findJobLanguages(job: GitHubJob): string[] {
+    return matchLanguages(job.body);
   }
 
   private findContractTypesCitedInJob(job: GitHubJob): ContractTypes[] {

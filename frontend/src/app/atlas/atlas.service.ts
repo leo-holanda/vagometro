@@ -16,6 +16,7 @@ export class AtlasService {
   private webdevJobsCollection: any;
   private dataJobsCollection: any;
   private qaJobsCollection: any;
+  private aiJobsCollection: any;
   private linkedInDevJobsCollection: any;
 
   private connectionObservable$: any;
@@ -33,16 +34,12 @@ export class AtlasService {
       const mongoDB = app.currentUser.mongoClient(environment.DATA_SOURCE_NAME);
 
       this.mobileJobsCollection = mongoDB.db(environment.GUPY_DATABASE_NAME).collection(environment.GUPY_MOBILE_COLLECTION_NAME);
-
       this.devopsJobsCollection = mongoDB.db(environment.GUPY_DATABASE_NAME).collection(environment.GUPY_DEVOPS_COLLECTION_NAME);
-
       this.uiuxJobsCollection = mongoDB.db(environment.GUPY_DATABASE_NAME).collection(environment.GUPY_UIUX_COLLECTION_NAME);
-
       this.webdevJobsCollection = mongoDB.db(environment.GUPY_DATABASE_NAME).collection(environment.GUPY_WEBDEV_COLLECTION_NAME);
-
       this.dataJobsCollection = mongoDB.db(environment.GUPY_DATABASE_NAME).collection(environment.GUPY_DATA_COLLECTION_NAME);
-
       this.qaJobsCollection = mongoDB.db(environment.GUPY_DATABASE_NAME).collection(environment.GUPY_QA_COLLECTION_NAME);
+      this.aiJobsCollection = mongoDB.db(environment.GUPY_DATABASE_NAME).collection(environment.GUPY_AI_COLLECTION_NAME);
 
       this.linkedInDevJobsCollection = mongoDB.db(environment.LINKEDIN_DATABASE_NAME).collection(environment.LINKEDIN_DEV_COLLECTION_NAME);
     }
@@ -50,6 +47,10 @@ export class AtlasService {
 
   getLinkedInDevJobs(): Observable<LinkedInJob[]> {
     return this.connectionObservable$.pipe(switchMap(() => this.linkedInDevJobsCollection.find() as Observable<LinkedInJob[]>));
+  }
+
+  getAIJobs(): Observable<GupyJob[]> {
+    return this.connectionObservable$.pipe(switchMap(() => this.aiJobsCollection.find() as Observable<GupyJob[]>));
   }
 
   getQAJobs(): Observable<GupyJob[]> {

@@ -31,6 +31,7 @@ export class GupyService {
   uiuxJobs$: Observable<Job[]>;
   dataJobs$: Observable<Job[]>;
   qaJobs$: Observable<Job[]>;
+  aiJobs$: Observable<Job[]>;
 
   constructor(private atlasService: AtlasService) {
     this.devJobs$ = this.getDevJobsObservable();
@@ -39,6 +40,16 @@ export class GupyService {
     this.uiuxJobs$ = this.getUIUXJobsObservable();
     this.dataJobs$ = this.getDataJobsObservable();
     this.qaJobs$ = this.getQAJobsObservable();
+    this.aiJobs$ = this.getAIJobsObservable();
+  }
+
+  private getAIJobsObservable(): Observable<Job[]> {
+    return this.atlasService.getAIJobs().pipe(
+      map((jobs) => {
+        return jobs.map((job) => this.mapToJob(job)).sort((a, b) => (a.publishedDate > b.publishedDate ? -1 : 1));
+      }),
+      shareReplay(),
+    );
   }
 
   private getQAJobsObservable(): Observable<Job[]> {

@@ -15,6 +15,7 @@ export enum JobCollections {
   gupyuiux = 'gupyuiux',
   gupydados = 'gupydados',
   gupyqa = 'gupyqa',
+  gupyia = 'gupyia',
 
   // GitHub
   frontendbr = 'frontendbr',
@@ -111,6 +112,18 @@ export const jobCollectionsMap: JobCollectionsMap = {
     isLoaded: false,
     hasFailedToLoad: false,
     searchStringKeywords: ['qa', 'teste', 'quality assurance'],
+    initialDailyFetchDate: '09/02/2024',
+  },
+  gupyia: {
+    name: 'IA',
+    icon: 'bx bxs-business',
+    source: JobSources.gupy,
+    dataSource: new Observable(),
+    isActive: false,
+    isLoading: false,
+    isLoaded: false,
+    hasFailedToLoad: false,
+    searchStringKeywords: ['ia', 'ai', 'machine learning', 'inteligencia artificial', 'deep learning'],
     initialDailyFetchDate: '09/02/2024',
   },
   frontendbr: {

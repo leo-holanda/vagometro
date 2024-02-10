@@ -15,14 +15,13 @@ export class AtlasService {
   private uiuxJobsCollection: any;
   private webdevJobsCollection: any;
   private dataJobsCollection: any;
+  private qaJobsCollection: any;
   private linkedInDevJobsCollection: any;
 
   private connectionObservable$: any;
 
   constructor() {
-    this.connectionObservable$ = defer(() => this.openConnection()).pipe(
-      shareReplay(),
-    );
+    this.connectionObservable$ = defer(() => this.openConnection()).pipe(shareReplay());
   }
 
   private async openConnection(): Promise<void> {
@@ -33,74 +32,47 @@ export class AtlasService {
     if (app.currentUser) {
       const mongoDB = app.currentUser.mongoClient(environment.DATA_SOURCE_NAME);
 
-      this.mobileJobsCollection = mongoDB
-        .db(environment.GUPY_DATABASE_NAME)
-        .collection(environment.GUPY_MOBILE_COLLECTION_NAME);
+      this.mobileJobsCollection = mongoDB.db(environment.GUPY_DATABASE_NAME).collection(environment.GUPY_MOBILE_COLLECTION_NAME);
 
-      this.devopsJobsCollection = mongoDB
-        .db(environment.GUPY_DATABASE_NAME)
-        .collection(environment.GUPY_DEVOPS_COLLECTION_NAME);
+      this.devopsJobsCollection = mongoDB.db(environment.GUPY_DATABASE_NAME).collection(environment.GUPY_DEVOPS_COLLECTION_NAME);
 
-      this.uiuxJobsCollection = mongoDB
-        .db(environment.GUPY_DATABASE_NAME)
-        .collection(environment.GUPY_UIUX_COLLECTION_NAME);
+      this.uiuxJobsCollection = mongoDB.db(environment.GUPY_DATABASE_NAME).collection(environment.GUPY_UIUX_COLLECTION_NAME);
 
-      this.webdevJobsCollection = mongoDB
-        .db(environment.GUPY_DATABASE_NAME)
-        .collection(environment.GUPY_WEBDEV_COLLECTION_NAME);
+      this.webdevJobsCollection = mongoDB.db(environment.GUPY_DATABASE_NAME).collection(environment.GUPY_WEBDEV_COLLECTION_NAME);
 
-      this.dataJobsCollection = mongoDB
-        .db(environment.GUPY_DATABASE_NAME)
-        .collection(environment.GUPY_DATA_COLLECTION_NAME);
+      this.dataJobsCollection = mongoDB.db(environment.GUPY_DATABASE_NAME).collection(environment.GUPY_DATA_COLLECTION_NAME);
 
-      this.linkedInDevJobsCollection = mongoDB
-        .db(environment.LINKEDIN_DATABASE_NAME)
-        .collection(environment.LINKEDIN_DEV_COLLECTION_NAME);
+      this.qaJobsCollection = mongoDB.db(environment.GUPY_DATABASE_NAME).collection(environment.GUPY_QA_COLLECTION_NAME);
+
+      this.linkedInDevJobsCollection = mongoDB.db(environment.LINKEDIN_DATABASE_NAME).collection(environment.LINKEDIN_DEV_COLLECTION_NAME);
     }
   }
 
   getLinkedInDevJobs(): Observable<LinkedInJob[]> {
-    return this.connectionObservable$.pipe(
-      switchMap(
-        () =>
-          this.linkedInDevJobsCollection.find() as Observable<LinkedInJob[]>,
-      ),
-    );
+    return this.connectionObservable$.pipe(switchMap(() => this.linkedInDevJobsCollection.find() as Observable<LinkedInJob[]>));
+  }
+
+  getQAJobs(): Observable<GupyJob[]> {
+    return this.connectionObservable$.pipe(switchMap(() => this.qaJobsCollection.find() as Observable<GupyJob[]>));
   }
 
   getDataJobs(): Observable<GupyJob[]> {
-    return this.connectionObservable$.pipe(
-      switchMap(() => this.dataJobsCollection.find() as Observable<GupyJob[]>),
-    );
+    return this.connectionObservable$.pipe(switchMap(() => this.dataJobsCollection.find() as Observable<GupyJob[]>));
   }
 
   getWebDevJobs(): Observable<GupyJob[]> {
-    return this.connectionObservable$.pipe(
-      switchMap(
-        () => this.webdevJobsCollection.find() as Observable<GupyJob[]>,
-      ),
-    );
+    return this.connectionObservable$.pipe(switchMap(() => this.webdevJobsCollection.find() as Observable<GupyJob[]>));
   }
 
   getUIUXJobs(): Observable<GupyJob[]> {
-    return this.connectionObservable$.pipe(
-      switchMap(() => this.uiuxJobsCollection.find() as Observable<GupyJob[]>),
-    );
+    return this.connectionObservable$.pipe(switchMap(() => this.uiuxJobsCollection.find() as Observable<GupyJob[]>));
   }
 
   getMobileJobs(): Observable<GupyJob[]> {
-    return this.connectionObservable$.pipe(
-      switchMap(
-        () => this.mobileJobsCollection.find() as Observable<GupyJob[]>,
-      ),
-    );
+    return this.connectionObservable$.pipe(switchMap(() => this.mobileJobsCollection.find() as Observable<GupyJob[]>));
   }
 
   getDevOpsJobs(): Observable<GupyJob[]> {
-    return this.connectionObservable$.pipe(
-      switchMap(
-        () => this.devopsJobsCollection.find() as Observable<GupyJob[]>,
-      ),
-    );
+    return this.connectionObservable$.pipe(switchMap(() => this.devopsJobsCollection.find() as Observable<GupyJob[]>));
   }
 }

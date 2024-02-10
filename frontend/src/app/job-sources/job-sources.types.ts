@@ -8,14 +8,20 @@ export enum JobSources {
 }
 
 export enum JobCollections {
-  gupy = 'gupy',
-  frontendbr = 'frontendbr',
-  backendbr = 'backendbr',
-  soujava = 'soujava',
+  // Gupy
+  gupydev = 'gupydev',
   gupymobile = 'gupymobile',
   gupydevops = 'gupydevops',
   gupyuiux = 'gupyuiux',
   gupydados = 'gupydados',
+  gupyqa = 'gupyqa',
+
+  // GitHub
+  frontendbr = 'frontendbr',
+  backendbr = 'backendbr',
+  soujava = 'soujava',
+
+  //LinkedIn
   linkedin_dev = 'linkedin_dev',
 }
 
@@ -35,7 +41,7 @@ export type JobCollectionData = {
 export type JobCollectionsMap = Record<JobCollections, JobCollectionData>;
 
 export const jobCollectionsMap: JobCollectionsMap = {
-  gupy: {
+  gupydev: {
     name: 'Desenvolvimento Web',
     icon: 'bx bxs-business',
     source: JobSources.gupy,
@@ -94,6 +100,18 @@ export const jobCollectionsMap: JobCollectionsMap = {
     hasFailedToLoad: false,
     searchStringKeywords: ['data', 'dados'],
     initialDailyFetchDate: '05/02/2024',
+  },
+  gupyqa: {
+    name: 'QA',
+    icon: 'bx bxs-business',
+    source: JobSources.gupy,
+    dataSource: new Observable(),
+    isActive: false,
+    isLoading: false,
+    isLoaded: false,
+    hasFailedToLoad: false,
+    searchStringKeywords: ['qa', 'teste', 'quality assurance'],
+    initialDailyFetchDate: '09/02/2024',
   },
   frontendbr: {
     name: 'frontendbr/vagas',

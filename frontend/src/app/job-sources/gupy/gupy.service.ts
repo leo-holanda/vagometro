@@ -2,10 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, map, shareReplay } from 'rxjs';
 import { ContractTypes, Job, WorkplaceTypes } from 'src/app/job/job.types';
 import { DisabilityStatuses } from 'src/app/statistics/ranks/disability-rank/disability-rank.model';
-import {
-  educationRelatedTerms,
-  educationalLevelTerms,
-} from 'src/app/statistics/ranks/education-rank/education-rank.data';
+import { educationRelatedTerms, educationalLevelTerms } from 'src/app/statistics/ranks/education-rank/education-rank.data';
 import {
   internLevelRelatedTypes,
   traineeLevelRelatedTypes,
@@ -28,26 +25,35 @@ import { AtlasService } from 'src/app/atlas/atlas.service';
   providedIn: 'root',
 })
 export class GupyService {
-  jobs$: Observable<Job[]>;
+  devJobs$: Observable<Job[]>;
   mobileJobs$: Observable<Job[]>;
   devopsJobs$: Observable<Job[]>;
   uiuxJobs$: Observable<Job[]>;
   dataJobs$: Observable<Job[]>;
+  qaJobs$: Observable<Job[]>;
 
   constructor(private atlasService: AtlasService) {
-    this.jobs$ = this.getJobsObservable();
+    this.devJobs$ = this.getDevJobsObservable();
     this.mobileJobs$ = this.getMobileJobsObservable();
     this.devopsJobs$ = this.getDevOpsJobsObservable();
     this.uiuxJobs$ = this.getUIUXJobsObservable();
     this.dataJobs$ = this.getDataJobsObservable();
+    this.qaJobs$ = this.getQAJobsObservable();
+  }
+
+  private getQAJobsObservable(): Observable<Job[]> {
+    return this.atlasService.getQAJobs().pipe(
+      map((jobs) => {
+        return jobs.map((job) => this.mapToJob(job)).sort((a, b) => (a.publishedDate > b.publishedDate ? -1 : 1));
+      }),
+      shareReplay(),
+    );
   }
 
   private getDataJobsObservable(): Observable<Job[]> {
     return this.atlasService.getDataJobs().pipe(
       map((jobs) => {
-        return jobs
-          .map((job) => this.mapToJob(job))
-          .sort((a, b) => (a.publishedDate > b.publishedDate ? -1 : 1));
+        return jobs.map((job) => this.mapToJob(job)).sort((a, b) => (a.publishedDate > b.publishedDate ? -1 : 1));
       }),
       shareReplay(),
     );
@@ -56,9 +62,7 @@ export class GupyService {
   private getUIUXJobsObservable(): Observable<Job[]> {
     return this.atlasService.getUIUXJobs().pipe(
       map((jobs) => {
-        return jobs
-          .map((job) => this.mapToJob(job))
-          .sort((a, b) => (a.publishedDate > b.publishedDate ? -1 : 1));
+        return jobs.map((job) => this.mapToJob(job)).sort((a, b) => (a.publishedDate > b.publishedDate ? -1 : 1));
       }),
       shareReplay(),
     );
@@ -67,9 +71,7 @@ export class GupyService {
   private getDevOpsJobsObservable(): Observable<Job[]> {
     return this.atlasService.getDevOpsJobs().pipe(
       map((jobs) => {
-        return jobs
-          .map((job) => this.mapToJob(job))
-          .sort((a, b) => (a.publishedDate > b.publishedDate ? -1 : 1));
+        return jobs.map((job) => this.mapToJob(job)).sort((a, b) => (a.publishedDate > b.publishedDate ? -1 : 1));
       }),
       shareReplay(),
     );
@@ -78,20 +80,16 @@ export class GupyService {
   private getMobileJobsObservable(): Observable<Job[]> {
     return this.atlasService.getMobileJobs().pipe(
       map((jobs) => {
-        return jobs
-          .map((job) => this.mapToJob(job))
-          .sort((a, b) => (a.publishedDate > b.publishedDate ? -1 : 1));
+        return jobs.map((job) => this.mapToJob(job)).sort((a, b) => (a.publishedDate > b.publishedDate ? -1 : 1));
       }),
       shareReplay(),
     );
   }
 
-  private getJobsObservable(): Observable<Job[]> {
+  private getDevJobsObservable(): Observable<Job[]> {
     return this.atlasService.getWebDevJobs().pipe(
       map((jobs) => {
-        return jobs
-          .map((job) => this.mapToJob(job))
-          .sort((a, b) => (a.publishedDate > b.publishedDate ? -1 : 1));
+        return jobs.map((job) => this.mapToJob(job)).sort((a, b) => (a.publishedDate > b.publishedDate ? -1 : 1));
       }),
       shareReplay(),
     );
@@ -125,9 +123,7 @@ export class GupyService {
   }
 
   private findJobDisabilityStatus(job: GupyJob): DisabilityStatuses {
-    return job.disabilities
-      ? DisabilityStatuses.PCD
-      : DisabilityStatuses.nonPCD;
+    return job.disabilities ? DisabilityStatuses.PCD : DisabilityStatuses.nonPCD;
   }
 
   private getJobWorkplaceType(gupyJob: GupyJob): WorkplaceTypes[] {
@@ -139,23 +135,16 @@ export class GupyService {
   }
 
   private getJobLanguages(gupyJob: GupyJob): string[] {
-    const jobDescription = this.removeAccents(
-      gupyJob.description.toLowerCase(),
-    );
-    return languageRelatedTerms
-      .filter((term) => jobDescription.includes(term.termForMatching))
-      .map((term) => term.termForListing);
+    const jobDescription = this.removeAccents(gupyJob.description.toLowerCase());
+    return languageRelatedTerms.filter((term) => jobDescription.includes(term.termForMatching)).map((term) => term.termForListing);
   }
 
   private findExperienceLevel(gupyJob: GupyJob): ExperienceLevels[] {
-    if (internLevelRelatedTypes.includes(gupyJob.type))
-      return [ExperienceLevels.intern];
+    if (internLevelRelatedTypes.includes(gupyJob.type)) return [ExperienceLevels.intern];
 
-    if (traineeLevelRelatedTypes.includes(gupyJob.type))
-      return [ExperienceLevels.trainee];
+    if (traineeLevelRelatedTypes.includes(gupyJob.type)) return [ExperienceLevels.trainee];
 
-    if (juniorLevelRelatedTypes.includes(gupyJob.type))
-      return [ExperienceLevels.junior];
+    if (juniorLevelRelatedTypes.includes(gupyJob.type)) return [ExperienceLevels.junior];
 
     //TODO: Create function for cleaning string data
     const contentFromJobTitle = this.removeAccents(gupyJob.name)
@@ -167,53 +156,34 @@ export class GupyService {
       .replaceAll('[', ' ')
       .replaceAll(']', ' ')
       .replaceAll(';', ' ');
-    const experienceLevelInTitle =
-      this.matchExperienceLevelTerms(contentFromJobTitle);
+    const experienceLevelInTitle = this.matchExperienceLevelTerms(contentFromJobTitle);
     if (experienceLevelInTitle) return [experienceLevelInTitle];
 
-    const experienceLevelInDescription = this.matchExperienceLevelTerms(
-      gupyJob.description,
-    );
+    const experienceLevelInDescription = this.matchExperienceLevelTerms(gupyJob.description);
     if (experienceLevelInDescription) return [experienceLevelInDescription];
 
     return [ExperienceLevels.unknown];
   }
 
-  private matchExperienceLevelTerms(
-    content: string,
-  ): ExperienceLevels | undefined {
-    const splittedContent = content
-      .split(' ')
-      .map((word) => word.toLowerCase());
+  private matchExperienceLevelTerms(content: string): ExperienceLevels | undefined {
+    const splittedContent = content.split(' ').map((word) => word.toLowerCase());
 
-    const hasSpecialistLevelRelatedTerms = specialistLevelRelatedTerms.some(
-      (term) => splittedContent.includes(term),
-    );
+    const hasSpecialistLevelRelatedTerms = specialistLevelRelatedTerms.some((term) => splittedContent.includes(term));
     if (hasSpecialistLevelRelatedTerms) return ExperienceLevels.specialist;
 
-    const hasSeniorLevelRelatedTerms = seniorLevelRelatedTerms.some((term) =>
-      splittedContent.includes(term),
-    );
+    const hasSeniorLevelRelatedTerms = seniorLevelRelatedTerms.some((term) => splittedContent.includes(term));
     if (hasSeniorLevelRelatedTerms) return ExperienceLevels.senior;
 
-    const hasMidLevelRelatedTerms = midLevelRelatedTerms.some((term) =>
-      splittedContent.includes(term),
-    );
+    const hasMidLevelRelatedTerms = midLevelRelatedTerms.some((term) => splittedContent.includes(term));
     if (hasMidLevelRelatedTerms) return ExperienceLevels.mid;
 
-    const hasJuniorLevelRelatedTerms = juniorLevelRelatedTerms.some((term) =>
-      splittedContent.includes(term),
-    );
+    const hasJuniorLevelRelatedTerms = juniorLevelRelatedTerms.some((term) => splittedContent.includes(term));
     if (hasJuniorLevelRelatedTerms) return ExperienceLevels.junior;
 
-    const hasTraineeLevelRelatedTerms = traineeLevelRelatedTerms.some((term) =>
-      splittedContent.includes(term),
-    );
+    const hasTraineeLevelRelatedTerms = traineeLevelRelatedTerms.some((term) => splittedContent.includes(term));
     if (hasTraineeLevelRelatedTerms) return ExperienceLevels.intern;
 
-    const hasInternLevelRelatedTerms = internLevelRelatedTerms.some((term) =>
-      splittedContent.includes(term),
-    );
+    const hasInternLevelRelatedTerms = internLevelRelatedTerms.some((term) => splittedContent.includes(term));
     if (hasInternLevelRelatedTerms) return ExperienceLevels.intern;
 
     return undefined;
@@ -234,8 +204,7 @@ export class GupyService {
 
     splittedTitle.forEach((substring: string) => {
       // The typeof check is necessary to prevent the keywords constructor being matched.
-      if (keywords[substring] && typeof keywords[substring] === 'string')
-        jobKeywords.push(keywords[substring]);
+      if (keywords[substring] && typeof keywords[substring] === 'string') jobKeywords.push(keywords[substring]);
     });
 
     const splittedDescription = job.description
@@ -248,8 +217,7 @@ export class GupyService {
       .map((substring) => substring.toLowerCase());
 
     splittedDescription.forEach((substring: string) => {
-      if (keywords[substring] && typeof keywords[substring] === 'string')
-        jobKeywords.push(keywords[substring]);
+      if (keywords[substring] && typeof keywords[substring] === 'string') jobKeywords.push(keywords[substring]);
     });
 
     return this.getUniqueStrings(jobKeywords);
@@ -257,16 +225,12 @@ export class GupyService {
 
   private getJobEducationTerms(job: GupyJob): string[] {
     const jobDescription = this.removeAccents(job.description.toLowerCase());
-    return educationRelatedTerms
-      .filter((term) => jobDescription.includes(term.termForMatching))
-      .map((term) => term.termForListing);
+    return educationRelatedTerms.filter((term) => jobDescription.includes(term.termForMatching)).map((term) => term.termForListing);
   }
 
   private getJobEducationalLevelTerms(job: GupyJob): string[] {
     const jobDescription = this.removeAccents(job.description.toLowerCase());
-    return educationalLevelTerms
-      .filter((term) => jobDescription.includes(term.termForMatching))
-      .map((term) => term.termForListing);
+    return educationalLevelTerms.filter((term) => jobDescription.includes(term.termForMatching)).map((term) => term.termForListing);
   }
 
   private removeAccents(string: string) {

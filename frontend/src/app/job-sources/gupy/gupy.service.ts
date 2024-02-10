@@ -9,7 +9,7 @@ import { Job } from 'src/app/job/job.types';
 import { ContractTypes } from 'src/app/shared/keywords-matcher/contract-types.data';
 import { educationRelatedTerms, educationalLevelTerms } from 'src/app/shared/keywords-matcher/education.data';
 import { WorkplaceTypes } from 'src/app/shared/keywords-matcher/workplace.data';
-import { matchExperienceLevel, matchLanguages } from 'src/app/shared/keywords-matcher/keywords-matcher';
+import { matchExperienceLevel, matchKeywords, matchLanguages } from 'src/app/shared/keywords-matcher/keywords-matcher';
 
 @Injectable({
   providedIn: 'root',
@@ -148,37 +148,7 @@ export class GupyService {
   }
 
   private getJobKeywords(job: GupyJob): string[] {
-    const jobKeywords: string[] = [];
-
-    //TODO: Consider replace replaceAll with Regex
-    const splittedTitle = job.name
-      .replaceAll('/', ' ')
-      .replaceAll(',', ' ')
-      .replaceAll('(', ' ')
-      .replaceAll(')', ' ')
-      .replaceAll(';', ' ')
-      .split(' ')
-      .map((substring) => substring.toLowerCase());
-
-    splittedTitle.forEach((substring: string) => {
-      // The typeof check is necessary to prevent the keywords constructor being matched.
-      if (keywords[substring] && typeof keywords[substring] === 'string') jobKeywords.push(keywords[substring]);
-    });
-
-    const splittedDescription = job.description
-      .replaceAll('/', ' ')
-      .replaceAll(',', ' ')
-      .replaceAll('(', ' ')
-      .replaceAll(')', ' ')
-      .replaceAll(';', ' ')
-      .split(' ')
-      .map((substring) => substring.toLowerCase());
-
-    splittedDescription.forEach((substring: string) => {
-      if (keywords[substring] && typeof keywords[substring] === 'string') jobKeywords.push(keywords[substring]);
-    });
-
-    return this.getUniqueStrings(jobKeywords);
+    return matchKeywords({ title: job.name, description: job.description });
   }
 
   private getJobEducationTerms(job: GupyJob): string[] {

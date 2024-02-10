@@ -127,43 +127,8 @@ export class GitHubJobsService {
     return matchExperienceLevel({ title: job.title, description: job.body });
   }
 
-  private findJobKeywords(githubJob: GitHubJob): string[] {
-    const jobKeywords: string[] = [];
-
-    //TODO: Apparently there are some jobs without title or body. Investigate this.
-    //TODO: Consider replace replaceAll with Regex
-    if (githubJob.title) {
-      const splittedTitle = githubJob.title
-        .replaceAll('/', ' ')
-        .replaceAll(',', ' ')
-        .replaceAll('(', ' ')
-        .replaceAll(')', ' ')
-        .replaceAll(';', ' ')
-        .split(' ')
-        .map((substring) => substring.toLowerCase());
-
-      splittedTitle.forEach((substring: string) => {
-        // The typeof check is necessary to prevent the keywords constructor being matched.
-        if (keywords[substring] && typeof keywords[substring] === 'string') jobKeywords.push(keywords[substring]);
-      });
-    }
-
-    if (githubJob.body) {
-      const splittedDescription = githubJob.body
-        .replaceAll('/', ' ')
-        .replaceAll(',', ' ')
-        .replaceAll('(', ' ')
-        .replaceAll(')', ' ')
-        .replaceAll(';', ' ')
-        .split(' ')
-        .map((substring) => substring.toLowerCase());
-
-      splittedDescription.forEach((substring: string) => {
-        if (keywords[substring] && typeof keywords[substring] === 'string') jobKeywords.push(keywords[substring]);
-      });
-    }
-
-    return this.getUniqueStrings(jobKeywords);
+  private findJobKeywords(job: GitHubJob): string[] {
+    return matchKeywords({ title: job.title, description: job.body });
   }
 
   private findCitedCoursesInJob(githubJob: GitHubJob): string[] {
@@ -220,4 +185,7 @@ export class GitHubJobsService {
     const uniqueArray = Array.from(uniqueSet);
     return uniqueArray;
   }
+}
+function matchKeywords(arg0: { title: string; description: any }): string[] {
+  throw new Error('Function not implemented.');
 }

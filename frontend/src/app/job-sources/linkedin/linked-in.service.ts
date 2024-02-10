@@ -10,7 +10,7 @@ import { educationRelatedTerms, educationalLevelTerms } from 'src/app/shared/key
 import { Job } from 'src/app/job/job.types';
 import { ContractTypes, contractTypeRelatedTerms } from 'src/app/shared/keywords-matcher/contract-types.data';
 import { WorkplaceTypes, workplaceTypeRelatedTerms } from 'src/app/shared/keywords-matcher/workplace.data';
-import { matchExperienceLevel, matchLanguages } from 'src/app/shared/keywords-matcher/keywords-matcher';
+import { matchExperienceLevel, matchKeywords, matchLanguages } from 'src/app/shared/keywords-matcher/keywords-matcher';
 
 @Injectable({
   providedIn: 'root',
@@ -157,43 +157,7 @@ export class LinkedInService {
   }
 
   private findJobKeywords(job: LinkedInJob): string[] {
-    const jobKeywords: string[] = [];
-
-    //TODO: Apparently there are some jobs without title or body. Investigate this.
-    //TODO: Consider replace replaceAll with Regex
-    if (job.title) {
-      const splittedTitle = job.title
-        .replaceAll('/', ' ')
-        .replaceAll('\\', ' ')
-        .replaceAll(',', ' ')
-        .replaceAll('(', ' ')
-        .replaceAll(')', ' ')
-        .replaceAll(';', ' ')
-        .split(' ')
-        .map((substring) => substring.toLowerCase());
-
-      splittedTitle.forEach((substring: string) => {
-        // The typeof check is necessary to prevent the keywords constructor being matched.
-        if (keywords[substring] && typeof keywords[substring] === 'string') jobKeywords.push(keywords[substring]);
-      });
-    }
-
-    if (job.description) {
-      const splittedDescription = job.description
-        .replaceAll('/', ' ')
-        .replaceAll(',', ' ')
-        .replaceAll('(', ' ')
-        .replaceAll(')', ' ')
-        .replaceAll(';', ' ')
-        .split(' ')
-        .map((substring) => substring.toLowerCase());
-
-      splittedDescription.forEach((substring: string) => {
-        if (keywords[substring] && typeof keywords[substring] === 'string') jobKeywords.push(keywords[substring]);
-      });
-    }
-
-    return this.getUniqueStrings(jobKeywords);
+    return matchKeywords({ title: job.title, description: job.description });
   }
 
   private getJobEducationTerms(job: LinkedInJob): string[] {

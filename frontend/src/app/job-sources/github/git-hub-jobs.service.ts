@@ -5,14 +5,13 @@ import { environment } from 'src/environments/environment';
 import { Observable, defer, first, map, shareReplay } from 'rxjs';
 import { MapDataService } from '../../statistics/maps/map-data.service';
 import { ExperienceLevels } from '../../shared/keywords-matcher/experience-levels.data';
-import { keywords } from '../../shared/keywords-matcher/technologies.data';
 import { educationRelatedTerms, educationalLevelTerms } from '../../shared/keywords-matcher/education.data';
 import { DisabilityStatuses } from '../../statistics/ranks/disability-rank/disability-rank.model';
 import * as zip from '@zip.js/zip.js';
 import { Job } from 'src/app/job/job.types';
 import { ContractTypes, contractTypeRelatedTerms } from 'src/app/shared/keywords-matcher/contract-types.data';
 import { WorkplaceTypes, workplaceTypeRelatedTerms } from 'src/app/shared/keywords-matcher/workplace.data';
-import { matchExperienceLevel, matchLanguages } from 'src/app/shared/keywords-matcher/keywords-matcher';
+import { matchExperienceLevel, matchKeywords, matchLanguages } from 'src/app/shared/keywords-matcher/keywords-matcher';
 
 @Injectable({
   providedIn: 'root',
@@ -185,7 +184,4 @@ export class GitHubJobsService {
     const uniqueArray = Array.from(uniqueSet);
     return uniqueArray;
   }
-}
-function matchKeywords(arg0: { title: string; description: any }): string[] {
-  throw new Error('Function not implemented.');
 }

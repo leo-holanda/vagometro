@@ -229,6 +229,11 @@ export const keywords: Keywords = {
   bdd: 'BDD',
   ddd: 'DDD',
   pytest: 'pytest',
+  mocks: 'Mocks',
+  stubs: 'Stubs',
+  fakes: 'Fakes',
+  spies: 'Spies',
+  dummies: 'Dummies',
   //END OF TESTING
 
   //MISCELLANEOUS

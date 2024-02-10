@@ -1,28 +1,28 @@
 import { ExperienceLevels, experienceLevelRelatedTerms } from './experience-levels.data';
 import { Languages, languageRelatedTerms } from './languages.data';
 
-export function matchLanguages(content: string): Languages[] {
-  const sanitizedContent = removeAccents(content).toLowerCase();
+export function matchLanguages(content: string | undefined): Languages[] {
+  if (!content) return [];
 
+  const sanitizedContent = sanitizeString(content);
   const matchedLanguages = languageRelatedTerms
-    .filter((languageTerm) => {
-      const hasTerm = languageTerm.termsForMatching.some((term) => sanitizedContent.includes(term));
-      return hasTerm;
-    })
+    .filter((languageTerm) => languageTerm.termsForMatching.some((term) => sanitizedContent.includes(term)))
     .map((languageTerm) => languageTerm.defaultTerm);
 
   return getUniqueStrings(matchedLanguages) as Languages[];
 }
 
-export function matchExperienceLevel(content: { title: string; description: string }): ExperienceLevels[] {
+export function matchExperienceLevel(content: { title: string | undefined; description: string | undefined }): ExperienceLevels[] {
   const matchedExperienceLevels: ExperienceLevels[] = [];
 
   // Split is necessary to avoid matching abbreviations like sr (sênior) and pl (pleno)
-  const sanitizedContent = sanitizeString(content.title).split(' ');
-  matchedExperienceLevels.push(...matchExperienceLevelTerms(sanitizedContent));
+  if (content.title) {
+    const sanitizedContent = sanitizeString(content.title).split(' ');
+    matchedExperienceLevels.push(...matchExperienceLevelTerms(sanitizedContent));
+  }
 
   // If you didn't found the level in the title, try the description
-  if (matchedExperienceLevels.length == 0) {
+  if (matchedExperienceLevels.length == 0 && content.description) {
     const sanitizedContent = sanitizeString(content.description).split(' ');
     matchedExperienceLevels.push(...matchExperienceLevelTerms(sanitizedContent));
   }

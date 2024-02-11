@@ -14,7 +14,7 @@ import { PublicationChartComponent } from '../../charts/publication-chart/public
 import { EducationRankComponent } from '../../ranks/education-rank/education-rank.component';
 import { LanguagesRankComponent } from '../../ranks/languages-rank/languages-rank.component';
 import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-comparison/job-postings-comparison.component';
-import { InclusionData, InclusionTypes } from '../../ranks/inclusion-rank/inclusion-rank.model';
+import { InclusionData, InclusionTypes } from '../../../shared/keywords-matcher/inclusion.data';
 import { trackByInclusionType } from 'src/app/shared/track-by-functions';
 
 @Component({
@@ -50,12 +50,11 @@ export class InclusionOverviewComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.jobsByInclusionType$ = this.jobService.getJobsByInclusionType(this.selectedInclusionType);
-
     this.inclusionRank$ = this.statisticsService.getInclusionRank();
 
     this.inclusionRank$.subscribe((inclusionRank) => {
       this.selectedInclusionType = inclusionRank[0].name;
+      this.jobsByInclusionType$ = this.jobService.getJobsByInclusionType(this.selectedInclusionType);
       this.jobsQuantity = inclusionRank.reduce((acc, keyword) => acc + keyword.count, 0);
     });
   }

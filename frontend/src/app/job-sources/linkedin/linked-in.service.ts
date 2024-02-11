@@ -17,7 +17,7 @@ import {
   matchWorkplaceTypes,
 } from 'src/app/shared/keywords-matcher/keywords-matcher';
 import { EducationalData } from 'src/app/shared/keywords-matcher/education.data';
-import { InclusionTypes } from 'src/app/statistics/ranks/inclusion-rank/inclusion-rank.model';
+import { InclusionTypes } from 'src/app/shared/keywords-matcher/inclusion.data';
 
 @Injectable({
   providedIn: 'root',

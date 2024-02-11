@@ -1,7 +1,7 @@
 import { ContractTypes } from '../shared/keywords-matcher/contract-types.data';
 import { ExperienceLevels } from '../shared/keywords-matcher/experience-levels.data';
 import { WorkplaceTypes } from '../shared/keywords-matcher/workplace.data';
-import { InclusionTypes } from '../statistics/ranks/inclusion-rank/inclusion-rank.model';
+import { InclusionTypes } from '../shared/keywords-matcher/inclusion.data';
 
 export type Job = {
   id: number;

@@ -1,7 +1,7 @@
-import { InclusionTypes, inclusionRelatedTerms } from 'src/app/statistics/ranks/inclusion-rank/inclusion-rank.model';
 import { ContractTypes, contractTypeRelatedTerms } from './contract-types.data';
 import { EducationalData, EducationalLevels, educationalLevelTerms, higherEducationCoursesNames } from './education.data';
 import { ExperienceLevels, experienceLevelRelatedTerms } from './experience-levels.data';
+import { InclusionTypes, inclusionRelatedTerms } from './inclusion.data';
 import { Languages, languageRelatedTerms } from './languages.data';
 import { keywords } from './technologies.data';
 import { WorkplaceTypes, workplaceTypeRelatedTerms } from './workplace.data';
@@ -193,7 +193,7 @@ export function matchInclusionTypes(content: MatcherInput): InclusionTypes[] {
   }
 
   // TODO: If no match happened but job has a city or state, match with on-site
-
+  if (matchedInclusionTypes.length == 0) return [InclusionTypes.unknown];
   return getUniqueStrings(matchedInclusionTypes) as InclusionTypes[];
 }
 

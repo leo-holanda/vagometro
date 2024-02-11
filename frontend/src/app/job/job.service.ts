@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, filter, map } from 'rxjs';
-import { InclusionTypes } from '../statistics/ranks/inclusion-rank/inclusion-rank.model';
+import { InclusionTypes } from '../shared/keywords-matcher/inclusion.data';
 import { ContractTypes } from '../shared/keywords-matcher/contract-types.data';
 import { WorkplaceTypes } from '../shared/keywords-matcher/workplace.data';
 import { Job, TimeWindows, monthsMap } from './job.types';

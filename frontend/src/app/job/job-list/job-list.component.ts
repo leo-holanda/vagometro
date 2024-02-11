@@ -10,7 +10,7 @@ import { ContractTypes } from 'src/app/shared/keywords-matcher/contract-types.da
 import { WorkplaceTypes } from 'src/app/shared/keywords-matcher/workplace.data';
 import { Job } from '../job.types';
 import { ExperienceLevels } from 'src/app/shared/keywords-matcher/experience-levels.data';
-import { InclusionTypes } from 'src/app/statistics/ranks/inclusion-rank/inclusion-rank.model';
+import { InclusionTypes } from 'src/app/shared/keywords-matcher/inclusion.data';
 
 @Component({
   selector: 'vgm-job-list',
@@ -79,28 +79,23 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
 
   filterJobs(): void {
     this.filteredJobs = [...this.pristineJobs];
-    console.log(this.filters);
+
     if (this.filters['jobTitle']) {
-      console.log('title');
       this.filteredJobs = this.filteredJobs.filter((job) => job.title.toLowerCase().includes(this.filters['jobTitle']!.toLowerCase()));
     }
 
     if (this.filters['companyName']) {
-      console.log('companyName');
-
       const filterCompanyName = this.filters['companyName'].toLowerCase();
       this.filteredJobs = this.filteredJobs.filter((job) => job.companyName.toLowerCase().includes(filterCompanyName));
     }
 
     if (this.filters['experienceLevel']) {
-      console.log('experienceLevel');
       this.filteredJobs = this.filteredJobs.filter((job) =>
         job.experienceLevels.includes(this.filters['experienceLevel']! as ExperienceLevels),
       );
     }
 
     if (this.filters['workplaceType']) {
-      console.log('workplaceType');
       this.filteredJobs = this.filteredJobs.filter((job) => job.workplaceTypes.includes(this.filters['workplaceType'] as WorkplaceTypes));
     }
 
@@ -113,13 +108,10 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     if (this.filters['jobContractType']) {
-      console.log('jobContractType');
       this.filteredJobs = this.filteredJobs.filter((job) => job.contractTypes.includes(this.filters['jobContractType']! as ContractTypes));
     }
 
     if (this.filters['publishedDate']) {
-      console.log('publishedDate');
-
       this.filteredJobs = this.filteredJobs.filter((job) => {
         const jobPublishedDate = job.publishedDate.toDateString();
 

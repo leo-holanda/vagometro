@@ -19,7 +19,7 @@ import {
   matchKeywords,
   matchLanguages,
 } from 'src/app/shared/keywords-matcher/keywords-matcher';
-import { InclusionTypes } from 'src/app/statistics/ranks/inclusion-rank/inclusion-rank.model';
+import { InclusionTypes } from 'src/app/shared/keywords-matcher/inclusion.data';
 
 @Injectable({
   providedIn: 'root',
@@ -138,7 +138,7 @@ export class GupyService {
   private findJobInclusionTypes(job: GupyJob): InclusionTypes[] {
     const matchedInclusionTypes = matchInclusionTypes({ title: job.name, description: job.description });
     if (job.disabilities && !matchedInclusionTypes.includes(InclusionTypes.PCD)) {
-      matchedInclusionTypes.push(InclusionTypes.PCD);
+      matchedInclusionTypes.push(InclusionTypes.alsoForPCD);
     }
 
     return matchedInclusionTypes;

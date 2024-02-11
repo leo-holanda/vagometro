@@ -7,7 +7,7 @@ import { TypeData } from './ranks/type-rank/type-rank.model';
 import { CompanyData } from './ranks/companies-rank/companies-rank.model';
 import { Job } from '../job/job.types';
 import { KeywordData } from './ranks/keywords-rank/keywords-rank.model';
-import { InclusionData, InclusionTypes } from './ranks/inclusion-rank/inclusion-rank.model';
+import { InclusionData, InclusionTypes } from '../shared/keywords-matcher/inclusion.data';
 import { EducationData } from './ranks/education-rank/education-rank.types';
 import { MonthData, ComparisonData } from './ranks/months-rank/months-rank.types';
 import { ContractTypes } from '../shared/keywords-matcher/contract-types.data';

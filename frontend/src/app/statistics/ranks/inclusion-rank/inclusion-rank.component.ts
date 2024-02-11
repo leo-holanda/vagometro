@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Observable, map } from 'rxjs';
 import { Job } from 'src/app/job/job.types';
 import { StatisticsService } from '../../statistics.service';
-import { InclusionData } from './inclusion-rank.model';
+import { InclusionData } from '../../../shared/keywords-matcher/inclusion.data';
 import { trackByInclusionType } from 'src/app/shared/track-by-functions';
 
 @Component({

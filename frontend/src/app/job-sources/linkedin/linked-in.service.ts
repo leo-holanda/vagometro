@@ -5,12 +5,16 @@ import { LinkedInJob, linkedInEmploymentTypesMap } from './linked-in.types';
 import { DisabilityStatuses } from 'src/app/statistics/ranks/disability-rank/disability-rank.model';
 import { MapDataService } from 'src/app/statistics/maps/map-data.service';
 import { ExperienceLevels } from 'src/app/shared/keywords-matcher/experience-levels.data';
-import { keywords } from 'src/app/shared/keywords-matcher/technologies.data';
-import { educationRelatedTerms, educationalLevelTerms } from 'src/app/shared/keywords-matcher/education.data';
 import { Job } from 'src/app/job/job.types';
 import { ContractTypes, contractTypeRelatedTerms } from 'src/app/shared/keywords-matcher/contract-types.data';
 import { WorkplaceTypes, workplaceTypeRelatedTerms } from 'src/app/shared/keywords-matcher/workplace.data';
-import { matchExperienceLevel, matchKeywords, matchLanguages } from 'src/app/shared/keywords-matcher/keywords-matcher';
+import {
+  matchEducationalTerms,
+  matchExperienceLevel,
+  matchKeywords,
+  matchLanguages,
+} from 'src/app/shared/keywords-matcher/keywords-matcher';
+import { EducationalData } from 'src/app/shared/keywords-matcher/education.data';
 
 @Injectable({
   providedIn: 'root',
@@ -42,8 +46,7 @@ export class LinkedInService {
     const sanitizedJobDescription = job.description.replaceAll('\n', ' ');
     job.description = sanitizedJobDescription;
 
-    const educationTerms = this.getJobEducationTerms(job);
-    const educationalLevelTerms = this.getJobEducationalLevelTerms(job, educationTerms);
+    const { coursesNames, educationalLevels } = this.findEducationalData(job);
 
     return {
       companyUrl: job.company_url,
@@ -56,8 +59,8 @@ export class LinkedInService {
       id: job.id,
       city: this.findJobCity(job),
       contractTypes: this.findJobContractTypes(job),
-      educationTerms: educationTerms,
-      educationalLevelTerms: educationalLevelTerms,
+      educationTerms: coursesNames,
+      educationalLevelTerms: educationalLevels,
       experienceLevels: this.findExperienceLevels(job),
       keywords: this.findJobKeywords(job),
       languages: this.findJobLanguages(job),
@@ -160,28 +163,8 @@ export class LinkedInService {
     return matchKeywords({ title: job.title, description: job.description });
   }
 
-  private getJobEducationTerms(job: LinkedInJob): string[] {
-    if (job.description) {
-      const jobDescription = this.removeAccents(job.description).toLowerCase();
-
-      return educationRelatedTerms.filter((term) => jobDescription.includes(term.termForMatching)).map((term) => term.termForListing);
-    }
-
-    return [];
-  }
-
-  private getJobEducationalLevelTerms(job: LinkedInJob, educationTerms: string[]): string[] {
-    if (job.description) {
-      const jobDescription = this.removeAccents(job.description).toLowerCase();
-
-      const matchedTerms = educationalLevelTerms.filter((term) => jobDescription.includes(term.termForMatching)).map((term) => term.termForListing);
-
-      if (educationTerms.length > 0) matchedTerms.push('Graduação');
-
-      return this.getUniqueStrings(matchedTerms);
-    }
-
-    return [];
+  private findEducationalData(job: LinkedInJob): EducationalData {
+    return matchEducationalTerms(job.description);
   }
 
   private findJobLanguages(job: LinkedInJob): string[] {

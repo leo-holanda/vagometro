@@ -1,3 +1,4 @@
+import { EducationalData, EducationalLevels, educationalLevelTerms, higherEducationCoursesNames } from './education.data';
 import { ExperienceLevels, experienceLevelRelatedTerms } from './experience-levels.data';
 import { Languages, languageRelatedTerms } from './languages.data';
 import { keywords } from './technologies.data';
@@ -51,6 +52,39 @@ export function matchKeywords(content: { title: string | undefined; description:
   }
 
   return getUniqueStrings(jobKeywords);
+}
+
+export function matchEducationalTerms(content: string): EducationalData {
+  if (!content) {
+    return {
+      coursesNames: [],
+      educationalLevels: [EducationalLevels.unknown],
+    };
+  }
+
+  const coursesNames = matchHigherEducationCoursesNames(content);
+  const educationalLevels = matchEducationalLevel(content);
+  if (coursesNames.length > 0) educationalLevels.push(EducationalLevels.bachelors);
+  if (educationalLevels.length == 0) educationalLevels.push(EducationalLevels.unknown);
+
+  return {
+    coursesNames,
+    educationalLevels: getUniqueStrings(educationalLevels) as EducationalLevels[],
+  };
+}
+
+function matchHigherEducationCoursesNames(content: string): string[] {
+  const sanitizedContent = sanitizeString(content);
+  return higherEducationCoursesNames
+    .filter((courseName) => courseName.termsForMatching.some((term) => sanitizedContent.includes(term)))
+    .map((courseName) => courseName.defaultTerm);
+}
+
+function matchEducationalLevel(content: string): string[] {
+  const sanitizedContent = sanitizeString(content);
+  return educationalLevelTerms
+    .filter((educationalLevelTerm) => educationalLevelTerm.termsForMatching.some((term) => sanitizedContent.includes(term)))
+    .map((educationalLevelTerm) => educationalLevelTerm.defaultTerm);
 }
 
 function matchExperienceLevelTerms(splittedContent: string[]): ExperienceLevels[] {

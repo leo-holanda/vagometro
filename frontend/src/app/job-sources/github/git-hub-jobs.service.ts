@@ -5,13 +5,18 @@ import { environment } from 'src/environments/environment';
 import { Observable, defer, first, map, shareReplay } from 'rxjs';
 import { MapDataService } from '../../statistics/maps/map-data.service';
 import { ExperienceLevels } from '../../shared/keywords-matcher/experience-levels.data';
-import { educationRelatedTerms, educationalLevelTerms } from '../../shared/keywords-matcher/education.data';
+import { EducationalData } from '../../shared/keywords-matcher/education.data';
 import { DisabilityStatuses } from '../../statistics/ranks/disability-rank/disability-rank.model';
 import * as zip from '@zip.js/zip.js';
 import { Job } from 'src/app/job/job.types';
 import { ContractTypes, contractTypeRelatedTerms } from 'src/app/shared/keywords-matcher/contract-types.data';
 import { WorkplaceTypes, workplaceTypeRelatedTerms } from 'src/app/shared/keywords-matcher/workplace.data';
-import { matchExperienceLevel, matchKeywords, matchLanguages } from 'src/app/shared/keywords-matcher/keywords-matcher';
+import {
+  matchEducationalTerms,
+  matchExperienceLevel,
+  matchKeywords,
+  matchLanguages,
+} from 'src/app/shared/keywords-matcher/keywords-matcher';
 
 @Injectable({
   providedIn: 'root',
@@ -64,26 +69,28 @@ export class GitHubJobsService {
     );
   }
 
-  private mapToJob(githubJob: GitHubJob): Job {
+  private mapToJob(job: GitHubJob): Job {
+    const { coursesNames, educationalLevels } = this.findEducationalData(job);
+
     return {
       companyUrl: '',
-      jobUrl: githubJob.html_url,
-      workplaceTypes: this.findJobWorkplaceTypes(githubJob),
+      jobUrl: job.html_url,
+      workplaceTypes: this.findJobWorkplaceTypes(job),
       country: 'Brasil',
-      title: githubJob.title,
+      title: job.title,
       state: 'Desconhecido',
       city: 'Desconhecido',
       disabilityStatus: DisabilityStatuses.unknown,
       companyName: 'Desconhecido',
-      description: githubJob.body,
-      id: githubJob.id,
-      publishedDate: new Date(githubJob.created_at),
-      contractTypes: this.findContractTypesCitedInJob(githubJob),
-      experienceLevels: this.findJobExperienceLevel(githubJob),
-      keywords: this.findJobKeywords(githubJob),
-      educationTerms: this.findCitedCoursesInJob(githubJob),
-      educationalLevelTerms: this.findEducationalLevelsCitedInJob(githubJob),
-      languages: this.findJobLanguages(githubJob),
+      description: job.body,
+      id: job.id,
+      publishedDate: new Date(job.created_at),
+      contractTypes: this.findContractTypesCitedInJob(job),
+      experienceLevels: this.findJobExperienceLevel(job),
+      keywords: this.findJobKeywords(job),
+      educationTerms: coursesNames,
+      educationalLevelTerms: educationalLevels,
+      languages: this.findJobLanguages(job),
     };
   }
 
@@ -130,25 +137,8 @@ export class GitHubJobsService {
     return matchKeywords({ title: job.title, description: job.body });
   }
 
-  private findCitedCoursesInJob(githubJob: GitHubJob): string[] {
-    //TODO: Apparently there are some jobs without title or body. Investigate this.
-    if (githubJob.body) {
-      const jobDescription = this.removeAccents(githubJob.body).toLowerCase();
-
-      return educationRelatedTerms.filter((term) => jobDescription.includes(term.termForMatching)).map((term) => term.termForListing);
-    }
-
-    return [];
-  }
-
-  private findEducationalLevelsCitedInJob(githubJob: GitHubJob): string[] {
-    if (githubJob.body) {
-      const jobDescription = this.removeAccents(githubJob.body).toLowerCase();
-
-      return educationalLevelTerms.filter((term) => jobDescription.includes(term.termForMatching)).map((term) => term.termForListing);
-    }
-
-    return [];
+  private findEducationalData(job: GitHubJob): EducationalData {
+    return matchEducationalTerms(job.body);
   }
 
   private findJobLanguages(job: GitHubJob): string[] {

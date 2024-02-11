@@ -3,13 +3,22 @@ import { Observable, map, shareReplay } from 'rxjs';
 import { DisabilityStatuses } from 'src/app/statistics/ranks/disability-rank/disability-rank.model';
 import { GupyJob, gupyContractTypeMap } from './gupy.types';
 import { AtlasService } from 'src/app/atlas/atlas.service';
-import { internLevelRelatedTypes, traineeLevelRelatedTypes, juniorLevelRelatedTypes, ExperienceLevels } from 'src/app/shared/keywords-matcher/experience-levels.data';
-import { keywords } from 'src/app/shared/keywords-matcher/technologies.data';
+import {
+  internLevelRelatedTypes,
+  traineeLevelRelatedTypes,
+  juniorLevelRelatedTypes,
+  ExperienceLevels,
+} from 'src/app/shared/keywords-matcher/experience-levels.data';
 import { Job } from 'src/app/job/job.types';
 import { ContractTypes } from 'src/app/shared/keywords-matcher/contract-types.data';
-import { educationRelatedTerms, educationalLevelTerms } from 'src/app/shared/keywords-matcher/education.data';
+import { EducationalData } from 'src/app/shared/keywords-matcher/education.data';
 import { WorkplaceTypes } from 'src/app/shared/keywords-matcher/workplace.data';
-import { matchExperienceLevel, matchKeywords, matchLanguages } from 'src/app/shared/keywords-matcher/keywords-matcher';
+import {
+  matchEducationalTerms,
+  matchExperienceLevel,
+  matchKeywords,
+  matchLanguages,
+} from 'src/app/shared/keywords-matcher/keywords-matcher';
 
 @Injectable({
   providedIn: 'root',
@@ -96,26 +105,28 @@ export class GupyService {
     );
   }
 
-  private mapToJob(gupyJob: GupyJob): Job {
+  private mapToJob(job: GupyJob): Job {
+    const { coursesNames, educationalLevels } = this.findEducationalData(job);
+
     return {
-      companyUrl: gupyJob.careerPageUrl,
-      jobUrl: gupyJob.jobUrl,
-      workplaceTypes: this.getJobWorkplaceType(gupyJob),
-      country: gupyJob.country,
-      title: gupyJob.name,
-      state: gupyJob.state,
-      city: gupyJob.city,
-      disabilityStatus: this.findJobDisabilityStatus(gupyJob),
-      companyName: gupyJob.careerPageName,
-      description: gupyJob.description,
-      id: gupyJob.id,
-      publishedDate: new Date(gupyJob.publishedDate),
-      contractTypes: this.findJobContractType(gupyJob),
-      experienceLevels: this.findExperienceLevel(gupyJob),
-      keywords: this.getJobKeywords(gupyJob),
-      educationTerms: this.getJobEducationTerms(gupyJob),
-      educationalLevelTerms: this.getJobEducationalLevelTerms(gupyJob),
-      languages: this.findJobLanguages(gupyJob),
+      companyUrl: job.careerPageUrl,
+      jobUrl: job.jobUrl,
+      country: job.country,
+      title: job.name,
+      state: job.state,
+      city: job.city,
+      disabilityStatus: this.findJobDisabilityStatus(job),
+      companyName: job.careerPageName,
+      description: job.description,
+      id: job.id,
+      workplaceTypes: this.getJobWorkplaceType(job),
+      publishedDate: new Date(job.publishedDate),
+      contractTypes: this.findJobContractType(job),
+      experienceLevels: this.findExperienceLevel(job),
+      keywords: this.getJobKeywords(job),
+      educationTerms: coursesNames,
+      educationalLevelTerms: educationalLevels,
+      languages: this.findJobLanguages(job),
     };
   }
 
@@ -151,14 +162,8 @@ export class GupyService {
     return matchKeywords({ title: job.name, description: job.description });
   }
 
-  private getJobEducationTerms(job: GupyJob): string[] {
-    const jobDescription = this.removeAccents(job.description.toLowerCase());
-    return educationRelatedTerms.filter((term) => jobDescription.includes(term.termForMatching)).map((term) => term.termForListing);
-  }
-
-  private getJobEducationalLevelTerms(job: GupyJob): string[] {
-    const jobDescription = this.removeAccents(job.description.toLowerCase());
-    return educationalLevelTerms.filter((term) => jobDescription.includes(term.termForMatching)).map((term) => term.termForListing);
+  private findEducationalData(job: GupyJob): EducationalData {
+    return matchEducationalTerms(job.description);
   }
 
   private removeAccents(string: string) {

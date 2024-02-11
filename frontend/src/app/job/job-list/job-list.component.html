@@ -23,8 +23,6 @@
         <option value="asc">Ascendente</option>
         <option value="desc">Descendente</option>
       </select>
-
-      <button class="b"></button>
     </label>
 
     <dialog #filterAndSortModal class="modal modal-top md:modal-middle">
@@ -35,7 +33,14 @@
               <i class="bx bx-text"></i>
               <span>Título</span>
             </h2>
-            <input [(ngModel)]="filters['jobTitle']" (ngModelChange)="filterJobs()" id="jobTitle" name="jobTitle" type="text" class="input input-bordered rounded-t-none w-full" />
+            <input
+              [(ngModel)]="filters['jobTitle']"
+              (ngModelChange)="filterJobs()"
+              id="jobTitle"
+              name="jobTitle"
+              type="text"
+              class="input input-bordered rounded-t-none w-full"
+            />
           </section>
 
           <section>
@@ -111,7 +116,13 @@
               <i class="bx bxs-hard-hat"></i>
               <span>Tipo de contrato</span>
             </h2>
-            <select [(ngModel)]="filters['jobContractType']" (ngModelChange)="filterJobs()" id="jobType" name="jobType" class="select select-bordered rounded-t-none w-full">
+            <select
+              [(ngModel)]="filters['jobContractType']"
+              (ngModelChange)="filterJobs()"
+              id="jobType"
+              name="jobType"
+              class="select select-bordered rounded-t-none w-full"
+            >
               <option selected></option>
               <option *ngFor="let contractType of contractTypes | keyvalue" [value]="contractType.value">
                 {{ contractType.value }}
@@ -176,7 +187,9 @@
             <div class="flex items-center gap-2">
               <i class="bx bxs-business"></i>
 
-              <a *ngIf="job.companyUrl; else jobWithoutCompanyUrlTemplate" class="text-slate-300 text-sm link" [href]="job.companyUrl">{{ job.companyName }}</a>
+              <a *ngIf="job.companyUrl; else jobWithoutCompanyUrlTemplate" class="text-slate-300 text-sm link" [href]="job.companyUrl">{{
+                job.companyName
+              }}</a>
 
               <ng-template #jobWithoutCompanyUrlTemplate>
                 <a class="text-slate-300 text-sm">{{ job.companyName }}</a>
@@ -272,7 +285,7 @@
               </div>
 
               <ng-container *ngIf="job.educationalLevelTerms.length > 0; else emptyEducationalLevelsTemplate">
-                <div class="flex items-center gap-2">
+                <div class="flex flex-wrap items-center gap-2">
                   <div class="badge badge-neutral" *ngFor="let educacionalLevelTerm of job.educationalLevelTerms">
                     {{ educacionalLevelTerm }}
                   </div>

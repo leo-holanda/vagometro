@@ -9,9 +9,10 @@ import { EducationalData } from '../../shared/keywords-matcher/education.data';
 import { DisabilityStatuses } from '../../statistics/ranks/disability-rank/disability-rank.model';
 import * as zip from '@zip.js/zip.js';
 import { Job } from 'src/app/job/job.types';
-import { ContractTypes, contractTypeRelatedTerms } from 'src/app/shared/keywords-matcher/contract-types.data';
+import { ContractTypes } from 'src/app/shared/keywords-matcher/contract-types.data';
 import { WorkplaceTypes } from 'src/app/shared/keywords-matcher/workplace.data';
 import {
+  matchContractTypes,
   matchEducationalTerms,
   matchExperienceLevel,
   matchKeywords,
@@ -116,22 +117,7 @@ export class GitHubJobsService {
   }
 
   private findContractTypesCitedInJob(job: GitHubJob): ContractTypes[] {
-    const matchedContractTypes: ContractTypes[] = [];
-
-    job.labels.forEach((label) => {
-      const labelContent = this.removeAccents(label).toLowerCase();
-      const matchedContractType = contractTypeRelatedTerms[labelContent];
-      if (matchedContractType) matchedContractTypes.push(matchedContractType);
-    });
-
-    Object.keys(contractTypeRelatedTerms).forEach((term) => {
-      const titleHasTerm = this.removeAccents(job.title).toLowerCase().includes(term);
-
-      if (titleHasTerm) matchedContractTypes.push(contractTypeRelatedTerms[term]);
-    });
-
-    if (matchedContractTypes.length == 0) return [ContractTypes.unknown];
-    return this.getUniqueStrings(matchedContractTypes) as ContractTypes[];
+    return matchContractTypes({ title: job.title, description: job.body, labels: job.labels });
   }
 
   private removeAccents(string: string) {

@@ -31,7 +31,7 @@ export const contractTypeRelatedTerms: contractTypesRelatedTerms = {
   estagiario: ContractTypes.intern,
   aprendiz: ContractTypes.apprentice,
   associado: ContractTypes.associate,
-  piscina: ContractTypes.talent_pool,
+  'banco de talentos': ContractTypes.talent_pool,
   temporario: ContractTypes.temporary,
   outsource: ContractTypes.outsource,
   voluntario: ContractTypes.volunteer,

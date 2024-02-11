@@ -1,3 +1,4 @@
+import { ContractTypes, contractTypeRelatedTerms } from './contract-types.data';
 import { EducationalData, EducationalLevels, educationalLevelTerms, higherEducationCoursesNames } from './education.data';
 import { ExperienceLevels, experienceLevelRelatedTerms } from './experience-levels.data';
 import { Languages, languageRelatedTerms } from './languages.data';
@@ -114,6 +115,42 @@ export function matchWorkplaceTypes(content: MatcherInput): WorkplaceTypes[] {
 
   if (matchedWorkplaceTypes.length == 0) return [WorkplaceTypes.unknown];
   return getUniqueStrings(matchedWorkplaceTypes) as WorkplaceTypes[];
+}
+
+export function matchContractTypes(content: MatcherInput): ContractTypes[] {
+  const matchedContractTypes: ContractTypes[] = [];
+
+  if (content.title) {
+    const sanitizedTitle = sanitizeString(content.title);
+
+    Object.keys(contractTypeRelatedTerms).forEach((term) => {
+      const titleHasTerm = sanitizedTitle.includes(term);
+      if (titleHasTerm) matchedContractTypes.push(contractTypeRelatedTerms[term]);
+    });
+  }
+
+  if (content.description) {
+    const sanitizedDescription = sanitizeString(content.description);
+
+    Object.keys(contractTypeRelatedTerms).forEach((term) => {
+      const descriptionHasTerm = sanitizedDescription.includes(term);
+      if (descriptionHasTerm) matchedContractTypes.push(contractTypeRelatedTerms[term]);
+    });
+  }
+
+  if (content.labels) {
+    const sanitizedLabels = sanitizeString(content.labels.join(' '));
+
+    Object.keys(contractTypeRelatedTerms).forEach((term) => {
+      const labelsHasTerm = sanitizedLabels.includes(term);
+      if (labelsHasTerm) matchedContractTypes.push(contractTypeRelatedTerms[term]);
+    });
+  }
+
+  // TODO: If no match happened but job has a city or state, match with on-site
+
+  if (matchedContractTypes.length == 0) return [ContractTypes.unknown];
+  return getUniqueStrings(matchedContractTypes) as ContractTypes[];
 }
 
 function matchHigherEducationCoursesNames(content: string): string[] {

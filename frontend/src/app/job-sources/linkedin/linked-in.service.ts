@@ -6,9 +6,10 @@ import { DisabilityStatuses } from 'src/app/statistics/ranks/disability-rank/dis
 import { MapDataService } from 'src/app/statistics/maps/map-data.service';
 import { ExperienceLevels } from 'src/app/shared/keywords-matcher/experience-levels.data';
 import { Job } from 'src/app/job/job.types';
-import { ContractTypes, contractTypeRelatedTerms } from 'src/app/shared/keywords-matcher/contract-types.data';
+import { ContractTypes } from 'src/app/shared/keywords-matcher/contract-types.data';
 import { WorkplaceTypes } from 'src/app/shared/keywords-matcher/workplace.data';
 import {
+  matchContractTypes,
   matchEducationalTerms,
   matchExperienceLevel,
   matchKeywords,
@@ -120,27 +121,14 @@ export class LinkedInService {
   }
 
   private findJobContractTypes(job: LinkedInJob): ContractTypes[] {
-    const matchedContractTypes: ContractTypes[] = [];
-
-    // Is sanitized the correct name for this?
-    const sanitizedJobTitle = this.removeAccents(job.title).toLowerCase();
-    const sanitizedJobDescription = this.removeAccents(job.description).toLowerCase();
-
-    Object.keys(contractTypeRelatedTerms).forEach((term) => {
-      const titleHasTerm = sanitizedJobTitle.includes(term);
-      if (titleHasTerm) matchedContractTypes.push(contractTypeRelatedTerms[term]);
-
-      const descriptionHasTerm = sanitizedJobDescription.includes(term);
-      if (descriptionHasTerm) matchedContractTypes.push(contractTypeRelatedTerms[term]);
-    });
+    const matchedContractTypes = matchContractTypes({ title: job.title, description: job.description });
 
     if (matchedContractTypes.length == 0 && job.employment_type) {
       matchedContractTypes.push(linkedInEmploymentTypesMap[job.employment_type] || ContractTypes.unknown);
       return matchedContractTypes;
     }
 
-    if (matchedContractTypes.length == 0) return [ContractTypes.unknown];
-    return this.getUniqueStrings(matchedContractTypes) as ContractTypes[];
+    return matchedContractTypes;
   }
 
   private findExperienceLevels(job: LinkedInJob): ExperienceLevels[] {

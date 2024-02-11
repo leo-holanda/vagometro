@@ -101,7 +101,7 @@ export class GitHubJobsService {
   }
 
   private findJobExperienceLevel(job: GitHubJob): ExperienceLevels[] {
-    return matchExperienceLevel({ title: job.title, description: job.body });
+    return matchExperienceLevel({ title: job.title, description: job.body, labels: job.labels });
   }
 
   private findJobKeywords(job: GitHubJob): string[] {

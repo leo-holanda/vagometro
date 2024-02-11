@@ -22,22 +22,30 @@ export function matchLanguages(content: string | undefined): Languages[] {
   return getUniqueStrings(matchedLanguages) as Languages[];
 }
 
-export function matchExperienceLevel(content: { title: string | undefined; description: string | undefined }): ExperienceLevels[] {
+export function matchExperienceLevel(content: MatcherInput): ExperienceLevels[] {
   const matchedExperienceLevels: ExperienceLevels[] = [];
 
-  // Split is necessary to avoid matching abbreviations like sr (sênior) and pl (pleno)
+  // Split is necessary to avoid wrongly matching abbreviations like sr (sênior) and pl (pleno)
   if (content.title) {
-    const sanitizedContent = sanitizeString(content.title).split(' ');
-    matchedExperienceLevels.push(...matchExperienceLevelTerms(sanitizedContent));
+    const sanitizedTitle = sanitizeString(content.title).split(' ');
+    matchedExperienceLevels.push(...matchExperienceLevelTerms(sanitizedTitle));
   }
 
-  // If you didn't found the level in the title, try the description
+  // The title match has priority. But, if it doesn't happen then try with description
   if (matchedExperienceLevels.length == 0 && content.description) {
-    const sanitizedContent = sanitizeString(content.description).split(' ');
-    matchedExperienceLevels.push(...matchExperienceLevelTerms(sanitizedContent));
+    const sanitizedDescription = sanitizeString(content.description).split(' ');
+    matchedExperienceLevels.push(...matchExperienceLevelTerms(sanitizedDescription));
   }
 
-  return (getUniqueStrings(matchedExperienceLevels) as ExperienceLevels[]) || [ExperienceLevels.unknown];
+  if (matchedExperienceLevels.length == 0 && content.labels) {
+    const sanitizedLabels = sanitizeString(content.labels.join(' ')).split(' ');
+    matchedExperienceLevels.push(...matchExperienceLevelTerms(sanitizedLabels));
+  }
+
+  const uniqueMatchedExperienceLevels = getUniqueStrings(matchedExperienceLevels) as ExperienceLevels[];
+
+  if (uniqueMatchedExperienceLevels.length == 0) return [ExperienceLevels.unknown];
+  return uniqueMatchedExperienceLevels;
 }
 
 export function matchKeywords(content: { title: string | undefined; description: string | undefined }): string[] {
@@ -168,9 +176,14 @@ function matchEducationalLevel(content: string): string[] {
 }
 
 function matchExperienceLevelTerms(splittedContent: string[]): ExperienceLevels[] {
-  return experienceLevelRelatedTerms
-    .filter((experienceLevelTerms) => experienceLevelTerms.termsForMatching.some((term) => splittedContent.includes(term)))
-    .map((experienceLevelTerms) => experienceLevelTerms.defaultTerm);
+  const matchedExperienceLevels: ExperienceLevels[] = [];
+
+  splittedContent.forEach((contentSubstring) => {
+    const matchedExperienceLevel = experienceLevelRelatedTerms[contentSubstring];
+    if (matchedExperienceLevel) matchedExperienceLevels.push(matchedExperienceLevel);
+  });
+
+  return matchedExperienceLevels;
 }
 
 function sanitizeString(content: string): string {

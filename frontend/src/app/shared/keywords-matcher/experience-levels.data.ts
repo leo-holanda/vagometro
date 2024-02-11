@@ -17,34 +17,37 @@ export const internLevelRelatedTypes = ['vacancy_type_internship'];
 export const traineeLevelRelatedTypes = ['vacancy_type_trainee'];
 export const juniorLevelRelatedTypes = ['vacancy_type_apprentice', 'vacancy_type_associate'];
 
-export interface ExperienceLevelRelatedTerms {
-  termsForMatching: string[];
-  defaultTerm: ExperienceLevels;
-}
+export type ExperienceLevelRelatedTerms = {
+  [key: string]: ExperienceLevels;
+};
 
-export const experienceLevelRelatedTerms: ExperienceLevelRelatedTerms[] = [
-  {
-    termsForMatching: ['estagiario', 'estagiaria'],
-    defaultTerm: ExperienceLevels.intern,
-  },
-  {
-    termsForMatching: ['trainee'],
-    defaultTerm: ExperienceLevels.trainee,
-  },
-  {
-    termsForMatching: ['júnior', 'junior', 'jr', 'jr.'],
-    defaultTerm: ExperienceLevels.junior,
-  },
-  {
-    termsForMatching: ['plena', 'pleno', 'pleno/sênior', 'pleno/senior', 'pl/sr', 'pl', 'pl.', 'pl/sr.'],
-    defaultTerm: ExperienceLevels.mid,
-  },
-  {
-    termsForMatching: ['sênior', 'senior', 'sr', 'sr.', 'iii', 'lll'],
-    defaultTerm: ExperienceLevels.senior,
-  },
-  {
-    termsForMatching: ['especialista'],
-    defaultTerm: ExperienceLevels.specialist,
-  },
-];
+export const experienceLevelRelatedTerms: ExperienceLevelRelatedTerms = {
+  estagio: ExperienceLevels.intern,
+  estagiario: ExperienceLevels.intern,
+  estagiaria: ExperienceLevels.intern,
+
+  trainee: ExperienceLevels.trainee,
+
+  júnior: ExperienceLevels.junior,
+  junior: ExperienceLevels.junior,
+  jr: ExperienceLevels.junior,
+  'jr.': ExperienceLevels.junior,
+
+  plena: ExperienceLevels.mid,
+  pleno: ExperienceLevels.mid,
+  'pleno/sênior': ExperienceLevels.mid,
+  'pleno/senior': ExperienceLevels.mid,
+  'pl/sr': ExperienceLevels.mid,
+  pl: ExperienceLevels.mid,
+  'pl.': ExperienceLevels.mid,
+  'pl/sr.': ExperienceLevels.mid,
+
+  sênior: ExperienceLevels.senior,
+  senior: ExperienceLevels.senior,
+  sr: ExperienceLevels.senior,
+  'sr.': ExperienceLevels.senior,
+  iii: ExperienceLevels.senior,
+  lll: ExperienceLevels.senior,
+
+  especialista: ExperienceLevels.specialist,
+};

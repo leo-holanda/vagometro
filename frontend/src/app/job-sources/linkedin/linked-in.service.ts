@@ -7,12 +7,13 @@ import { MapDataService } from 'src/app/statistics/maps/map-data.service';
 import { ExperienceLevels } from 'src/app/shared/keywords-matcher/experience-levels.data';
 import { Job } from 'src/app/job/job.types';
 import { ContractTypes, contractTypeRelatedTerms } from 'src/app/shared/keywords-matcher/contract-types.data';
-import { WorkplaceTypes, workplaceTypeRelatedTerms } from 'src/app/shared/keywords-matcher/workplace.data';
+import { WorkplaceTypes } from 'src/app/shared/keywords-matcher/workplace.data';
 import {
   matchEducationalTerms,
   matchExperienceLevel,
   matchKeywords,
   matchLanguages,
+  matchWorkplaceTypes,
 } from 'src/app/shared/keywords-matcher/keywords-matcher';
 import { EducationalData } from 'src/app/shared/keywords-matcher/education.data';
 
@@ -71,20 +72,7 @@ export class LinkedInService {
   }
 
   private getJobWorkplaceType(job: LinkedInJob): WorkplaceTypes[] {
-    const matchedWorkplaceTypes: WorkplaceTypes[] = [];
-
-    Object.keys(workplaceTypeRelatedTerms).forEach((term) => {
-      const titleHasTerm = this.removeAccents(job.title).toLowerCase().includes(term);
-
-      if (titleHasTerm) matchedWorkplaceTypes.push(workplaceTypeRelatedTerms[term]);
-
-      const descriptionHasTerm = this.removeAccents(job.description).toLowerCase().includes(term);
-
-      if (descriptionHasTerm) matchedWorkplaceTypes.push(workplaceTypeRelatedTerms[term]);
-    });
-
-    if (matchedWorkplaceTypes.length == 0) return [WorkplaceTypes.unknown];
-    return this.getUniqueStrings(matchedWorkplaceTypes) as WorkplaceTypes[];
+    return matchWorkplaceTypes({ title: job.title, description: job.description });
   }
 
   private findJobState(job: LinkedInJob): string {

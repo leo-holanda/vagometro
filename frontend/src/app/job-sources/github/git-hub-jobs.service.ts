@@ -10,12 +10,13 @@ import { DisabilityStatuses } from '../../statistics/ranks/disability-rank/disab
 import * as zip from '@zip.js/zip.js';
 import { Job } from 'src/app/job/job.types';
 import { ContractTypes, contractTypeRelatedTerms } from 'src/app/shared/keywords-matcher/contract-types.data';
-import { WorkplaceTypes, workplaceTypeRelatedTerms } from 'src/app/shared/keywords-matcher/workplace.data';
+import { WorkplaceTypes } from 'src/app/shared/keywords-matcher/workplace.data';
 import {
   matchEducationalTerms,
   matchExperienceLevel,
   matchKeywords,
   matchLanguages,
+  matchWorkplaceTypes,
 } from 'src/app/shared/keywords-matcher/keywords-matcher';
 
 @Injectable({
@@ -94,39 +95,8 @@ export class GitHubJobsService {
     };
   }
 
-  private findJobWorkplaceTypes(githubJob: GitHubJob): WorkplaceTypes[] {
-    const matchedWorkplaceTypes: WorkplaceTypes[] = [];
-
-    githubJob.labels.forEach((label) => {
-      const labelContent = this.removeAccents(label).toLowerCase();
-
-      const matchedWorkplaceType = workplaceTypeRelatedTerms[labelContent];
-
-      if (matchedWorkplaceType) matchedWorkplaceTypes.push(matchedWorkplaceType);
-    });
-
-    Object.keys(workplaceTypeRelatedTerms).forEach((term) => {
-      const titleHasTerm = this.removeAccents(githubJob.title).toLowerCase().includes(term);
-
-      if (titleHasTerm) matchedWorkplaceTypes.push(workplaceTypeRelatedTerms[term]);
-    });
-
-    if (matchedWorkplaceTypes.length == 0) {
-      const hasMatchedLabelWithCityName = githubJob.labels.some((label) => {
-        const labelContent = this.removeAccents(label).toLowerCase();
-        return this.citiesNames.includes(labelContent);
-      });
-
-      if (hasMatchedLabelWithCityName) matchedWorkplaceTypes.push(WorkplaceTypes['on-site']);
-
-      const titleContent = this.removeAccents(githubJob.title).toLowerCase();
-
-      const hasMatchedTitleWithCityName = this.citiesNames.some((cityName) => titleContent.includes(cityName));
-      if (hasMatchedTitleWithCityName) matchedWorkplaceTypes.push(WorkplaceTypes['on-site']);
-    }
-
-    if (matchedWorkplaceTypes.length == 0) return [WorkplaceTypes.unknown];
-    return this.getUniqueStrings(matchedWorkplaceTypes) as WorkplaceTypes[];
+  private findJobWorkplaceTypes(job: GitHubJob): WorkplaceTypes[] {
+    return matchWorkplaceTypes({ title: job.title, description: job.body, labels: job.labels });
   }
 
   private findJobExperienceLevel(job: GitHubJob): ExperienceLevels[] {

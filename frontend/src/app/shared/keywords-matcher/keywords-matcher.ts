@@ -2,6 +2,13 @@ import { EducationalData, EducationalLevels, educationalLevelTerms, higherEducat
 import { ExperienceLevels, experienceLevelRelatedTerms } from './experience-levels.data';
 import { Languages, languageRelatedTerms } from './languages.data';
 import { keywords } from './technologies.data';
+import { WorkplaceTypes, workplaceTypeRelatedTerms } from './workplace.data';
+
+export type MatcherInput = {
+  title: string | undefined;
+  description: string | undefined;
+  labels?: string[];
+};
 
 export function matchLanguages(content: string | undefined): Languages[] {
   if (!content) return [];
@@ -71,6 +78,42 @@ export function matchEducationalTerms(content: string): EducationalData {
     coursesNames,
     educationalLevels: getUniqueStrings(educationalLevels) as EducationalLevels[],
   };
+}
+
+export function matchWorkplaceTypes(content: MatcherInput): WorkplaceTypes[] {
+  const matchedWorkplaceTypes: WorkplaceTypes[] = [];
+
+  if (content.title) {
+    const sanitizedTitle = sanitizeString(content.title);
+
+    Object.keys(workplaceTypeRelatedTerms).forEach((term) => {
+      const titleHasTerm = sanitizedTitle.includes(term);
+      if (titleHasTerm) matchedWorkplaceTypes.push(workplaceTypeRelatedTerms[term]);
+    });
+  }
+
+  if (content.description) {
+    const sanitizedDescription = sanitizeString(content.description);
+
+    Object.keys(workplaceTypeRelatedTerms).forEach((term) => {
+      const descriptionHasTerm = sanitizedDescription.includes(term);
+      if (descriptionHasTerm) matchedWorkplaceTypes.push(workplaceTypeRelatedTerms[term]);
+    });
+  }
+
+  if (content.labels) {
+    const sanitizedLabels = sanitizeString(content.labels.join(' '));
+
+    Object.keys(workplaceTypeRelatedTerms).forEach((term) => {
+      const labelsHasTerm = sanitizedLabels.includes(term);
+      if (labelsHasTerm) matchedWorkplaceTypes.push(workplaceTypeRelatedTerms[term]);
+    });
+  }
+
+  // TODO: If no match happened but job has a city or state, match with on-site
+
+  if (matchedWorkplaceTypes.length == 0) return [WorkplaceTypes.unknown];
+  return getUniqueStrings(matchedWorkplaceTypes) as WorkplaceTypes[];
 }
 
 function matchHigherEducationCoursesNames(content: string): string[] {

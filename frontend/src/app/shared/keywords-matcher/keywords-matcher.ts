@@ -13,18 +13,31 @@ import { keywords } from './technologies.data';
 import { WorkplaceTypes, workplaceTypeRelatedTerms } from './workplace.data';
 
 export type MatcherInput = {
-  title: string | undefined;
-  description: string | undefined;
+  title?: string;
+  description?: string;
   labels?: string[];
 };
 
-export function matchLanguages(content: string | undefined): Languages[] {
-  if (!content) return [];
+export function matchLanguages(content: MatcherInput): Languages[] {
+  const matchedLanguages: Languages[] = [];
 
-  const sanitizedContent = sanitizeString(content);
-  const matchedLanguages = languageRelatedTerms
-    .filter((languageTerm) => languageTerm.termsForMatching.some((term) => sanitizedContent.includes(term)))
-    .map((languageTerm) => languageTerm.defaultTerm);
+  if (content.description) {
+    const sanitizedContent = sanitizeString(content.description);
+    const matchedLanguagesInDescription = languageRelatedTerms
+      .filter((languageTerm) => languageTerm.termsForMatching.some((term) => sanitizedContent.includes(term)))
+      .map((languageTerm) => languageTerm.defaultTerm);
+
+    matchedLanguages.push(...matchedLanguagesInDescription);
+  }
+
+  if (content.labels) {
+    const sanitizedContent = sanitizeString(content.labels.join(' '));
+    const matchedLanguagesInLabels = languageRelatedTerms
+      .filter((languageTerm) => languageTerm.termsForMatching.some((term) => sanitizedContent.includes(term)))
+      .map((languageTerm) => languageTerm.defaultTerm);
+
+    matchedLanguages.push(...matchedLanguagesInLabels);
+  }
 
   return getUniqueStrings(matchedLanguages) as Languages[];
 }
@@ -55,7 +68,7 @@ export function matchExperienceLevel(content: MatcherInput): ExperienceLevels[] 
   return uniqueMatchedExperienceLevels;
 }
 
-export function matchKeywords(content: { title: string | undefined; description: string | undefined }): string[] {
+export function matchKeywords(content: MatcherInput): string[] {
   const jobKeywords: string[] = [];
 
   if (content.title) {
@@ -68,6 +81,14 @@ export function matchKeywords(content: { title: string | undefined; description:
 
   if (content.description) {
     const sanitizedDescription = sanitizeString(content.description).split(' ');
+    sanitizedDescription.forEach((substring: string) => {
+      // The typeof check is necessary to prevent the keywords constructor being matched.
+      if (keywords[substring] && typeof keywords[substring] === 'string') jobKeywords.push(keywords[substring]);
+    });
+  }
+
+  if (content.labels) {
+    const sanitizedDescription = sanitizeString(content.labels.join(' ')).split(' ');
     sanitizedDescription.forEach((substring: string) => {
       // The typeof check is necessary to prevent the keywords constructor being matched.
       if (keywords[substring] && typeof keywords[substring] === 'string') jobKeywords.push(keywords[substring]);

@@ -110,7 +110,7 @@ export class GitHubJobsService {
   }
 
   private findJobKeywords(job: GitHubJob): string[] {
-    return matchKeywords({ title: job.title, description: job.body });
+    return matchKeywords({ title: job.title, description: job.body, labels: job.labels });
   }
 
   private findEducationalData(job: GitHubJob): EducationalData {
@@ -118,7 +118,7 @@ export class GitHubJobsService {
   }
 
   private findJobLanguages(job: GitHubJob): string[] {
-    return matchLanguages(job.body);
+    return matchLanguages({ description: job.body });
   }
 
   private findContractTypesCitedInJob(job: GitHubJob): ContractTypes[] {

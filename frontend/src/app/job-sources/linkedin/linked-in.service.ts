@@ -149,7 +149,7 @@ export class LinkedInService {
   }
 
   private findJobLanguages(job: LinkedInJob): string[] {
-    return matchLanguages(job.description);
+    return matchLanguages({ description: job.description });
   }
 
   //TODO: Move this function to a utils module

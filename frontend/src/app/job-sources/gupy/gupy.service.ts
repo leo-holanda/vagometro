@@ -158,7 +158,7 @@ export class GupyService {
   }
 
   private findJobLanguages(job: GupyJob): string[] {
-    return matchLanguages(job.description);
+    return matchLanguages({ description: job.description });
   }
 
   private findExperienceLevel(job: GupyJob): ExperienceLevels[] {

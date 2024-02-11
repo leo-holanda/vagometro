@@ -1,4 +1,4 @@
-<ng-container *ngIf="disabilityRank$ | async as disabilityRank; else loading">
+<ng-container *ngIf="inclusionRank$ | async as inclusionRank$; else loading">
   <div class="overflow-x-auto w-full">
     <table class="table">
       <thead>
@@ -9,10 +9,10 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let disability of disabilityRank; index as i; trackBy: trackByDisabilityStatus">
+        <tr *ngFor="let inclusionType of inclusionRank$; index as i; trackBy: trackByInclusionType">
           <th>{{ i + 1 }}</th>
-          <td>{{ disability.name }}</td>
-          <td>{{ disability.count | number }}</td>
+          <td>{{ inclusionType.name }}</td>
+          <td>{{ inclusionType.count | number }}</td>
         </tr>
       </tbody>
     </table>

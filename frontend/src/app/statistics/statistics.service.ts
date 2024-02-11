@@ -7,7 +7,7 @@ import { TypeData } from './ranks/type-rank/type-rank.model';
 import { CompanyData } from './ranks/companies-rank/companies-rank.model';
 import { Job } from '../job/job.types';
 import { KeywordData } from './ranks/keywords-rank/keywords-rank.model';
-import { DisabilityData, DisabilityStatuses } from './ranks/disability-rank/disability-rank.model';
+import { InclusionData, InclusionTypes } from './ranks/inclusion-rank/inclusion-rank.model';
 import { EducationData } from './ranks/education-rank/education-rank.types';
 import { MonthData, ComparisonData } from './ranks/months-rank/months-rank.types';
 import { ContractTypes } from '../shared/keywords-matcher/contract-types.data';
@@ -208,21 +208,23 @@ export class StatisticsService {
     );
   }
 
-  getDisabilityStatusesRank(jobs$: Observable<Job[] | undefined> = this.jobService.jobs$): Observable<DisabilityData[]> {
+  getInclusionRank(jobs$: Observable<Job[] | undefined> = this.jobService.jobs$): Observable<InclusionData[]> {
     return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
-        const disabilitiesMap = new Map<DisabilityStatuses, number>();
+        const inclusionTypeMap = new Map<InclusionTypes, number>();
 
         jobs.forEach((job) => {
-          const currentDisabilityCount = disabilitiesMap.get(job.disabilityStatus) || 0;
-          disabilitiesMap.set(job.disabilityStatus, currentDisabilityCount + 1);
+          job.inclusionTypes.forEach((inclusionType) => {
+            const currentInclusionTypeCount = inclusionTypeMap.get(inclusionType) || 0;
+            inclusionTypeMap.set(inclusionType, currentInclusionTypeCount + 1);
+          });
         });
 
-        const sortedEntries = Array.from(disabilitiesMap.entries()).sort((a, b) => b[1] - a[1]);
+        const sortedEntries = Array.from(inclusionTypeMap.entries()).sort((a, b) => b[1] - a[1]);
 
         const sortedObjects = sortedEntries.map(
-          ([key, value]): DisabilityData => ({
+          ([key, value]): InclusionData => ({
             name: key,
             count: value,
           }),

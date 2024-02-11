@@ -5,12 +5,12 @@ import { StateAbbreviationPipe } from 'src/app/shared/pipes/state-abbreviation.p
 import { FormsModule } from '@angular/forms';
 import { trackByJobId } from 'src/app/shared/track-by-functions';
 import { ScrollingModule } from '@angular/cdk/scrolling';
-import { DisabilityStatuses } from 'src/app/statistics/ranks/disability-rank/disability-rank.model';
 import { Filter } from './job-list.types';
 import { ContractTypes } from 'src/app/shared/keywords-matcher/contract-types.data';
 import { WorkplaceTypes } from 'src/app/shared/keywords-matcher/workplace.data';
 import { Job } from '../job.types';
 import { ExperienceLevels } from 'src/app/shared/keywords-matcher/experience-levels.data';
+import { InclusionTypes } from 'src/app/statistics/ranks/inclusion-rank/inclusion-rank.model';
 
 @Component({
   selector: 'vgm-job-list',
@@ -27,7 +27,7 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
   contractTypes = ContractTypes;
   experienceLevels = ExperienceLevels;
   workplaceTypes = WorkplaceTypes;
-  disabilityStatuses = DisabilityStatuses;
+  inclusionTypes = InclusionTypes;
 
   filters: Filter = {
     jobTitle: undefined,
@@ -37,7 +37,7 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
     jobLocation: undefined,
     jobContractType: undefined,
     publishedDate: undefined,
-    disabilityStatus: undefined,
+    inclusionType: undefined,
   };
 
   inputMaxDate = new Date().toISOString().slice(0, 10);
@@ -94,7 +94,9 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
 
     if (this.filters['experienceLevel']) {
       console.log('experienceLevel');
-      this.filteredJobs = this.filteredJobs.filter((job) => job.experienceLevels.includes(this.filters['experienceLevel']! as ExperienceLevels));
+      this.filteredJobs = this.filteredJobs.filter((job) =>
+        job.experienceLevels.includes(this.filters['experienceLevel']! as ExperienceLevels),
+      );
     }
 
     if (this.filters['workplaceType']) {
@@ -104,7 +106,9 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
 
     if (this.filters['jobLocation']) {
       this.filteredJobs = this.filteredJobs.filter(
-        (job) => job.city.toLowerCase().includes(this.filters['jobLocation']!.toLowerCase()) || job.state.toLowerCase().includes(this.filters['jobLocation']!.toLowerCase()),
+        (job) =>
+          job.city.toLowerCase().includes(this.filters['jobLocation']!.toLowerCase()) ||
+          job.state.toLowerCase().includes(this.filters['jobLocation']!.toLowerCase()),
       );
     }
 
@@ -125,9 +129,8 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
       });
     }
 
-    if (this.filters['disabilityStatus']) {
-      console.log('disabilityStatus');
-      this.filteredJobs = this.filteredJobs.filter((job) => job.disabilityStatus == this.filters['disabilityStatus']);
+    if (this.filters['inclusionType']) {
+      this.filteredJobs = this.filteredJobs.filter((job) => job.inclusionTypes.includes(this.filters['inclusionType'] as InclusionTypes));
     }
   }
 

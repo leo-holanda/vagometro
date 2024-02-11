@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable, map, shareReplay } from 'rxjs';
-import { DisabilityStatuses } from 'src/app/statistics/ranks/disability-rank/disability-rank.model';
 import { GupyJob, gupyContractTypeMap } from './gupy.types';
 import { AtlasService } from 'src/app/atlas/atlas.service';
 import {
@@ -16,9 +15,11 @@ import { WorkplaceTypes } from 'src/app/shared/keywords-matcher/workplace.data';
 import {
   matchEducationalTerms,
   matchExperienceLevel,
+  matchInclusionTypes,
   matchKeywords,
   matchLanguages,
 } from 'src/app/shared/keywords-matcher/keywords-matcher';
+import { InclusionTypes } from 'src/app/statistics/ranks/inclusion-rank/inclusion-rank.model';
 
 @Injectable({
   providedIn: 'root',
@@ -115,7 +116,7 @@ export class GupyService {
       title: job.name,
       state: job.state,
       city: job.city,
-      disabilityStatus: this.findJobDisabilityStatus(job),
+      inclusionTypes: this.findJobInclusionTypes(job),
       companyName: job.careerPageName,
       description: job.description,
       id: job.id,
@@ -134,8 +135,13 @@ export class GupyService {
     return [gupyContractTypeMap[job.type]];
   }
 
-  private findJobDisabilityStatus(job: GupyJob): DisabilityStatuses {
-    return job.disabilities ? DisabilityStatuses.PCD : DisabilityStatuses.nonPCD;
+  private findJobInclusionTypes(job: GupyJob): InclusionTypes[] {
+    const matchedInclusionTypes = matchInclusionTypes({ title: job.name, description: job.description });
+    if (job.disabilities && !matchedInclusionTypes.includes(InclusionTypes.PCD)) {
+      matchedInclusionTypes.push(InclusionTypes.PCD);
+    }
+
+    return matchedInclusionTypes;
   }
 
   private getJobWorkplaceType(gupyJob: GupyJob): WorkplaceTypes[] {

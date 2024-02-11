@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Observable, map, shareReplay } from 'rxjs';
 import { AtlasService } from 'src/app/atlas/atlas.service';
 import { LinkedInJob, linkedInEmploymentTypesMap } from './linked-in.types';
-import { DisabilityStatuses } from 'src/app/statistics/ranks/disability-rank/disability-rank.model';
 import { MapDataService } from 'src/app/statistics/maps/map-data.service';
 import { ExperienceLevels } from 'src/app/shared/keywords-matcher/experience-levels.data';
 import { Job } from 'src/app/job/job.types';
@@ -12,11 +11,13 @@ import {
   matchContractTypes,
   matchEducationalTerms,
   matchExperienceLevel,
+  matchInclusionTypes,
   matchKeywords,
   matchLanguages,
   matchWorkplaceTypes,
 } from 'src/app/shared/keywords-matcher/keywords-matcher';
 import { EducationalData } from 'src/app/shared/keywords-matcher/education.data';
+import { InclusionTypes } from 'src/app/statistics/ranks/inclusion-rank/inclusion-rank.model';
 
 @Injectable({
   providedIn: 'root',
@@ -55,7 +56,7 @@ export class LinkedInService {
       jobUrl: job.url,
       country: 'Brasil',
       title: job.title,
-      disabilityStatus: DisabilityStatuses.unknown,
+      inclusionTypes: this.findInclusionTypes(job),
       companyName: job.company_name,
       description: sanitizedJobDescription,
       id: job.id,
@@ -70,6 +71,10 @@ export class LinkedInService {
       state: this.findJobState(job),
       workplaceTypes: this.getJobWorkplaceType(job),
     };
+  }
+
+  private findInclusionTypes(job: LinkedInJob): InclusionTypes[] {
+    return matchInclusionTypes({ title: job.title, description: job.description });
   }
 
   private getJobWorkplaceType(job: LinkedInJob): WorkplaceTypes[] {

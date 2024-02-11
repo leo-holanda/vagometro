@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, filter, map } from 'rxjs';
-import { DisabilityStatuses } from '../statistics/ranks/disability-rank/disability-rank.model';
+import { InclusionTypes } from '../statistics/ranks/inclusion-rank/inclusion-rank.model';
 import { ContractTypes } from '../shared/keywords-matcher/contract-types.data';
 import { WorkplaceTypes } from '../shared/keywords-matcher/workplace.data';
 import { Job, TimeWindows, monthsMap } from './job.types';
@@ -136,11 +136,11 @@ export class JobService {
     return minDate;
   }
 
-  getJobsByDisabilityStatus(disabilityStatus: DisabilityStatuses): Observable<Job[]> {
+  getJobsByInclusionType(inclusionType: InclusionTypes): Observable<Job[]> {
     return this.jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
-        return jobs.filter((job) => job.disabilityStatus == disabilityStatus);
+        return jobs.filter((job) => job.inclusionTypes.includes(inclusionType));
       }),
     );
   }

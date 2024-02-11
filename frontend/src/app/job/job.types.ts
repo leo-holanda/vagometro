@@ -1,7 +1,7 @@
 import { ContractTypes } from '../shared/keywords-matcher/contract-types.data';
 import { ExperienceLevels } from '../shared/keywords-matcher/experience-levels.data';
 import { WorkplaceTypes } from '../shared/keywords-matcher/workplace.data';
-import { DisabilityStatuses } from '../statistics/ranks/disability-rank/disability-rank.model';
+import { InclusionTypes } from '../statistics/ranks/inclusion-rank/inclusion-rank.model';
 
 export type Job = {
   id: number;
@@ -14,7 +14,7 @@ export type Job = {
   country: string;
   state: string;
   city: string;
-  disabilityStatus: DisabilityStatuses;
+  inclusionTypes: InclusionTypes[];
   publishedDate: Date;
   contractTypes: ContractTypes[];
   experienceLevels: ExperienceLevels[];

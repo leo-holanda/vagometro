@@ -6,7 +6,7 @@ import { PublicationChartComponent } from '../../charts/publication-chart/public
 import { JobCountComponent } from '../../job-count/job-count.component';
 import { CitiesRankComponent } from '../../ranks/cities-rank/cities-rank.component';
 import { CompaniesRankComponent } from '../../ranks/companies-rank/companies-rank.component';
-import { DisabilityRankComponent } from '../../ranks/disability-rank/disability-rank.component';
+import { InclusionRankComponent } from '../../ranks/inclusion-rank/inclusion-rank.component';
 import { EducationRankComponent } from '../../ranks/education-rank/education-rank.component';
 import { ExperienceLevelsRankComponent } from '../../ranks/experience-levels-rank/experience-levels-rank.component';
 import { KeywordsRankComponent } from '../../ranks/keywords-rank/keywords-rank.component';
@@ -33,7 +33,7 @@ import { Job } from 'src/app/job/job.types';
     RouterModule,
     JobListComponent,
     ExperienceLevelsRankComponent,
-    DisabilityRankComponent,
+    InclusionRankComponent,
     EducationRankComponent,
     LanguagesRankComponent,
     MonthsRankComponent,

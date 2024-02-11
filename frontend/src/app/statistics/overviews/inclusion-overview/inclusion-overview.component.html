@@ -2,25 +2,25 @@
   <div class="flex flex-col gap-4 h-min">
     <div class="card card-bordered card-compact w-full bg-base-300">
       <div class="card-title items-center p-4">
-        <i class="bx bx-accessibility"></i>
-        <h1>Vagas por critério de PCD</h1>
+        <i class="bx bxs-heart"></i>
+        <h1>Vagas por tipo de inclusão</h1>
       </div>
 
       <div class="card-body max-h-96 overflow-y-auto">
-        <ng-container *ngIf="disabilityRank$ | async as disabilityRank; else loading">
+        <ng-container *ngIf="inclusionRank$ | async as inclusionRank$; else loading">
           <button
             class="btn btn-ghost p-2"
-            *ngFor="let disabilityStatus of disabilityRank; index as i; trackBy: trackByDisabilityStatus"
+            *ngFor="let inclusionType of inclusionRank$; index as i; trackBy: trackByInclusionType"
             [ngClass]="{
-              'btn-active': selectedDisabilityStatus == disabilityStatus.name
+              'btn-active': selectedInclusionType === inclusionType.name
             }"
-            (click)="onDisabilityStatusClick(disabilityStatus.name)"
+            (click)="onInclusionTypeClick(inclusionType.name)"
           >
             <div class="w-full flex justify-between">
-              <span>{{ i + 1 + ". " + disabilityStatus.name }}</span>
-              <span>{{ disabilityStatus.count | number }}</span>
+              <span>{{ i + 1 + ". " + inclusionType.name }}</span>
+              <span>{{ inclusionType.count | number }}</span>
             </div>
-            <progress class="progress w-full" [value]="disabilityStatus.count" [max]="jobsQuantity"></progress>
+            <progress class="progress w-full" [value]="inclusionType.count" [max]="jobsQuantity"></progress>
           </button>
         </ng-container>
 
@@ -43,16 +43,16 @@
       </div>
 
       <div class="card-body">
-        <vgm-publication-chart [jobs$]="jobsByDisabilityStatus$"></vgm-publication-chart>
+        <vgm-publication-chart [jobs$]="jobsByInclusionType$"></vgm-publication-chart>
       </div>
     </div>
 
-    <vgm-job-postings-comparison [jobs$]="jobsByDisabilityStatus$"></vgm-job-postings-comparison>
+    <vgm-job-postings-comparison [jobs$]="jobsByInclusionType$"></vgm-job-postings-comparison>
   </div>
 
   <div class="card card-bordered card-compact w-full bg-base-300">
     <div class="card-title p-4">
-      <h1>Sobre as vagas {{ selectedDisabilityStatus }}</h1>
+      <h1>Sobre as vagas {{ selectedInclusionType }}</h1>
     </div>
 
     <div class="card-body">
@@ -61,7 +61,7 @@
           <i class="bx bxs-business"></i>
           <h3>Empresas que mais contratam</h3>
         </div>
-        <vgm-companies-rank [jobs$]="jobsByDisabilityStatus$"></vgm-companies-rank>
+        <vgm-companies-rank [jobs$]="jobsByInclusionType$"></vgm-companies-rank>
       </section>
 
       <div class="divider"></div>
@@ -71,7 +71,7 @@
           <i class="bx bxs-home"></i>
           <h3>Modalidades mais frequentes</h3>
         </div>
-        <vgm-workplace-rank [jobs$]="jobsByDisabilityStatus$"></vgm-workplace-rank>
+        <vgm-workplace-rank [jobs$]="jobsByInclusionType$"></vgm-workplace-rank>
       </section>
 
       <div class="divider"></div>
@@ -81,7 +81,7 @@
           <i class="bx bxs-user-detail"></i>
           <h3>Níveis de experiência mais requisitados</h3>
         </div>
-        <vgm-experience-levels-rank [jobs$]="jobsByDisabilityStatus$"></vgm-experience-levels-rank>
+        <vgm-experience-levels-rank [jobs$]="jobsByInclusionType$"></vgm-experience-levels-rank>
       </section>
 
       <div class="divider"></div>
@@ -91,7 +91,7 @@
           <i class="bx bxs-briefcase"></i>
           <h3>Tipos de vagas</h3>
         </div>
-        <vgm-type-rank [jobs$]="jobsByDisabilityStatus$"></vgm-type-rank>
+        <vgm-type-rank [jobs$]="jobsByInclusionType$"></vgm-type-rank>
       </section>
 
       <div class="divider"></div>
@@ -101,7 +101,7 @@
           <i class="bx bxs-graduation"></i>
           <h3>Níveis de formação mais requisitados</h3>
         </div>
-        <vgm-education-rank [jobs$]="jobsByDisabilityStatus$"></vgm-education-rank>
+        <vgm-education-rank [jobs$]="jobsByInclusionType$"></vgm-education-rank>
       </section>
 
       <div class="divider"></div>
@@ -111,7 +111,7 @@
           <i class="bx bx-globe"></i>
           <h3>Idiomas mais requisitados</h3>
         </div>
-        <vgm-languages-rank [jobs$]="jobsByDisabilityStatus$"></vgm-languages-rank>
+        <vgm-languages-rank [jobs$]="jobsByInclusionType$"></vgm-languages-rank>
       </section>
     </div>
   </div>
@@ -123,11 +123,11 @@
   <div class="card card-bordered card-compact w-full lg:w-1/2 bg-base-300">
     <div class="card-title justify-between p-4">
       <h1>Vagas consideradas nos dados acima</h1>
-      <span>Total: {{ ((jobsByDisabilityStatus$ | async) || []).length }} vagas</span>
+      <span>Total: {{ ((jobsByInclusionType$ | async) || []).length }} vagas</span>
     </div>
 
     <div class="card-body overflow-y-hidden">
-      <vgm-job-list [jobs$]="jobsByDisabilityStatus$"></vgm-job-list>
+      <vgm-job-list [jobs$]="jobsByInclusionType$"></vgm-job-list>
     </div>
   </div>
 </div>

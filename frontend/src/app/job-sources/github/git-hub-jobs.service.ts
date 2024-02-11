@@ -6,7 +6,6 @@ import { Observable, defer, first, map, shareReplay } from 'rxjs';
 import { MapDataService } from '../../statistics/maps/map-data.service';
 import { ExperienceLevels } from '../../shared/keywords-matcher/experience-levels.data';
 import { EducationalData } from '../../shared/keywords-matcher/education.data';
-import { DisabilityStatuses } from '../../statistics/ranks/disability-rank/disability-rank.model';
 import * as zip from '@zip.js/zip.js';
 import { Job } from 'src/app/job/job.types';
 import { ContractTypes } from 'src/app/shared/keywords-matcher/contract-types.data';
@@ -15,10 +14,12 @@ import {
   matchContractTypes,
   matchEducationalTerms,
   matchExperienceLevel,
+  matchInclusionTypes,
   matchKeywords,
   matchLanguages,
   matchWorkplaceTypes,
 } from 'src/app/shared/keywords-matcher/keywords-matcher';
+import { InclusionTypes } from 'src/app/statistics/ranks/inclusion-rank/inclusion-rank.model';
 
 @Injectable({
   providedIn: 'root',
@@ -82,7 +83,7 @@ export class GitHubJobsService {
       title: job.title,
       state: 'Desconhecido',
       city: 'Desconhecido',
-      disabilityStatus: DisabilityStatuses.unknown,
+      inclusionTypes: this.findInclusionTypes(job),
       companyName: 'Desconhecido',
       description: job.body,
       id: job.id,
@@ -94,6 +95,10 @@ export class GitHubJobsService {
       educationalLevelTerms: educationalLevels,
       languages: this.findJobLanguages(job),
     };
+  }
+
+  private findInclusionTypes(job: GitHubJob): InclusionTypes[] {
+    return matchInclusionTypes({ title: job.title, description: job.body, labels: job.labels });
   }
 
   private findJobWorkplaceTypes(job: GitHubJob): WorkplaceTypes[] {

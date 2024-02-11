@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DisabilityRankComponent } from './disability-rank.component';
+import { DisabilityRankComponent } from './inclusion-rank.component';
 
 describe('DisabilityRankComponent', () => {
   let component: DisabilityRankComponent;

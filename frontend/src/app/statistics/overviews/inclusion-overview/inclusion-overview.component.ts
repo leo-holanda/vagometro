@@ -1,9 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  DisabilityData,
-  DisabilityStatuses,
-} from '../../ranks/disability-rank/disability-rank.model';
 import { Observable } from 'rxjs';
 import { Job } from 'src/app/job/job.types';
 import { JobService } from 'src/app/job/job.service';
@@ -15,13 +11,14 @@ import { WorkplaceRankComponent } from '../../ranks/workplace-rank/workplace-ran
 import { JobListComponent } from 'src/app/job/job-list/job-list.component';
 import { ExperienceLevelsRankComponent } from '../../ranks/experience-levels-rank/experience-levels-rank.component';
 import { PublicationChartComponent } from '../../charts/publication-chart/publication-chart.component';
-import { trackByDisabilityStatus } from 'src/app/shared/track-by-functions';
 import { EducationRankComponent } from '../../ranks/education-rank/education-rank.component';
 import { LanguagesRankComponent } from '../../ranks/languages-rank/languages-rank.component';
 import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-comparison/job-postings-comparison.component';
+import { InclusionData, InclusionTypes } from '../../ranks/inclusion-rank/inclusion-rank.model';
+import { trackByInclusionType } from 'src/app/shared/track-by-functions';
 
 @Component({
-  selector: 'vgm-disability-statuses-overview',
+  selector: 'vgm-inclusion-overview',
   standalone: true,
   imports: [
     CommonModule,
@@ -36,16 +33,16 @@ import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-c
     LanguagesRankComponent,
     JobPostingsComparisonComponent,
   ],
-  templateUrl: './disability-statuses-overview.component.html',
-  styleUrls: ['./disability-statuses-overview.component.scss'],
+  templateUrl: './inclusion-overview.component.html',
+  styleUrls: ['./inclusion-overview.component.scss'],
 })
-export class DisabilityStatusesOverviewComponent implements OnInit {
-  disabilityRank$!: Observable<DisabilityData[]>;
+export class InclusionOverviewComponent implements OnInit {
+  inclusionRank$!: Observable<InclusionData[]>;
+  selectedInclusionType!: InclusionTypes;
   jobsQuantity!: number;
-  selectedDisabilityStatus = DisabilityStatuses.PCD;
-  jobsByDisabilityStatus$!: Observable<Job[]>;
+  jobsByInclusionType$!: Observable<Job[]>;
 
-  trackByDisabilityStatus = trackByDisabilityStatus;
+  trackByInclusionType = trackByInclusionType;
 
   constructor(
     private statisticsService: StatisticsService,
@@ -53,25 +50,18 @@ export class DisabilityStatusesOverviewComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.jobsByDisabilityStatus$ = this.jobService.getJobsByDisabilityStatus(
-      this.selectedDisabilityStatus,
-    );
+    this.jobsByInclusionType$ = this.jobService.getJobsByInclusionType(this.selectedInclusionType);
 
-    this.disabilityRank$ = this.statisticsService.getDisabilityStatusesRank();
+    this.inclusionRank$ = this.statisticsService.getInclusionRank();
 
-    this.disabilityRank$.subscribe((disabilityRank) => {
-      this.jobsQuantity = disabilityRank.reduce(
-        (acc, keyword) => acc + keyword.count,
-        0,
-      );
+    this.inclusionRank$.subscribe((inclusionRank) => {
+      this.selectedInclusionType = inclusionRank[0].name;
+      this.jobsQuantity = inclusionRank.reduce((acc, keyword) => acc + keyword.count, 0);
     });
   }
 
-  onDisabilityStatusClick(disabilityStatus: DisabilityStatuses): void {
-    this.selectedDisabilityStatus = disabilityStatus;
-
-    this.jobsByDisabilityStatus$ = this.jobService.getJobsByDisabilityStatus(
-      this.selectedDisabilityStatus,
-    );
+  onInclusionTypeClick(inclusionType: InclusionTypes): void {
+    this.selectedInclusionType = inclusionType;
+    this.jobsByInclusionType$ = this.jobService.getJobsByInclusionType(this.selectedInclusionType);
   }
 }

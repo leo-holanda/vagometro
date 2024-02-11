@@ -1,3 +1,4 @@
+import { InclusionTypes, inclusionRelatedTerms } from 'src/app/statistics/ranks/inclusion-rank/inclusion-rank.model';
 import { ContractTypes, contractTypeRelatedTerms } from './contract-types.data';
 import { EducationalData, EducationalLevels, educationalLevelTerms, higherEducationCoursesNames } from './education.data';
 import { ExperienceLevels, experienceLevelRelatedTerms } from './experience-levels.data';
@@ -159,6 +160,41 @@ export function matchContractTypes(content: MatcherInput): ContractTypes[] {
 
   if (matchedContractTypes.length == 0) return [ContractTypes.unknown];
   return getUniqueStrings(matchedContractTypes) as ContractTypes[];
+}
+
+export function matchInclusionTypes(content: MatcherInput): InclusionTypes[] {
+  const matchedInclusionTypes: InclusionTypes[] = [];
+
+  if (content.title) {
+    const sanitizedTitle = sanitizeString(content.title);
+
+    Object.keys(inclusionRelatedTerms).forEach((term) => {
+      const titleHasTerm = sanitizedTitle.includes(term);
+      if (titleHasTerm) matchedInclusionTypes.push(inclusionRelatedTerms[term]);
+    });
+  }
+
+  if (content.description) {
+    const sanitizedDescription = sanitizeString(content.description);
+
+    Object.keys(inclusionRelatedTerms).forEach((term) => {
+      const descriptionHasTerm = sanitizedDescription.includes(term);
+      if (descriptionHasTerm) matchedInclusionTypes.push(inclusionRelatedTerms[term]);
+    });
+  }
+
+  if (content.labels) {
+    const sanitizedLabels = sanitizeString(content.labels.join(' '));
+
+    Object.keys(inclusionRelatedTerms).forEach((term) => {
+      const labelsHasTerm = sanitizedLabels.includes(term);
+      if (labelsHasTerm) matchedInclusionTypes.push(inclusionRelatedTerms[term]);
+    });
+  }
+
+  // TODO: If no match happened but job has a city or state, match with on-site
+
+  return getUniqueStrings(matchedInclusionTypes) as InclusionTypes[];
 }
 
 function matchHigherEducationCoursesNames(content: string): string[] {

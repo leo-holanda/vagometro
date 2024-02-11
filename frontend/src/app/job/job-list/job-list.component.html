@@ -15,7 +15,7 @@
         <option value="experienceLevels">Nível de experiência</option>
         <option value="workplaceTypes">Modalidade</option>
         <option value="contractTypes">Tipo de contrato</option>
-        <option value="disabilityStatus">Status PCD</option>
+        <option value="disabilityStatus">Inclusão</option>
         <option value="publishedDate">Data de publicação</option>
       </select>
 
@@ -132,18 +132,18 @@
 
           <section>
             <h2 class="rounded rounded-b-none w-full flex items-center justify-start flex-nowrap p-4 bg-base-200 gap-2">
-              <i class="bx bx-accessibility"></i>
-              <span>Também para PCD?</span>
+              <i class="bx bxs-heart"></i>
+              <span>Inclusão</span>
             </h2>
             <select
-              [(ngModel)]="filters['disabilityStatus']"
+              [(ngModel)]="filters['inclusionType']"
               (ngModelChange)="filterJobs()"
-              id="disabilityStatus"
-              name="disabilityStatus"
+              id="inclusionType"
+              name="inclusionType"
               class="select select-bordered rounded-t-none w-full"
             >
-              <option *ngFor="let disabilityStatus of disabilityStatuses | keyvalue" [value]="disabilityStatus.value">
-                {{ disabilityStatus.value }}
+              <option *ngFor="let inclusionType of inclusionTypes | keyvalue" [value]="inclusionType.value">
+                {{ inclusionType.value }}
               </option>
             </select>
           </section>
@@ -238,7 +238,7 @@
                 <span>Tipo</span>
               </div>
 
-              <div class="flex flex-wrap items-center gap-2">
+              <div class="flex flex-wrapitems-center gap-2">
                 <div class="badge badge-neutral" *ngFor="let contractType of job.contractTypes">
                   {{ contractType }}
                 </div>
@@ -273,9 +273,11 @@
                 <span>Inclusão</span>
               </div>
 
-              <span class="font-bold">
-                {{ job.disabilityStatus }}
-              </span>
+              <div class="flex flex-wrap items-center gap-2">
+                <div class="badge badge-neutral" *ngFor="let inclusionType of job.inclusionTypes">
+                  {{ inclusionType }}
+                </div>
+              </div>
             </div>
 
             <div>

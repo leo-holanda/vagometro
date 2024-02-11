@@ -221,7 +221,6 @@ export function matchInclusionTypes(content: MatcherInput): InclusionTypes[] {
     });
   }
 
-  // TODO: If no match happened but job has a city or state, match with on-site
   if (matchedInclusionTypes.length == 0) return [InclusionTypes.unknown];
   return getUniqueStrings(matchedInclusionTypes) as InclusionTypes[];
 }

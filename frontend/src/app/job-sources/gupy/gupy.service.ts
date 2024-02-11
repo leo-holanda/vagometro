@@ -136,9 +136,14 @@ export class GupyService {
   }
 
   private findJobInclusionTypes(job: GupyJob): InclusionTypes[] {
-    const matchedInclusionTypes = matchInclusionTypes({ title: job.name, description: job.description });
-    if (job.disabilities && !matchedInclusionTypes.includes(InclusionTypes.PCD)) {
-      matchedInclusionTypes.push(InclusionTypes.alsoForPCD);
+    let matchedInclusionTypes = matchInclusionTypes({ title: job.name, description: job.description });
+
+    if (job.disabilities) {
+      if (matchedInclusionTypes.includes(InclusionTypes.unknown)) {
+        matchedInclusionTypes = [InclusionTypes.alsoForPCD];
+      } else {
+        matchedInclusionTypes.push(InclusionTypes.alsoForPCD);
+      }
     }
 
     return matchedInclusionTypes;

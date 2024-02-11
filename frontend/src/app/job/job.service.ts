@@ -149,7 +149,6 @@ export class JobService {
     return this.jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
-        if (educationTerm == 'Desconhecido') return jobs.filter((job) => job.educationTerms.length == 0);
         return jobs.filter((job) => job.educationTerms.includes(educationTerm));
       }),
     );
@@ -159,7 +158,6 @@ export class JobService {
     return this.jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
-        if (educationalLevelTerm == 'Desconhecido') return jobs.filter((job) => job.educationalLevelTerms.length == 0);
         return jobs.filter((job) => job.educationalLevelTerms.includes(educationalLevelTerm));
       }),
     );

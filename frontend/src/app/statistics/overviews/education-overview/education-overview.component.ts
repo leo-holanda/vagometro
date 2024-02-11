@@ -60,51 +60,29 @@ export class EducationOverviewComponent implements OnInit {
 
   ngOnInit(): void {
     this.educationRank$ = this.statisticsService.getEducationRank();
-    this.educationalLevelRank$ =
-      this.statisticsService.getEducationalLevelRank();
+    this.educationalLevelRank$ = this.statisticsService.getEducationalLevelRank();
 
     this.educationRank$.subscribe((educationRank) => {
       this.selectedEducationTerm = educationRank[0].name;
-
-      this.educationTermFrequency = educationRank.reduce(
-        (acc, term) => acc + term.count,
-        0,
-      );
-
-      this.jobsByEducationTerm$ = this.jobService.getJobsByEducationTerms(
-        this.selectedEducationTerm,
-      );
+      this.educationTermFrequency = educationRank.reduce((acc, term) => acc + term.count, 0);
+      this.jobsByEducationTerm$ = this.jobService.getJobsByEducationTerms(this.selectedEducationTerm);
     });
 
     this.educationalLevelRank$.subscribe((educationalLevelRank) => {
       this.selectedEducationalLevelTerm = educationalLevelRank[0].name;
-
-      this.educationalLevelFrequency = educationalLevelRank.reduce(
-        (acc, term) => acc + term.count,
-        0,
-      );
-
-      this.jobsByEducationalLevel$ =
-        this.jobService.getJobsByEducationalLevelTerms(
-          this.selectedEducationalLevelTerm,
-        );
+      this.educationalLevelFrequency = educationalLevelRank.reduce((acc, term) => acc + term.count, 0);
+      this.jobsByEducationalLevel$ = this.jobService.getJobsByEducationalLevelTerms(this.selectedEducationalLevelTerm);
     });
   }
 
   onEducationTermClick(TypeName: string): void {
     this.selectedEducationTerm = TypeName;
-    this.jobsByEducationTerm$ = this.jobService.getJobsByEducationTerms(
-      this.selectedEducationTerm,
-    );
+    this.jobsByEducationTerm$ = this.jobService.getJobsByEducationTerms(this.selectedEducationTerm);
   }
 
   onEducationalLevelClick(educationalLevel: string): void {
     this.selectedEducationalLevelTerm = educationalLevel;
-
-    this.jobsByEducationalLevel$ =
-      this.jobService.getJobsByEducationalLevelTerms(
-        this.selectedEducationalLevelTerm,
-      );
+    this.jobsByEducationalLevel$ = this.jobService.getJobsByEducationalLevelTerms(this.selectedEducationalLevelTerm);
   }
 
   setDataType(dataType: EducationalDataTypes): void {

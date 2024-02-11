@@ -10,81 +10,82 @@ export enum EducationalLevels {
   postDoctoral = 'Pós-doutorado',
 }
 
+export enum HigherEducationCoursesNames {
+  unknown = 'Desconhecido',
+  computerScience = 'Ciência da Computação',
+  computerEngineering = 'Engenharia de Computação',
+  informationSystems = 'Sistemas de Informação',
+  sysntemAnalysisAndDevelopment = 'Análise e Desenvolvimento de Sistemas',
+  systemAnalysis = 'Análise de Sistemas',
+  eletricEngineering = 'Engenharia Elétrica',
+  eletronicEngineering = 'Engenharia Eletrônica',
+}
+
 export type EducationalData = {
   coursesNames: string[];
   educationalLevels: EducationalLevels[];
 };
-export interface EducationRelatedTerms {
-  termsForMatching: string[];
-  defaultTerm: string;
+interface EducationRelatedTerms {
+  [key: string]: HigherEducationCoursesNames;
 }
 
-export const higherEducationCoursesNames: EducationRelatedTerms[] = [
-  {
-    termsForMatching: ['ciencia da computacao', 'ciencias da computacao', 'ciencia de computacao', 'ciencias de computacao', 'CC'],
-    defaultTerm: 'Ciência da Computação',
-  },
-  {
-    termsForMatching: ['engenharia da computacao', 'engenharia de computacao', 'EC'],
-    defaultTerm: 'Engenharia de Computação',
-  },
-  {
-    termsForMatching: ['sistema da informacao', 'sistemas da informacao', 'sistema de informacao', 'sistemas de informacao', 'SI'],
-    defaultTerm: 'Sistemas de Informação',
-  },
-  {
-    termsForMatching: ['analise e desenvolvimento de sistema', 'analise e desenvolvimento de sistemas', 'ADS'],
-    defaultTerm: 'Análise e Desenvolvimento de Sistemas',
-  },
-  {
-    termsForMatching: ['analise de sistema'],
-    defaultTerm: 'Análise de Sistemas',
-  },
-  {
-    termsForMatching: ['engenharia eletrica'],
-    defaultTerm: 'Engenharia Elétrica',
-  },
-  {
-    termsForMatching: ['engenharia eletronica'],
-    defaultTerm: 'Engenharia Eletrônica',
-  },
-];
+interface EducationalLevelRelatedTerms {
+  [key: string]: EducationalLevels;
+}
 
-export const educationalLevelTerms: EducationRelatedTerms[] = [
-  {
-    termsForMatching: ['ensino medio', 'nivel medio'],
-    defaultTerm: EducationalLevels.highSchool,
-  },
-  {
-    termsForMatching: ['ensino tecnico', 'nivel tecnico', 'formacao tecnica', 'curso tecnico'],
-    defaultTerm: EducationalLevels.technician,
-  },
-  {
-    termsForMatching: ['tecnologo'],
-    defaultTerm: EducationalLevels.technologist,
-  },
-  {
-    termsForMatching: ['ensino superior', 'nivel superior', 'formacao superior', 'curso superior'],
-    defaultTerm: EducationalLevels.bachelors,
-  },
-  {
-    termsForMatching: ['graduacao'],
-    defaultTerm: EducationalLevels.bachelors,
-  },
-  {
-    termsForMatching: ['especializacao', 'pos-graduacao'],
-    defaultTerm: EducationalLevels.specialization,
-  },
-  {
-    termsForMatching: ['mestrado'],
-    defaultTerm: EducationalLevels.masters,
-  },
-  {
-    termsForMatching: ['doutorado'],
-    defaultTerm: EducationalLevels.doctorate,
-  },
-  {
-    termsForMatching: ['pos-doutorado', 'pós-doutorado', 'pos douturado', 'pós douturado'],
-    defaultTerm: EducationalLevels.postDoctoral,
-  },
-];
+export const higherEducationCoursesNames: EducationRelatedTerms = {
+  CC: HigherEducationCoursesNames.computerScience,
+  'ciencia da computacao': HigherEducationCoursesNames.computerScience,
+  'ciencias da computacao': HigherEducationCoursesNames.computerScience,
+  'ciencia de computacao': HigherEducationCoursesNames.computerScience,
+  'ciencias de computacao': HigherEducationCoursesNames.computerScience,
+
+  EC: HigherEducationCoursesNames.computerEngineering,
+  'engenharia da computacao': HigherEducationCoursesNames.computerEngineering,
+  'engenharia de computacao': HigherEducationCoursesNames.computerEngineering,
+
+  SI: HigherEducationCoursesNames.informationSystems,
+  'sistema da informacao': HigherEducationCoursesNames.informationSystems,
+  'sistemas da informacao': HigherEducationCoursesNames.informationSystems,
+  'sistema de informacao': HigherEducationCoursesNames.informationSystems,
+  'sistemas de informacao': HigherEducationCoursesNames.informationSystems,
+
+  ADS: HigherEducationCoursesNames.sysntemAnalysisAndDevelopment,
+  'analise e desenvolvimento de sistema': HigherEducationCoursesNames.sysntemAnalysisAndDevelopment,
+  'analise e desenvolvimento de sistemas': HigherEducationCoursesNames.sysntemAnalysisAndDevelopment,
+
+  'analise de sistema': HigherEducationCoursesNames.systemAnalysis,
+
+  'engenharia eletrica': HigherEducationCoursesNames.eletricEngineering,
+  'engenharia eletronica': HigherEducationCoursesNames.eletronicEngineering,
+};
+
+export const educationalLevelTerms: EducationalLevelRelatedTerms = {
+  'ensino medio': EducationalLevels.highSchool,
+  'nivel medio': EducationalLevels.highSchool,
+
+  'ensino tecnico': EducationalLevels.technician,
+  'nivel tecnico': EducationalLevels.technician,
+  'formacao tecnica': EducationalLevels.technician,
+  'curso tecnico': EducationalLevels.technician,
+
+  tecnologo: EducationalLevels.technologist,
+
+  'ensino superior': EducationalLevels.bachelors,
+  'nivel superior': EducationalLevels.bachelors,
+  'formacao superior': EducationalLevels.bachelors,
+  'curso superior': EducationalLevels.bachelors,
+  graduacao: EducationalLevels.bachelors,
+
+  especializacao: EducationalLevels.specialization,
+  'pos-graduacao': EducationalLevels.specialization,
+
+  mestrado: EducationalLevels.masters,
+
+  doutorado: EducationalLevels.doctorate,
+
+  'pos-doutorado': EducationalLevels.postDoctoral,
+  'pós-doutorado': EducationalLevels.postDoctoral,
+  'pos douturado': EducationalLevels.postDoctoral,
+  'pós douturado': EducationalLevels.postDoctoral,
+};

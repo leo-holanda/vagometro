@@ -1,5 +1,11 @@
 import { ContractTypes, contractTypeRelatedTerms } from './contract-types.data';
-import { EducationalData, EducationalLevels, educationalLevelTerms, higherEducationCoursesNames } from './education.data';
+import {
+  EducationalData,
+  EducationalLevels,
+  HigherEducationCoursesNames,
+  educationalLevelTerms,
+  higherEducationCoursesNames,
+} from './education.data';
 import { ExperienceLevels, experienceLevelRelatedTerms } from './experience-levels.data';
 import { InclusionTypes, inclusionRelatedTerms } from './inclusion.data';
 import { Languages, languageRelatedTerms } from './languages.data';
@@ -74,7 +80,7 @@ export function matchKeywords(content: { title: string | undefined; description:
 export function matchEducationalTerms(content: string): EducationalData {
   if (!content) {
     return {
-      coursesNames: [],
+      coursesNames: [HigherEducationCoursesNames.unknown],
       educationalLevels: [EducationalLevels.unknown],
     };
   }
@@ -82,6 +88,8 @@ export function matchEducationalTerms(content: string): EducationalData {
   const coursesNames = matchHigherEducationCoursesNames(content);
   const educationalLevels = matchEducationalLevel(content);
   if (coursesNames.length > 0) educationalLevels.push(EducationalLevels.bachelors);
+  else coursesNames.push(HigherEducationCoursesNames.unknown);
+
   if (educationalLevels.length == 0) educationalLevels.push(EducationalLevels.unknown);
 
   return {
@@ -198,17 +206,27 @@ export function matchInclusionTypes(content: MatcherInput): InclusionTypes[] {
 }
 
 function matchHigherEducationCoursesNames(content: string): string[] {
+  const matchedCoursesNames: string[] = [];
+
   const sanitizedContent = sanitizeString(content);
-  return higherEducationCoursesNames
-    .filter((courseName) => courseName.termsForMatching.some((term) => sanitizedContent.includes(term)))
-    .map((courseName) => courseName.defaultTerm);
+  Object.keys(higherEducationCoursesNames).forEach((term) => {
+    const contentHasTerm = sanitizedContent.includes(term);
+    if (contentHasTerm) matchedCoursesNames.push(higherEducationCoursesNames[term]);
+  });
+
+  return matchedCoursesNames;
 }
 
 function matchEducationalLevel(content: string): string[] {
+  const matchedEducationalLevels: string[] = [];
+
   const sanitizedContent = sanitizeString(content);
-  return educationalLevelTerms
-    .filter((educationalLevelTerm) => educationalLevelTerm.termsForMatching.some((term) => sanitizedContent.includes(term)))
-    .map((educationalLevelTerm) => educationalLevelTerm.defaultTerm);
+  Object.keys(educationalLevelTerms).forEach((term) => {
+    const contentHasTerm = sanitizedContent.includes(term);
+    if (contentHasTerm) matchedEducationalLevels.push(educationalLevelTerms[term]);
+  });
+
+  return matchedEducationalLevels;
 }
 
 function matchExperienceLevelTerms(splittedContent: string[]): ExperienceLevels[] {

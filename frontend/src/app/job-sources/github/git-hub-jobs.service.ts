@@ -77,7 +77,6 @@ export class GitHubJobsService {
 
     return {
       city: 'Desconhecido',
-      companyName: 'Desconhecido',
       companyUrl: '',
       country: 'Brasil',
       description: job.body,
@@ -88,6 +87,7 @@ export class GitHubJobsService {
       publishedDate: new Date(job.created_at),
       state: 'Desconhecido',
       title: job.title,
+      companyName: this.findCompanyName(job),
       contractTypes: this.findContractTypesCitedInJob(job),
       experienceLevels: this.findJobExperienceLevel(job),
       inclusionTypes: this.findInclusionTypes(job),
@@ -95,6 +95,30 @@ export class GitHubJobsService {
       languages: this.findJobLanguages(job),
       workplaceTypes: this.findJobWorkplaceTypes(job),
     };
+  }
+
+  private findCompanyName(job: GitHubJob): string {
+    if (job.title.includes('@')) {
+      const splittedTitle = job.title.split('@');
+      return splittedTitle[splittedTitle.length - 1];
+    }
+
+    if (job.title.includes('na ')) {
+      const splittedTitle = job.title.split('na ');
+      return splittedTitle[splittedTitle.length - 1];
+    }
+
+    if (job.title.includes('no ')) {
+      const splittedTitle = job.title.split('no ');
+      return splittedTitle[splittedTitle.length - 1];
+    }
+
+    if (job.title.includes('- ')) {
+      const splittedTitle = job.title.split('- ');
+      return splittedTitle[splittedTitle.length - 1];
+    }
+
+    return 'Desconhecido';
   }
 
   private findInclusionTypes(job: GitHubJob): InclusionTypes[] {

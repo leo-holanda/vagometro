@@ -110,24 +110,24 @@ export class GupyService {
     const { coursesNames, educationalLevels } = this.findEducationalData(job);
 
     return {
-      companyUrl: job.careerPageUrl,
-      jobUrl: job.jobUrl,
-      country: job.country,
-      title: job.name,
-      state: job.state,
       city: job.city,
-      inclusionTypes: this.findJobInclusionTypes(job),
       companyName: job.careerPageName,
+      companyUrl: job.careerPageUrl,
+      country: job.country,
       description: job.description,
+      educationalLevelTerms: educationalLevels,
+      educationTerms: coursesNames,
       id: job.id,
-      workplaceTypes: this.getJobWorkplaceType(job),
+      jobUrl: job.jobUrl,
       publishedDate: new Date(job.publishedDate),
+      state: job.state,
+      title: job.name,
       contractTypes: this.findJobContractType(job),
       experienceLevels: this.findExperienceLevel(job),
+      inclusionTypes: this.findJobInclusionTypes(job),
       keywords: this.getJobKeywords(job),
-      educationTerms: coursesNames,
-      educationalLevelTerms: educationalLevels,
       languages: this.findJobLanguages(job),
+      workplaceTypes: this.getJobWorkplaceType(job),
     };
   }
 
@@ -170,16 +170,5 @@ export class GupyService {
 
   private findEducationalData(job: GupyJob): EducationalData {
     return matchEducationalTerms(job.description);
-  }
-
-  private removeAccents(string: string) {
-    //TODO Understand how it works
-    return string.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-  }
-
-  private getUniqueStrings(strings: string[]): string[] {
-    const uniqueSet = new Set(strings);
-    const uniqueArray = Array.from(uniqueSet);
-    return uniqueArray;
   }
 }

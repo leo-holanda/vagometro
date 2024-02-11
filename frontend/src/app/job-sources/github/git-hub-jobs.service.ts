@@ -76,24 +76,24 @@ export class GitHubJobsService {
     const { coursesNames, educationalLevels } = this.findEducationalData(job);
 
     return {
-      companyUrl: '',
-      jobUrl: job.html_url,
-      workplaceTypes: this.findJobWorkplaceTypes(job),
-      country: 'Brasil',
-      title: job.title,
-      state: 'Desconhecido',
       city: 'Desconhecido',
-      inclusionTypes: this.findInclusionTypes(job),
       companyName: 'Desconhecido',
+      companyUrl: '',
+      country: 'Brasil',
       description: job.body,
+      educationalLevelTerms: educationalLevels,
+      educationTerms: coursesNames,
       id: job.id,
+      jobUrl: job.html_url,
       publishedDate: new Date(job.created_at),
+      state: 'Desconhecido',
+      title: job.title,
       contractTypes: this.findContractTypesCitedInJob(job),
       experienceLevels: this.findJobExperienceLevel(job),
+      inclusionTypes: this.findInclusionTypes(job),
       keywords: this.findJobKeywords(job),
-      educationTerms: coursesNames,
-      educationalLevelTerms: educationalLevels,
       languages: this.findJobLanguages(job),
+      workplaceTypes: this.findJobWorkplaceTypes(job),
     };
   }
 
@@ -128,11 +128,5 @@ export class GitHubJobsService {
   private removeAccents(string: string) {
     //TODO Understand how it works
     return string.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-  }
-
-  private getUniqueStrings(strings: string[]): string[] {
-    const uniqueSet = new Set(strings);
-    const uniqueArray = Array.from(uniqueSet);
-    return uniqueArray;
   }
 }

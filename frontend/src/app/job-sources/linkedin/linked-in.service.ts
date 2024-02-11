@@ -52,22 +52,22 @@ export class LinkedInService {
     const { coursesNames, educationalLevels } = this.findEducationalData(job);
 
     return {
-      companyUrl: job.company_url,
-      jobUrl: job.url,
-      country: 'Brasil',
-      title: job.title,
-      inclusionTypes: this.findInclusionTypes(job),
       companyName: job.company_name,
+      companyUrl: job.company_url,
+      country: 'Brasil',
       description: sanitizedJobDescription,
+      educationalLevelTerms: educationalLevels,
+      educationTerms: coursesNames,
       id: job.id,
+      jobUrl: job.url,
+      publishedDate: new Date(job.created_at),
+      title: job.title,
       city: this.findJobCity(job),
       contractTypes: this.findJobContractTypes(job),
-      educationTerms: coursesNames,
-      educationalLevelTerms: educationalLevels,
       experienceLevels: this.findExperienceLevels(job),
+      inclusionTypes: this.findInclusionTypes(job),
       keywords: this.findJobKeywords(job),
       languages: this.findJobLanguages(job),
-      publishedDate: new Date(job.created_at),
       state: this.findJobState(job),
       workplaceTypes: this.getJobWorkplaceType(job),
     };
@@ -156,12 +156,5 @@ export class LinkedInService {
   private removeAccents(string: string) {
     //TODO: Understand how it works
     return string.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-  }
-
-  //TODO: Move this function to a utils module
-  private getUniqueStrings(strings: string[]): string[] {
-    const uniqueSet = new Set(strings);
-    const uniqueArray = Array.from(uniqueSet);
-    return uniqueArray;
   }
 }

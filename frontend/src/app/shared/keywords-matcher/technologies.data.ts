@@ -15,7 +15,7 @@ export interface Keywords {
   Two different ways of writing TypeScript that in the end will be counted only as TypeScript.
 */
 
-export const keywords: Keywords = {
+export const oneWordKeywords: Keywords = {
   //FRONTEND
   html: 'HTML',
   html5: 'HTML',
@@ -40,16 +40,12 @@ export const keywords: Keywords = {
   redux: 'Redux',
   webpack: 'Webpack',
   babel: 'Babel',
-  'responsive design': 'Responsive Design',
-  'restful apis': 'RESTful APIs',
   restful: 'RESTful APIs',
   rest: 'RESTful APIs',
   graphql: 'GraphQL',
   ajax: 'AJAX',
   json: 'JSON',
   xml: 'XML',
-  'ui/ux design': 'UI/UX Design',
-  'frontend testing': 'Testes',
   stylus: 'Stylus',
   next: 'NextJS',
   nextjs: 'NextJS',
@@ -63,7 +59,6 @@ export const keywords: Keywords = {
   leaflet: 'Leaflet',
   'leaflet.js': 'Leaflet',
   leafletjs: 'Leaflet',
-  //Styled Components - multi-work keyword
   relay: 'Relay',
   figma: 'Figma',
   tailwind: 'Tailwind',
@@ -79,6 +74,9 @@ export const keywords: Keywords = {
   remix: 'Remix',
   zustand: 'Zustand',
   rxjs: 'RxJS',
+  hooks: 'React Hooks',
+  microfrontends: 'Micro Frontend',
+  microfrontend: 'Micro Frontend',
   //END OF FRONTEND
 
   //BACKEND
@@ -89,13 +87,11 @@ export const keywords: Keywords = {
   'express.js': 'Express',
   express: 'Express',
   java: 'Java',
-  'spring boot': 'Spring Boot',
   springboot: 'Spring Boot',
   spring: 'Spring Boot',
   python: 'Python',
   django: 'Django',
   ruby: 'Ruby',
-  'ruby on rails': 'Ruby on Rails',
   rails: 'Ruby On Rails',
   php: 'PHP',
   laravel: 'Laravel',
@@ -108,12 +104,8 @@ export const keywords: Keywords = {
   golang: 'Go',
   flask: 'Flask',
   fastapi: 'FastAPI',
-  'database management': 'Database Management',
-  'api development': 'API Development',
-  'authentication and authorization': 'Authentication and Authorization',
   oauth: 'OAuth',
   jwt: 'JWT',
-  'security best practices': 'Security Best Practices',
   'c++': 'C++',
   C: 'C',
   soap: 'SOAP',
@@ -124,7 +116,7 @@ export const keywords: Keywords = {
   cobol: 'Cobol',
   fortran: 'Fortran',
   grpc: 'GRPC',
-  socket: 'Socket.io', //multi-word keyword
+  'socket.io': 'Socket.io',
   postman: 'Postman',
   insomnia: 'Insomnia',
   apollo: 'Apollo',
@@ -150,6 +142,7 @@ export const keywords: Keywords = {
   marshmallow: 'Marshmallow',
   alembic: 'Alembic',
   sqlalchemy: 'SQLAlchemy',
+  gradle: 'Gradle',
   //END OF BACKEND
 
   //DATABASE
@@ -163,6 +156,7 @@ export const keywords: Keywords = {
   redis: 'Redis',
   plsql: 'PL/SQL',
   aurora: 'AWS Aurora',
+  dynamo: 'AWS Dynamo',
   //END OF DATABASE
 
   //MOBILE
@@ -171,30 +165,24 @@ export const keywords: Keywords = {
   swift: 'Swift',
   ionic: 'Ionic',
   cordova: 'Cordova',
-  'apache cordova': 'Cordova',
+  reactnative: 'React Native',
   flutter: 'Flutter',
-  //TODO: Search for multi-words keywords first, then split and search without multi-words keywords.
-  native: 'React Native',
   xamarin: 'Xamarin',
   expo: 'Expo',
   //END OF MOBILE
 
   //CLOUD
   microservices: 'Microsserviços',
-  'micro serviços': 'Microsserviços',
   microserviços: 'Microsserviços',
   microsserviços: 'Microsserviços',
   aws: 'AWS',
   cloudflare: 'Cloudflare',
   gcp: 'GCP',
-  'Google Cloud Platform': 'GCP',
   azure: 'Azure',
-  'web servers': 'Web Servers',
   nginx: 'Nginx',
   apache: 'Apache',
   docker: 'Docker',
   dockers: 'Docker',
-  'ci/cd': 'CI/CD',
   ci: 'CI/CD',
   cd: 'CI/CD',
   jenkins: 'Jenkins',
@@ -239,11 +227,10 @@ export const keywords: Keywords = {
   //MISCELLANEOUS
   git: 'Git',
   github: 'GitHub',
+  bitbucket: 'Bitbucket',
   gitflow: 'GitFlow',
   scrum: 'Scrum',
   gitlab: 'Gitlab',
-  'clean code': 'Clean Code',
-  'clean architecture': 'Clean Architecture',
   lean: 'Lean',
   kanbam: 'Kanban', //sic
   kanban: 'Kanban',
@@ -258,6 +245,7 @@ export const keywords: Keywords = {
   meteor: 'Meteor.js',
   'meteor.js': 'Meteor.js',
   meteorjs: 'Meteor.js',
+  meteorJS: 'Meteor.js',
   blockchain: 'Blockchain',
   drupal: 'Drupal',
   magento: 'Magento',
@@ -267,11 +255,17 @@ export const keywords: Keywords = {
   zabbix: 'Zabbix',
   grafana: 'Grafana',
   windows: 'Windows',
-  //Design Patterns - multi-word keyword
   iot: 'IoT',
   xp: 'XP',
   crm: 'CRM',
   erp: 'ERP',
+  poo: 'POO',
+  mvc: 'MVC',
+  mvvm: 'MVVM',
+  solid: 'SOLID',
+  cqrs: 'CQRS',
+  arcgis: 'ArcGIS',
+  agile: 'Agile',
   //END OF MISCELLANEOUS
 
   //DATA SCIENCE
@@ -337,4 +331,76 @@ export const keywords: Keywords = {
   mlflow: 'MLflow',
   lakehouse: 'lakehouse',
   //END OF AI
+};
+
+export const multiWordKeywords: Keywords = {
+  //FRONTEND
+  'micro frontends': 'Micro Frontend',
+  'micro frontend': 'Micro Frontend',
+  'responsive design': 'Responsive Design',
+  'styled components': 'Styled Components',
+  'context api': 'Context API',
+  'server side rendering': 'Server Side Rendering',
+  //END OF FRONTEND
+
+  //BACKEND
+  'restful apis': 'RESTful APIs',
+  'spring boot': 'Spring Boot',
+  'ruby on rails': 'Ruby on Rails',
+  'api development': 'API Development',
+  'authentication and authorization': 'Authentication and Authorization',
+  'security best practices': 'Security Best Practices',
+  //END OF BACKEND
+
+  //UI/UX
+  'ui/ux design': 'UI/UX Design',
+  //END OF UI/UX
+
+  //TESTING
+  'frontend testing': 'Testes',
+  //END OF TESTING
+
+  //DATABASE
+  'database management': 'Database Management',
+  'stored procedures': 'Stored Procedures',
+  'sql server': 'SQL Server',
+  'banco de dados relacionais': 'Banco de dados relacional',
+  'banco de dados não relacionais': 'Banco de dados não relacional',
+  //END OF DATABASE
+
+  //MOBILE
+  'apache cordova': 'Cordova',
+  'react native': 'React Native',
+  //END OF MOBILE
+
+  //CLOUD
+  'micro serviços': 'Microsserviços',
+  'Google Cloud Platform': 'GCP',
+  'web servers': 'Web Servers',
+  'ci/cd': 'CI/CD',
+  'integracao constante': 'Continuous Integration',
+  'continuous integration': 'Continuous Integration',
+  'new relic': 'New Relic',
+  //END OF CLOUD
+
+  //MISCELLANEOUS
+  'clean code': 'Clean Code',
+  'clean architecture': 'Clean Architecture',
+  'design patterns': 'Design Patterns',
+  'programacao orientada a eventos': 'Programação Orientada a Eventos',
+  'programacao orientada a objetos': 'POO',
+  'metodologias ageis': 'Agile',
+  'celulas ageis': 'Agile',
+  'git flow': 'Git Flow',
+  'injecao de dependencia': 'Dependency Injection',
+  'dependency injection': 'Dependency Injection',
+  //END OF MISCELLANEOUS
+
+  //TESTING
+  'testes unitarios': 'Testes Unitários',
+  'testes integrados': 'Testes Integrados',
+  'testes funcionais': 'Testes Funcionais',
+  'testes automatizados': 'Testes Automatizados',
+  'react testing library': 'React Testing Library',
+  //END OF TESTING
 };

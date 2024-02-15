@@ -9,7 +9,7 @@ import {
 import { ExperienceLevels, experienceLevelRelatedTerms, multiWordExperienceLevelRelatedTerms } from './experience-levels.data';
 import { InclusionTypes, inclusionRelatedTerms } from './inclusion.data';
 import { Languages, languageRelatedTerms } from './languages.data';
-import { keywords } from './technologies.data';
+import { oneWordKeywords, multiWordKeywords } from './technologies.data';
 import { WorkplaceTypes, workplaceTypeRelatedTerms } from './workplace.data';
 
 export type MatcherInput = {
@@ -80,15 +80,20 @@ export function matchKeywords(content: MatcherInput): string[] {
     const sanitizedTitle = sanitizeString(content.title).split(' ');
     sanitizedTitle.forEach((substring: string) => {
       // The typeof check is necessary to prevent the keywords constructor being matched.
-      if (keywords[substring] && typeof keywords[substring] === 'string') jobKeywords.push(keywords[substring]);
+      if (oneWordKeywords[substring] && typeof oneWordKeywords[substring] === 'string') jobKeywords.push(oneWordKeywords[substring]);
     });
   }
 
   if (content.description) {
-    const sanitizedDescription = sanitizeString(content.description).split(' ');
-    sanitizedDescription.forEach((substring: string) => {
+    const sanitizedSplittedDescription = sanitizeString(content.description).split(' ');
+    sanitizedSplittedDescription.forEach((substring: string) => {
       // The typeof check is necessary to prevent the keywords constructor being matched.
-      if (keywords[substring] && typeof keywords[substring] === 'string') jobKeywords.push(keywords[substring]);
+      if (oneWordKeywords[substring] && typeof oneWordKeywords[substring] === 'string') jobKeywords.push(oneWordKeywords[substring]);
+    });
+
+    const sanitizedDescription = sanitizeString(content.description);
+    Object.keys(multiWordKeywords).forEach((keyword) => {
+      if (sanitizedDescription.includes(keyword)) jobKeywords.push(multiWordKeywords[keyword]);
     });
   }
 
@@ -96,7 +101,7 @@ export function matchKeywords(content: MatcherInput): string[] {
     const sanitizedDescription = sanitizeString(content.labels.join(' ')).split(' ');
     sanitizedDescription.forEach((substring: string) => {
       // The typeof check is necessary to prevent the keywords constructor being matched.
-      if (keywords[substring] && typeof keywords[substring] === 'string') jobKeywords.push(keywords[substring]);
+      if (oneWordKeywords[substring] && typeof oneWordKeywords[substring] === 'string') jobKeywords.push(oneWordKeywords[substring]);
     });
   }
 

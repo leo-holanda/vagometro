@@ -129,6 +129,18 @@ export const multiWordExperienceLevelRelatedTerms: ExperienceLevelRelatedTerms =
   'experiencia necessaria nas': ExperienceLevels.unknownWithExperience,
   'experiencia necessaria no': ExperienceLevels.unknownWithExperience,
 
+  'experiencia especifica comprovada': ExperienceLevels.unknownWithExperience,
+  'experiencia especifica em': ExperienceLevels.unknownWithExperience,
+  'experiencia especifica com': ExperienceLevels.unknownWithExperience,
+  'experiencia especifica nas': ExperienceLevels.unknownWithExperience,
+  'experiencia especifica no': ExperienceLevels.unknownWithExperience,
+
+  'experiencia profissional comprovada': ExperienceLevels.unknownWithExperience,
+  'experiencia profissional em': ExperienceLevels.unknownWithExperience,
+  'experiencia profissional com': ExperienceLevels.unknownWithExperience,
+  'experiencia profissional nas': ExperienceLevels.unknownWithExperience,
+  'experiencia profissional no': ExperienceLevels.unknownWithExperience,
+
   'experiencia avancada comprovada': ExperienceLevels.unknownWithExperience,
   'experiencia avancada em': ExperienceLevels.unknownWithExperience,
   'experiencia avancada com': ExperienceLevels.unknownWithExperience,

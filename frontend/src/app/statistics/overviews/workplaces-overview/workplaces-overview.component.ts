@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { JobService } from 'src/app/job/job.service';
-import { WorkplacesChartComponent } from '../../charts/workplaces-chart/workplaces-chart.component';
 import { CompaniesRankComponent } from '../../ranks/companies-rank/companies-rank.component';
 import { Observable } from 'rxjs';
 import { Job } from 'src/app/job/job.types';
@@ -22,7 +21,6 @@ import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-c
   standalone: true,
   imports: [
     CommonModule,
-    WorkplacesChartComponent,
     CompaniesRankComponent,
     KeywordsRankComponent,
     TypeRankComponent,
@@ -36,7 +34,7 @@ import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-c
   templateUrl: './workplaces-overview.component.html',
   styleUrls: ['./workplaces-overview.component.scss'],
 })
-export class WorkplacesOverviewComponent implements OnInit {
+export class WorkplacesOverviewComponent {
   selectedWorkplace = 'remoto';
 
   jobsByWorkplace$: Observable<Job[]>;
@@ -58,8 +56,6 @@ export class WorkplacesOverviewComponent implements OnInit {
 
     this.jobsByWorkplace$ = this.jobService.getJobsByWorkplace(this.selectedWorkplace);
   }
-
-  ngOnInit(): void {}
 
   onWorkplaceClick(workplace: string): void {
     this.selectedWorkplace = workplace;

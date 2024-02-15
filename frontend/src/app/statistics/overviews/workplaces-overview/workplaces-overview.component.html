@@ -11,7 +11,7 @@
           <button
             class="btn btn-ghost p-2"
             *ngFor="let workplace of workplacesRank; index as i; trackBy: trackByWorkplace"
-            [ngClass]="{ 'btn-active': selectedWorkplace == workplace.type }"
+            [ngClass]="{ 'btn-active': selectedWorkplace === workplace.type }"
             (click)="onWorkplaceClick(workplace.type)"
           >
             <div class="w-full flex justify-between">

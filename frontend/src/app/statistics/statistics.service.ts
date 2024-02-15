@@ -26,7 +26,6 @@ export class StatisticsService {
         const citiesMap = new Map<string, number>();
 
         jobs.forEach((job) => {
-          if (!job.city) return;
           const currentCityCount = citiesMap.get(job.city) || 0;
           citiesMap.set(job.city, currentCityCount + 1);
         });
@@ -51,7 +50,6 @@ export class StatisticsService {
         const statesMap = new Map<string, number>();
 
         jobs.forEach((job) => {
-          if (job.state == '') return;
           const currentStateCount = statesMap.get(job.state) || 0;
           statesMap.set(job.state, currentStateCount + 1);
         });

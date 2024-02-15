@@ -110,18 +110,18 @@ export class GupyService {
     const { coursesNames, educationalLevels } = this.findEducationalData(job);
 
     return {
-      city: job.city,
       companyName: job.careerPageName,
       companyUrl: job.careerPageUrl,
-      country: job.country,
       description: job.description,
       educationalLevelTerms: educationalLevels,
       educationTerms: coursesNames,
       id: job.id,
       jobUrl: job.jobUrl,
       publishedDate: new Date(job.publishedDate),
-      state: job.state,
       title: job.name,
+      country: job.country || 'Desconhecido',
+      state: job.state || 'Desconhecido',
+      city: job.city || 'Desconhecido',
       contractTypes: this.findJobContractType(job),
       experienceLevels: this.findExperienceLevel(job),
       inclusionTypes: this.findJobInclusionTypes(job),

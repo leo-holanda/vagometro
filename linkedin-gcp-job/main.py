@@ -9,6 +9,7 @@ from bs4 import BeautifulSoup
 from datetime import datetime, timedelta, time
 from urllib.parse import quote
 from pymongo import MongoClient
+from pymongo import errors as pymongo_errors
 
 # This code is a modified version of the main.py file found in this repository: https://github.com/cwwmbm/linkedinscraper
 # The author is cwwmbm. His/her GitHub profile can be found in this link: https://github.com/cwwmbm
@@ -17,15 +18,11 @@ TASK_INDEX = os.getenv("CLOUD_RUN_TASK_INDEX", 0)
 TASK_ATTEMPT = os.getenv("CLOUD_RUN_TASK_ATTEMPT", 0)
 
 
-def get_with_retry(url):
-    headers = {
-        'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-    }
-
+def get_with_retry(url, session):
     delay = 1
     while (True):
         try:
-            response = requests.get(url, headers=headers, timeout=5)
+            response = session.get(url, timeout=5)
             response.raise_for_status()
             return BeautifulSoup(response.content, "lxml")
         except Exception as e:
@@ -48,15 +45,15 @@ def get_unique_jobs(jobs):
     return unique_jobs
 
 
-def get_parsed_jobs():
+def get_parsed_jobs(session):
     all_jobs = []
     search_queries = ["Desenvolvedor"]
 
     # defined by linkedin
     brazilian_geoid = 106057199
 
-    # 24 hours = 60 * 60 * 24
-    timespan = "r84600"
+    # 2 days = 60 * 60 * 24 * 2
+    timespan = "r172800"
 
     for query in search_queries:
         keywords = quote(query)  # URL encode the keywords
@@ -65,7 +62,7 @@ def get_parsed_jobs():
         while (True):
             url = f"https://www.linkedin.com/jobs-guest/jobs/api/seeMoreJobPostings/search?keywords={keywords}&geoId={brazilian_geoid}&f_TPR={timespan}&start={25*page}"
             print(f"Sending a request with start = {page * 25}")
-            soup = get_with_retry(url)
+            soup = get_with_retry(url, session)
             jobs = parse_jobs_data(soup)
 
             if (len(jobs) == 0):
@@ -94,6 +91,10 @@ def get_parsed_jobs():
 
 
 def parse_job_page(soup):
+    seniority_level = None
+    employment_type = None
+    description = None
+
     try:
         seniority_level_title_tag = soup.find(
             lambda tag: tag.name == 'h3' and 'Seniority level' in tag.get_text(strip=True))
@@ -105,7 +106,7 @@ def parse_job_page(soup):
                 seniority_level = seniority_level_content_tag.get_text(
                     strip=True)
     except:
-        seniority_level = None
+        print("Couldn't find seniority level title tag")
 
     try:
         employment_type_title_tag = soup.find(
@@ -118,7 +119,7 @@ def parse_job_page(soup):
                 employment_type = employment_type_content_Tag.get_text(
                     strip=True)
     except:
-        employment_type = None
+        print("Couldn't find employment type title tag")
 
     try:
         div = soup.find(
@@ -129,7 +130,8 @@ def parse_job_page(soup):
         description = description.replace(
             'Show less', '').replace('Show more', '')
     except:
-        description = None
+        print("Couldn't find description text tag")
+
 
     return {description: description, seniority_level: seniority_level, employment_type: employment_type}
 
@@ -193,7 +195,14 @@ def main():
         sys.exit(1)
 
     job_list = []
-    all_jobs = get_parsed_jobs()
+    
+    session = requests.Session()
+    session.headers = {
+        'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+    }
+
+    all_jobs = get_parsed_jobs(session)
+
     if len(all_jobs) == 0:
         print("No jobs found")
         return
@@ -201,23 +210,33 @@ def main():
     for job in all_jobs:
         tm.sleep(1)
 
-        job_page = get_with_retry(job['url'])
-        description, seniority_level, employment_type = parse_job_page(
-            job_page)
-        job['description'] = description
-        job['seniority_level'] = seniority_level
-        job['employment_type'] = employment_type
+        try:
+            job_page = get_with_retry(job['url'], session)
+            description, seniority_level, employment_type = parse_job_page(
+                job_page)
+            job['description'] = description
+            job['seniority_level'] = seniority_level
+            job['employment_type'] = employment_type
 
-        if (job['description'] is None):
-            print('Failed to get job description for',
-                  job['title'], 'at ', job['company_name'], job['url'])
+            if (job['description'] is None):
+                print('Failed to get job description for',
+                    job['title'], 'at ', job['company_name'], job['url'])
 
-        job["_id"] = job['id']
-        job_list.append(job)
+            job["_id"] = job['id']
+            job_list.append(job)
+        except:
+            print("An error ocurred while parsing job page")
 
     print("Total jobs to add: ", len(job_list))
     try:
         collection.insert_many(job_list, ordered=False)
+        print("Jobs were inserted successfully.")
+    except pymongo_errors.BulkWriteError as e:
+        exception_str = str(e)
+        start_index = exception_str.find("writeConcernErrors")
+        write_errors_str = exception_str[start_index:]
+        print("Bulk write error exception was launched.")
+        print(write_errors_str)
     except Exception as e:
         print(f"Error: {e}")
 

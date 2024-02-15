@@ -1,7 +1,13 @@
 import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import * as echarts from 'echarts';
-import { PublicationSeries } from './publication-chart.model';
+import {
+  MonthlyPostingsSeries,
+  DailyPostingsSeries,
+  AnnualPostingsSeries,
+  JobPostingsSeries,
+  IntervalTypes,
+} from './publication-chart.model';
 import { Observable, Subject, debounceTime, fromEvent, takeUntil } from 'rxjs';
 import { ChartService } from '../chart.service';
 import { Job } from 'src/app/job/job.types';
@@ -15,13 +21,15 @@ import { Job } from 'src/app/job/job.types';
 })
 export class PublicationChartComponent implements AfterViewInit, OnChanges, OnDestroy {
   @Input() jobs$?: Observable<Job[]>;
+  @Input() intervalType: IntervalTypes = 'daily';
   @ViewChild('chartwrapper') chartWrapper!: ElementRef<HTMLElement>;
 
-  private destroy$ = new Subject<void>();
+  isChartLoading = true;
 
-  private publicationSeries!: PublicationSeries;
   private publicationChart!: echarts.EChartsType;
   private yAxisMaxValue!: number;
+
+  private destroy$ = new Subject<void>();
 
   constructor(private chartService: ChartService) {}
 
@@ -32,27 +40,12 @@ export class PublicationChartComponent implements AfterViewInit, OnChanges, OnDe
 
   ngAfterViewInit(): void {
     this.publicationChart = echarts.init(this.chartWrapper.nativeElement);
+    this.setChartDefaultOptions();
     this.publicationChart.showLoading('default', {
       maskColor: 'rgba(0, 0, 0, 0)',
       text: 'Carregando...',
       textColor: 'white',
     });
-
-    this.chartService
-      .getPublicationSeries()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((publicationSeries) => {
-        this.yAxisMaxValue = this.getYAxisMaxValue(publicationSeries);
-      });
-
-    this.chartService
-      .getPublicationSeries(this.jobs$)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((publicationSeries) => {
-        this.publicationSeries = publicationSeries;
-        this.publicationChart.hideLoading();
-        this.drawChart();
-      });
 
     fromEvent(window, 'resize')
       .pipe(debounceTime(250))
@@ -60,35 +53,126 @@ export class PublicationChartComponent implements AfterViewInit, OnChanges, OnDe
       .subscribe(() => {
         this.publicationChart.resize();
       });
+
+    this.setPostingsData();
   }
 
   ngOnChanges(): void {
-    this.chartService
-      .getPublicationSeries(this.jobs$)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((publicationSeries) => {
-        this.publicationSeries = publicationSeries;
-        this.drawChart();
-      });
+    this.setPostingsData();
   }
 
-  private getYAxisMaxValue(publicationSeries: PublicationSeries): number {
-    return publicationSeries.reduce((max, value) => {
-      if (value[1] > max) return value[1];
+  setPostingsData(): void {
+    if (this.intervalType == 'daily') {
+      this.chartService.getDailyPostingsSeries().subscribe((postingsSeries) => {
+        this.yAxisMaxValue = this.getYAxisMaxValue(postingsSeries);
+      });
+
+      this.chartService.getDailyPostingsSeries(this.jobs$).subscribe((postingsSeries) => {
+        if (this.isChartLoading) {
+          this.publicationChart.hideLoading();
+          this.isChartLoading = false;
+        }
+        this.drawShortTermPostingsChart(postingsSeries);
+      });
+    } else if (this.intervalType == 'monthly') {
+      this.chartService.getMonthlyPostingsSeries().subscribe((postingsSeries) => {
+        this.yAxisMaxValue = this.getYAxisMaxValue(postingsSeries);
+      });
+
+      this.chartService.getMonthlyPostingsSeries(this.jobs$).subscribe((postingsSeries) => {
+        if (this.isChartLoading) {
+          this.publicationChart.hideLoading();
+          this.isChartLoading = false;
+        }
+        this.drawLongTermPostingsChart(postingsSeries);
+      });
+    } else {
+      this.chartService.getAnnualPostingsSeries().subscribe((postingsSeries) => {
+        this.yAxisMaxValue = this.getYAxisMaxValue(postingsSeries);
+      });
+
+      this.chartService.getAnnualPostingsSeries(this.jobs$).subscribe((postingsSeries) => {
+        if (this.isChartLoading) {
+          this.publicationChart.hideLoading();
+          this.isChartLoading = false;
+        }
+        this.drawLongTermPostingsChart(postingsSeries);
+      });
+    }
+  }
+
+  setIntervalType(intervalType: IntervalTypes): void {
+    this.intervalType = intervalType;
+    this.setPostingsData();
+  }
+
+  private getYAxisMaxValue(postingsSeries: JobPostingsSeries): number {
+    //Without this map, the app doesn't not compile. TypeScript error.
+    const postingsSeriesValues = postingsSeries.map((value) => value[1]);
+    return postingsSeriesValues.reduce((max, value) => {
+      if (value > max) return value;
       return max;
     }, 0);
   }
 
-  private drawChart(): void {
+  private setChartDefaultOptions(): void {
     this.publicationChart.setOption({
       tooltip: {
         trigger: 'axis',
       },
       grid: {
-        // To avoid the data zoom overlapping the x axis label
+        // To prevent the data zoom from overlapping the x axis label
         // https://stackoverflow.com/questions/44497298/echarts-generated-label-overlaps-with-datazoom
         bottom: 90,
       },
+      dataZoom: [
+        {
+          type: 'inside',
+          start: 0,
+          end: 100,
+        },
+        {
+          start: 0,
+          end: 100,
+        },
+      ],
+    });
+  }
+
+  private drawLongTermPostingsChart(postingsSeries: MonthlyPostingsSeries | AnnualPostingsSeries): void {
+    this.publicationChart.setOption({
+      xAxis: {
+        type: 'category',
+        axisLabel: { showMaxLabel: true },
+        name: 'Data de publicação',
+        nameLocation: 'center',
+        nameGap: 30,
+      },
+      yAxis: {
+        type: 'value',
+        splitLine: {
+          show: false,
+        },
+        min: 0,
+        max: this.yAxisMaxValue,
+        boundaryGap: ['0%', '10%'],
+        name: 'Vagas publicadas',
+        nameLocation: 'center',
+        nameGap: 30,
+      },
+      series: [
+        {
+          type: 'bar',
+          name: 'Vagas publicadas',
+          data: postingsSeries,
+          smooth: true,
+        },
+      ],
+    });
+  }
+
+  private drawShortTermPostingsChart(postingsSeries: DailyPostingsSeries): void {
+    this.publicationChart.setOption({
       xAxis: {
         type: 'time',
         axisLabel: { showMaxLabel: true },
@@ -108,23 +192,11 @@ export class PublicationChartComponent implements AfterViewInit, OnChanges, OnDe
         nameLocation: 'center',
         nameGap: 30,
       },
-      dataZoom: [
-        {
-          type: 'inside',
-          start: 0,
-          end: 100,
-        },
-        {
-          start: 0,
-          end: 100,
-        },
-      ],
       series: [
         {
           type: 'bar',
           name: 'Vagas publicadas',
-          data: this.publicationSeries,
-          smooth: true,
+          data: postingsSeries,
         },
       ],
     });

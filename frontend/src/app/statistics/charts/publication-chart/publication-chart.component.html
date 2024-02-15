@@ -1,1 +1,34 @@
-<div class="chart-wrapper" #chartwrapper></div>
+<main>
+  <section *ngIf="!isChartLoading" class="w-min mx-auto">
+    <div class="join flex">
+      <button
+        class="btn btn-xs join-item flex-1"
+        [ngClass]="{
+          'btn-primary': intervalType === 'daily'
+        }"
+        (click)="setIntervalType('daily')"
+      >
+        Diariamente
+      </button>
+      <button
+        class="btn btn-xs join-item flex-1"
+        [ngClass]="{
+          'btn-primary': intervalType === 'monthly'
+        }"
+        (click)="setIntervalType('monthly')"
+      >
+        Mensalmente
+      </button>
+      <button
+        class="btn btn-xs join-item flex-1"
+        [ngClass]="{
+          'btn-primary': intervalType === 'annual'
+        }"
+        (click)="setIntervalType('annual')"
+      >
+        Anualmente
+      </button>
+    </div>
+  </section>
+  <div class="chart-wrapper" #chartwrapper></div>
+</main>

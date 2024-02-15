@@ -6,7 +6,7 @@ import {
   educationalLevelTerms,
   higherEducationCoursesNames,
 } from './education.data';
-import { ExperienceLevels, experienceLevelRelatedTerms } from './experience-levels.data';
+import { ExperienceLevels, experienceLevelRelatedTerms, multiWordExperienceLevelRelatedTerms } from './experience-levels.data';
 import { InclusionTypes, inclusionRelatedTerms } from './inclusion.data';
 import { Languages, languageRelatedTerms } from './languages.data';
 import { keywords } from './technologies.data';
@@ -51,15 +51,20 @@ export function matchExperienceLevel(content: MatcherInput): ExperienceLevels[] 
     matchedExperienceLevels.push(...matchExperienceLevelTerms(sanitizedTitle));
   }
 
-  // The title match has priority. But, if it doesn't happen then try with description
-  if (matchedExperienceLevels.length == 0 && content.description) {
-    const sanitizedDescription = sanitizeString(content.description).split(' ');
-    matchedExperienceLevels.push(...matchExperienceLevelTerms(sanitizedDescription));
-  }
-
+  // The title match has priority. But, if it doesn't happen then try with labels then description
   if (matchedExperienceLevels.length == 0 && content.labels) {
     const sanitizedLabels = sanitizeString(content.labels.join(' ')).split(' ');
     matchedExperienceLevels.push(...matchExperienceLevelTerms(sanitizedLabels));
+  }
+
+  if (matchedExperienceLevels.length == 0 && content.description) {
+    const sanitizedSplittedDescription = sanitizeString(content.description).split(' ');
+    matchedExperienceLevels.push(...matchExperienceLevelTerms(sanitizedSplittedDescription));
+  }
+
+  if (matchedExperienceLevels.length == 0 && content.description) {
+    const sanitizedDescription = sanitizeString(content.description);
+    matchedExperienceLevels.push(...matchExperienceLevelTermsWithoutSplit(sanitizedDescription));
   }
 
   const uniqueMatchedExperienceLevels = getUniqueStrings(matchedExperienceLevels) as ExperienceLevels[];
@@ -255,6 +260,18 @@ function matchExperienceLevelTerms(splittedContent: string[]): ExperienceLevels[
   splittedContent.forEach((contentSubstring) => {
     const matchedExperienceLevel = experienceLevelRelatedTerms[contentSubstring];
     if (matchedExperienceLevel) matchedExperienceLevels.push(matchedExperienceLevel);
+  });
+
+  return matchedExperienceLevels;
+}
+
+function matchExperienceLevelTermsWithoutSplit(content: string): ExperienceLevels[] {
+  const matchedExperienceLevels: ExperienceLevels[] = [];
+
+  Object.keys(multiWordExperienceLevelRelatedTerms).forEach((term) => {
+    if (content.includes(term)) {
+      matchedExperienceLevels.push(multiWordExperienceLevelRelatedTerms[term]);
+    }
   });
 
   return matchedExperienceLevels;

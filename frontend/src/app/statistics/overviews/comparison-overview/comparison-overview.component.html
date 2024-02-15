@@ -1,3 +1,11 @@
-<main class="container mx-auto flex items-center justify-center h-full mb-4">
-  <vgm-job-postings-comparison></vgm-job-postings-comparison>
+<main class="container mx-auto flex flex-col items-center justify-center h-full mb-4 gap-12">
+  <vgm-job-postings-comparison
+    [shouldShowMonthly]="shouldShowMonthly"
+    (dataTypeChanged)="onDataTypeChange($event)"
+  ></vgm-job-postings-comparison>
+  <vgm-publication-chart
+    (intervalTypeChanged)="onIntervalTypeChange($event)"
+    [intervalType]="chartIntervalType"
+    [onlyLongTermIntervals]="true"
+  ></vgm-publication-chart>
 </main>

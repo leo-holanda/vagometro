@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, Output, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import * as echarts from 'echarts';
 import {
@@ -22,6 +22,8 @@ import { Job } from 'src/app/job/job.types';
 export class PublicationChartComponent implements AfterViewInit, OnChanges, OnDestroy {
   @Input() jobs$?: Observable<Job[]>;
   @Input() intervalType: IntervalTypes = 'daily';
+  @Input() onlyLongTermIntervals = false;
+  @Output() intervalTypeChanged = new EventEmitter<IntervalTypes>();
   @ViewChild('chartwrapper') chartWrapper!: ElementRef<HTMLElement>;
 
   isChartLoading = true;
@@ -103,6 +105,7 @@ export class PublicationChartComponent implements AfterViewInit, OnChanges, OnDe
 
   setIntervalType(intervalType: IntervalTypes): void {
     this.intervalType = intervalType;
+    this.intervalTypeChanged.emit(intervalType);
     this.setPostingsData();
   }
 

@@ -14,7 +14,7 @@
             [ngClass]="{
               'tab-active': shouldShowMonthly
             }"
-            (click)="shouldShowMonthly = true"
+            (click)="onDataTypeClick(true)"
             >Ver mensamente</a
           >
           <a
@@ -23,7 +23,7 @@
             [ngClass]="{
               'tab-active': !shouldShowMonthly
             }"
-            (click)="shouldShowMonthly = false"
+            (click)="onDataTypeClick(false)"
             >Ver anualmente</a
           >
         </div>
@@ -58,7 +58,11 @@
                     'text-red-500': month.difference < 0
                   }"
                 >
-                  {{ (month.differenceAsPercentage > 0 ? "+" + (month.differenceAsPercentage | number: "1.2-2") : (month.differenceAsPercentage | number: "1.2-2")) + "%" }}
+                  {{
+                    (month.differenceAsPercentage > 0
+                      ? "+" + (month.differenceAsPercentage | number: "1.2-2")
+                      : (month.differenceAsPercentage | number: "1.2-2")) + "%"
+                  }}
                 </td>
               </tr>
             </tbody>
@@ -93,7 +97,11 @@
                     'text-red-500': annual.difference < 0
                   }"
                 >
-                  {{ (annual.differenceAsPercentage > 0 ? "+" + (annual.differenceAsPercentage | number: "1.2-2") : (annual.differenceAsPercentage | number: "1.2-2")) + "%" }}
+                  {{
+                    (annual.differenceAsPercentage > 0
+                      ? "+" + (annual.differenceAsPercentage | number: "1.2-2")
+                      : (annual.differenceAsPercentage | number: "1.2-2")) + "%"
+                  }}
                 </td>
               </tr>
             </tbody>

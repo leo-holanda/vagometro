@@ -1,7 +1,8 @@
-<main>
+<main class="w-full">
   <section *ngIf="!isChartLoading" class="w-min mx-auto">
     <div class="join flex">
       <button
+        *ngIf="!onlyLongTermIntervals"
         class="btn btn-xs join-item flex-1"
         [ngClass]="{
           'btn-primary': intervalType === 'daily'

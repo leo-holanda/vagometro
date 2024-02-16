@@ -302,17 +302,17 @@
                 <span class="font-bold">Desconhecido</span>
               </ng-template>
             </div>
+          </div>
 
-            <div>
-              <div class="flex items-center gap-1 mb-1">
-                <i class="bx bxs-certification"></i>
-                <span>Certificações</span>
-              </div>
+          <div class="mt-2">
+            <div class="flex flex-wrap items-center gap-1 mb-1">
+              <i class="bx bxs-certification"></i>
+              <span>Certificações</span>
+            </div>
 
-              <div class="flex items-center gap-2">
-                <div class="badge badge-neutral" *ngFor="let certificationStatus of job.certificationStatuses">
-                  {{ certificationStatus }}
-                </div>
+            <div class="flex items-center gap-2">
+              <div class="badge badge-neutral" *ngFor="let certificationStatus of job.certificationStatuses">
+                {{ certificationStatus }}
               </div>
             </div>
           </div>

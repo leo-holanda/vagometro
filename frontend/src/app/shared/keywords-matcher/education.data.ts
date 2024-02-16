@@ -68,6 +68,7 @@ export const educationalLevelTerms: EducationalLevelRelatedTerms = {
   'nivel tecnico': EducationalLevels.technician,
   'formacao tecnica': EducationalLevels.technician,
   'curso tecnico': EducationalLevels.technician,
+  'tecnico completo': EducationalLevels.technician,
 
   tecnologo: EducationalLevels.technologist,
 
@@ -75,6 +76,7 @@ export const educationalLevelTerms: EducationalLevelRelatedTerms = {
   'nivel superior': EducationalLevels.bachelors,
   'formacao superior': EducationalLevels.bachelors,
   'curso superior': EducationalLevels.bachelors,
+  'superior completo': EducationalLevels.bachelors,
   graduacao: EducationalLevels.bachelors,
   bacharelado: EducationalLevels.bachelors,
   licenciatura: EducationalLevels.bachelors,

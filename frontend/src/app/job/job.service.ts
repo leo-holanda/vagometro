@@ -5,6 +5,7 @@ import { ContractTypes } from '../shared/keywords-matcher/contract-types.data';
 import { WorkplaceTypes } from '../shared/keywords-matcher/workplace.data';
 import { Job, TimeWindows, monthsMap } from './job.types';
 import { ExperienceLevels } from '../shared/keywords-matcher/experience-levels.data';
+import { CertificationStatus } from '../shared/keywords-matcher/certification.data';
 @Injectable({
   providedIn: 'root',
 })
@@ -178,6 +179,15 @@ export class JobService {
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
         return jobs.filter((job) => this.getJobMonth(job) == month);
+      }),
+    );
+  }
+
+  getJobsByCertificationStatus(certificationStatus: CertificationStatus): Observable<Job[]> {
+    return this.jobs$.pipe(
+      filter((jobs): jobs is Job[] => jobs != undefined),
+      map((jobs) => {
+        return jobs.filter((job) => job.certificationStatuses.includes(certificationStatus));
       }),
     );
   }

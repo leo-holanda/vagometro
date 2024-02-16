@@ -1,0 +1,131 @@
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-4 m-4 h-full">
+  <div class="flex flex-col gap-4 h-min">
+    <div class="card card-bordered card-compact w-full bg-base-300">
+      <div class="card-title p-4">
+        <i class="bx bxs-certification"></i>
+        <h1>Rank de certificação</h1>
+      </div>
+
+      <div class="card-body gap-2 max-h-96 overflow-y-auto">
+        <ng-container *ngIf="certificationsRank$ | async as certificationsRank; else loading">
+          <button
+            class="btn btn-ghost p-2"
+            *ngFor="let certificationStatus of certificationsRank; index as i; trackBy: trackByCertificationStatus"
+            [ngClass]="{ 'btn-active': selectedCertificationStatus === certificationStatus.status }"
+            (click)="onCertificationStatusClick(certificationStatus.status)"
+          >
+            <div class="w-full flex justify-between">
+              <span>{{ i + 1 + ". " + certificationStatus.status }}</span>
+              <span>{{ certificationStatus.count | number }}</span>
+            </div>
+            <progress class="progress w-full" [value]="certificationStatus.count" [max]="certificationsQuantity"></progress>
+          </button>
+        </ng-container>
+
+        <ng-template #loading>
+          <div class="flex flex-col w-full gap-4 mt-4">
+            <div class="skeleton h-8 w-full"></div>
+            <div class="skeleton h-8 w-full"></div>
+            <div class="skeleton h-8 w-full"></div>
+            <div class="skeleton h-8 w-full"></div>
+            <div class="skeleton h-8 w-full"></div>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+
+    <div class="card card-bordered card-compact w-full bg-base-300 flex flex-col gap-4 h-min">
+      <div class="card-title items-center p-4">
+        <i class="bx bxs-calendar"></i>
+        <h1>Vagas com status "{{ selectedCertificationStatus }}" publicadas ao longo do tempo</h1>
+      </div>
+
+      <div class="card-body">
+        <vgm-publication-chart [jobs$]="jobsByCertificationStatus$"></vgm-publication-chart>
+      </div>
+    </div>
+
+    <vgm-job-postings-comparison [jobs$]="jobsByCertificationStatus$"></vgm-job-postings-comparison>
+  </div>
+
+  <div class="card card-bordered card-compact w-full bg-base-300">
+    <div class="card-title p-4">
+      <h1>Sobre as vagas com status "{{ selectedCertificationStatus }}"</h1>
+    </div>
+
+    <div class="card-body">
+      <section>
+        <div class="flex items-center gap-2 mb-2">
+          <i class="bx bxs-chip"></i>
+          <h3>Tecnologias mais frequentes</h3>
+        </div>
+        <vgm-keywords-rank [jobs$]="jobsByCertificationStatus$"></vgm-keywords-rank>
+      </section>
+
+      <div class="divider"></div>
+
+      <section>
+        <div class="flex items-center gap-2 mb-2">
+          <i class="bx bxs-home"></i>
+          <h3>Modalidades mais frequentes</h3>
+        </div>
+        <vgm-workplace-rank [jobs$]="jobsByCertificationStatus$"></vgm-workplace-rank>
+      </section>
+
+      <div class="divider"></div>
+
+      <section>
+        <div class="flex items-center gap-2 mb-2">
+          <i class="bx bxs-user-detail"></i>
+          <h3>Níveis de experiência mais requisitados</h3>
+        </div>
+        <vgm-experience-levels-rank [jobs$]="jobsByCertificationStatus$"></vgm-experience-levels-rank>
+      </section>
+
+      <div class="divider"></div>
+
+      <section>
+        <div class="flex items-center gap-2 mb-2">
+          <i class="bx bxs-briefcase"></i>
+          <h3>Tipos de vagas</h3>
+        </div>
+        <vgm-type-rank [jobs$]="jobsByCertificationStatus$"></vgm-type-rank>
+      </section>
+
+      <div class="divider"></div>
+
+      <section>
+        <div class="flex items-center gap-2 mb-2">
+          <i class="bx bxs-graduation"></i>
+          <h3>Níveis de formação mais requisitados</h3>
+        </div>
+        <vgm-education-rank [jobs$]="jobsByCertificationStatus$"></vgm-education-rank>
+      </section>
+
+      <div class="divider"></div>
+
+      <section>
+        <div class="flex items-center gap-2 mb-2">
+          <i class="bx bx-globe"></i>
+          <h3>Idiomas mais requisitados</h3>
+        </div>
+        <vgm-languages-rank [jobs$]="jobsByCertificationStatus$"></vgm-languages-rank>
+      </section>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<div class="flex items-center justify-center mb-4">
+  <div class="card card-bordered card-compact w-full lg:w-1/2 bg-base-300">
+    <div class="card-title justify-between p-4">
+      <h1>Vagas consideradas nos dados acima</h1>
+      <span>Total: {{ ((jobsByCertificationStatus$ | async) || []).length }} vagas</span>
+    </div>
+
+    <div class="card-body overflow-y-hidden">
+      <vgm-job-list [jobs$]="jobsByCertificationStatus$"></vgm-job-list>
+    </div>
+  </div>
+</div>

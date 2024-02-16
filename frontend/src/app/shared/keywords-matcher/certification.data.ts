@@ -4,7 +4,7 @@ export type CertificationsData = {
 };
 
 export enum CertificationStatus {
-  asks = 'Pede certificação',
+  asks = 'Menciona certificação',
   unknown = 'Desconhecido',
 }
 

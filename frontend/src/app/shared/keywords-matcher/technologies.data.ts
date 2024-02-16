@@ -143,6 +143,7 @@ export const oneWordKeywords: Keywords = {
   api: 'API',
   apis: 'API',
   memcached: 'Memcached',
+  orm: 'ORM',
   //END OF BACKEND
 
   //DATABASE

@@ -76,9 +76,12 @@ export const educationalLevelTerms: EducationalLevelRelatedTerms = {
   'formacao superior': EducationalLevels.bachelors,
   'curso superior': EducationalLevels.bachelors,
   graduacao: EducationalLevels.bachelors,
+  bacharelado: EducationalLevels.bachelors,
+  licenciatura: EducationalLevels.bachelors,
 
   especializacao: EducationalLevels.specialization,
   'pos-graduacao': EducationalLevels.specialization,
+  'pos graduacao': EducationalLevels.specialization,
 
   mestrado: EducationalLevels.masters,
 

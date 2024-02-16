@@ -15,6 +15,8 @@ export interface Keywords {
   Two different ways of writing TypeScript that in the end will be counted only as TypeScript.
 */
 
+//TODO: Migrate all keywords that have a dot (.) to multiwork keywords. Then, include the dot symbol in sanitize content functions
+
 export const oneWordKeywords: Keywords = {
   //FRONTEND
   html: 'HTML',
@@ -40,8 +42,9 @@ export const oneWordKeywords: Keywords = {
   redux: 'Redux',
   webpack: 'Webpack',
   babel: 'Babel',
-  restful: 'RESTful APIs',
-  rest: 'RESTful APIs',
+  rest: 'REST',
+  restful: 'REST',
+  restfull: 'REST',
   graphql: 'GraphQL',
   ajax: 'AJAX',
   json: 'JSON',
@@ -77,6 +80,9 @@ export const oneWordKeywords: Keywords = {
   hooks: 'React Hooks',
   microfrontends: 'Micro Frontend',
   microfrontend: 'Micro Frontend',
+  vb: 'Visual Basic',
+  ngrx: 'NgRx',
+  seo: 'SEO',
   //END OF FRONTEND
 
   //BACKEND
@@ -96,8 +102,10 @@ export const oneWordKeywords: Keywords = {
   php: 'PHP',
   laravel: 'Laravel',
   'asp.net': '.NET',
+  asp: '.NET',
   '.net': '.NET',
   '.net core': '.NET',
+  dotnet: '.NET',
   csharp: 'C#',
   'c#': 'C#',
   go: 'Go',
@@ -132,6 +140,7 @@ export const oneWordKeywords: Keywords = {
   websockets: 'WebSocket',
   ssr: 'Server-Side Rendering',
   sse: 'Server-Sent Events',
+  ssg: 'Static Site Generator',
   svelte: 'Svelte',
   deno: 'Deno',
   bun: 'Bun',
@@ -143,12 +152,16 @@ export const oneWordKeywords: Keywords = {
   alembic: 'Alembic',
   sqlalchemy: 'SQLAlchemy',
   gradle: 'Gradle',
+  api: 'API',
+  apis: 'API',
+  memcached: 'Memcached',
   //END OF BACKEND
 
   //DATABASE
   sql: 'SQL',
   nosql: 'NoSQL',
   mongodb: 'MongoDB',
+  mongo: 'MongoDB',
   mysql: 'MySQL',
   postgresql: 'PostgreSQL',
   elasticsearch: 'Elasticsearch',
@@ -157,6 +170,7 @@ export const oneWordKeywords: Keywords = {
   plsql: 'PL/SQL',
   aurora: 'AWS Aurora',
   dynamo: 'AWS Dynamo',
+  mariadb: 'MariaDB',
   //END OF DATABASE
 
   //MOBILE
@@ -202,12 +216,15 @@ export const oneWordKeywords: Keywords = {
   lambda: 'AWS Lambda',
   sns: 'AWS SNS',
   cloudwatch: 'AWS Cloudwatch',
+  cdn: 'CDN',
+  webhook: 'Webhook',
   //END OF CLOUD
 
   //TESTING,
   junit: 'JUnit',
   mockito: 'Mockito',
   teste: 'Testes',
+  testes: 'Testes',
   jest: 'Jest',
   enzyme: 'Enzyme',
   cypress: 'Cypress',
@@ -222,6 +239,9 @@ export const oneWordKeywords: Keywords = {
   fakes: 'Fakes',
   spies: 'Spies',
   dummies: 'Dummies',
+  jasmine: 'Jasmine',
+  karma: 'Karma',
+  e2e: 'End-to-End Testing',
   //END OF TESTING
 
   //MISCELLANEOUS
@@ -256,16 +276,27 @@ export const oneWordKeywords: Keywords = {
   grafana: 'Grafana',
   windows: 'Windows',
   iot: 'IoT',
-  xp: 'XP',
+  xp: 'Extreme Programming',
   crm: 'CRM',
   erp: 'ERP',
   poo: 'POO',
   mvc: 'MVC',
   mvvm: 'MVVM',
-  solid: 'SOLID',
   cqrs: 'CQRS',
   arcgis: 'ArcGIS',
   agile: 'Agile',
+  ssh: 'SSH',
+  ftp: 'FTP',
+  filezilla: 'FileZilla',
+  cache: 'Cache',
+  pubsub: 'Pub/Sub',
+  splunk: 'Splunk',
+  solid: 'SOLID',
+  kiss: 'KISS',
+  dry: 'DRY',
+  circleci: 'CircleCI',
+  vtex: 'VTEX',
+  crud: 'CRUD',
   //END OF MISCELLANEOUS
 
   //DATA SCIENCE
@@ -281,19 +312,21 @@ export const oneWordKeywords: Keywords = {
   tableau: 'Tableau',
   looker: 'Looker',
   pipeline: 'Pipeline',
+  pipelines: 'Pipeline',
   etl: 'ETL',
   etls: 'ETL',
   numpy: 'NumPy',
   matplotlib: 'Matplotlib',
   seaborn: 'Seaborn',
   redshift: 'Redshift',
-  bigquery: 'BigQuery',
+  bigquery: 'GCP BigQuery',
   snowflake: 'Snowflake',
   hive: 'Hive',
   hbase: 'HBase',
   kafka: 'Kafka',
   hadoop: 'Hadoop',
   primavera: 'Primavera',
+  kibana: 'Kibana',
   //END OF DATA SCIENCE
 
   //GAME DEVELOPMENT
@@ -330,6 +363,7 @@ export const oneWordKeywords: Keywords = {
   databricks: 'Databricks',
   mlflow: 'MLflow',
   lakehouse: 'lakehouse',
+  ml: 'Machine Learning',
   //END OF AI
 };
 
@@ -337,23 +371,29 @@ export const multiWordKeywords: Keywords = {
   //FRONTEND
   'micro frontends': 'Micro Frontend',
   'micro frontend': 'Micro Frontend',
+  'micro front end': 'Micro Frontend',
+  'micro front ends': 'Micro Frontend',
   'responsive design': 'Responsive Design',
   'styled components': 'Styled Components',
   'context api': 'Context API',
   'server side rendering': 'Server Side Rendering',
+  'visual basic': 'Visual Basic',
+  'material design': 'Material Design',
   //END OF FRONTEND
 
   //BACKEND
-  'restful apis': 'RESTful APIs',
   'spring boot': 'Spring Boot',
   'ruby on rails': 'Ruby on Rails',
-  'api development': 'API Development',
   'authentication and authorization': 'Authentication and Authorization',
   'security best practices': 'Security Best Practices',
+  'representational state transfer': 'REST',
+  'node js': 'Node.js',
+  'go lang': 'Go',
   //END OF BACKEND
 
   //UI/UX
   'ui/ux design': 'UI/UX Design',
+  'design system': 'Design System',
   //END OF UI/UX
 
   //TESTING
@@ -381,6 +421,9 @@ export const multiWordKeywords: Keywords = {
   'integracao constante': 'Continuous Integration',
   'continuous integration': 'Continuous Integration',
   'new relic': 'New Relic',
+  'cloud functions': 'GCP Cloud Functions',
+  'github actions': 'GitHub Actions',
+  'github action': 'GitHub Actions',
   //END OF CLOUD
 
   //MISCELLANEOUS
@@ -389,18 +432,53 @@ export const multiWordKeywords: Keywords = {
   'design patterns': 'Design Patterns',
   'programacao orientada a eventos': 'Programação Orientada a Eventos',
   'programacao orientada a objetos': 'POO',
+  'orientacao a objetos': 'POO',
   'metodologias ageis': 'Agile',
   'celulas ageis': 'Agile',
+  'desenvolvimento agil': 'Agile',
   'git flow': 'Git Flow',
   'injecao de dependencia': 'Dependency Injection',
   'dependency injection': 'Dependency Injection',
+  'domain driven design': 'DDD',
+  'domain-driven design': 'DDD',
+  'test driven development': 'TDD',
+  'test-driven development': 'TDD',
+  'behavior-driven development': 'TDD',
+  'behavior driven development': 'TDD',
+  'application programming interface': 'API',
+  'system design': 'System Design',
+  'arquitetura hexagonal': 'Arquitetura Hexagonal',
+  'json web token': 'JWT',
+  'json web tokens': 'JWT',
+  'pub/sub': 'Pub/Sub',
+  'extreme programming': 'Extreme Programming',
   //END OF MISCELLANEOUS
 
   //TESTING
   'testes unitarios': 'Testes Unitários',
-  'testes integrados': 'Testes Integrados',
+  'testes de unidade': 'Testes Unitários',
+  'testes integrados': 'Testes de Integração',
+  'testes de integracao': 'Testes de Integração',
+  'testes de regressao': 'Testes de Regressão',
   'testes funcionais': 'Testes Funcionais',
+  'testes de caixa-preta': 'Testes Funcionais',
   'testes automatizados': 'Testes Automatizados',
+
+  'teste unitarios': 'Testes Unitários',
+  'teste de unidade': 'Testes Unitários',
+  'teste integrados': 'Testes de Integração',
+  'teste de integracao': 'Testes de Integração',
+  'teste de regressao': 'Testes de Regressão',
+  'teste funcionais': 'Testes Funcionais',
+  'teste de caixa-preta': 'Testes Funcionais',
+  'teste automatizados': 'Testes Automatizados',
+
   'react testing library': 'React Testing Library',
   //END OF TESTING
+
+  //AI
+  'machine learning': 'Machine Learning',
+  'deep learning': 'Deep Learning',
+  'inteligencia artificial': 'Inteligência Artificial',
+  'artificial intelligence ': 'Inteligência Artificial',
 };

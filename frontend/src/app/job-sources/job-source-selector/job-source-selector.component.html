@@ -31,7 +31,7 @@
   </button>
 </div>
 
-<main class="flex flex-col gap-4 rounded-box overflow-y-auto overflow-x-hidden">
+<main class="flex flex-col gap-4 rounded-box overflow-y-auto overflow-x-hidden max-h-72 pr-2">
   <div class="flex items-center gap-2" *ngFor="let jobCollection of selectedJobCollections | keyvalue">
     <button class="btn btn-info btn-square" (click)="onInfoButtonClick(jobCollection.value)">
       <i class="bx bxs-info-circle"></i>

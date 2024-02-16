@@ -159,6 +159,7 @@ export const oneWordKeywords: Keywords = {
 
   //DATABASE
   sql: 'SQL',
+  sqlite: 'SQLite',
   nosql: 'NoSQL',
   mongodb: 'MongoDB',
   mongo: 'MongoDB',
@@ -183,6 +184,7 @@ export const oneWordKeywords: Keywords = {
   flutter: 'Flutter',
   xamarin: 'Xamarin',
   expo: 'Expo',
+  dart: 'Dart',
   //END OF MOBILE
 
   //CLOUD
@@ -218,6 +220,7 @@ export const oneWordKeywords: Keywords = {
   cloudwatch: 'AWS Cloudwatch',
   cdn: 'CDN',
   webhook: 'Webhook',
+  openshift: 'Red Hat OpenShift',
   //END OF CLOUD
 
   //TESTING,
@@ -297,6 +300,8 @@ export const oneWordKeywords: Keywords = {
   circleci: 'CircleCI',
   vtex: 'VTEX',
   crud: 'CRUD',
+  criptografia: 'Criptografia',
+  cryptography: 'Criptografia',
   //END OF MISCELLANEOUS
 
   //DATA SCIENCE
@@ -406,6 +411,8 @@ export const multiWordKeywords: Keywords = {
   'sql server': 'SQL Server',
   'banco de dados relacionais': 'Banco de dados relacional',
   'banco de dados não relacionais': 'Banco de dados não relacional',
+  'pl/sql': 'PL/SQL',
+  'sq-lite': 'SQLite',
   //END OF DATABASE
 
   //MOBILE
@@ -419,6 +426,7 @@ export const multiWordKeywords: Keywords = {
   'web servers': 'Web Servers',
   'ci/cd': 'CI/CD',
   'integracao constante': 'Continuous Integration',
+  'integracao continua': 'Continuous Integration',
   'continuous integration': 'Continuous Integration',
   'new relic': 'New Relic',
   'cloud functions': 'GCP Cloud Functions',
@@ -452,6 +460,7 @@ export const multiWordKeywords: Keywords = {
   'json web tokens': 'JWT',
   'pub/sub': 'Pub/Sub',
   'extreme programming': 'Extreme Programming',
+  's.o.l.i.d': 'SOLID',
   //END OF MISCELLANEOUS
 
   //TESTING

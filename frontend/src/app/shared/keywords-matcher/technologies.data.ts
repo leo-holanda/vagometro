@@ -306,6 +306,7 @@ export const oneWordKeywords: Keywords = {
   wcag: 'WCAG',
   tcp: 'TCP',
   http: 'HTTP',
+  lua: 'Lua',
   //END OF MISCELLANEOUS
 
   //DATA SCIENCE

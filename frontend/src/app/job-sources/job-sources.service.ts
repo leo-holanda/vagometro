@@ -68,7 +68,7 @@ export class JobSourcesService {
             jobSource.isLoaded = true;
 
             try {
-              (window as any).umami.track(jobSource.source);
+              (window as any).umami.track(`${jobSource.source} - ${jobSource.name}`);
             } catch (error) {
               console.error(error);
             }

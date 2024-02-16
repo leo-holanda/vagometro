@@ -19,6 +19,21 @@ export enum HigherEducationCoursesNames {
   systemAnalysis = 'Análise de Sistemas',
   eletricEngineering = 'Engenharia Elétrica',
   eletronicEngineering = 'Engenharia Eletrônica',
+  informationTechnology = 'Tecnologia da Informação',
+  network = 'Redes',
+
+  design = 'Design',
+  marketing = 'Marketing',
+  advertising = 'Publicidade',
+  graphicDesign = 'Design Gráfico',
+  communication = 'Comunicação', //risky to match with other contexts
+
+  dataScience = 'Ciência de Dados',
+  statistics = 'Estatística',
+  math = 'Matemática',
+
+  management = 'Administração',
+  economony = 'Economia',
 }
 
 export type EducationalData = {
@@ -34,6 +49,8 @@ interface EducationalLevelRelatedTerms {
 }
 
 export const higherEducationCoursesNames: EducationRelatedTerms = {
+  'tecnologia da informacao': HigherEducationCoursesNames.informationTechnology,
+
   CC: HigherEducationCoursesNames.computerScience,
   'ciencia da computacao': HigherEducationCoursesNames.computerScience,
   'ciencias da computacao': HigherEducationCoursesNames.computerScience,
@@ -58,12 +75,32 @@ export const higherEducationCoursesNames: EducationRelatedTerms = {
 
   'engenharia eletrica': HigherEducationCoursesNames.eletricEngineering,
   'engenharia eletronica': HigherEducationCoursesNames.eletronicEngineering,
+
+  // design: HigherEducationCoursesNames.design (too risky),
+  // comunicacao: HigherEducationCoursesNames.communication (too risky),
+  'design grafico': HigherEducationCoursesNames.graphicDesign,
+  publicidade: HigherEducationCoursesNames.advertising,
+  marketing: HigherEducationCoursesNames.marketing,
+
+  'ciencia de dados': HigherEducationCoursesNames.dataScience,
+  estatistica: HigherEducationCoursesNames.statistics,
+  matematica: HigherEducationCoursesNames.math,
+
+  administracao: HigherEducationCoursesNames.management,
+  economia: HigherEducationCoursesNames.economony,
+
+  redes: HigherEducationCoursesNames.network,
+  'redes de computadores': HigherEducationCoursesNames.network,
 };
 
 export const educationalLevelTerms: EducationalLevelRelatedTerms = {
   'ensino medio': EducationalLevels.highSchool,
   'nivel medio': EducationalLevels.highSchool,
 
+  /*
+    "tecnico em" is an option but it's risky to match with something like
+    "Requer conhecimento tecnico em..."
+  */
   'ensino tecnico': EducationalLevels.technician,
   'nivel tecnico': EducationalLevels.technician,
   'formacao tecnica': EducationalLevels.technician,

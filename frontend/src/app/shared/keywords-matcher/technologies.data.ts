@@ -105,7 +105,7 @@ export const oneWordKeywords: Keywords = {
   oauth: 'OAuth',
   jwt: 'JWT',
   'c++': 'C++',
-  C: 'C',
+  c: 'C',
   soap: 'SOAP',
   rabbitmq: 'RabbitMQ',
   swagger: 'Swagger',
@@ -178,16 +178,18 @@ export const oneWordKeywords: Keywords = {
 
   //CLOUD
   microservices: 'Microsserviços',
-  microserviços: 'Microsserviços',
-  microsserviços: 'Microsserviços',
+  microservicos: 'Microsserviços',
+  microsservicos: 'Microsserviços',
   aws: 'AWS',
   cloudflare: 'Cloudflare',
   gcp: 'GCP',
   azure: 'Azure',
-  nginx: 'Nginx',
+  nginx: 'NGINX',
   apache: 'Apache',
   docker: 'Docker',
   dockers: 'Docker',
+  container: 'Container',
+  containers: 'Container',
   ci: 'CI/CD',
   cd: 'CI/CD',
   jenkins: 'Jenkins',
@@ -210,6 +212,7 @@ export const oneWordKeywords: Keywords = {
   cdn: 'CDN',
   webhook: 'Webhook',
   openshift: 'Red Hat OpenShift',
+  ansible: 'Red Hat Ansible',
   //END OF CLOUD
 
   //TESTING,
@@ -234,6 +237,9 @@ export const oneWordKeywords: Keywords = {
   jasmine: 'Jasmine',
   karma: 'Karma',
   e2e: 'End-to-End Testing',
+  testng: 'TestNG',
+  jmeter: 'Apache JMeter',
+  gherkin: 'Gherkin',
   //END OF TESTING
 
   //MISCELLANEOUS
@@ -254,6 +260,7 @@ export const oneWordKeywords: Keywords = {
   maven: 'Maven',
   wordpress: 'WordPress',
   shell: 'Shell',
+  powershell: 'PowerShell',
   meteor: 'Meteor.js',
   meteorjs: 'Meteor.js',
   meteorJS: 'Meteor.js',
@@ -265,6 +272,9 @@ export const oneWordKeywords: Keywords = {
   mensageria: 'Mensageria',
   zabbix: 'Zabbix',
   grafana: 'Grafana',
+  prometheus: 'Prometheus',
+  jaeger: 'Jaeger',
+  datadog: 'Datadog',
   windows: 'Windows',
   iot: 'IoT',
   xp: 'Extreme Programming',
@@ -290,6 +300,12 @@ export const oneWordKeywords: Keywords = {
   crud: 'CRUD',
   criptografia: 'Criptografia',
   cryptography: 'Criptografia',
+  waterfall: 'Waterfall',
+  vscode: 'VS Code',
+  intellij: 'Intellij',
+  wcag: 'WCAG',
+  tcp: 'TCP',
+  http: 'HTTP',
   //END OF MISCELLANEOUS
 
   //DATA SCIENCE
@@ -320,11 +336,19 @@ export const oneWordKeywords: Keywords = {
   hadoop: 'Hadoop',
   primavera: 'Primavera',
   kibana: 'Kibana',
+  matlab: 'Matlab',
+  bigdata: 'Big Data',
+  powerbi: 'Power BI',
+  protheus: 'Protheus',
+  aniel: 'Aniel',
+  pentaho: 'Pentaho',
+  glue: 'AWS Glue',
   //END OF DATA SCIENCE
 
   //GAME DEVELOPMENT
   unity: 'Unity',
   godot: 'Godot',
+  jogos: 'Desenvolvimento de Jogos',
   //END OF GAME DEVELOPMENT
 
   //AI
@@ -355,9 +379,22 @@ export const oneWordKeywords: Keywords = {
   llm: 'LLM',
   databricks: 'Databricks',
   mlflow: 'MLflow',
-  lakehouse: 'lakehouse',
+  lakehouse: 'Lakehouse',
   ml: 'Machine Learning',
   //END OF AI
+
+  //UI/UX
+  prototipacao: 'Prototipação',
+  photoshop: 'Adobe Photoshop',
+  illustrator: 'Adobe Illustrator',
+  coreldraw: 'CorelDRAW',
+  sketch: 'Sketch',
+  miro: 'Miro',
+  maze: 'Maze',
+  hotjar: 'Hotjar',
+  asana: 'Asana',
+  mural: 'Mural',
+  //END OF UI/UX
 };
 
 export const multiWordKeywords: Keywords = {
@@ -377,7 +414,6 @@ export const multiWordKeywords: Keywords = {
   'next.js': 'NextJS',
   'leaflet.js': 'Leaflet',
   'nuxt.js': 'Nuxt',
-
   //END OF FRONTEND
 
   //BACKEND
@@ -393,16 +429,22 @@ export const multiWordKeywords: Keywords = {
   '.net core': '.NET',
   'socket.io': 'Socket.io',
   'nest.js': 'NestJS',
-
   //END OF BACKEND
 
   //UI/UX
   'ui/ux design': 'UI/UX Design',
   'design system': 'Design System',
+  'testes de usabilidade': 'Testes de Usabilidade',
+  'corel draw': 'CorelDRAW',
+  'design thinking': 'Design Thinking',
+  'user experience': 'UX',
+  'adobe xd': 'Adobe XD',
+  'product discovery': 'Product Discovery',
   //END OF UI/UX
 
   //TESTING
   'frontend testing': 'Testes',
+  'robot framework': 'Robot Framework',
   //END OF TESTING
 
   //DATABASE
@@ -421,13 +463,15 @@ export const multiWordKeywords: Keywords = {
   //END OF MOBILE
 
   //CLOUD
-  'micro serviços': 'Microsserviços',
+  'micro servicos': 'Microsserviços',
   'Google Cloud Platform': 'GCP',
   'web servers': 'Web Servers',
   'ci/cd': 'CI/CD',
-  'integracao constante': 'Continuous Integration',
-  'integracao continua': 'Continuous Integration',
-  'continuous integration': 'Continuous Integration',
+  'integracao constante': 'CI/CD',
+  'integracao continua': 'CI/CD',
+  'continuous integration': 'CI/CD',
+  'continuous delivery': 'CI/CD',
+  'entrega continua': 'CI/CD',
   'new relic': 'New Relic',
   'cloud functions': 'GCP Cloud Functions',
   'github actions': 'GitHub Actions',
@@ -442,9 +486,10 @@ export const multiWordKeywords: Keywords = {
   'programacao orientada a objetos': 'POO',
   'orientacao a objetos': 'POO',
   'metodologias ageis': 'Agile',
+  'metodologia agil': 'Agile',
   'celulas ageis': 'Agile',
   'desenvolvimento agil': 'Agile',
-  'git flow': 'Git Flow',
+  'git flow': 'GitFlow',
   'injecao de dependencia': 'Dependency Injection',
   'dependency injection': 'Dependency Injection',
   'domain driven design': 'DDD',
@@ -462,7 +507,6 @@ export const multiWordKeywords: Keywords = {
   'extreme programming': 'Extreme Programming',
   's.o.l.i.d': 'SOLID',
   'meteor.js': 'Meteor.js',
-
   //END OF MISCELLANEOUS
 
   //TESTING
@@ -474,6 +518,7 @@ export const multiWordKeywords: Keywords = {
   'testes funcionais': 'Testes Funcionais',
   'testes de caixa-preta': 'Testes Funcionais',
   'testes automatizados': 'Testes Automatizados',
+  'testes de fumaca': 'Testes de Fumaça',
 
   'teste unitarios': 'Testes Unitários',
   'teste de unidade': 'Testes Unitários',
@@ -483,13 +528,36 @@ export const multiWordKeywords: Keywords = {
   'teste funcionais': 'Testes Funcionais',
   'teste de caixa-preta': 'Testes Funcionais',
   'teste automatizados': 'Testes Automatizados',
+  'teste de fumaca': 'Testes de Fumaça',
 
   'react testing library': 'React Testing Library',
   //END OF TESTING
 
   //AI
   'machine learning': 'Machine Learning',
+  'aprendizado de maquina': 'Machine Learning',
+  'algoritmo de aprendizagem': 'Machine Learning',
   'deep learning': 'Deep Learning',
   'inteligencia artificial': 'Inteligência Artificial',
   'artificial intelligence ': 'Inteligência Artificial',
+  'regressao logistica': 'Regressão Logística',
+  'modelos lineares': 'Modelos Lineares',
+  'rede neural': 'Rede Neural',
+  'neural network': 'Rede Neural',
+  'neural networks': 'Rede Neural',
+  'processamento de linguagem natural': 'NLP',
+  'natural language processing': 'NLP',
+  'visao computacional': 'Visão Computacional',
+  'computer vision': 'Visão Computacional',
+  'reconhecimento de padroes': 'Reconhecimento de Padrões',
+  //END OF AI
+
+  //DATA
+  'big data': 'Big Data',
+  'google sheets': 'Google Sheets',
+  'Power BI': 'Power BI',
+  'series temporais': 'Séries Temporais',
+  'data bricks': 'Databricks',
+  'data factory': 'Azure Data Factory',
+  //END OF DATA
 };

@@ -47,6 +47,11 @@ export const inclusionRelatedTerms: InclusionRelatedTerms = {
   'afirmativa para pessoas negras': InclusionTypes.blackPeople,
   'afirmativa pessoas negras': InclusionTypes.blackPeople,
 
+  'afirmativa para talentos negros': InclusionTypes.blackPeople,
+  'afirmativa para talento negro': InclusionTypes.blackPeople,
+  'afirmativa talentos negros': InclusionTypes.blackPeople,
+  'afirmativa talento negro': InclusionTypes.blackPeople,
+
   'afirmativa para mulheres': InclusionTypes.women,
   'afirmativa mulheres': InclusionTypes.women,
   'afirmativa para mulher': InclusionTypes.women,
@@ -72,4 +77,63 @@ export const inclusionRelatedTerms: InclusionRelatedTerms = {
   'afirmativa para pessoa trans': InclusionTypes.transgenderPeople,
   'afirmativa pessoas trans': InclusionTypes.transgenderPeople,
   'afirmativa pessoa trans': InclusionTypes.transgenderPeople,
+
+  'exclusiva para profissionais com deficiencia': InclusionTypes.PCD,
+  'exclusiva para profissional com deficiencia': InclusionTypes.PCD,
+  'exclusiva para pessoas com deficiencia (pcd)': InclusionTypes.PCD,
+  'exclusiva para pessoa com deficiencia (pcd)': InclusionTypes.PCD,
+  'exclusiva para pessoas com deficiencia': InclusionTypes.PCD,
+  'exclusiva para pessoa com deficiencia': InclusionTypes.PCD,
+
+  'exclusiva pessoas com deficiencia': InclusionTypes.PCD,
+  'exclusiva pessoa com deficiencia': InclusionTypes.PCD,
+  'exclusiva pessoas com deficiencia (pcd)': InclusionTypes.PCD,
+  'exclusiva pessoa com deficiencia (pcd)': InclusionTypes.PCD,
+  'exclusiva profissionais com deficiencia': InclusionTypes.PCD,
+  'exclusiva profissional com deficiencia': InclusionTypes.PCD,
+
+  'exclusiva para pcd': InclusionTypes.PCD,
+  'exclusiva pcd': InclusionTypes.PCD,
+  'exclusiva (pcd)': InclusionTypes.PCD,
+
+  'vaga exclusiva - pcd': InclusionTypes.PCD,
+  'vaga exclusiva - (pcd)': InclusionTypes.PCD,
+  'vaga exclusiva - pessoas com deficiência': InclusionTypes.PCD,
+  'vaga exclusiva - pessoa com deficiência': InclusionTypes.PCD,
+
+  'exclusiva para pessoas pretas': InclusionTypes.blackPeople,
+  'exclusiva pessoas pretas': InclusionTypes.blackPeople,
+  'exclusiva para pessoas negras': InclusionTypes.blackPeople,
+  'exclusiva pessoas negras': InclusionTypes.blackPeople,
+
+  'exclusiva para talentos negros': InclusionTypes.blackPeople,
+  'exclusiva para talento negro': InclusionTypes.blackPeople,
+  'exclusiva talentos negros': InclusionTypes.blackPeople,
+  'exclusiva talento negro': InclusionTypes.blackPeople,
+
+  'exclusiva para mulheres': InclusionTypes.women,
+  'exclusiva mulheres': InclusionTypes.women,
+  'exclusiva para mulher': InclusionTypes.women,
+  'exclusiva mulher': InclusionTypes.women,
+  'exclusiva feminina': InclusionTypes.women,
+
+  'exclusiva para talentos diversos': InclusionTypes.diversePeople,
+  'exclusiva para talento diverso': InclusionTypes.diversePeople,
+  'exclusiva talentos diversos': InclusionTypes.diversePeople,
+  'exclusiva talento diverso': InclusionTypes.diversePeople,
+
+  'exclusiva para pessoas diversas': InclusionTypes.diversePeople,
+  'exclusiva para pessoa diversa': InclusionTypes.diversePeople,
+  'exclusiva pessoas diversas': InclusionTypes.diversePeople,
+  'exclusiva pessoa diversa': InclusionTypes.diversePeople,
+
+  'exclusiva para grupos de diversidade': InclusionTypes.diversePeople,
+  'exclusiva para grupo de diversidade': InclusionTypes.diversePeople,
+  'exclusiva grupos de diversidade': InclusionTypes.diversePeople,
+  'exclusiva grupo de diversidade': InclusionTypes.diversePeople,
+
+  'exclusiva para pessoas trans': InclusionTypes.transgenderPeople,
+  'exclusiva para pessoa trans': InclusionTypes.transgenderPeople,
+  'exclusiva pessoas trans': InclusionTypes.transgenderPeople,
+  'exclusiva pessoa trans': InclusionTypes.transgenderPeople,
 };

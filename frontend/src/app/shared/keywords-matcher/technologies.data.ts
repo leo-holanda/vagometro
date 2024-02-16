@@ -29,10 +29,8 @@ export const oneWordKeywords: Keywords = {
   ts: 'TypeScript',
   react: 'React',
   reactjs: 'React',
-  'react.js': 'React',
   angular: 'Angular',
   angularjs: 'AngularJS',
-  'vue.js': 'Vue.js',
   vuejs: 'Vue.js',
   vue: 'Vue.js',
   vue3: 'Vue.js',
@@ -52,7 +50,6 @@ export const oneWordKeywords: Keywords = {
   stylus: 'Stylus',
   next: 'NextJS',
   nextjs: 'NextJS',
-  'next.js': 'NextJS',
   blazor: 'Blazor',
   jquery: 'jQuery',
   edux: 'Edux',
@@ -60,7 +57,6 @@ export const oneWordKeywords: Keywords = {
   vuex: 'Vuex',
   recoil: 'Recoil',
   leaflet: 'Leaflet',
-  'leaflet.js': 'Leaflet',
   leafletjs: 'Leaflet',
   relay: 'Relay',
   figma: 'Figma',
@@ -69,7 +65,6 @@ export const oneWordKeywords: Keywords = {
   pwa: 'Progressive Web Apps',
   webassembly: 'WebAssembly',
   nuxt: 'Nuxt',
-  'nuxt.js': 'Nuxt',
   nuxtjs: 'Nuxt',
   gastby: 'Gatsby',
   jekyll: 'Jekyll',
@@ -87,10 +82,8 @@ export const oneWordKeywords: Keywords = {
 
   //BACKEND
   kotlin: 'Kotlin',
-  'node.js': 'Node.js',
   node: 'Node.js',
   nodejs: 'Node.js',
-  'express.js': 'Express',
   express: 'Express',
   java: 'Java',
   springboot: 'Spring Boot',
@@ -101,10 +94,7 @@ export const oneWordKeywords: Keywords = {
   rails: 'Ruby On Rails',
   php: 'PHP',
   laravel: 'Laravel',
-  'asp.net': '.NET',
   asp: '.NET',
-  '.net': '.NET',
-  '.net core': '.NET',
   dotnet: '.NET',
   csharp: 'C#',
   'c#': 'C#',
@@ -124,7 +114,6 @@ export const oneWordKeywords: Keywords = {
   cobol: 'Cobol',
   fortran: 'Fortran',
   grpc: 'GRPC',
-  'socket.io': 'Socket.io',
   postman: 'Postman',
   insomnia: 'Insomnia',
   apollo: 'Apollo',
@@ -134,7 +123,6 @@ export const oneWordKeywords: Keywords = {
   mq: 'IBM MQ',
   nestjs: 'NestJS',
   nest: 'NestJS',
-  'nest.js': 'NestJS',
   hibernate: 'Hibernate',
   websocket: 'WebSocket',
   websockets: 'WebSocket',
@@ -266,7 +254,6 @@ export const oneWordKeywords: Keywords = {
   wordpress: 'WordPress',
   shell: 'Shell',
   meteor: 'Meteor.js',
-  'meteor.js': 'Meteor.js',
   meteorjs: 'Meteor.js',
   meteorJS: 'Meteor.js',
   blockchain: 'Blockchain',
@@ -384,6 +371,12 @@ export const multiWordKeywords: Keywords = {
   'server side rendering': 'Server Side Rendering',
   'visual basic': 'Visual Basic',
   'material design': 'Material Design',
+  'react.js': 'React',
+  'vue.js': 'Vue.js',
+  'next.js': 'NextJS',
+  'leaflet.js': 'Leaflet',
+  'nuxt.js': 'Nuxt',
+
   //END OF FRONTEND
 
   //BACKEND
@@ -392,8 +385,14 @@ export const multiWordKeywords: Keywords = {
   'authentication and authorization': 'Authentication and Authorization',
   'security best practices': 'Security Best Practices',
   'representational state transfer': 'REST',
-  'node js': 'Node.js',
-  'go lang': 'Go',
+  'node.js': 'Node.js',
+  'express.js': 'Express',
+  'asp.net': '.NET',
+  '.net': '.NET',
+  '.net core': '.NET',
+  'socket.io': 'Socket.io',
+  'nest.js': 'NestJS',
+
   //END OF BACKEND
 
   //UI/UX
@@ -461,6 +460,8 @@ export const multiWordKeywords: Keywords = {
   'pub/sub': 'Pub/Sub',
   'extreme programming': 'Extreme Programming',
   's.o.l.i.d': 'SOLID',
+  'meteor.js': 'Meteor.js',
+
   //END OF MISCELLANEOUS
 
   //TESTING

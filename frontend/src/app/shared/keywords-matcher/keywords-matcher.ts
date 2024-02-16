@@ -1,11 +1,5 @@
 import { ContractTypes, contractTypeRelatedTerms } from './contract-types.data';
-import {
-  EducationalData,
-  EducationalLevels,
-  HigherEducationCoursesNames,
-  educationalLevelTerms,
-  higherEducationCoursesNames,
-} from './education.data';
+import { EducationalData, EducationalLevels, HigherEducationCoursesNames, educationalLevelTerms, higherEducationCoursesNames } from './education.data';
 import { ExperienceLevels, experienceLevelRelatedTerms, multiWordExperienceLevelRelatedTerms } from './experience-levels.data';
 import { InclusionTypes, inclusionRelatedTerms } from './inclusion.data';
 import { Languages, languageRelatedTerms } from './languages.data';
@@ -291,6 +285,7 @@ function removeSymbols(string: string): string {
   return string
     .replaceAll('/', ' ')
     .replaceAll(',', ' ')
+    .replaceAll('.', ' ')
     .replaceAll('(', ' ')
     .replaceAll(')', ' ')
     .replaceAll('-', ' ')

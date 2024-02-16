@@ -2,6 +2,7 @@ import { ContractTypes } from '../shared/keywords-matcher/contract-types.data';
 import { ExperienceLevels } from '../shared/keywords-matcher/experience-levels.data';
 import { WorkplaceTypes } from '../shared/keywords-matcher/workplace.data';
 import { InclusionTypes } from '../shared/keywords-matcher/inclusion.data';
+import { CertificationStatus } from '../shared/keywords-matcher/certification.data';
 
 export type Job = {
   id: number;
@@ -22,6 +23,7 @@ export type Job = {
   educationTerms: string[];
   educationalLevelTerms: string[];
   languages: string[];
+  certificationStatuses: CertificationStatus[];
 };
 
 export enum TimeWindows {

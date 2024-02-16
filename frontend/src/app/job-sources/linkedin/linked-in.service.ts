@@ -8,6 +8,7 @@ import { Job } from 'src/app/job/job.types';
 import { ContractTypes } from 'src/app/shared/keywords-matcher/contract-types.data';
 import { WorkplaceTypes } from 'src/app/shared/keywords-matcher/workplace.data';
 import {
+  matchCertificationStatus,
   matchContractTypes,
   matchEducationalTerms,
   matchExperienceLevel,
@@ -18,6 +19,7 @@ import {
 } from 'src/app/shared/keywords-matcher/keywords-matcher';
 import { EducationalData } from 'src/app/shared/keywords-matcher/education.data';
 import { InclusionTypes } from 'src/app/shared/keywords-matcher/inclusion.data';
+import { CertificationStatus } from 'src/app/shared/keywords-matcher/certification.data';
 
 @Injectable({
   providedIn: 'root',
@@ -70,7 +72,12 @@ export class LinkedInService {
       languages: this.findJobLanguages(job),
       state: this.findJobState(job),
       workplaceTypes: this.getJobWorkplaceType(job),
+      certificationStatuses: this.findCertificationStatuses(job),
     };
+  }
+
+  private findCertificationStatuses(job: LinkedInJob): CertificationStatus[] {
+    return matchCertificationStatus({ description: job.description });
   }
 
   private findInclusionTypes(job: LinkedInJob): InclusionTypes[] {

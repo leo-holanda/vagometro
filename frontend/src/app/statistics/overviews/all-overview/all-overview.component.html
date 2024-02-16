@@ -212,6 +212,26 @@
         </div>
       </div>
     </div>
+
+    <div class="card card-bordered card-compact w-full bg-base-300">
+      <div class="card-body">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-1">
+            <i class="bx bxs-certification"></i>
+            <h2 class="card-title">Rank de Certificação</h2>
+          </div>
+        </div>
+
+        <vgm-certifications-rank [rankSize]="5"></vgm-certifications-rank>
+
+        <div class="card-actions mt-auto w-full">
+          <button class="btn btn-neutral w-full" [routerLink]="['/stats/idiomas']">
+            <i class="bx bx-search"></i>
+            <span>Ver mais</span>
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="divider"></div>

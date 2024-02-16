@@ -12,6 +12,7 @@ import { EducationData } from './ranks/education-rank/education-rank.types';
 import { MonthData, ComparisonData } from './ranks/months-rank/months-rank.types';
 import { ContractTypes } from '../shared/keywords-matcher/contract-types.data';
 import { ExperienceLevelData, ExperienceLevels } from '../shared/keywords-matcher/experience-levels.data';
+import { CertificationStatus, CertificationsData } from '../shared/keywords-matcher/certification.data';
 
 @Injectable({
   providedIn: 'root',
@@ -345,6 +346,31 @@ export class StatisticsService {
 
         const sortedObjects = sortedEntries.map(([key, value]) => ({
           name: key,
+          count: value,
+        }));
+
+        return sortedObjects;
+      }),
+    );
+  }
+
+  getCertificationsRank(jobs$: Observable<Job[] | undefined> = this.jobService.jobs$): Observable<CertificationsData[]> {
+    return jobs$.pipe(
+      filter((jobs): jobs is Job[] => jobs != undefined),
+      map((jobs) => {
+        const certificationsMap = new Map<CertificationStatus, number>();
+
+        jobs.forEach((job) => {
+          job.certificationStatuses.forEach((certificationStatus) => {
+            const currentCertificationStatusCount = certificationsMap.get(certificationStatus) || 0;
+            certificationsMap.set(certificationStatus, currentCertificationStatusCount + 1);
+          });
+        });
+
+        const sortedEntries = Array.from(certificationsMap.entries()).sort((a, b) => b[1] - a[1]);
+
+        const sortedObjects = sortedEntries.map(([key, value]) => ({
+          status: key,
           count: value,
         }));
 

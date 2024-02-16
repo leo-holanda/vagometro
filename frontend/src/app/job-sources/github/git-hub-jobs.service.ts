@@ -11,6 +11,7 @@ import { Job } from 'src/app/job/job.types';
 import { ContractTypes } from 'src/app/shared/keywords-matcher/contract-types.data';
 import { WorkplaceTypes } from 'src/app/shared/keywords-matcher/workplace.data';
 import {
+  matchCertificationStatus,
   matchContractTypes,
   matchEducationalTerms,
   matchExperienceLevel,
@@ -20,6 +21,7 @@ import {
   matchWorkplaceTypes,
 } from 'src/app/shared/keywords-matcher/keywords-matcher';
 import { InclusionTypes } from 'src/app/shared/keywords-matcher/inclusion.data';
+import { CertificationStatus } from 'src/app/shared/keywords-matcher/certification.data';
 
 @Injectable({
   providedIn: 'root',
@@ -94,7 +96,12 @@ export class GitHubJobsService {
       keywords: this.findJobKeywords(job),
       languages: this.findJobLanguages(job),
       workplaceTypes: this.findJobWorkplaceTypes(job),
+      certificationStatuses: this.findCertificationStatuses(job),
     };
+  }
+
+  private findCertificationStatuses(job: GitHubJob): CertificationStatus[] {
+    return matchCertificationStatus({ description: job.body });
   }
 
   private findCompanyName(job: GitHubJob): string {

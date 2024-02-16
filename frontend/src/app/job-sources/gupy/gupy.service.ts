@@ -2,17 +2,13 @@ import { Injectable } from '@angular/core';
 import { Observable, map, shareReplay } from 'rxjs';
 import { GupyJob, gupyContractTypeMap } from './gupy.types';
 import { AtlasService } from 'src/app/atlas/atlas.service';
-import {
-  internLevelRelatedTypes,
-  traineeLevelRelatedTypes,
-  juniorLevelRelatedTypes,
-  ExperienceLevels,
-} from 'src/app/shared/keywords-matcher/experience-levels.data';
+import { internLevelRelatedTypes, traineeLevelRelatedTypes, juniorLevelRelatedTypes, ExperienceLevels } from 'src/app/shared/keywords-matcher/experience-levels.data';
 import { Job } from 'src/app/job/job.types';
 import { ContractTypes } from 'src/app/shared/keywords-matcher/contract-types.data';
 import { EducationalData } from 'src/app/shared/keywords-matcher/education.data';
 import { WorkplaceTypes } from 'src/app/shared/keywords-matcher/workplace.data';
 import {
+  matchCertificationStatus,
   matchEducationalTerms,
   matchExperienceLevel,
   matchInclusionTypes,
@@ -20,6 +16,7 @@ import {
   matchLanguages,
 } from 'src/app/shared/keywords-matcher/keywords-matcher';
 import { InclusionTypes } from 'src/app/shared/keywords-matcher/inclusion.data';
+import { CertificationStatus } from 'src/app/shared/keywords-matcher/certification.data';
 
 @Injectable({
   providedIn: 'root',
@@ -128,7 +125,12 @@ export class GupyService {
       keywords: this.getJobKeywords(job),
       languages: this.findJobLanguages(job),
       workplaceTypes: this.getJobWorkplaceType(job),
+      certificationStatuses: this.findCertificationStatuses(job),
     };
+  }
+
+  private findCertificationStatuses(job: GupyJob): CertificationStatus[] {
+    return matchCertificationStatus({ description: job.description });
   }
 
   private findJobContractType(job: GupyJob): ContractTypes[] {

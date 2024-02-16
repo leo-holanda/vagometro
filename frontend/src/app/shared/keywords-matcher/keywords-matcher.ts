@@ -1,3 +1,4 @@
+import { CertificationStatus, certificationRelatedTerms } from './certification.data';
 import { ContractTypes, contractTypeRelatedTerms } from './contract-types.data';
 import { EducationalData, EducationalLevels, HigherEducationCoursesNames, educationalLevelTerms, higherEducationCoursesNames } from './education.data';
 import { ExperienceLevels, experienceLevelRelatedTerms, multiWordExperienceLevelRelatedTerms } from './experience-levels.data';
@@ -227,6 +228,22 @@ export function matchInclusionTypes(content: MatcherInput): InclusionTypes[] {
 
   if (matchedInclusionTypes.length == 0) return [InclusionTypes.unknown];
   return getUniqueStrings(matchedInclusionTypes) as InclusionTypes[];
+}
+
+export function matchCertificationStatus(content: MatcherInput): CertificationStatus[] {
+  const matchedCertificationStatus: CertificationStatus[] = [];
+
+  if (content.description) {
+    const sanitizedDescription = sanitizeString(content.description);
+
+    Object.keys(certificationRelatedTerms).forEach((term) => {
+      const descriptionHasTerm = sanitizedDescription.includes(term);
+      if (descriptionHasTerm) matchedCertificationStatus.push(certificationRelatedTerms[term]);
+    });
+  }
+
+  if (matchedCertificationStatus.length == 0) return [CertificationStatus.unknown];
+  return getUniqueStrings(matchedCertificationStatus) as CertificationStatus[];
 }
 
 function matchHigherEducationCoursesNames(content: string): string[] {

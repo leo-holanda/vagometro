@@ -51,6 +51,7 @@ Feel free to submit any issues or enhancement requests! I will do my best to fix
 - Tailwind
 - DaisyUI
 - Apache ECharts
+- Umami
 
 ## Deployed at
 

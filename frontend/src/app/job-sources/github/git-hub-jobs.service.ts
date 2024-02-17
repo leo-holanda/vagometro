@@ -99,22 +99,37 @@ export class GitHubJobsService {
   private findCompanyName(job: GitHubJob): string {
     if (job.title.includes('@')) {
       const splittedTitle = job.title.split('@');
-      return splittedTitle[splittedTitle.length - 1];
+      return splittedTitle[splittedTitle.length - 1].trim();
     }
 
-    if (job.title.includes('na ')) {
-      const splittedTitle = job.title.split('na ');
-      return splittedTitle[splittedTitle.length - 1];
+    if (job.title.includes('|')) {
+      const splittedTitle = job.title.split('|');
+      return splittedTitle[splittedTitle.length - 1].trim();
     }
 
-    if (job.title.includes('no ')) {
-      const splittedTitle = job.title.split('no ');
-      return splittedTitle[splittedTitle.length - 1];
+    if (job.title.toLowerCase().includes('na ')) {
+      const splittedTitle = job.title.toLowerCase().split('na ');
+      return splittedTitle[splittedTitle.length - 1].trim();
     }
 
-    if (job.title.includes('- ')) {
-      const splittedTitle = job.title.split('- ');
-      return splittedTitle[splittedTitle.length - 1];
+    if (job.title.toLowerCase().includes('no ')) {
+      const splittedTitle = job.title.toLowerCase().split('no ');
+      return splittedTitle[splittedTitle.length - 1].trim();
+    }
+
+    if (job.title.toLowerCase().includes('at ')) {
+      const splittedTitle = job.title.toLowerCase().split('at ');
+      return splittedTitle[splittedTitle.length - 1].trim();
+    }
+
+    if (job.title.toLowerCase().includes('in ')) {
+      const splittedTitle = job.title.toLowerCase().split('at ');
+      return splittedTitle[splittedTitle.length - 1].trim();
+    }
+
+    if (job.title.includes('-')) {
+      const splittedTitle = job.title.split('-');
+      return splittedTitle[splittedTitle.length - 1].trim();
     }
 
     return 'Desconhecido';

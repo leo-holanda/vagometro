@@ -4,7 +4,7 @@ export enum InclusionTypes {
   alsoForPCD = 'Também para PCD',
   women = 'Mulheres',
   blackPeople = 'Pessoas negras',
-  transgenderPeople = 'Trans',
+  transgenderPeople = 'Pessoas trans',
   diversePeople = 'Pessoas diversas',
   unknown = 'Desconhecido',
 }

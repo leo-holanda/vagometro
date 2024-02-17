@@ -8,6 +8,11 @@
 
       <div class="card-body max-h-96 overflow-y-auto">
         <ng-container *ngIf="typesRank$ | async as typesRank; else loading">
+          <div class="flex justify-between w-full px-2 text-gray-600">
+            <span>Tipo</span>
+            <span>Vagas</span>
+          </div>
+
           <button
             class="btn btn-ghost p-2"
             *ngFor="let type of typesRank; index as i; trackBy: trackByType"
@@ -16,8 +21,13 @@
           >
             <div class="w-full flex justify-between">
               <span>{{ i + 1 + ". " + type.name }}</span>
-              <span>{{ type.count | number }}</span>
+
+              <div class="flex gap-2">
+                <span>{{ type.count | number }}</span>
+                <span class="text-gray-600">({{ type.count / jobsQuantity | percent: "1.1-1" }})</span>
+              </div>
             </div>
+
             <progress class="progress w-full" [value]="type.count" [max]="jobsQuantity"></progress>
           </button>
         </ng-container>

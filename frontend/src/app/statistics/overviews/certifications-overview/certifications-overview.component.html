@@ -8,6 +8,11 @@
 
       <div class="card-body gap-2 max-h-96 overflow-y-auto">
         <ng-container *ngIf="certificationsRank$ | async as certificationsRank; else loading">
+          <div class="flex justify-between w-full px-2 text-gray-600">
+            <span>Certificação</span>
+            <span>Vagas</span>
+          </div>
+
           <button
             class="btn btn-ghost p-2"
             *ngFor="let certificationStatus of certificationsRank; index as i; trackBy: trackByCertificationStatus"
@@ -16,8 +21,12 @@
           >
             <div class="w-full flex justify-between">
               <span>{{ i + 1 + ". " + certificationStatus.status }}</span>
-              <span>{{ certificationStatus.count | number }}</span>
+              <div class="flex gap-2">
+                <span>{{ certificationStatus.count | number }}</span>
+                <span class="text-gray-600">({{ certificationStatus.count / jobsQuantity | percent: "1.1-1" }})</span>
+              </div>
             </div>
+
             <progress class="progress w-full" [value]="certificationStatus.count" [max]="jobsQuantity"></progress>
           </button>
         </ng-container>

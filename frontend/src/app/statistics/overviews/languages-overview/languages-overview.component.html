@@ -8,16 +8,26 @@
 
       <div class="card-body max-h-96 overflow-y-auto">
         <ng-container *ngIf="languagesRank$ | async as languagesRank; else loading">
+          <div class="flex justify-between w-full px-2 text-gray-600">
+            <span>Idioma</span>
+            <span>Vagas</span>
+          </div>
+
           <button
             class="btn btn-ghost p-2"
             *ngFor="let language of languagesRank; index as i; trackBy: trackByLanguage"
-            [ngClass]="{ 'btn-active': selectedLanguage == language.name }"
+            [ngClass]="{ 'btn-active': selectedLanguage === language.name }"
             (click)="onLanguageClick(language.name)"
           >
             <div class="w-full flex justify-between">
               <span>{{ i + 1 + ". " + language.name }}</span>
-              <span>{{ language.count | number }}</span>
+
+              <div class="flex gap-2">
+                <span>{{ language.count | number }}</span>
+                <span class="text-gray-600">({{ language.count / jobsQuantity | percent: "1.1-1" }})</span>
+              </div>
             </div>
+
             <progress class="progress w-full" [value]="language.count" [max]="jobsQuantity"></progress>
           </button>
         </ng-container>

@@ -31,6 +31,11 @@
 
           <ng-container *ngSwitchCase="'city'" #citiesList>
             <div class="card-body gap-2 max-h-96 overflow-y-auto">
+              <div class="flex justify-between w-full px-2 text-gray-600">
+                <span>Cidade</span>
+                <span>Vagas</span>
+              </div>
+
               <button
                 class="btn btn-ghost p-2"
                 *ngFor="let city of citiesRank$ | async; index as i; trackBy: trackByCity"
@@ -39,7 +44,10 @@
               >
                 <div class="w-full flex justify-between">
                   <span>{{ i + 1 + ". " + city.name + ", " + (city.state | stateAbbreviation) }}</span>
-                  <span>{{ city.count | number }}</span>
+                  <div class="flex gap-2">
+                    <span>{{ city.count | number }}</span>
+                    <span class="text-gray-600">({{ city.count / jobsQuantity | percent: "1.1-1" }})</span>
+                  </div>
                 </div>
                 <progress class="progress w-full" [value]="city.count" [max]="jobsQuantity"></progress>
               </button>
@@ -48,6 +56,11 @@
 
           <ng-container *ngSwitchCase="'state'" #statesList>
             <div class="card-body gap-2 max-h-96 overflow-y-auto">
+              <div class="flex justify-between w-full px-2 text-gray-600">
+                <span>Estado</span>
+                <span>Vagas</span>
+              </div>
+
               <button
                 class="btn btn-ghost p-2"
                 *ngFor="let state of statesRank$ | async; index as i; trackBy: trackByState"
@@ -56,8 +69,13 @@
               >
                 <div class="w-full flex justify-between">
                   <span>{{ i + 1 + ". " + state.name }}</span>
-                  <span>{{ state.count | number }}</span>
+
+                  <div class="flex gap-2">
+                    <span>{{ state.count | number }}</span>
+                    <span class="text-gray-600">({{ state.count / jobsQuantity | percent: "1.1-1" }})</span>
+                  </div>
                 </div>
+
                 <progress class="progress w-full" [value]="state.count" [max]="jobsQuantity"></progress>
               </button>
             </div>

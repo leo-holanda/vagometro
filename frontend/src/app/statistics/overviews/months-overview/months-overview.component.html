@@ -8,6 +8,11 @@
 
       <div class="card-body max-h-96 overflow-y-auto">
         <ng-container *ngIf="monthsRank$ | async as monthsRank; else loading">
+          <div class="flex justify-between w-full px-2 text-gray-600">
+            <span>Mês</span>
+            <span>Vagas</span>
+          </div>
+
           <button
             class="btn btn-ghost p-2"
             *ngFor="let month of monthsRank; index as i; trackBy: trackByMonth"
@@ -16,8 +21,13 @@
           >
             <div class="w-full flex justify-between">
               <span>{{ i + 1 + ". " + month.name | titlecase }}</span>
-              <span>{{ month.count | number }}</span>
+
+              <div class="flex gap-2">
+                <span>{{ month.count | number }}</span>
+                <span class="text-gray-600">({{ month.count / jobsQuantity | percent: "1.1-1" }})</span>
+              </div>
             </div>
+
             <progress class="progress w-full" [value]="month.count" [max]="jobsQuantity"></progress>
           </button>
         </ng-container>

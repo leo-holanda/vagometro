@@ -32,6 +32,11 @@
       <div class="card-body max-h-96 overflow-y-auto">
         <ng-container *ngIf="educationalLevelRank$ | async as educationalLevelRank; else loading">
           <ng-container *ngIf="selectedDataType === educationalDataTypes.level">
+            <div class="flex justify-between w-full px-2 text-gray-600">
+              <span>Nível</span>
+              <span>Vagas</span>
+            </div>
+
             <button
               class="btn btn-ghost p-2"
               *ngFor="let educationalLevel of educationalLevelRank; index as i; trackBy: trackByEducationTerm"
@@ -42,7 +47,10 @@
             >
               <div class="w-full flex justify-between">
                 <span>{{ i + 1 + ". " + educationalLevel.name }}</span>
-                <span>{{ educationalLevel.count | number }}</span>
+                <div class="flex gap-2">
+                  <span>{{ educationalLevel.count | number }}</span>
+                  <span class="text-gray-600">({{ educationalLevel.count / jobsQuantity | percent: "1.1-1" }})</span>
+                </div>
               </div>
               <progress class="progress w-full" [value]="educationalLevel.count" [max]="jobsQuantity"></progress>
             </button>
@@ -51,6 +59,11 @@
 
         <ng-container *ngIf="educationRank$ | async as educationRank; else loading">
           <ng-container *ngIf="selectedDataType === educationalDataTypes.course">
+            <div class="flex justify-between w-full px-2 text-gray-600">
+              <span>Curso</span>
+              <span>Vagas</span>
+            </div>
+
             <button
               class="btn btn-ghost p-2"
               *ngFor="let educationTerm of educationRank; index as i; trackBy: trackByEducationTerm"
@@ -61,8 +74,13 @@
             >
               <div class="w-full flex justify-between">
                 <span>{{ i + 1 + ". " + educationTerm.name }}</span>
-                <span>{{ educationTerm.count | number }}</span>
+
+                <div class="flex gap-2">
+                  <span>{{ educationTerm.count | number }}</span>
+                  <span class="text-gray-600">({{ educationTerm.count / jobsQuantity | percent: "1.1-1" }})</span>
+                </div>
               </div>
+
               <progress class="progress w-full" [value]="educationTerm.count" [max]="jobsQuantity"></progress>
             </button>
           </ng-container>

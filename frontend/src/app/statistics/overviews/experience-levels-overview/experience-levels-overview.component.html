@@ -7,6 +7,11 @@
       </div>
 
       <div class="card-body max-h-96 overflow-y-auto">
+        <div class="flex justify-between w-full px-2 text-gray-600">
+          <span>Nível</span>
+          <span>Vagas</span>
+        </div>
+
         <ng-container *ngIf="experienceLevelsRank$ | async as experienceLevelsRank; else loading">
           <button
             class="btn btn-ghost p-2"
@@ -16,8 +21,13 @@
           >
             <div class="w-full flex justify-between">
               <span>{{ i + 1 + ". " + experienceLevel.level }}</span>
-              <span>{{ experienceLevel.count | number }}</span>
+
+              <div class="flex gap-2">
+                <span>{{ experienceLevel.count | number }}</span>
+                <span class="text-gray-600">({{ experienceLevel.count / jobsQuantity | percent: "1.1-1" }})</span>
+              </div>
             </div>
+
             <progress class="progress w-full" [value]="experienceLevel.count" [max]="jobsQuantity"></progress>
           </button>
         </ng-container>

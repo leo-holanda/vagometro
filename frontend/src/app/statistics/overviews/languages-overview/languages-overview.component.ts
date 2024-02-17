@@ -50,24 +50,16 @@ export class LanguagesOverviewComponent implements OnInit {
 
     this.languagesRank$.subscribe((languagesRank) => {
       this.selectedLanguage = languagesRank[0].name;
-
-      this.jobsByLanguage$ = this.jobService.getJobsByLanguage(
-        this.selectedLanguage,
-      );
+      this.jobsByLanguage$ = this.jobService.getJobsByLanguage(this.selectedLanguage);
     });
 
-    this.languagesRank$.subscribe((languagesRank) => {
-      this.jobsQuantity = languagesRank.reduce(
-        (acc, language) => acc + language.count,
-        0,
-      );
+    this.jobService.jobs$.subscribe((jobs) => {
+      this.jobsQuantity = jobs?.length || 0;
     });
   }
 
   onLanguageClick(language: string): void {
     this.selectedLanguage = language;
-    this.jobsByLanguage$ = this.jobService.getJobsByLanguage(
-      this.selectedLanguage,
-    );
+    this.jobsByLanguage$ = this.jobService.getJobsByLanguage(this.selectedLanguage);
   }
 }

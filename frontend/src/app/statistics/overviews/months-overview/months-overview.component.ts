@@ -51,11 +51,8 @@ export class MonthsOverviewComponent {
       this.jobsByMonth$ = this.jobService.getJobsByMonth(this.selectedMonth);
     });
 
-    this.monthsRank$.subscribe((monthsRank) => {
-      this.jobsQuantity = monthsRank.reduce(
-        (acc, month) => acc + month.count,
-        0,
-      );
+    this.jobService.jobs$.subscribe((jobs) => {
+      this.jobsQuantity = jobs?.length || 0;
     });
   }
 

@@ -11,7 +11,7 @@
           <button
             class="btn btn-ghost p-2"
             *ngFor="let experienceLevel of experienceLevelsRank; index as i; trackBy: trackByExperienceLevel"
-            [ngClass]="{ 'btn-active': selectedLevel == experienceLevel.level }"
+            [ngClass]="{ 'btn-active': selectedLevel === experienceLevel.level }"
             (click)="onExperienceLevelClick(experienceLevel.level)"
           >
             <div class="w-full flex justify-between">

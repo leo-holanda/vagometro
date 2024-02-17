@@ -42,8 +42,7 @@ export class EducationOverviewComponent implements OnInit {
   educationalLevelRank$!: Observable<EducationData[]>;
   selectedEducationalLevelTerm!: string;
 
-  educationTermFrequency!: number;
-  educationalLevelFrequency!: number;
+  jobsQuantity = 0;
 
   jobsByEducationTerm$!: Observable<Job[]>;
   jobsByEducationalLevel$!: Observable<Job[]>;
@@ -64,14 +63,16 @@ export class EducationOverviewComponent implements OnInit {
 
     this.educationRank$.subscribe((educationRank) => {
       this.selectedEducationTerm = educationRank[0].name;
-      this.educationTermFrequency = educationRank.reduce((acc, term) => acc + term.count, 0);
       this.jobsByEducationTerm$ = this.jobService.getJobsByEducationTerms(this.selectedEducationTerm);
     });
 
     this.educationalLevelRank$.subscribe((educationalLevelRank) => {
       this.selectedEducationalLevelTerm = educationalLevelRank[0].name;
-      this.educationalLevelFrequency = educationalLevelRank.reduce((acc, term) => acc + term.count, 0);
       this.jobsByEducationalLevel$ = this.jobService.getJobsByEducationalLevelTerms(this.selectedEducationalLevelTerm);
+    });
+
+    this.jobService.jobs$.subscribe((jobs) => {
+      this.jobsQuantity = jobs?.length || 0;
     });
   }
 

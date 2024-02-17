@@ -15,14 +15,14 @@
             <button
               class="btn btn-ghost p-2"
               *ngFor="let keyword of keywordsRank; index as i; trackBy: trackByKeyword"
-              [ngClass]="{ 'btn-active': selectedKeyword == keyword.word }"
+              [ngClass]="{ 'btn-active': selectedKeyword === keyword.word }"
               (click)="onKeywordClick(keyword.word)"
             >
               <div class="w-full flex justify-between">
                 <span>{{ i + 1 + ". " + keyword.word }}</span>
                 <span>{{ keyword.count | number }}</span>
               </div>
-              <progress class="progress w-full" [value]="keyword.count" [max]="keywordsQuantity"></progress>
+              <progress class="progress w-full" [value]="keyword.count" [max]="jobsQuantity"></progress>
             </button>
           </ng-container>
 
@@ -163,14 +163,14 @@
           <button
             class="btn btn-ghost p-2"
             *ngFor="let keyword of keywordsRank; index as i; trackBy: trackByKeyword"
-            [ngClass]="{ 'btn-active': selectedKeyword == keyword.word }"
+            [ngClass]="{ 'btn-active': selectedKeyword === keyword.word }"
             (click)="onKeywordClick(keyword.word)"
           >
             <div class="w-full flex justify-between">
               <span>{{ i + 1 + ". " + keyword.word }}</span>
               <span>{{ keyword.count | number }}</span>
             </div>
-            <progress class="progress w-full" [value]="keyword.count" [max]="keywordsQuantity"></progress>
+            <progress class="progress w-full" [value]="keyword.count" [max]="jobsQuantity"></progress>
           </button>
         </ng-container>
 

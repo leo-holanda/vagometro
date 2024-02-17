@@ -11,7 +11,7 @@
           <button
             class="btn btn-ghost p-2"
             *ngFor="let month of monthsRank; index as i; trackBy: trackByMonth"
-            [ngClass]="{ 'btn-active': selectedMonth == month.name }"
+            [ngClass]="{ 'btn-active': selectedMonth === month.name }"
             (click)="onMonthClick(month.name)"
           >
             <div class="w-full flex justify-between">

@@ -11,14 +11,14 @@
           <button
             class="btn btn-ghost p-2"
             *ngFor="let type of typesRank; index as i; trackBy: trackByType"
-            [ngClass]="{ 'btn-active': selectedType == type.name }"
+            [ngClass]="{ 'btn-active': selectedType === type.name }"
             (click)="onContractTypeClick(type.name)"
           >
             <div class="w-full flex justify-between">
               <span>{{ i + 1 + ". " + type.name }}</span>
               <span>{{ type.count | number }}</span>
             </div>
-            <progress class="progress w-full" [value]="type.count" [max]="typesQuantity"></progress>
+            <progress class="progress w-full" [value]="type.count" [max]="jobsQuantity"></progress>
           </button>
         </ng-container>
 

@@ -56,8 +56,7 @@ export class CitiesOverviewComponent implements OnInit {
   selectedState = 'São Paulo';
   selectedCity = 'São Paulo';
 
-  citiesQuantity = 0;
-  statesQuantity = 0;
+  jobsQuantity = 0;
 
   dataType: 'city' | 'state' | 'map' = 'city';
   trackByCity = trackByCity;
@@ -81,13 +80,15 @@ export class CitiesOverviewComponent implements OnInit {
     this.citiesRank$.subscribe((citiesRank) => {
       this.selectedCity = citiesRank[0].name;
       this.jobsByCity$ = this.jobService.getJobsByCity(this.selectedCity);
-      this.citiesQuantity = citiesRank.reduce((acc, cityData) => acc + cityData.count, 0);
     });
 
     this.statesRank$.subscribe((statesRank) => {
       this.selectedState = statesRank[0].name;
       this.jobsByState$ = this.jobService.getJobsByState(this.selectedState);
-      this.statesQuantity = statesRank.reduce((acc, stateData) => acc + stateData.count, 0);
+    });
+
+    this.jobService.jobs$.subscribe((jobs) => {
+      this.jobsQuantity = jobs?.length || 0;
     });
   }
 

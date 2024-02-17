@@ -38,7 +38,7 @@ import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-c
 })
 export class KeywordsOverviewComponent implements OnInit {
   keywordsRank$!: Observable<KeywordData[]>;
-  keywordsQuantity!: number;
+  jobsQuantity!: number;
   selectedKeyword = '';
   jobsByKeyword$!: Observable<Job[]>;
 
@@ -53,42 +53,27 @@ export class KeywordsOverviewComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.jobsByKeyword$ = this.jobService.getJobsByKeyword(
-      this.selectedKeyword,
-    );
+    this.jobsByKeyword$ = this.jobService.getJobsByKeyword(this.selectedKeyword);
 
     this.keywordsRank$ = this.statisticsService.getKeywordsRank();
     this.filteredKeywords$ = this.keywordsRank$;
 
-    this.keywordsRank$.subscribe((keywordsRank) => {
-      this.keywordsQuantity = keywordsRank.reduce(
-        (acc, keyword) => acc + keyword.count,
-        0,
-      );
+    this.jobService.jobs$.subscribe((jobs) => {
+      this.jobsQuantity = jobs?.length || 0;
     });
   }
 
   onKeywordClick(keyword: string): void {
     this.selectedKeyword = keyword;
 
-    this.jobsByKeyword$ = this.jobService.getJobsByKeyword(
-      this.selectedKeyword,
-    );
+    this.jobsByKeyword$ = this.jobService.getJobsByKeyword(this.selectedKeyword);
 
-    this.keywordsRank$ = this.statisticsService.getKeywordsRank(
-      this.jobsByKeyword$,
-    );
+    this.keywordsRank$ = this.statisticsService.getKeywordsRank(this.jobsByKeyword$);
   }
 
   filterKeywords(): void {
     this.filteredKeywords$ = this.keywordsRank$.pipe(
-      map((keywordsRank) =>
-        keywordsRank.filter((keywordData) =>
-          keywordData.word
-            .toLowerCase()
-            .includes(this.keywordSearchString.toLowerCase()),
-        ),
-      ),
+      map((keywordsRank) => keywordsRank.filter((keywordData) => keywordData.word.toLowerCase().includes(this.keywordSearchString.toLowerCase()))),
     );
   }
 

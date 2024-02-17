@@ -41,7 +41,7 @@
                   <span>{{ i + 1 + ". " + city.name + ", " + (city.state | stateAbbreviation) }}</span>
                   <span>{{ city.count | number }}</span>
                 </div>
-                <progress class="progress w-full" [value]="city.count" [max]="citiesQuantity"></progress>
+                <progress class="progress w-full" [value]="city.count" [max]="jobsQuantity"></progress>
               </button>
             </div>
           </ng-container>
@@ -58,7 +58,7 @@
                   <span>{{ i + 1 + ". " + state.name }}</span>
                   <span>{{ state.count | number }}</span>
                 </div>
-                <progress class="progress w-full" [value]="state.count" [max]="statesQuantity"></progress>
+                <progress class="progress w-full" [value]="state.count" [max]="jobsQuantity"></progress>
               </button>
             </div>
           </ng-container>

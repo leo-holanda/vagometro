@@ -37,7 +37,7 @@ import { ContractTypes } from 'src/app/shared/keywords-matcher/contract-types.da
 })
 export class TypesOverviewComponent {
   typesRank$: Observable<TypeData[]>;
-  typesQuantity!: number;
+  jobsQuantity!: number;
   selectedType!: ContractTypes;
   jobsByType$!: Observable<Job[]>;
 
@@ -54,8 +54,8 @@ export class TypesOverviewComponent {
       this.jobsByType$ = this.jobService.getJobsByContractType(this.selectedType);
     });
 
-    this.typesRank$.subscribe((typesRank) => {
-      this.typesQuantity = typesRank.reduce((acc, Type) => acc + Type.count, 0);
+    this.jobService.jobs$.subscribe((jobs) => {
+      this.jobsQuantity = jobs?.length || 0;
     });
   }
 

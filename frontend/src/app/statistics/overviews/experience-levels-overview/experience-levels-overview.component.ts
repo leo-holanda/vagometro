@@ -52,12 +52,11 @@ export class ExperienceLevelsOverviewComponent implements OnInit {
 
     this.experienceLevelsRank$.subscribe((experienceLevelsRank) => {
       this.selectedLevel = experienceLevelsRank[0].level;
-
       this.jobsByExperienceLevel$ = this.jobService.getJobsByExperienceLevel(this.selectedLevel);
     });
 
-    this.experienceLevelsRank$.subscribe((experienceLevelsRank) => {
-      this.jobsQuantity = experienceLevelsRank.reduce((acc, Type) => acc + Type.count, 0);
+    this.jobService.jobs$.subscribe((jobs) => {
+      this.jobsQuantity = jobs?.length || 0;
     });
   }
 

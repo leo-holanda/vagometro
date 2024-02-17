@@ -36,7 +36,7 @@ import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-c
 })
 export class CompaniesOverviewComponent implements OnInit {
   companiesRank$!: Observable<CompanyData[]>;
-  companiesQuantity!: number;
+  jobsQuantity!: number;
   selectedCompany!: string;
   jobsByCompany$!: Observable<Job[]>;
 
@@ -52,12 +52,11 @@ export class CompaniesOverviewComponent implements OnInit {
 
     this.companiesRank$.subscribe((companiesRank) => {
       this.selectedCompany = companiesRank[0].name;
-
       this.jobsByCompany$ = this.jobService.getJobsByCompany(this.selectedCompany);
     });
 
-    this.companiesRank$.subscribe((companiesRank) => {
-      this.companiesQuantity = companiesRank.reduce((acc, company) => acc + company.count, 0);
+    this.jobService.jobs$.subscribe((jobs) => {
+      this.jobsQuantity = jobs?.length || 0;
     });
   }
 

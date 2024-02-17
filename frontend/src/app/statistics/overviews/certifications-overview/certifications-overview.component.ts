@@ -36,7 +36,7 @@ import { JobListComponent } from 'src/app/job/job-list/job-list.component';
 })
 export class CertificationsOverviewComponent implements OnInit {
   certificationsRank$!: Observable<CertificationsData[]>;
-  certificationsQuantity!: number;
+  jobsQuantity!: number;
   selectedCertificationStatus!: CertificationStatus;
   jobsByCertificationStatus$!: Observable<Job[]>;
 
@@ -52,12 +52,11 @@ export class CertificationsOverviewComponent implements OnInit {
 
     this.certificationsRank$.subscribe((certificationsRank) => {
       this.selectedCertificationStatus = certificationsRank[0].status;
-
       this.jobsByCertificationStatus$ = this.jobService.getJobsByCertificationStatus(this.selectedCertificationStatus);
     });
 
-    this.certificationsRank$.subscribe((certificationsRank) => {
-      this.certificationsQuantity = certificationsRank.reduce((acc, company) => acc + company.count, 0);
+    this.jobService.jobs$.subscribe((jobs) => {
+      this.jobsQuantity = jobs?.length || 0;
     });
   }
 

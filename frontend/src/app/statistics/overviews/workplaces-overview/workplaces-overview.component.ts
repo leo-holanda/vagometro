@@ -37,9 +37,9 @@ import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-c
 export class WorkplacesOverviewComponent {
   selectedWorkplace = 'remoto';
 
-  jobsByWorkplace$: Observable<Job[]>;
+  jobsByWorkplace$!: Observable<Job[]>;
   workplacesRank$: Observable<WorkplaceData[]>;
-  workplacesQuantity = 0;
+  jobsQuantity = 0;
 
   trackByWorkplace = trackByWorkplace;
 
@@ -51,10 +51,12 @@ export class WorkplacesOverviewComponent {
 
     this.workplacesRank$.subscribe((workplacesRank) => {
       this.selectedWorkplace = workplacesRank[0].type;
-      this.workplacesQuantity = workplacesRank.reduce((acc, workplace) => acc + workplace.count, 0);
+      this.jobsByWorkplace$ = this.jobService.getJobsByWorkplace(this.selectedWorkplace);
     });
 
-    this.jobsByWorkplace$ = this.jobService.getJobsByWorkplace(this.selectedWorkplace);
+    this.jobService.jobs$.subscribe((jobs) => {
+      this.jobsQuantity = jobs?.length || 0;
+    });
   }
 
   onWorkplaceClick(workplace: string): void {

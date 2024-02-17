@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { LandingPageComponent } from './landing-page/landing-page.component';
+import { hasOneJobCollectionLoadedGuard } from './has-one-job-collection-loaded.guard';
 
 export const routes: Routes = [
   {
@@ -9,6 +10,7 @@ export const routes: Routes = [
   {
     path: 'stats',
     loadComponent: () => import('./statistics/statistics.component').then((mod) => mod.StatisticsComponent),
+    canActivate: [hasOneJobCollectionLoadedGuard],
     children: [
       {
         path: '',

@@ -15,6 +15,7 @@ export class JobSourcesService {
   hasOneActiveJobSource$ = this._hasOneActiveJobSource$.asObservable();
 
   jobCollectionsMap = jobCollectionsMap;
+  hasOneJobCollectionLoaded = false;
 
   constructor(
     private jobService: JobService,
@@ -75,6 +76,7 @@ export class JobSourcesService {
           },
           complete: () => {
             this.updateOneSourceFlag();
+            this.updateJobCollectionLoadedFlag();
           },
         });
       });
@@ -83,7 +85,10 @@ export class JobSourcesService {
 
   private updateOneSourceFlag(): void {
     const hasOneActiveJobSource = Object.values(jobCollectionsMap).some((jobSource) => jobSource.isLoaded && jobSource.isActive);
-
     this._hasOneActiveJobSource$.next(hasOneActiveJobSource);
+  }
+
+  private updateJobCollectionLoadedFlag(): void {
+    this.hasOneJobCollectionLoaded = Object.values(jobCollectionsMap).some((jobSource) => jobSource.isLoaded);
   }
 }

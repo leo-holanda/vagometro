@@ -65,7 +65,7 @@ def get_parsed_jobs(session):
             soup = get_with_retry(url, session)
             jobs = parse_jobs_data(soup)
 
-            if (len(jobs) == 0):
+            if (jobs == None):
                 print("The final page has been reached")
                 break
 
@@ -137,18 +137,22 @@ def parse_job_page(soup):
 
 
 def parse_jobs_data(soup):
-    # Parsing the job card info (title, company, location, date, job_url) from the beautiful soup object
-    joblist = []
-
     try:
         divs = soup.find_all('div', class_='base-search-card__info')
+        if(len(divs) == 0): 
+            print("Empty page, no jobs found")
+            return None
     except:
-        print("Empty page, no jobs found")
-        return joblist
+        return None
 
+    job_list = []
     for item in divs:
-        title = item.find('h3').text.strip()
         company = item.find('a', class_='hidden-nested-link', href=True)
+        # Low quality job postings usually doesn't not have the company name inside this specific a tag
+        # If that's the case, do not consider this job posting
+        if(company == None): continue
+
+        title = item.find('h3').text.strip()
         location = item.find('span', class_='job-search-card__location')
         parent_div = item.parent
         entity_urn = parent_div['data-entity-urn']
@@ -173,9 +177,9 @@ def parse_jobs_data(soup):
             'employment_type': None
         }
 
-        joblist.append(job)
+        job_list.append(job)
 
-    return joblist
+    return job_list
 
 
 def main():

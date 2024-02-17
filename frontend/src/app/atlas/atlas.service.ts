@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import * as Realm from 'realm-web';
-import { Observable, defer, shareReplay, switchMap } from 'rxjs';
+import { Observable, defer, shareReplay, switchMap, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { GupyJob } from '../job-sources/gupy/gupy.types';
 import { LinkedInJob } from '../job-sources/linkedin/linked-in.types';
+import { jobCollectionsMap } from '../job-sources/job-sources.types';
 
 @Injectable({
   providedIn: 'root',
@@ -46,34 +47,67 @@ export class AtlasService {
   }
 
   getLinkedInDevJobs(): Observable<LinkedInJob[]> {
-    return this.connectionObservable$.pipe(switchMap(() => this.linkedInDevJobsCollection.find() as Observable<LinkedInJob[]>));
+    return this.connectionObservable$.pipe(
+      switchMap(() => this.linkedInDevJobsCollection.find() as Observable<LinkedInJob[]>),
+      tap(() => this.sendEventToUmami(`${jobCollectionsMap.linkedin_dev.source} - ${jobCollectionsMap.linkedin_dev.name}`)),
+    );
   }
 
   getAIJobs(): Observable<GupyJob[]> {
-    return this.connectionObservable$.pipe(switchMap(() => this.aiJobsCollection.find() as Observable<GupyJob[]>));
+    return this.connectionObservable$.pipe(
+      switchMap(() => this.aiJobsCollection.find() as Observable<GupyJob[]>),
+      tap(() => this.sendEventToUmami(`${jobCollectionsMap.gupyia.source} - ${jobCollectionsMap.gupyia.name}`)),
+    );
   }
 
   getQAJobs(): Observable<GupyJob[]> {
-    return this.connectionObservable$.pipe(switchMap(() => this.qaJobsCollection.find() as Observable<GupyJob[]>));
+    return this.connectionObservable$.pipe(
+      switchMap(() => this.qaJobsCollection.find() as Observable<GupyJob[]>),
+      tap(() => this.sendEventToUmami(`${jobCollectionsMap.gupyqa.source} - ${jobCollectionsMap.gupyqa.name}`)),
+    );
   }
 
   getDataJobs(): Observable<GupyJob[]> {
-    return this.connectionObservable$.pipe(switchMap(() => this.dataJobsCollection.find() as Observable<GupyJob[]>));
+    return this.connectionObservable$.pipe(
+      switchMap(() => this.dataJobsCollection.find() as Observable<GupyJob[]>),
+      tap(() => this.sendEventToUmami(`${jobCollectionsMap.gupydados.source} - ${jobCollectionsMap.gupydados.name}`)),
+    );
   }
 
   getWebDevJobs(): Observable<GupyJob[]> {
-    return this.connectionObservable$.pipe(switchMap(() => this.webdevJobsCollection.find() as Observable<GupyJob[]>));
+    return this.connectionObservable$.pipe(
+      switchMap(() => this.webdevJobsCollection.find() as Observable<GupyJob[]>),
+      tap(() => this.sendEventToUmami(`${jobCollectionsMap.gupydev.source} - ${jobCollectionsMap.gupydev.name}`)),
+    );
   }
 
   getUIUXJobs(): Observable<GupyJob[]> {
-    return this.connectionObservable$.pipe(switchMap(() => this.uiuxJobsCollection.find() as Observable<GupyJob[]>));
+    return this.connectionObservable$.pipe(
+      switchMap(() => this.uiuxJobsCollection.find() as Observable<GupyJob[]>),
+      tap(() => this.sendEventToUmami(`${jobCollectionsMap.gupyuiux.source} - ${jobCollectionsMap.gupyuiux.name}`)),
+    );
   }
 
   getMobileJobs(): Observable<GupyJob[]> {
-    return this.connectionObservable$.pipe(switchMap(() => this.mobileJobsCollection.find() as Observable<GupyJob[]>));
+    return this.connectionObservable$.pipe(
+      switchMap(() => this.mobileJobsCollection.find() as Observable<GupyJob[]>),
+      tap(() => this.sendEventToUmami(`${jobCollectionsMap.gupymobile.source} - ${jobCollectionsMap.gupymobile.name}`)),
+    );
   }
 
   getDevOpsJobs(): Observable<GupyJob[]> {
-    return this.connectionObservable$.pipe(switchMap(() => this.devopsJobsCollection.find() as Observable<GupyJob[]>));
+    return this.connectionObservable$.pipe(
+      switchMap(() => this.devopsJobsCollection.find() as Observable<GupyJob[]>),
+      tap(() => this.sendEventToUmami(`${jobCollectionsMap.gupydevops.source} - ${jobCollectionsMap.gupydevops.name}`)),
+    );
+  }
+
+  private sendEventToUmami(event: string): void {
+    console.log(event);
+    try {
+      (window as any).umami.track(event);
+    } catch (error) {
+      console.warn('Umami not available');
+    }
   }
 }

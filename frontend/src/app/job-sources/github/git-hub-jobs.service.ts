@@ -1,9 +1,7 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { GitHubJob } from './git-hub-jobs.types';
 import { environment } from 'src/environments/environment';
-import { Observable, defer, first, map, shareReplay } from 'rxjs';
-import { MapDataService } from '../../statistics/maps/map-data.service';
+import { Observable, defer, first, map, shareReplay, tap } from 'rxjs';
 import { ExperienceLevels } from '../../shared/keywords-matcher/experience-levels.data';
 import { EducationalData } from '../../shared/keywords-matcher/education.data';
 import * as zip from '@zip.js/zip.js';
@@ -31,20 +29,13 @@ export class GitHubJobsService {
   backendJobs$: Observable<Job[]>;
   soujavaJobs$: Observable<Job[]>;
 
-  private citiesNames: string[];
-
-  constructor(
-    private httpClient: HttpClient,
-    private mapDataService: MapDataService,
-  ) {
+  constructor() {
     //https://github.com/frontendbr/vagas/issues
     this.frontendJobs$ = this.getJobsObservable('frontend');
     //https://github.com/backend-br/vagas/issues
     this.backendJobs$ = this.getJobsObservable('backend');
     //https://github.com/soujava/vagas-java/issues
     this.soujavaJobs$ = this.getJobsObservable('soujava');
-
-    this.citiesNames = this.mapDataService.getCitiesNames().map((cityName) => this.removeAccents(cityName).toLowerCase());
   }
 
   async getJobsPromise(
@@ -70,6 +61,7 @@ export class GitHubJobsService {
     return defer(() => this.getJobsPromise(type)).pipe(
       first(),
       map((jobs) => jobs.map((job) => this.mapToJob(job)).sort((a, b) => (a.publishedDate > b.publishedDate ? -1 : 1))),
+      tap(() => this.sendEventToUmami(type)),
       shareReplay(),
     );
   }
@@ -156,8 +148,12 @@ export class GitHubJobsService {
     return matchContractTypes({ title: job.title, description: job.body, labels: job.labels });
   }
 
-  private removeAccents(string: string) {
-    //TODO Understand how it works
-    return string.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  private sendEventToUmami(jobCollection: string): void {
+    console.log(`GitHub - ${jobCollection}`);
+    try {
+      (window as any).umami.track(`GitHub - ${jobCollection}`);
+    } catch (error) {
+      console.warn('Umami not available');
+    }
   }
 }

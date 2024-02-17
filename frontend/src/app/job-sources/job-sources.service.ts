@@ -66,12 +66,6 @@ export class JobSourcesService {
             this.jobService.setJobs(currentJobs);
             jobSource.isLoading = false;
             jobSource.isLoaded = true;
-
-            try {
-              (window as any).umami.track(`${jobSource.source} - ${jobSource.name}`);
-            } catch (error) {
-              console.error(error);
-            }
           },
           error: (error) => {
             console.error(error);

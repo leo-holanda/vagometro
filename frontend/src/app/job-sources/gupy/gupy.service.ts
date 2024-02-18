@@ -1,22 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable, map, shareReplay } from 'rxjs';
-import { GupyJob, gupyContractTypeMap } from './gupy.types';
+import { Observable, defer, shareReplay, switchMap } from 'rxjs';
 import { AtlasService } from 'src/app/atlas/atlas.service';
-import { internLevelRelatedTypes, traineeLevelRelatedTypes, juniorLevelRelatedTypes, ExperienceLevels } from 'src/app/shared/keywords-matcher/experience-levels.data';
 import { Job } from 'src/app/job/job.types';
-import { ContractTypes } from 'src/app/shared/keywords-matcher/contract-types.data';
-import { EducationalData } from 'src/app/shared/keywords-matcher/education.data';
-import { WorkplaceTypes } from 'src/app/shared/keywords-matcher/workplace.data';
-import {
-  matchCertificationStatus,
-  matchEducationalTerms,
-  matchExperienceLevel,
-  matchInclusionTypes,
-  matchKeywords,
-  matchLanguages,
-} from 'src/app/shared/keywords-matcher/keywords-matcher';
-import { InclusionTypes } from 'src/app/shared/keywords-matcher/inclusion.data';
-import { CertificationStatus } from 'src/app/shared/keywords-matcher/certification.data';
+import { mapGupyJobsToJobs } from './gupy.mapper';
+import { GupyJob } from './gupy.types';
 
 @Injectable({
   providedIn: 'root',
@@ -30,7 +17,17 @@ export class GupyService {
   qaJobs$: Observable<Job[]>;
   aiJobs$: Observable<Job[]>;
 
+  private worker: Worker | undefined;
+
   constructor(private atlasService: AtlasService) {
+    if (typeof Worker !== 'undefined') {
+      this.worker = new Worker(new URL('./gupy.worker', import.meta.url), {
+        name: 'Gupy Worker',
+      });
+    } else {
+      console.error('Web workers are not supported in this environment.');
+    }
+
     this.devJobs$ = this.getDevJobsObservable();
     this.mobileJobs$ = this.getMobileJobsObservable();
     this.devopsJobs$ = this.getDevOpsJobsObservable();
@@ -40,142 +37,65 @@ export class GupyService {
     this.aiJobs$ = this.getAIJobsObservable();
   }
 
+  private getWorkerPromise(jobs: GupyJob[]): Promise<Job[]> {
+    return new Promise((resolve) => {
+      if (this.worker) {
+        this.worker.postMessage(jobs);
+        this.worker.onmessage = ({ data }) => resolve(data);
+        this.worker.onerror = () => resolve(mapGupyJobsToJobs(jobs));
+        this.worker.onmessageerror = () => resolve(mapGupyJobsToJobs(jobs));
+      } else {
+        resolve(mapGupyJobsToJobs(jobs));
+      }
+    });
+  }
+
   private getAIJobsObservable(): Observable<Job[]> {
     return this.atlasService.getAIJobs().pipe(
-      map((jobs) => {
-        return jobs.map((job) => this.mapToJob(job)).sort((a, b) => (a.publishedDate > b.publishedDate ? -1 : 1));
-      }),
+      switchMap((jobs) => defer(() => this.getWorkerPromise(jobs))),
       shareReplay(),
     );
   }
 
   private getQAJobsObservable(): Observable<Job[]> {
     return this.atlasService.getQAJobs().pipe(
-      map((jobs) => {
-        return jobs.map((job) => this.mapToJob(job)).sort((a, b) => (a.publishedDate > b.publishedDate ? -1 : 1));
-      }),
+      switchMap((jobs) => defer(() => this.getWorkerPromise(jobs))),
       shareReplay(),
     );
   }
 
   private getDataJobsObservable(): Observable<Job[]> {
     return this.atlasService.getDataJobs().pipe(
-      map((jobs) => {
-        return jobs.map((job) => this.mapToJob(job)).sort((a, b) => (a.publishedDate > b.publishedDate ? -1 : 1));
-      }),
+      switchMap((jobs) => defer(() => this.getWorkerPromise(jobs))),
       shareReplay(),
     );
   }
 
   private getUIUXJobsObservable(): Observable<Job[]> {
     return this.atlasService.getUIUXJobs().pipe(
-      map((jobs) => {
-        return jobs.map((job) => this.mapToJob(job)).sort((a, b) => (a.publishedDate > b.publishedDate ? -1 : 1));
-      }),
+      switchMap((jobs) => defer(() => this.getWorkerPromise(jobs))),
       shareReplay(),
     );
   }
 
   private getDevOpsJobsObservable(): Observable<Job[]> {
     return this.atlasService.getDevOpsJobs().pipe(
-      map((jobs) => {
-        return jobs.map((job) => this.mapToJob(job)).sort((a, b) => (a.publishedDate > b.publishedDate ? -1 : 1));
-      }),
+      switchMap((jobs) => defer(() => this.getWorkerPromise(jobs))),
       shareReplay(),
     );
   }
 
   private getMobileJobsObservable(): Observable<Job[]> {
     return this.atlasService.getMobileJobs().pipe(
-      map((jobs) => {
-        return jobs.map((job) => this.mapToJob(job)).sort((a, b) => (a.publishedDate > b.publishedDate ? -1 : 1));
-      }),
+      switchMap((jobs) => defer(() => this.getWorkerPromise(jobs))),
       shareReplay(),
     );
   }
 
   private getDevJobsObservable(): Observable<Job[]> {
     return this.atlasService.getWebDevJobs().pipe(
-      map((jobs) => {
-        return jobs.map((job) => this.mapToJob(job)).sort((a, b) => (a.publishedDate > b.publishedDate ? -1 : 1));
-      }),
+      switchMap((jobs) => defer(() => this.getWorkerPromise(jobs))),
       shareReplay(),
     );
-  }
-
-  private mapToJob(job: GupyJob): Job {
-    const { coursesNames, educationalLevels } = this.findEducationalData(job);
-
-    return {
-      companyName: job.careerPageName,
-      companyUrl: job.careerPageUrl,
-      description: job.description,
-      educationalLevelTerms: educationalLevels,
-      educationTerms: coursesNames,
-      id: job.id,
-      jobUrl: job.jobUrl,
-      publishedDate: new Date(job.publishedDate),
-      title: job.name,
-      country: job.country || 'Desconhecido',
-      state: job.state || 'Desconhecido',
-      city: job.city || 'Desconhecido',
-      contractTypes: this.findJobContractType(job),
-      experienceLevels: this.findExperienceLevel(job),
-      inclusionTypes: this.findJobInclusionTypes(job),
-      keywords: this.getJobKeywords(job),
-      languages: this.findJobLanguages(job),
-      workplaceTypes: this.getJobWorkplaceType(job),
-      certificationStatuses: this.findCertificationStatuses(job),
-    };
-  }
-
-  private findCertificationStatuses(job: GupyJob): CertificationStatus[] {
-    return matchCertificationStatus({ description: job.description });
-  }
-
-  private findJobContractType(job: GupyJob): ContractTypes[] {
-    return [gupyContractTypeMap[job.type]];
-  }
-
-  private findJobInclusionTypes(job: GupyJob): InclusionTypes[] {
-    let matchedInclusionTypes = matchInclusionTypes({ title: job.name, description: job.description });
-
-    if (job.disabilities) {
-      if (matchedInclusionTypes.includes(InclusionTypes.unknown)) {
-        matchedInclusionTypes = [InclusionTypes.alsoForPCD];
-      } else {
-        matchedInclusionTypes.push(InclusionTypes.alsoForPCD);
-      }
-    }
-
-    return matchedInclusionTypes;
-  }
-
-  private getJobWorkplaceType(gupyJob: GupyJob): WorkplaceTypes[] {
-    if (gupyJob.workplaceType == 'remote') return [WorkplaceTypes.remote];
-    if (gupyJob.workplaceType == 'on-site') return [WorkplaceTypes['on-site']];
-    if (gupyJob.workplaceType == 'hybrid') return [WorkplaceTypes.hybrid];
-
-    return [WorkplaceTypes.unknown];
-  }
-
-  private findJobLanguages(job: GupyJob): string[] {
-    return matchLanguages({ description: job.description });
-  }
-
-  private findExperienceLevel(job: GupyJob): ExperienceLevels[] {
-    if (internLevelRelatedTypes.includes(job.type)) return [ExperienceLevels.intern];
-    if (traineeLevelRelatedTypes.includes(job.type)) return [ExperienceLevels.trainee];
-    if (juniorLevelRelatedTypes.includes(job.type)) return [ExperienceLevels.junior];
-
-    return matchExperienceLevel({ title: job.name, description: job.description });
-  }
-
-  private getJobKeywords(job: GupyJob): string[] {
-    return matchKeywords({ title: job.name, description: job.description });
-  }
-
-  private findEducationalData(job: GupyJob): EducationalData {
-    return matchEducationalTerms(job.description);
   }
 }

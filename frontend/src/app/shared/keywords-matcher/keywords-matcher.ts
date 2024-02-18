@@ -275,7 +275,12 @@ function matchExperienceLevelTerms(splittedContent: string[]): ExperienceLevels[
 
   splittedContent.forEach((contentSubstring) => {
     const matchedExperienceLevel = experienceLevelRelatedTerms[contentSubstring];
-    if (matchedExperienceLevel) matchedExperienceLevels.push(matchedExperienceLevel);
+    /*
+      This typeof check is necessary because there is a US company named Constructor
+      Without this check, the constructor function becomes the job's assigned experience level
+      This breakes the worker that runs the mapToJob function
+    */
+    if (matchedExperienceLevel && typeof matchedExperienceLevel === 'string') matchedExperienceLevels.push(matchedExperienceLevel);
   });
 
   return matchedExperienceLevels;

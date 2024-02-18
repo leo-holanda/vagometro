@@ -316,7 +316,7 @@ function removeSymbols(string: string): string {
     .replaceAll(';', ' ');
 }
 
-function removeAccents(string: string): string {
+export function removeAccents(string: string): string {
   //TODO Understand how it works
   return string.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 }

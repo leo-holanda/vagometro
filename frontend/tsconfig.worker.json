@@ -4,8 +4,12 @@
   "compilerOptions": {
     "outDir": "./out-tsc/worker",
     "lib": [
-      // If you want to create another worker, the value below must be "es2018" at the moment you run the ng command
-      // Return to "es2022" after the worker is created
+      /* 
+        If you want to create another worker, the value below must be "es2018" at the moment you run the ng command
+        Otherwise the following error will appear in console: "A merge conflicted on path '/tsconfig.worker.json'" 
+        If you can't create a worker even after changing to "es2018" then delete the file, the CLI will create another
+        Return to "es2022" after the worker is created otherwise it will not transpile
+      */
       "ES2022",
       "webworker"
     ],

@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { LandingPageComponent } from './landing-page/landing-page.component';
-import { hasOneJobCollectionLoadedGuard } from './has-one-job-collection-loaded.guard';
+import { hasOneJobCollectionLoadedGuard } from './shared/guards/has-one-job-collection-loaded.guard';
 
 export const routes: Routes = [
   {

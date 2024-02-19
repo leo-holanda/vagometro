@@ -11,17 +11,7 @@ import { LinkedInJob } from './linked-in.types';
 export class LinkedInService {
   devJobs$: Observable<Job[]>;
 
-  private worker: Worker | undefined;
-
   constructor(private atlasService: AtlasService) {
-    if (typeof Worker !== 'undefined') {
-      this.worker = new Worker(new URL('./linked-in.worker', import.meta.url), {
-        name: 'LinkedIn Worker',
-      });
-    } else {
-      console.error('Web workers are not supported in this environment.');
-    }
-
     this.devJobs$ = this.getDevJobsObservable();
   }
 
@@ -34,14 +24,24 @@ export class LinkedInService {
 
   private getWorkerPromise(jobs: LinkedInJob[]): Promise<Job[]> {
     return new Promise((resolve) => {
-      if (this.worker) {
-        this.worker.postMessage(jobs);
-        this.worker.onmessage = ({ data }) => resolve(data);
-        this.worker.onerror = () => resolve(mapLinkedInJobsToJobs(jobs));
-        this.worker.onmessageerror = () => resolve(mapLinkedInJobsToJobs(jobs));
+      const worker = this.createWorker();
+      if (worker) {
+        worker.postMessage(jobs);
+        worker.onmessage = ({ data }) => resolve(data);
+        worker.onerror = () => resolve(mapLinkedInJobsToJobs(jobs));
+        worker.onmessageerror = () => resolve(mapLinkedInJobsToJobs(jobs));
       } else {
         resolve(mapLinkedInJobsToJobs(jobs));
       }
     });
+  }
+
+  private createWorker(): Worker | undefined {
+    if (typeof Worker !== 'undefined') {
+      return new Worker(new URL('./linked-in.worker', import.meta.url));
+    } else {
+      console.error('Web workers are not supported in this environment.');
+      return undefined;
+    }
   }
 }

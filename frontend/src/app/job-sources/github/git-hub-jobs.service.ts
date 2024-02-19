@@ -14,15 +14,7 @@ export class GitHubJobsService {
   backendJobs$: Observable<Job[]>;
   soujavaJobs$: Observable<Job[]>;
 
-  private worker: Worker | undefined;
-
   constructor() {
-    if (typeof Worker !== 'undefined') {
-      this.worker = new Worker(new URL('./git-hub.worker', import.meta.url));
-    } else {
-      console.error('Web workers are not supported in this environment.');
-    }
-
     //https://github.com/frontendbr/vagas/issues
     this.frontendJobs$ = this.getJobsObservable('frontend');
     //https://github.com/backend-br/vagas/issues
@@ -48,11 +40,12 @@ export class GitHubJobsService {
     await zipReader.close();
 
     return new Promise((resolve) => {
-      if (this.worker) {
-        this.worker.postMessage(JSON.parse(jobs));
-        this.worker.onmessage = ({ data }) => resolve(data);
-        this.worker.onerror = () => resolve(JSON.parse(jobs).map((job: GitHubJob) => mapGitHubJobToJob(job)));
-        this.worker.onmessageerror = () => resolve(JSON.parse(jobs).map((job: GitHubJob) => mapGitHubJobToJob(job)));
+      const worker = this.createWorker();
+      if (worker) {
+        worker.postMessage(JSON.parse(jobs));
+        worker.onmessage = ({ data }) => resolve(data);
+        worker.onerror = () => resolve(JSON.parse(jobs).map((job: GitHubJob) => mapGitHubJobToJob(job)));
+        worker.onmessageerror = () => resolve(JSON.parse(jobs).map((job: GitHubJob) => mapGitHubJobToJob(job)));
       } else {
         resolve(JSON.parse(jobs).map((job: GitHubJob) => mapGitHubJobToJob(job)));
       }
@@ -73,6 +66,15 @@ export class GitHubJobsService {
       (window as any).umami.track(`GitHub - ${jobCollection}`);
     } catch (error) {
       console.warn('Umami not available');
+    }
+  }
+
+  private createWorker(): Worker | undefined {
+    if (typeof Worker !== 'undefined') {
+      return new Worker(new URL('./git-hub.worker', import.meta.url));
+    } else {
+      console.error('Web workers are not supported in this environment.');
+      return undefined;
     }
   }
 }

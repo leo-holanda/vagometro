@@ -17,17 +17,7 @@ export class GupyService {
   qaJobs$: Observable<Job[]>;
   aiJobs$: Observable<Job[]>;
 
-  private worker: Worker | undefined;
-
   constructor(private atlasService: AtlasService) {
-    if (typeof Worker !== 'undefined') {
-      this.worker = new Worker(new URL('./gupy.worker', import.meta.url), {
-        name: 'Gupy Worker',
-      });
-    } else {
-      console.error('Web workers are not supported in this environment.');
-    }
-
     this.devJobs$ = this.getDevJobsObservable();
     this.mobileJobs$ = this.getMobileJobsObservable();
     this.devopsJobs$ = this.getDevOpsJobsObservable();
@@ -39,11 +29,12 @@ export class GupyService {
 
   private getWorkerPromise(jobs: GupyJob[]): Promise<Job[]> {
     return new Promise((resolve) => {
-      if (this.worker) {
-        this.worker.postMessage(jobs);
-        this.worker.onmessage = ({ data }) => resolve(data);
-        this.worker.onerror = () => resolve(mapGupyJobsToJobs(jobs));
-        this.worker.onmessageerror = () => resolve(mapGupyJobsToJobs(jobs));
+      const worker = this.createWorker();
+      if (worker) {
+        worker.postMessage(jobs);
+        worker.onmessage = ({ data }) => resolve(data);
+        worker.onerror = () => resolve(mapGupyJobsToJobs(jobs));
+        worker.onmessageerror = () => resolve(mapGupyJobsToJobs(jobs));
       } else {
         resolve(mapGupyJobsToJobs(jobs));
       }
@@ -97,5 +88,14 @@ export class GupyService {
       switchMap((jobs) => defer(() => this.getWorkerPromise(jobs))),
       shareReplay(),
     );
+  }
+
+  private createWorker(): Worker | undefined {
+    if (typeof Worker !== 'undefined') {
+      return new Worker(new URL('./gupy.worker', import.meta.url));
+    } else {
+      console.error('Web workers are not supported in this environment.');
+      return undefined;
+    }
   }
 }

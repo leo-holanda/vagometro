@@ -52,8 +52,8 @@ def get_parsed_jobs(session):
     # defined by linkedin
     brazilian_geoid = 106057199
 
-    # 2 days = 60 * 60 * 24 * 2
-    timespan = "r172800"
+    # 3 days = 60 * 60 * 24 * 3
+    timespan = "r259200"
 
     for query in search_queries:
         keywords = quote(query)  # URL encode the keywords

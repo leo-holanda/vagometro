@@ -1,13 +1,7 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, Output, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import * as echarts from 'echarts';
-import {
-  MonthlyPostingsSeries,
-  DailyPostingsSeries,
-  AnnualPostingsSeries,
-  JobPostingsSeries,
-  IntervalTypes,
-} from './publication-chart.model';
+import { MonthlyPostingsSeries, DailyPostingsSeries, AnnualPostingsSeries, JobPostingsSeries, IntervalTypes } from './publication-chart.model';
 import { Observable, Subject, debounceTime, fromEvent, takeUntil } from 'rxjs';
 import { ChartService } from '../chart.service';
 import { Job } from 'src/app/job/job.types';
@@ -112,10 +106,18 @@ export class PublicationChartComponent implements AfterViewInit, OnChanges, OnDe
   private getYAxisMaxValue(postingsSeries: JobPostingsSeries): number {
     //Without this map, the app doesn't not compile. TypeScript error.
     const postingsSeriesValues = postingsSeries.map((value) => value[1]);
-    return postingsSeriesValues.reduce((max, value) => {
+    const yAxisMaxValue = postingsSeriesValues.reduce((max, value) => {
       if (value > max) return value;
       return max;
     }, 0);
+
+    if (yAxisMaxValue < 100) {
+      const valueRoundedToNextTen = yAxisMaxValue + (10 - (yAxisMaxValue % 10));
+      return valueRoundedToNextTen;
+    } else {
+      const valueRoundedToNextHundred = yAxisMaxValue + (100 - (yAxisMaxValue % 100));
+      return valueRoundedToNextHundred;
+    }
   }
 
   private setChartDefaultOptions(): void {

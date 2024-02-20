@@ -213,6 +213,7 @@ export const oneWordKeywords: Keywords = {
   webhook: 'Webhook',
   openshift: 'Red Hat OpenShift',
   ansible: 'Red Hat Ansible',
+  serverless: 'Serverless',
   //END OF CLOUD
 
   //TESTING,
@@ -477,6 +478,9 @@ export const multiWordKeywords: Keywords = {
   'cloud functions': 'GCP Cloud Functions',
   'github actions': 'GitHub Actions',
   'github action': 'GitHub Actions',
+  'server-less': 'Serverless',
+  'server less': 'Serverless',
+  'serverless framework': 'Serverless Framework',
   //END OF CLOUD
 
   //MISCELLANEOUS

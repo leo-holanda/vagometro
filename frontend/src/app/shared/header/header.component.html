@@ -28,8 +28,7 @@
 
               <button
                 [ngClass]="{
-                  'btn-active':
-                    (currentTimeWindow$ | async) === timeWindows.week
+                  'btn-active': (currentTimeWindow$ | async) === timeWindows.week
                 }"
                 (click)="onTimeWindowClick(timeWindows.week)"
                 class="btn btn-outline"
@@ -39,8 +38,7 @@
 
               <button
                 [ngClass]="{
-                  'btn-active':
-                    (currentTimeWindow$ | async) === timeWindows.month
+                  'btn-active': (currentTimeWindow$ | async) === timeWindows.month
                 }"
                 (click)="onTimeWindowClick(timeWindows.month)"
                 class="btn btn-outline"
@@ -50,8 +48,7 @@
 
               <button
                 [ngClass]="{
-                  'btn-active':
-                    (currentTimeWindow$ | async) === timeWindows['6months']
+                  'btn-active': (currentTimeWindow$ | async) === timeWindows['6months']
                 }"
                 (click)="onTimeWindowClick(timeWindows['6months'])"
                 class="btn btn-outline"
@@ -61,8 +58,7 @@
 
               <button
                 [ngClass]="{
-                  'btn-active':
-                    (currentTimeWindow$ | async) === timeWindows.year
+                  'btn-active': (currentTimeWindow$ | async) === timeWindows.year
                 }"
                 (click)="onTimeWindowClick(timeWindows.year)"
                 class="btn btn-outline"
@@ -100,18 +96,11 @@
               </div>
             </label>
 
-            <a
-              class="btn btn-ghost btn-circle"
-              href="https://github.com/leo-holanda/vagometro"
-              target="_blank"
-            >
+            <a class="btn btn-ghost btn-circle" href="https://github.com/leo-holanda/vagometro" target="_blank">
               <i class="bx bxl-github"></i>
             </a>
 
-            <button
-              class="btn btn-ghost btn-circle"
-              onclick="my_modal_1.showModal()"
-            >
+            <button class="btn btn-ghost btn-circle" onclick="my_modal_1.showModal()">
               <i class="bx bxs-help-circle"></i>
             </button>
           </section>
@@ -166,8 +155,7 @@
 
         <button
           [ngClass]="{
-            'btn-active':
-              (currentTimeWindow$ | async) === timeWindows['6months']
+            'btn-active': (currentTimeWindow$ | async) === timeWindows['6months']
           }"
           (click)="onTimeWindowClick(timeWindows['6months'])"
           class="btn btn-outline"
@@ -215,11 +203,7 @@
         </div>
       </label>
 
-      <a
-        class="btn btn-ghost btn-circle"
-        href="https://github.com/leo-holanda/vagometro"
-        target="_blank"
-      >
+      <a class="btn btn-ghost btn-circle" href="https://github.com/leo-holanda/vagometro" target="_blank">
         <i class="bx bxl-github"></i>
       </a>
 
@@ -234,22 +218,11 @@
   <div class="modal-box">
     <section class="p-4">
       <h1 class="font-bold text-lg">O que é o vagômetro?</h1>
-      <p class="pt-2">
-        O vagômetro é um projeto open-source que reúne dados sobre as vagas de
-        emprego da área de tecnologia publicadas na plataforma Gupy.
-      </p>
+      <p class="pt-2">O vagômetro é um projeto open-source que reúne dados sobre as vagas de emprego na área de tecnologia no Brasil.</p>
 
-      <p class="pt-2">
-        Seu objetivo é apresentar tais dados de forma a ajudar profissionais em
-        busca de emprego a encontrarem vagas de seu interesse com mais
-        facilidade.
-      </p>
+      <p class="pt-2">Seu objetivo é apresentar tais dados de forma a ajudar profissionais em busca de emprego a encontrarem vagas de seu interesse com mais facilidade.</p>
 
-      <p class="pt-2">
-        Para obter as vagas pra dev, as seguintes palavras-chaves são utilizadas
-        na consulta diária: desenvolvedor, dev, front, back, full, fullstack e
-        software.
-      </p>
+      <p class="pt-2">Além disso,</p>
     </section>
 
     <section class="p-4">
@@ -258,50 +231,18 @@
       <div>
         <h2 class="font-bold text-lg">O que significa "Desconhecido?"</h2>
 
-        <p class="pt-2">
-          Para identificar o nível de experiência e educação requisitado nas
-          vagas, é feito um match de palavras-chave como "Sênior", "Júnior",
-          "Graduação" ou "Sistemas de Informação", por exemplo.
-        </p>
+        <p class="pt-2">Para identificar, por exemplo, o nível de experiência requisitado nas vagas, é feito um match de palavras-chave como "Sênior", "Júnior" e várias outras.</p>
 
-        <p class="pt-2">
-          Caso não haja um match entre pelo menos umas das palavras-chave, o
-          status passa a ser Desconhecido. 100% de precisão nem sempre é
-          garantido pois erros na digitação da descrição da vaga podem
-          prejudicar o match entre palavras-chave.
-        </p>
+        <p class="pt-2">Caso não haja um match em pelo menos umas das palavras-chave, o status passa a ser Desconhecido.</p>
 
-        <p class="pt-2">
-          Para consultar a lista de palavras-chave utilizadas na busca pelo
-          nível de experiência, acesse esse
-          <a
-            class="link"
-            target="_blank"
-            href="https://github.com/leo-holanda/vagometro/blob/main/src/app/statistics/ranks/keywords-rank/keywords-rank.data.ts"
-            >link</a
-          >.
-        </p>
-
-        <p class="pt-2">
-          Já a lista utilizada na busca pelo nível de educação encontra-se
-          <a
-            class="link"
-            target="_blank"
-            href="https://github.com/leo-holanda/vagometro/blob/main/src/app/statistics/ranks/education-rank/education-rank.data.ts"
-            >aqui</a
-          >.
-        </p>
+        <p class="pt-2">100% de precisão nem sempre é garantido pois erros na digitação da descrição da vaga podem prejudicar o match entre palavras-chave.</p>
       </div>
     </section>
 
     <section class="p-4">
       <h1 class="font-bold text-lg">Aviso importante</h1>
-      <p class="pt-2">
-        O escopo das análises realizadas pelo vagômetro limitam-se apenas às
-        vagas publicadas na Gupy. Qualquer conclusão a respeito do mercado de TI
-        como um todo é desencorajada devido ao tamanho restrito da amostra de
-        dados.
-      </p>
+      <p class="pt-2">O escopo das análises realizadas pelo vagômetro limitam-se apenas às vagas das fontes suportadas.</p>
+      <p class="pt-2">Qualquer conclusão a respeito do mercado de TI como um todo é desencorajada devido ao tamanho restrito da amostra de dados.</p>
     </section>
 
     <div class="modal-action">
@@ -316,18 +257,13 @@
   <div class="modal-box">
     <header class="flex items-center gap-2 mb-4">
       <i class="bx bx-data"></i>
-      <h1 class="text-lg font-bold text-balance">
-        Selecione quais fontes de vagas você deseja ver
-      </h1>
+      <h1 class="text-lg font-bold text-balance">Selecione quais fontes de vagas você deseja ver</h1>
     </header>
 
     <vgm-job-source-selector></vgm-job-source-selector>
     <div class="modal-action w-full">
       <form method="dialog" class="w-full">
-        <button
-          class="btn w-full"
-          [ngClass]="{ 'btn-disabled': !(hasOneJobSourceActive$ | async) }"
-        >
+        <button class="btn w-full" [ngClass]="{ 'btn-disabled': !(hasOneJobSourceActive$ | async) }">
           <i class="bx bx-stats"></i>
           Retornar para análise
         </button>

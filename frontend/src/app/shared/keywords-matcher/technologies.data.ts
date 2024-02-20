@@ -408,7 +408,7 @@ export const multiWordKeywords: Keywords = {
   'responsive design': 'Responsive Design',
   'styled components': 'Styled Components',
   'context api': 'Context API',
-  'server side rendering': 'Server Side Rendering',
+  'server side rendering': 'Server-Side Rendering',
   'visual basic': 'Visual Basic',
   'material design': 'Material Design',
   'react.js': 'React',

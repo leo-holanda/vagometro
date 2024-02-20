@@ -1,4 +1,4 @@
-export type KeywordData = {
+export type KeywordStatsData = {
   word: string;
   count: number;
 };

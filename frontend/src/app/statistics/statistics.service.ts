@@ -6,7 +6,7 @@ import { WorkplaceData } from './ranks/workplace-rank/workplace-rank.model';
 import { TypeData } from './ranks/type-rank/type-rank.model';
 import { CompanyData } from './ranks/companies-rank/companies-rank.model';
 import { Job } from '../job/job.types';
-import { KeywordData } from './ranks/keywords-rank/keywords-rank.model';
+import { KeywordStatsData } from './ranks/keywords-rank/keywords-rank.model';
 import { InclusionData, InclusionTypes } from '../shared/keywords-matcher/inclusion.data';
 import { EducationData } from './ranks/education-rank/education-rank.types';
 import { MonthData, ComparisonData } from './ranks/months-rank/months-rank.types';
@@ -152,7 +152,7 @@ export class StatisticsService {
     );
   }
 
-  getKeywordsRank(jobs$: Observable<Job[] | undefined> = this.jobService.jobs$): Observable<KeywordData[]> {
+  getKeywordsRank(jobs$: Observable<Job[] | undefined> = this.jobService.jobs$): Observable<KeywordStatsData[]> {
     return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
@@ -160,8 +160,8 @@ export class StatisticsService {
 
         jobs.forEach((job) => {
           job.keywords.forEach((keyword) => {
-            const currentKeywordCount = keywordsMap.get(keyword)! | 0;
-            keywordsMap.set(keyword, currentKeywordCount + 1);
+            const currentKeywordCount = keywordsMap.get(keyword.name) || 0;
+            keywordsMap.set(keyword.name, currentKeywordCount + 1);
           });
         });
 

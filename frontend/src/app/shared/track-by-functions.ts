@@ -3,7 +3,7 @@ import { CityData, StateData } from '../statistics/ranks/cities-rank/cities-rank
 import { CompanyData } from '../statistics/ranks/companies-rank/companies-rank.model';
 import { InclusionData } from './keywords-matcher/inclusion.data';
 import { EducationData } from '../statistics/ranks/education-rank/education-rank.types';
-import { KeywordData } from '../statistics/ranks/keywords-rank/keywords-rank.model';
+import { KeywordStatsData } from '../statistics/ranks/keywords-rank/keywords-rank.model';
 import { LanguageData } from '../statistics/ranks/languages-rank/languages-rank.types';
 import { MonthData } from '../statistics/ranks/months-rank/months-rank.types';
 import { TypeData } from '../statistics/ranks/type-rank/type-rank.model';
@@ -19,7 +19,7 @@ export function trackByWorkplace(index: number, item: WorkplaceData): string {
   return item.type;
 }
 
-export function trackByKeyword(index: number, item: KeywordData): string {
+export function trackByKeyword(index: number, item: KeywordStatsData): string {
   return item.word;
 }
 

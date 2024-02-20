@@ -8,7 +8,7 @@ import { CitiesRankComponent } from '../../ranks/cities-rank/cities-rank.compone
 import { CityData, StateData } from '../../ranks/cities-rank/cities-rank.model';
 import { CompaniesRankComponent } from '../../ranks/companies-rank/companies-rank.component';
 import { KeywordsRankComponent } from '../../ranks/keywords-rank/keywords-rank.component';
-import { KeywordData } from '../../ranks/keywords-rank/keywords-rank.model';
+import { KeywordStatsData } from '../../ranks/keywords-rank/keywords-rank.model';
 import { TypeRankComponent } from '../../ranks/type-rank/type-rank.component';
 import { TypeData } from '../../ranks/type-rank/type-rank.model';
 import { PublicationChartComponent } from '../../charts/publication-chart/publication-chart.component';
@@ -44,7 +44,7 @@ import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-c
 })
 export class CitiesOverviewComponent implements OnInit {
   typeRank$!: Observable<TypeData[]>;
-  keywordsRank$!: Observable<KeywordData[]>;
+  keywordsRank$!: Observable<KeywordStatsData[]>;
 
   statesRank$!: Observable<StateData[]>;
   citiesRank$!: Observable<CityData[]>;

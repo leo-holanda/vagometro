@@ -56,11 +56,11 @@ export class JobService {
     );
   }
 
-  getJobsByKeyword(keyword: string): Observable<Job[]> {
+  getJobsByKeyword(keywordName: string): Observable<Job[]> {
     return this.jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
-        return jobs.filter((job) => job.keywords.includes(keyword));
+        return jobs.filter((job) => job.keywords.find((keyword) => keyword.name == keywordName));
       }),
     );
   }

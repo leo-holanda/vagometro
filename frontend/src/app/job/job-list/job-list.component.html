@@ -185,8 +185,8 @@
 
         <div class="card-body">
           <div *ngIf="job.keywords.length > 0" class="flex flex-wrap pb-4 gap-2">
-            <div class="badge badge-neutral" *ngFor="let keyword of job.keywords">
-              {{ keyword }}
+            <div [class]="'badge ' + keyword.category.badgeClass" *ngFor="let keyword of job.keywords">
+              {{ keyword.name }}
             </div>
           </div>
 

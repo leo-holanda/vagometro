@@ -3,6 +3,7 @@ import { ExperienceLevels } from '../shared/keywords-matcher/experience-levels.d
 import { WorkplaceTypes } from '../shared/keywords-matcher/workplace.data';
 import { InclusionTypes } from '../shared/keywords-matcher/inclusion.data';
 import { CertificationStatus } from '../shared/keywords-matcher/certification.data';
+import { KeywordData } from '../shared/keywords-matcher/technologies.data';
 
 export type Job = {
   id: number;
@@ -19,7 +20,7 @@ export type Job = {
   publishedDate: Date;
   contractTypes: ContractTypes[];
   experienceLevels: ExperienceLevels[];
-  keywords: string[];
+  keywords: KeywordData[];
   educationTerms: string[];
   educationalLevelTerms: string[];
   languages: string[];

@@ -17,6 +17,7 @@ import {
 } from 'src/app/shared/keywords-matcher/keywords-matcher';
 import { WorkplaceTypes } from 'src/app/shared/keywords-matcher/workplace.data';
 import { LinkedInJob, linkedInEmploymentTypesMap } from './linked-in.types';
+import { KeywordData } from 'src/app/shared/keywords-matcher/technologies.data';
 
 const statesNames = [
   'acre',
@@ -153,7 +154,7 @@ function findExperienceLevels(job: LinkedInJob): ExperienceLevels[] {
   return matchExperienceLevel({ title: job.title, description: job.description });
 }
 
-function findJobKeywords(job: LinkedInJob): string[] {
+function findJobKeywords(job: LinkedInJob): KeywordData[] {
   return matchKeywords({ title: job.title, description: job.description });
 }
 

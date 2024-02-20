@@ -14,6 +14,7 @@ import {
 } from 'src/app/shared/keywords-matcher/keywords-matcher';
 import { WorkplaceTypes } from 'src/app/shared/keywords-matcher/workplace.data';
 import { GupyJob, gupyContractTypeMap } from './gupy.types';
+import { KeywordData } from 'src/app/shared/keywords-matcher/technologies.data';
 
 export function mapGupyJobsToJobs(jobs: GupyJob[]): Job[] {
   return jobs.map(mapToJob).sort((a, b) => (a.publishedDate > b.publishedDate ? -1 : 1));
@@ -87,7 +88,7 @@ function findExperienceLevel(job: GupyJob): ExperienceLevels[] {
   return matchExperienceLevel({ title: job.name, description: job.description });
 }
 
-function getJobKeywords(job: GupyJob): string[] {
+function getJobKeywords(job: GupyJob): KeywordData[] {
   return matchKeywords({ title: job.name, description: job.description });
 }
 

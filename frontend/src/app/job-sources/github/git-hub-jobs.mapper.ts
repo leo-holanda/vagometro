@@ -16,6 +16,7 @@ import {
 } from 'src/app/shared/keywords-matcher/keywords-matcher';
 import { WorkplaceTypes } from 'src/app/shared/keywords-matcher/workplace.data';
 import { GitHubJob } from './git-hub-jobs.types';
+import { KeywordData } from 'src/app/shared/keywords-matcher/technologies.data';
 
 // This function can't go to the git-hub worker file. It will not transpile
 export function mapGitHubJobToJob(job: GitHubJob): Job {
@@ -99,7 +100,7 @@ function findJobExperienceLevel(job: GitHubJob): ExperienceLevels[] {
   return matchExperienceLevel({ title: job.title, description: job.body, labels: job.labels });
 }
 
-function findJobKeywords(job: GitHubJob): string[] {
+function findJobKeywords(job: GitHubJob): KeywordData[] {
   return matchKeywords({ title: job.title, description: job.body, labels: job.labels });
 }
 

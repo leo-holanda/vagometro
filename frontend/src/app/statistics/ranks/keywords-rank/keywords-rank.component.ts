@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable, map } from 'rxjs';
-import { KeywordData } from './keywords-rank.model';
+import { KeywordStatsData } from './keywords-rank.model';
 import { StatisticsService } from '../../statistics.service';
 import { Job } from 'src/app/job/job.types';
 import { trackByKeyword } from 'src/app/shared/track-by-functions';
@@ -17,7 +17,7 @@ export class KeywordsRankComponent implements OnInit, OnChanges {
   @Input() jobs$?: Observable<Job[]>;
   @Input() rankSize: number | undefined;
 
-  keywordsRank$!: Observable<KeywordData[]>;
+  keywordsRank$!: Observable<KeywordStatsData[]>;
 
   trackByKeyword = trackByKeyword;
 

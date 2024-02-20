@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StatisticsService } from '../../statistics.service';
 import { Observable, map } from 'rxjs';
-import { KeywordData } from '../../ranks/keywords-rank/keywords-rank.model';
+import { KeywordStatsData } from '../../ranks/keywords-rank/keywords-rank.model';
 import { JobService } from 'src/app/job/job.service';
 import { Job } from 'src/app/job/job.types';
 import { CompaniesRankComponent } from '../../ranks/companies-rank/companies-rank.component';
@@ -37,12 +37,12 @@ import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-c
   styleUrls: ['./keywords-overview.component.scss'],
 })
 export class KeywordsOverviewComponent implements OnInit {
-  keywordsRank$!: Observable<KeywordData[]>;
+  keywordsRank$!: Observable<KeywordStatsData[]>;
   jobsQuantity!: number;
   selectedKeyword = '';
   jobsByKeyword$!: Observable<Job[]>;
 
-  filteredKeywords$!: Observable<KeywordData[]>;
+  filteredKeywords$!: Observable<KeywordStatsData[]>;
   keywordSearchString = '';
 
   trackByKeyword = trackByKeyword;

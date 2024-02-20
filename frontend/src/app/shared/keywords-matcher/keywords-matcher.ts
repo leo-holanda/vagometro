@@ -4,7 +4,7 @@ import { EducationalData, EducationalLevels, HigherEducationCoursesNames, educat
 import { ExperienceLevels, experienceLevelRelatedTerms, multiWordExperienceLevelRelatedTerms } from './experience-levels.data';
 import { InclusionTypes, inclusionRelatedTerms } from './inclusion.data';
 import { Languages, languageRelatedTerms } from './languages.data';
-import { oneWordKeywords, multiWordKeywords } from './technologies.data';
+import { oneWordKeywords, multiWordKeywords, KeywordData } from './technologies.data';
 import { WorkplaceTypes, workplaceTypeRelatedTerms } from './workplace.data';
 
 export type MatcherInput = {
@@ -68,14 +68,14 @@ export function matchExperienceLevel(content: MatcherInput): ExperienceLevels[] 
   return uniqueMatchedExperienceLevels;
 }
 
-export function matchKeywords(content: MatcherInput): string[] {
-  const jobKeywords: string[] = [];
+export function matchKeywords(content: MatcherInput): KeywordData[] {
+  const jobKeywords: KeywordData[] = [];
 
   if (content.title) {
     const sanitizedTitle = sanitizeString(content.title).split(' ');
     sanitizedTitle.forEach((substring: string) => {
       // The typeof check is necessary to prevent the keywords constructor being matched.
-      if (oneWordKeywords[substring] && typeof oneWordKeywords[substring] === 'string') jobKeywords.push(oneWordKeywords[substring]);
+      if (oneWordKeywords[substring] && typeof oneWordKeywords[substring] !== 'function') jobKeywords.push(oneWordKeywords[substring]);
     });
   }
 
@@ -83,7 +83,7 @@ export function matchKeywords(content: MatcherInput): string[] {
     const sanitizedSplittedDescription = sanitizeString(content.description).split(' ');
     sanitizedSplittedDescription.forEach((substring: string) => {
       // The typeof check is necessary to prevent the keywords constructor being matched.
-      if (oneWordKeywords[substring] && typeof oneWordKeywords[substring] === 'string') jobKeywords.push(oneWordKeywords[substring]);
+      if (oneWordKeywords[substring] && typeof oneWordKeywords[substring] !== 'function') jobKeywords.push(oneWordKeywords[substring]);
     });
 
     const sanitizedDescription = sanitizeString(content.description);
@@ -96,11 +96,11 @@ export function matchKeywords(content: MatcherInput): string[] {
     const sanitizedDescription = sanitizeString(content.labels.join(' ')).split(' ');
     sanitizedDescription.forEach((substring: string) => {
       // The typeof check is necessary to prevent the keywords constructor being matched.
-      if (oneWordKeywords[substring] && typeof oneWordKeywords[substring] === 'string') jobKeywords.push(oneWordKeywords[substring]);
+      if (oneWordKeywords[substring] && typeof oneWordKeywords[substring] !== 'function') jobKeywords.push(oneWordKeywords[substring]);
     });
   }
 
-  return getUniqueStrings(jobKeywords);
+  return getUniqueTechKeywords(jobKeywords).sort((a, b) => (a.category.name > b.category.name ? 1 : -1));
 }
 
 export function matchEducationalTerms(content: string): EducationalData {
@@ -324,5 +324,19 @@ export function removeAccents(string: string): string {
 function getUniqueStrings(strings: string[]): string[] {
   const uniqueSet = new Set(strings);
   const uniqueArray = Array.from(uniqueSet);
+  return uniqueArray;
+}
+
+function getUniqueTechKeywords(keywords: KeywordData[]): KeywordData[] {
+  const uniqueSet = new Set();
+  const uniqueArray: KeywordData[] = [];
+
+  keywords.forEach((keyword) => {
+    if (!uniqueSet.has(keyword.name)) {
+      uniqueSet.add(keyword.name);
+      uniqueArray.push(keyword);
+    }
+  });
+
   return uniqueArray;
 }

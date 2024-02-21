@@ -237,6 +237,7 @@ export const oneWordKeywords: Keywords = {
   openshift: { name: 'Red Hat OpenShift', category: keywordCategories.cloud },
   ansible: { name: 'Red Hat Ansible', category: keywordCategories.cloud },
   serverless: { name: 'Serverless', category: keywordCategories.cloud },
+  ec2: { name: 'AWS EC2', category: keywordCategories.cloud },
   //END OF CLOUD
 
   //TESTING,

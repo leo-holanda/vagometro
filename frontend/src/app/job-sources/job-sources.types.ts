@@ -172,6 +172,6 @@ export const jobCollectionsMap: JobCollectionsMap = {
     isLoaded: false,
     hasFailedToLoad: false,
     searchStringKeywords: ['desenvolvedor'],
-    initialDailyFetchDate: 'Em progresso',
+    initialDailyFetchDate: '08/02/2024',
   },
 };

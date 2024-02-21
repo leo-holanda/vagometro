@@ -18,9 +18,19 @@
             <div class="flex flex-wrap gap-2">
               <button
                 [ngClass]="{
-                  'btn-active': (currentTimeWindow$ | async) === timeWindows.day
+                  'btn-active': (currentTimeWindow$ | async) === timeWindows.today
                 }"
-                (click)="onTimeWindowClick(timeWindows.day)"
+                (click)="onTimeWindowClick(timeWindows.today)"
+                class="btn btn-outline"
+              >
+                Hoje
+              </button>
+
+              <button
+                [ngClass]="{
+                  'btn-active': (currentTimeWindow$ | async) === timeWindows.yesterday
+                }"
+                (click)="onTimeWindowClick(timeWindows.yesterday)"
                 class="btn btn-outline"
               >
                 Ontem
@@ -125,9 +135,19 @@
       <div class="flex flex-wrap items-center justify-center gap-2 m-4">
         <button
           [ngClass]="{
-            'btn-active': (currentTimeWindow$ | async) === timeWindows.day
+            'btn-active': (currentTimeWindow$ | async) === timeWindows.today
           }"
-          (click)="onTimeWindowClick(timeWindows.day)"
+          (click)="onTimeWindowClick(timeWindows.today)"
+          class="btn btn-outline"
+        >
+          Hoje
+        </button>
+
+        <button
+          [ngClass]="{
+            'btn-active': (currentTimeWindow$ | async) === timeWindows.yesterday
+          }"
+          (click)="onTimeWindowClick(timeWindows.yesterday)"
           class="btn btn-outline"
         >
           Ontem

@@ -109,8 +109,11 @@ export class JobService {
     const today = new Date();
 
     switch (timeWindow) {
-      case TimeWindows.day:
+      case TimeWindows.yesterday:
         minDate.setDate(today.getDate() - 1);
+        break;
+
+      case TimeWindows.today:
         break;
 
       case TimeWindows.week:
@@ -133,6 +136,10 @@ export class JobService {
         minDate = this.findOldestJobDate(this.pristineJobs);
         break;
     }
+
+    minDate.setHours(0);
+    minDate.setMinutes(0);
+    minDate.setSeconds(0);
 
     return minDate;
   }
@@ -206,6 +213,9 @@ export class JobService {
 
   private findOldestJobDate(jobs: Job[]): Date {
     let oldestDate = new Date();
+    oldestDate.setHours(0);
+    oldestDate.setMinutes(0);
+    oldestDate.setSeconds(0);
 
     jobs.forEach((job) => {
       if (job.publishedDate < oldestDate) oldestDate = job.publishedDate;

@@ -19,10 +19,8 @@ export class ChartService {
         const publicationMap = new Map<string, number>();
         publicationMap.set(minDate.toDateString(), 0);
 
-        const yesterdayDate = new Date();
-        yesterdayDate.setDate(new Date().getDate() - 1);
-
-        while (minDate.toDateString() != yesterdayDate.toDateString()) {
+        const today = new Date();
+        while (minDate.toDateString() != today.toDateString()) {
           minDate.setDate(minDate.getDate() + 1);
           publicationMap.set(minDate.toDateString(), 0);
         }

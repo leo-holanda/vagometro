@@ -28,7 +28,8 @@ export type Job = {
 };
 
 export enum TimeWindows {
-  'day' = 'day',
+  'yesterday' = 'yesterday',
+  'today' = 'today',
   'week' = 'week',
   'month' = 'month',
   '6months' = '6months',

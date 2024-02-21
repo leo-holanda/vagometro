@@ -140,6 +140,7 @@ export class JobService {
     minDate.setHours(0);
     minDate.setMinutes(0);
     minDate.setSeconds(0);
+    minDate.setMilliseconds(0);
 
     return minDate;
   }
@@ -216,6 +217,7 @@ export class JobService {
     oldestDate.setHours(0);
     oldestDate.setMinutes(0);
     oldestDate.setSeconds(0);
+    oldestDate.setMilliseconds(0);
 
     jobs.forEach((job) => {
       if (job.publishedDate < oldestDate) oldestDate = job.publishedDate;

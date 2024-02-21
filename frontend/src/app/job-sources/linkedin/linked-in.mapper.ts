@@ -69,7 +69,11 @@ function mapToJob(job: LinkedInJob): Job {
     educationTerms: coursesNames,
     id: job.id,
     jobUrl: job.url,
-    publishedDate: new Date(job.created_at),
+    /*
+      Prevents the date from getting one day subtracted
+      https://www.tabnews.com.br/kht/lidando-com-datas-em-javascript-ou-criei-uma-data-mas-mostra-um-dia-a-menos
+    */
+    publishedDate: new Date(job.created_at + 'T00:00:00'),
     title: job.title,
     city: findJobCity(job),
     contractTypes: findJobContractTypes(job),

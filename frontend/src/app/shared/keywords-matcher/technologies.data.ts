@@ -166,6 +166,7 @@ export const oneWordKeywords: Keywords = {
   apis: { name: 'API', category: keywordCategories.backend },
   memcached: { name: 'Memcached', category: keywordCategories.backend },
   orm: { name: 'ORM', category: keywordCategories.backend },
+  rust: { name: 'Rust', category: keywordCategories.backend },
   //END OF BACKEND
 
   //DATABASE

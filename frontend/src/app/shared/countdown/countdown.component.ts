@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { JobSources } from 'src/app/job-sources/job-sources.types';
 
 @Component({
   selector: 'vgm-countdown',
@@ -9,18 +10,33 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./countdown.component.scss'],
 })
 export class CountdownComponent implements OnInit {
+  @Input() jobSource: JobSources | undefined;
+
   hours = 0;
   minutes = 0;
   seconds = 0;
   isCountdownFinished = false;
+  jobSourceText = '';
 
   ngOnInit(): void {
     const today = new Date();
-    today.setDate(new Date().getDate() + 1);
-    if (today.getHours() > 12) today.setHours(11);
-    else today.setHours(19);
     today.setMinutes(0);
     today.setSeconds(0);
+
+    if (this.jobSource == JobSources.gupy) {
+      this.jobSourceText = 'da Gupy';
+      if (today.getHours() > 19) {
+        today.setDate(today.getDate() + 1);
+        today.setHours(11);
+      }
+      if (today.getHours() > 11) today.setHours(19);
+      else today.setHours(11);
+    } else {
+      this.jobSourceText = 'do LinkedIn';
+
+      today.setDate(new Date().getDate() + 1);
+      today.setHours(3);
+    }
 
     const countDownDateTime = today.getTime();
 

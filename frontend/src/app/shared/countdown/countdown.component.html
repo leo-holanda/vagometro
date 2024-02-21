@@ -1,6 +1,6 @@
 <ng-container *ngIf="!isCountdownFinished; else countdownFinishedTemplate">
   <div class="flex flex-col items-center gap-4 m-4">
-    <p>A próxima atualização das vagas da Gupy ocorrerá em</p>
+    <p>A próxima atualização das vagas {{ jobSourceText }} ocorrerá em</p>
 
     <div class="grid grid-flow-col gap-5 text-center auto-cols-max">
       <div class="flex flex-col">

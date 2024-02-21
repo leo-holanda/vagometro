@@ -75,7 +75,7 @@ export const jobCollectionsMap: JobCollectionsMap = {
     isLoading: false,
     isLoaded: false,
     hasFailedToLoad: false,
-    searchStringKeywords: ['devops', 'sre'],
+    searchStringKeywords: ['devops', 'sre', 'devsecops', 'cloud'],
     initialDailyFetchDate: '05/02/2024',
   },
   gupyuiux: {

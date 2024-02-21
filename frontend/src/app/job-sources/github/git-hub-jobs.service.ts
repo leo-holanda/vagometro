@@ -61,7 +61,6 @@ export class GitHubJobsService {
   }
 
   private sendEventToUmami(jobCollection: string): void {
-    console.log(`GitHub - ${jobCollection}`);
     try {
       (window as any).umami.track(`GitHub - ${jobCollection}`);
     } catch (error) {

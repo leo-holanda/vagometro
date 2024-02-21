@@ -103,7 +103,6 @@ export class AtlasService {
   }
 
   private sendEventToUmami(event: string): void {
-    console.log(event);
     try {
       (window as any).umami.track(event);
     } catch (error) {

@@ -1,6 +1,8 @@
 docker
 lambda/fetch-repos-jobs/package
 lambda/fetch-repos-jobs/package.zip
+lambda/fetch-repos-jobs/.venv
 lambda/fetch-gupy-jobs-v2/package
+lambda/fetch-gupy-jobs-v2/.venv
 lambda/fetch-gupy-jobs-v2/package.zip
 linkedin-gcp-job/.venv

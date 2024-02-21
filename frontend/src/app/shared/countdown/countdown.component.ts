@@ -15,13 +15,14 @@ export class CountdownComponent implements OnInit {
   isCountdownFinished = false;
 
   ngOnInit(): void {
-    const countDownDate = new Date();
-    countDownDate.setDate(new Date().getDate() + 1);
-    countDownDate.setHours(6);
-    countDownDate.setMinutes(0);
-    countDownDate.setSeconds(0);
+    const today = new Date();
+    today.setDate(new Date().getDate() + 1);
+    if (today.getHours() > 12) today.setHours(11);
+    else today.setHours(19);
+    today.setMinutes(0);
+    today.setSeconds(0);
 
-    const countDownDateTime = countDownDate.getTime();
+    const countDownDateTime = today.getTime();
 
     //LATER: Can this be done without calling new Date()?
     const interval = setInterval(() => {

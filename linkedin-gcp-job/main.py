@@ -19,7 +19,7 @@ TASK_ATTEMPT = os.getenv("CLOUD_RUN_TASK_ATTEMPT", 0)
 
 
 def get_with_retry(url, session):
-    delay = 1
+    delay = 2
     while (True):
         try:
             response = session.get(url, timeout=5)
@@ -91,22 +91,12 @@ def get_parsed_jobs(session):
 
 
 def parse_job_page(soup):
-    seniority_level = None
+    # This function used to search for the seniority level tag
+    # This tag is highly misleading. Lots of times the person or robot that creates the job posting do not use the correct level
+    # Due to this, it was removed.
+    
     employment_type = None
     description = None
-
-    try:
-        seniority_level_title_tag = soup.find(
-            lambda tag: tag.name == 'h3' and 'Seniority level' in tag.get_text(strip=True))
-
-        if seniority_level_title_tag:
-            seniority_level_content_tag = seniority_level_title_tag.find_next(
-                'span', class_='description__job-criteria-text--criteria')
-            if seniority_level_content_tag:
-                seniority_level = seniority_level_content_tag.get_text(
-                    strip=True)
-    except:
-        print("Couldn't find seniority level title tag")
 
     try:
         employment_type_title_tag = soup.find(
@@ -133,7 +123,7 @@ def parse_job_page(soup):
         print("Couldn't find description text tag")
 
 
-    return {description: description, seniority_level: seniority_level, employment_type: employment_type}
+    return {description: description, employment_type: employment_type}
 
 
 def parse_jobs_data(soup):
@@ -173,7 +163,6 @@ def parse_jobs_data(soup):
             'created_at': date,
             'url': job_url,
             'description': None,
-            'seniority_level': None,
             'employment_type': None
         }
 
@@ -211,15 +200,16 @@ def main():
         print("No jobs found")
         return
 
+    saved_jobs_id_set = {job['_id'] for job in collection.find({}, {'_id': 1})}
+
     for job in all_jobs:
-        tm.sleep(1)
+        if(job['id'] in saved_jobs_id_set): continue
 
         try:
             job_page = get_with_retry(job['url'], session)
-            description, seniority_level, employment_type = parse_job_page(
+            description, employment_type = parse_job_page(
                 job_page)
             job['description'] = description
-            job['seniority_level'] = seniority_level
             job['employment_type'] = employment_type
 
             if (job['description'] is None):
@@ -228,6 +218,7 @@ def main():
 
             job["_id"] = job['id']
             job_list.append(job)
+            tm.sleep(1)
         except:
             print("An error ocurred while parsing job page")
 
@@ -244,6 +235,7 @@ def main():
     except Exception as e:
         print(f"Error: {e}")
 
+    client.close()
     print(f"Completed Task #{TASK_INDEX}.")
 
 

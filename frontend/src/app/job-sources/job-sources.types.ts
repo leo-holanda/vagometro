@@ -63,7 +63,7 @@ export const jobCollectionsMap: JobCollectionsMap = {
     isLoading: false,
     isLoaded: false,
     hasFailedToLoad: false,
-    searchStringKeywords: ['mobile'],
+    searchStringKeywords: ['mobile', 'android', 'ios'],
     initialDailyFetchDate: '05/02/2024',
   },
   gupydevops: {

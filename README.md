@@ -4,7 +4,7 @@
 
 <img src="demo.png" width="100%" />
 
-🌐 Check it at [vagometro.vercel.app](vagometro.vercel.app)
+🌐 Check it at [vagometro.vercel.app](https://vagometro.vercel.app)
 
 ## Contents
 

@@ -29,18 +29,12 @@ export class JobSourceSelectorComponent {
   private githubJobCollections!: JobCollectionsMap;
   private linkedInJobCollections!: JobCollectionsMap;
 
-  @ViewChild('jobCollectionInfoModal') jobCollectionInfoModal:
-    | ElementRef
-    | undefined;
+  @ViewChild('jobCollectionInfoModal') jobCollectionInfoModal: ElementRef | undefined;
 
   constructor(private jobSourcesService: JobSourcesService) {
     this.gupyJobCollections = this.getCollectionByJobSource(JobSources.gupy);
-    this.githubJobCollections = this.getCollectionByJobSource(
-      JobSources.github,
-    );
-    this.linkedInJobCollections = this.getCollectionByJobSource(
-      JobSources.linkedin,
-    );
+    this.githubJobCollections = this.getCollectionByJobSource(JobSources.github);
+    this.linkedInJobCollections = this.getCollectionByJobSource(JobSources.linkedin);
     this.selectedJobCollections = this.gupyJobCollections;
   }
 
@@ -50,17 +44,14 @@ export class JobSourceSelectorComponent {
 
   setJobSource(jobSource: JobSources): void {
     this.selectedJobSource = jobSource;
-    if (jobSource == JobSources.github)
-      this.selectedJobCollections = this.githubJobCollections;
-    else if (jobSource == JobSources.gupy)
-      this.selectedJobCollections = this.gupyJobCollections;
+    if (jobSource == JobSources.github) this.selectedJobCollections = this.githubJobCollections;
+    else if (jobSource == JobSources.gupy) this.selectedJobCollections = this.gupyJobCollections;
     else this.selectedJobCollections = this.linkedInJobCollections;
   }
 
   onInfoButtonClick(jobCollection: JobCollectionData): void {
     this.selectedJobCollectionInfo = jobCollection;
-    if (this.jobCollectionInfoModal)
-      this.jobCollectionInfoModal.nativeElement.showModal();
+    if (this.jobCollectionInfoModal) this.jobCollectionInfoModal.nativeElement.showModal();
   }
 
   private getCollectionByJobSource(jobSource: JobSources): JobCollectionsMap {

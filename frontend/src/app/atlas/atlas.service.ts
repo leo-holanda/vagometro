@@ -37,94 +37,154 @@ export class AtlasService {
     if (app.currentUser) {
       const mongoDB = app.currentUser.mongoClient(environment.DATA_SOURCE_NAME);
 
-      this.mobileJobsCollection = mongoDB.db(environment.GUPY_DATABASE_NAME).collection(environment.GUPY_MOBILE_COLLECTION_NAME);
+      this.mobileJobsCollection = mongoDB
+        .db(environment.GUPY_DATABASE_NAME)
+        .collection(environment.GUPY_MOBILE_COLLECTION_NAME);
 
-      this.devopsJobsCollection = mongoDB.db(environment.GUPY_DATABASE_NAME).collection(environment.GUPY_DEVOPS_COLLECTION_NAME);
+      this.devopsJobsCollection = mongoDB
+        .db(environment.GUPY_DATABASE_NAME)
+        .collection(environment.GUPY_DEVOPS_COLLECTION_NAME);
 
-      this.uiuxJobsCollection = mongoDB.db(environment.GUPY_DATABASE_NAME).collection(environment.GUPY_UIUX_COLLECTION_NAME);
+      this.uiuxJobsCollection = mongoDB
+        .db(environment.GUPY_DATABASE_NAME)
+        .collection(environment.GUPY_UIUX_COLLECTION_NAME);
 
-      this.webdevJobsCollection = mongoDB.db(environment.GUPY_DATABASE_NAME).collection(environment.GUPY_WEBDEV_COLLECTION_NAME);
+      this.webdevJobsCollection = mongoDB
+        .db(environment.GUPY_DATABASE_NAME)
+        .collection(environment.GUPY_WEBDEV_COLLECTION_NAME);
 
-      this.dataJobsCollection = mongoDB.db(environment.GUPY_DATABASE_NAME).collection(environment.GUPY_DATA_COLLECTION_NAME);
+      this.dataJobsCollection = mongoDB
+        .db(environment.GUPY_DATABASE_NAME)
+        .collection(environment.GUPY_DATA_COLLECTION_NAME);
 
-      this.qaJobsCollection = mongoDB.db(environment.GUPY_DATABASE_NAME).collection(environment.GUPY_QA_COLLECTION_NAME);
+      this.qaJobsCollection = mongoDB
+        .db(environment.GUPY_DATABASE_NAME)
+        .collection(environment.GUPY_QA_COLLECTION_NAME);
 
-      this.aiJobsCollection = mongoDB.db(environment.GUPY_DATABASE_NAME).collection(environment.GUPY_AI_COLLECTION_NAME);
+      this.aiJobsCollection = mongoDB
+        .db(environment.GUPY_DATABASE_NAME)
+        .collection(environment.GUPY_AI_COLLECTION_NAME);
 
-      this.productManagerJobsCollection = mongoDB.db(environment.GUPY_DATABASE_NAME).collection(environment.GUPY_PRODUCT_MANAGER_COLLECTION_NAME);
-      this.agileRelatedJobsCollection = mongoDB.db(environment.GUPY_DATABASE_NAME).collection(environment.GUPY_AGILE_COLLECTION_NAME);
+      this.productManagerJobsCollection = mongoDB
+        .db(environment.GUPY_DATABASE_NAME)
+        .collection(environment.GUPY_PRODUCT_MANAGER_COLLECTION_NAME);
+      this.agileRelatedJobsCollection = mongoDB
+        .db(environment.GUPY_DATABASE_NAME)
+        .collection(environment.GUPY_AGILE_COLLECTION_NAME);
 
-      this.linkedInDevJobsCollection = mongoDB.db(environment.LINKEDIN_DATABASE_NAME).collection(environment.LINKEDIN_DEV_COLLECTION_NAME);
+      this.linkedInDevJobsCollection = mongoDB
+        .db(environment.LINKEDIN_DATABASE_NAME)
+        .collection(environment.LINKEDIN_DEV_COLLECTION_NAME);
     }
   }
 
   getLinkedInDevJobs(): Observable<LinkedInJob[]> {
     return this.connectionObservable$.pipe(
       switchMap(() => this.linkedInDevJobsCollection.find() as Observable<LinkedInJob[]>),
-      tap(() => this.sendEventToUmami(`${jobCollectionsMap.linkedin_dev.source} - ${jobCollectionsMap.linkedin_dev.name}`)),
+      tap(() =>
+        this.sendEventToUmami(
+          `${jobCollectionsMap.linkedin_dev.source} - ${jobCollectionsMap.linkedin_dev.name}`,
+        ),
+      ),
     );
   }
 
   getAgileRelatedJobs(): Observable<GupyJob[]> {
     return this.connectionObservable$.pipe(
       switchMap(() => this.agileRelatedJobsCollection.find() as Observable<GupyJob[]>),
-      tap(() => this.sendEventToUmami(`${jobCollectionsMap.gupyAgileRelated.source} - ${jobCollectionsMap.gupyAgileRelated.name}`)),
+      tap(() =>
+        this.sendEventToUmami(
+          `${jobCollectionsMap.gupyAgileRelated.source} - ${jobCollectionsMap.gupyAgileRelated.name}`,
+        ),
+      ),
     );
   }
 
   getProductManagerJobs(): Observable<GupyJob[]> {
     return this.connectionObservable$.pipe(
       switchMap(() => this.productManagerJobsCollection.find() as Observable<GupyJob[]>),
-      tap(() => this.sendEventToUmami(`${jobCollectionsMap.gupyProductManager.source} - ${jobCollectionsMap.gupyProductManager.name}`)),
+      tap(() =>
+        this.sendEventToUmami(
+          `${jobCollectionsMap.gupyProductManager.source} - ${jobCollectionsMap.gupyProductManager.name}`,
+        ),
+      ),
     );
   }
 
   getAIJobs(): Observable<GupyJob[]> {
     return this.connectionObservable$.pipe(
       switchMap(() => this.aiJobsCollection.find() as Observable<GupyJob[]>),
-      tap(() => this.sendEventToUmami(`${jobCollectionsMap.gupyia.source} - ${jobCollectionsMap.gupyia.name}`)),
+      tap(() =>
+        this.sendEventToUmami(
+          `${jobCollectionsMap.gupyia.source} - ${jobCollectionsMap.gupyia.name}`,
+        ),
+      ),
     );
   }
 
   getQAJobs(): Observable<GupyJob[]> {
     return this.connectionObservable$.pipe(
       switchMap(() => this.qaJobsCollection.find() as Observable<GupyJob[]>),
-      tap(() => this.sendEventToUmami(`${jobCollectionsMap.gupyqa.source} - ${jobCollectionsMap.gupyqa.name}`)),
+      tap(() =>
+        this.sendEventToUmami(
+          `${jobCollectionsMap.gupyqa.source} - ${jobCollectionsMap.gupyqa.name}`,
+        ),
+      ),
     );
   }
 
   getDataJobs(): Observable<GupyJob[]> {
     return this.connectionObservable$.pipe(
       switchMap(() => this.dataJobsCollection.find() as Observable<GupyJob[]>),
-      tap(() => this.sendEventToUmami(`${jobCollectionsMap.gupydados.source} - ${jobCollectionsMap.gupydados.name}`)),
+      tap(() =>
+        this.sendEventToUmami(
+          `${jobCollectionsMap.gupydados.source} - ${jobCollectionsMap.gupydados.name}`,
+        ),
+      ),
     );
   }
 
   getWebDevJobs(): Observable<GupyJob[]> {
     return this.connectionObservable$.pipe(
       switchMap(() => this.webdevJobsCollection.find() as Observable<GupyJob[]>),
-      tap(() => this.sendEventToUmami(`${jobCollectionsMap.gupydev.source} - ${jobCollectionsMap.gupydev.name}`)),
+      tap(() =>
+        this.sendEventToUmami(
+          `${jobCollectionsMap.gupydev.source} - ${jobCollectionsMap.gupydev.name}`,
+        ),
+      ),
     );
   }
 
   getUIUXJobs(): Observable<GupyJob[]> {
     return this.connectionObservable$.pipe(
       switchMap(() => this.uiuxJobsCollection.find() as Observable<GupyJob[]>),
-      tap(() => this.sendEventToUmami(`${jobCollectionsMap.gupyuiux.source} - ${jobCollectionsMap.gupyuiux.name}`)),
+      tap(() =>
+        this.sendEventToUmami(
+          `${jobCollectionsMap.gupyuiux.source} - ${jobCollectionsMap.gupyuiux.name}`,
+        ),
+      ),
     );
   }
 
   getMobileJobs(): Observable<GupyJob[]> {
     return this.connectionObservable$.pipe(
       switchMap(() => this.mobileJobsCollection.find() as Observable<GupyJob[]>),
-      tap(() => this.sendEventToUmami(`${jobCollectionsMap.gupymobile.source} - ${jobCollectionsMap.gupymobile.name}`)),
+      tap(() =>
+        this.sendEventToUmami(
+          `${jobCollectionsMap.gupymobile.source} - ${jobCollectionsMap.gupymobile.name}`,
+        ),
+      ),
     );
   }
 
   getDevOpsJobs(): Observable<GupyJob[]> {
     return this.connectionObservable$.pipe(
       switchMap(() => this.devopsJobsCollection.find() as Observable<GupyJob[]>),
-      tap(() => this.sendEventToUmami(`${jobCollectionsMap.gupydevops.source} - ${jobCollectionsMap.gupydevops.name}`)),
+      tap(() =>
+        this.sendEventToUmami(
+          `${jobCollectionsMap.gupydevops.source} - ${jobCollectionsMap.gupydevops.name}`,
+        ),
+      ),
     );
   }
 

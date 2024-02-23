@@ -26,11 +26,17 @@
 
               <div class="flex gap-2">
                 <span>{{ inclusionType.count | number }}</span>
-                <span class="text-gray-600">({{ inclusionType.count / jobsQuantity | percent: "1.1-1" }})</span>
+                <span class="text-gray-600"
+                  >({{ inclusionType.count / jobsQuantity | percent: "1.1-1" }})</span
+                >
               </div>
             </div>
 
-            <progress class="progress w-full" [value]="inclusionType.count" [max]="jobsQuantity"></progress>
+            <progress
+              class="progress w-full"
+              [value]="inclusionType.count"
+              [max]="jobsQuantity"
+            ></progress>
           </button>
         </ng-container>
 

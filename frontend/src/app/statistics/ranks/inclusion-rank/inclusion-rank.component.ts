@@ -26,12 +26,18 @@ export class InclusionRankComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.inclusionRank$ = this.statisticsService.getInclusionRank(this.jobs$);
 
-    if (this.rankSize) this.inclusionRank$ = this.inclusionRank$.pipe(map((inclusionRank) => inclusionRank.slice(0, this.rankSize)));
+    if (this.rankSize)
+      this.inclusionRank$ = this.inclusionRank$.pipe(
+        map((inclusionRank) => inclusionRank.slice(0, this.rankSize)),
+      );
   }
 
   ngOnChanges(): void {
     this.inclusionRank$ = this.statisticsService.getInclusionRank(this.jobs$);
 
-    if (this.rankSize) this.inclusionRank$ = this.inclusionRank$.pipe(map((inclusionRank) => inclusionRank.slice(0, this.rankSize)));
+    if (this.rankSize)
+      this.inclusionRank$ = this.inclusionRank$.pipe(
+        map((inclusionRank) => inclusionRank.slice(0, this.rankSize)),
+      );
   }
 }

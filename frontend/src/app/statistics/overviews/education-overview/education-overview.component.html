@@ -39,7 +39,11 @@
 
             <button
               class="btn btn-ghost p-2"
-              *ngFor="let educationalLevel of educationalLevelRank; index as i; trackBy: trackByEducationTerm"
+              *ngFor="
+                let educationalLevel of educationalLevelRank;
+                index as i;
+                trackBy: trackByEducationTerm
+              "
               [ngClass]="{
                 'btn-active': selectedEducationalLevelTerm === educationalLevel.name
               }"
@@ -49,10 +53,16 @@
                 <span>{{ i + 1 + ". " + educationalLevel.name }}</span>
                 <div class="flex gap-2">
                   <span>{{ educationalLevel.count | number }}</span>
-                  <span class="text-gray-600">({{ educationalLevel.count / jobsQuantity | percent: "1.1-1" }})</span>
+                  <span class="text-gray-600"
+                    >({{ educationalLevel.count / jobsQuantity | percent: "1.1-1" }})</span
+                  >
                 </div>
               </div>
-              <progress class="progress w-full" [value]="educationalLevel.count" [max]="jobsQuantity"></progress>
+              <progress
+                class="progress w-full"
+                [value]="educationalLevel.count"
+                [max]="jobsQuantity"
+              ></progress>
             </button>
           </ng-container>
         </ng-container>
@@ -77,11 +87,17 @@
 
                 <div class="flex gap-2">
                   <span>{{ educationTerm.count | number }}</span>
-                  <span class="text-gray-600">({{ educationTerm.count / jobsQuantity | percent: "1.1-1" }})</span>
+                  <span class="text-gray-600"
+                    >({{ educationTerm.count / jobsQuantity | percent: "1.1-1" }})</span
+                  >
                 </div>
               </div>
 
-              <progress class="progress w-full" [value]="educationTerm.count" [max]="jobsQuantity"></progress>
+              <progress
+                class="progress w-full"
+                [value]="educationTerm.count"
+                [max]="jobsQuantity"
+              ></progress>
             </button>
           </ng-container>
         </ng-container>
@@ -105,29 +121,52 @@
       </div>
 
       <div class="card-body">
-        <vgm-publication-chart [jobs$]="selectedDataType === educationalDataTypes.level ? jobsByEducationalLevel$ : jobsByEducationTerm$"></vgm-publication-chart>
+        <vgm-publication-chart
+          [jobs$]="
+            selectedDataType === educationalDataTypes.level
+              ? jobsByEducationalLevel$
+              : jobsByEducationTerm$
+          "
+        ></vgm-publication-chart>
       </div>
     </div>
 
-    <vgm-job-postings-comparison [jobs$]="selectedDataType === educationalDataTypes.level ? jobsByEducationalLevel$ : jobsByEducationTerm$"></vgm-job-postings-comparison>
+    <vgm-job-postings-comparison
+      [jobs$]="
+        selectedDataType === educationalDataTypes.level
+          ? jobsByEducationalLevel$
+          : jobsByEducationTerm$
+      "
+    ></vgm-job-postings-comparison>
   </div>
 
   <div class="card card-bordered card-compact w-full bg-base-300 -xl">
     <div class="card-body">
       <ng-container [ngSwitch]="selectedDataType">
         <ng-container *ngSwitchCase="educationalDataTypes.level">
-          <h1 *ngIf="selectedEducationalLevelTerm !== 'Desconhecido'; else unknownEducationalLevelTemplate" class="font-bold text-lg mb-4">
+          <h1
+            *ngIf="
+              selectedEducationalLevelTerm !== 'Desconhecido';
+              else unknownEducationalLevelTemplate
+            "
+            class="font-bold text-lg mb-4"
+          >
             Sobre vagas que mencionam o nível de
             {{ selectedEducationalLevelTerm }}
           </h1>
 
           <ng-template #unknownEducationalLevelTemplate>
-            <h1 class="font-bold text-lg mb-4">Sobre as vagas com nível de formação desconhecido</h1>
+            <h1 class="font-bold text-lg mb-4">
+              Sobre as vagas com nível de formação desconhecido
+            </h1>
           </ng-template>
         </ng-container>
 
         <ng-container *ngSwitchCase="educationalDataTypes.course">
-          <h1 *ngIf="selectedEducationTerm !== 'Desconhecido'; else unknownEducationTermTemplate" class="font-bold text-lg mb-4">
+          <h1
+            *ngIf="selectedEducationTerm !== 'Desconhecido'; else unknownEducationTermTemplate"
+            class="font-bold text-lg mb-4"
+          >
             Sobre vagas que mencionam o curso de {{ selectedEducationTerm }}
           </h1>
 
@@ -142,7 +181,13 @@
           <i class="bx bxs-chip"></i>
           <h3>Tecnologias mais frequentes</h3>
         </div>
-        <vgm-keywords-rank [jobs$]="selectedDataType === educationalDataTypes.level ? jobsByEducationalLevel$ : jobsByEducationTerm$"></vgm-keywords-rank>
+        <vgm-keywords-rank
+          [jobs$]="
+            selectedDataType === educationalDataTypes.level
+              ? jobsByEducationalLevel$
+              : jobsByEducationTerm$
+          "
+        ></vgm-keywords-rank>
       </section>
 
       <div class="divider"></div>
@@ -152,7 +197,13 @@
           <i class="bx bxs-business"></i>
           <h3>Empresas que mais contratam</h3>
         </div>
-        <vgm-companies-rank [jobs$]="selectedDataType === educationalDataTypes.level ? jobsByEducationalLevel$ : jobsByEducationTerm$"></vgm-companies-rank>
+        <vgm-companies-rank
+          [jobs$]="
+            selectedDataType === educationalDataTypes.level
+              ? jobsByEducationalLevel$
+              : jobsByEducationTerm$
+          "
+        ></vgm-companies-rank>
       </section>
 
       <div class="divider"></div>
@@ -162,7 +213,13 @@
           <i class="bx bxs-home"></i>
           <h3>Modalidades mais frequentes</h3>
         </div>
-        <vgm-workplace-rank [jobs$]="selectedDataType === educationalDataTypes.level ? jobsByEducationalLevel$ : jobsByEducationTerm$"></vgm-workplace-rank>
+        <vgm-workplace-rank
+          [jobs$]="
+            selectedDataType === educationalDataTypes.level
+              ? jobsByEducationalLevel$
+              : jobsByEducationTerm$
+          "
+        ></vgm-workplace-rank>
       </section>
 
       <div class="divider"></div>
@@ -172,7 +229,13 @@
           <i class="bx bxs-user-detail"></i>
           <h3>Níveis de experiência mais requisitados</h3>
         </div>
-        <vgm-experience-levels-rank [jobs$]="selectedDataType === educationalDataTypes.level ? jobsByEducationalLevel$ : jobsByEducationTerm$"></vgm-experience-levels-rank>
+        <vgm-experience-levels-rank
+          [jobs$]="
+            selectedDataType === educationalDataTypes.level
+              ? jobsByEducationalLevel$
+              : jobsByEducationTerm$
+          "
+        ></vgm-experience-levels-rank>
       </section>
 
       <div class="divider"></div>
@@ -182,7 +245,13 @@
           <i class="bx bxs-briefcase"></i>
           <h3>Tipos de vagas</h3>
         </div>
-        <vgm-type-rank [jobs$]="selectedDataType === educationalDataTypes.level ? jobsByEducationalLevel$ : jobsByEducationTerm$"></vgm-type-rank>
+        <vgm-type-rank
+          [jobs$]="
+            selectedDataType === educationalDataTypes.level
+              ? jobsByEducationalLevel$
+              : jobsByEducationTerm$
+          "
+        ></vgm-type-rank>
       </section>
 
       <div class="divider"></div>
@@ -192,7 +261,13 @@
           <i class="bx bx-globe"></i>
           <h3>Idiomas mais requisitados</h3>
         </div>
-        <vgm-languages-rank [jobs$]="selectedDataType === educationalDataTypes.level ? jobsByEducationalLevel$ : jobsByEducationTerm$"></vgm-languages-rank>
+        <vgm-languages-rank
+          [jobs$]="
+            selectedDataType === educationalDataTypes.level
+              ? jobsByEducationalLevel$
+              : jobsByEducationTerm$
+          "
+        ></vgm-languages-rank>
       </section>
     </div>
   </div>
@@ -206,13 +281,26 @@
       <h1>Vagas consideradas nos dados acima</h1>
       <span
         >Total:
-        {{ (((selectedDataType === educationalDataTypes.level ? jobsByEducationalLevel$ : jobsByEducationTerm$) | async) || []).length }}
+        {{
+          (
+            ((selectedDataType === educationalDataTypes.level
+              ? jobsByEducationalLevel$
+              : jobsByEducationTerm$
+            ) | async) || []
+          ).length
+        }}
         vagas</span
       >
     </div>
 
     <div class="card-body overflow-y-hidden">
-      <vgm-job-list [jobs$]="selectedDataType === educationalDataTypes.level ? jobsByEducationalLevel$ : jobsByEducationTerm$"></vgm-job-list>
+      <vgm-job-list
+        [jobs$]="
+          selectedDataType === educationalDataTypes.level
+            ? jobsByEducationalLevel$
+            : jobsByEducationTerm$
+        "
+      ></vgm-job-list>
     </div>
   </div>
 </div>

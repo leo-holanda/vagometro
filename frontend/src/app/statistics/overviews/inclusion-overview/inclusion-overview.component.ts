@@ -54,7 +54,9 @@ export class InclusionOverviewComponent implements OnInit {
 
     this.inclusionRank$.subscribe((inclusionRank) => {
       this.selectedInclusionType = inclusionRank[0].name;
-      this.jobsByInclusionType$ = this.jobService.getJobsByInclusionType(this.selectedInclusionType);
+      this.jobsByInclusionType$ = this.jobService.getJobsByInclusionType(
+        this.selectedInclusionType,
+      );
     });
 
     this.jobService.jobs$.subscribe((jobs) => {

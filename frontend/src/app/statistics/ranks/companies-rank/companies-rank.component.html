@@ -12,7 +12,13 @@
         <tr *ngFor="let company of companiesRank; index as i; trackBy: trackByCompany">
           <th>{{ i + 1 }}</th>
           <td>
-            <a *ngIf="company.link; else companyWithoutLinkTemplate" class="link" [href]="company.link" target="_blank">{{ company.name }}</a>
+            <a
+              *ngIf="company.link; else companyWithoutLinkTemplate"
+              class="link"
+              [href]="company.link"
+              target="_blank"
+              >{{ company.name }}</a
+            >
 
             <ng-template #companyWithoutLinkTemplate>
               <a target="_blank">{{ company.name }}</a>

@@ -69,7 +69,8 @@ export const higherEducationCoursesNames: EducationRelatedTerms = {
 
   ADS: HigherEducationCoursesNames.sysntemAnalysisAndDevelopment,
   'analise e desenvolvimento de sistema': HigherEducationCoursesNames.sysntemAnalysisAndDevelopment,
-  'analise e desenvolvimento de sistemas': HigherEducationCoursesNames.sysntemAnalysisAndDevelopment,
+  'analise e desenvolvimento de sistemas':
+    HigherEducationCoursesNames.sysntemAnalysisAndDevelopment,
 
   'analise de sistema': HigherEducationCoursesNames.systemAnalysis,
 

@@ -24,11 +24,17 @@
 
               <div class="flex gap-2">
                 <span>{{ company.count | number }}</span>
-                <span class="text-gray-600">({{ company.count / jobsQuantity | percent: "1.1-1" }})</span>
+                <span class="text-gray-600"
+                  >({{ company.count / jobsQuantity | percent: "1.1-1" }})</span
+                >
               </div>
             </div>
 
-            <progress class="progress w-full" [value]="company.count" [max]="jobsQuantity"></progress>
+            <progress
+              class="progress w-full"
+              [value]="company.count"
+              [max]="jobsQuantity"
+            ></progress>
           </button>
         </ng-container>
 

@@ -81,12 +81,16 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
     this.filteredJobs = [...this.pristineJobs];
 
     if (this.filters['jobTitle']) {
-      this.filteredJobs = this.filteredJobs.filter((job) => job.title.toLowerCase().includes(this.filters['jobTitle']!.toLowerCase()));
+      this.filteredJobs = this.filteredJobs.filter((job) =>
+        job.title.toLowerCase().includes(this.filters['jobTitle']!.toLowerCase()),
+      );
     }
 
     if (this.filters['companyName']) {
       const filterCompanyName = this.filters['companyName'].toLowerCase();
-      this.filteredJobs = this.filteredJobs.filter((job) => job.companyName.toLowerCase().includes(filterCompanyName));
+      this.filteredJobs = this.filteredJobs.filter((job) =>
+        job.companyName.toLowerCase().includes(filterCompanyName),
+      );
     }
 
     if (this.filters['experienceLevel']) {
@@ -96,7 +100,9 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     if (this.filters['workplaceType']) {
-      this.filteredJobs = this.filteredJobs.filter((job) => job.workplaceTypes.includes(this.filters['workplaceType'] as WorkplaceTypes));
+      this.filteredJobs = this.filteredJobs.filter((job) =>
+        job.workplaceTypes.includes(this.filters['workplaceType'] as WorkplaceTypes),
+      );
     }
 
     if (this.filters['jobLocation']) {
@@ -108,7 +114,9 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     if (this.filters['jobContractType']) {
-      this.filteredJobs = this.filteredJobs.filter((job) => job.contractTypes.includes(this.filters['jobContractType']! as ContractTypes));
+      this.filteredJobs = this.filteredJobs.filter((job) =>
+        job.contractTypes.includes(this.filters['jobContractType']! as ContractTypes),
+      );
     }
 
     if (this.filters['publishedDate']) {
@@ -122,7 +130,9 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     if (this.filters['inclusionType']) {
-      this.filteredJobs = this.filteredJobs.filter((job) => job.inclusionTypes.includes(this.filters['inclusionType'] as InclusionTypes));
+      this.filteredJobs = this.filteredJobs.filter((job) =>
+        job.inclusionTypes.includes(this.filters['inclusionType'] as InclusionTypes),
+      );
     }
   }
 

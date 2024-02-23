@@ -33,7 +33,11 @@
     },
     {
       "files": ["*.html"],
-      "extends": ["plugin:@angular-eslint/template/recommended", "plugin:@angular-eslint/template/accessibility", "plugin:prettier/recommended"],
+      "extends": [
+        "plugin:@angular-eslint/template/recommended",
+        "plugin:@angular-eslint/template/accessibility",
+        "plugin:prettier/recommended"
+      ],
       "rules": {}
     }
   ]

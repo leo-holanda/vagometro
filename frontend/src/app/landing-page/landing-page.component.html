@@ -7,11 +7,21 @@
       </div>
 
       <div class="flex flex-col gap-4">
-        <h2 class="text-lg text-center font-bold text-balance">Selecione as fontes de vagas que você deseja ver</h2>
-        <a class="text-gray-600 text-xs text-center">Os dados podem levar até 1 minuto para carregar. Pequenos travamentos são esperados.</a>
+        <h2 class="text-lg text-center font-bold text-balance">
+          Selecione as fontes de vagas que você deseja ver
+        </h2>
+        <a class="text-gray-600 text-xs text-center"
+          >Os dados podem levar até 1 minuto para carregar. Pequenos travamentos são esperados.</a
+        >
         <vgm-job-source-selector></vgm-job-source-selector>
-        <button class="btn btn-primary flex items-center mt-4" [ngClass]="{ 'btn-disabled': !(hasOneActiveJobSource$ | async) }" [routerLink]="['stats']">
-          <span *ngIf="!(hasOneActiveJobSource$ | async); else hasOneActiveJobSourceTemplate"> Adicione uma fonte de vagas para começar</span>
+        <button
+          class="btn btn-primary flex items-center mt-4"
+          [ngClass]="{ 'btn-disabled': !(hasOneActiveJobSource$ | async) }"
+          [routerLink]="['stats']"
+        >
+          <span *ngIf="!(hasOneActiveJobSource$ | async); else hasOneActiveJobSourceTemplate">
+            Adicione uma fonte de vagas para começar</span
+          >
           <ng-template #hasOneActiveJobSourceTemplate>
             <i class="bx bx-stats"></i>
 
@@ -31,7 +41,11 @@
     </p>
   </aside>
   <nav class="md:place-self-center md:justify-self-end">
-    <a class="btn btn-ghost btn-circle" href="https://github.com/leo-holanda/vagometro" target="_blank">
+    <a
+      class="btn btn-ghost btn-circle"
+      href="https://github.com/leo-holanda/vagometro"
+      target="_blank"
+    >
       <i class="bx bxl-github"></i>
     </a>
   </nav>

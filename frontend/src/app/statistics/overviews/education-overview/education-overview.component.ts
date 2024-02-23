@@ -63,12 +63,16 @@ export class EducationOverviewComponent implements OnInit {
 
     this.educationRank$.subscribe((educationRank) => {
       this.selectedEducationTerm = educationRank[0].name;
-      this.jobsByEducationTerm$ = this.jobService.getJobsByEducationTerms(this.selectedEducationTerm);
+      this.jobsByEducationTerm$ = this.jobService.getJobsByEducationTerms(
+        this.selectedEducationTerm,
+      );
     });
 
     this.educationalLevelRank$.subscribe((educationalLevelRank) => {
       this.selectedEducationalLevelTerm = educationalLevelRank[0].name;
-      this.jobsByEducationalLevel$ = this.jobService.getJobsByEducationalLevelTerms(this.selectedEducationalLevelTerm);
+      this.jobsByEducationalLevel$ = this.jobService.getJobsByEducationalLevelTerms(
+        this.selectedEducationalLevelTerm,
+      );
     });
 
     this.jobService.jobs$.subscribe((jobs) => {
@@ -83,7 +87,9 @@ export class EducationOverviewComponent implements OnInit {
 
   onEducationalLevelClick(educationalLevel: string): void {
     this.selectedEducationalLevelTerm = educationalLevel;
-    this.jobsByEducationalLevel$ = this.jobService.getJobsByEducationalLevelTerms(this.selectedEducationalLevelTerm);
+    this.jobsByEducationalLevel$ = this.jobService.getJobsByEducationalLevelTerms(
+      this.selectedEducationalLevelTerm,
+    );
   }
 
   setDataType(dataType: EducationalDataTypes): void {

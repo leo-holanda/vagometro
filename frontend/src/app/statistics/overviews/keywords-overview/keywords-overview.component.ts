@@ -73,7 +73,11 @@ export class KeywordsOverviewComponent implements OnInit {
 
   filterKeywords(): void {
     this.filteredKeywords$ = this.keywordsRank$.pipe(
-      map((keywordsRank) => keywordsRank.filter((keywordData) => keywordData.word.toLowerCase().includes(this.keywordSearchString.toLowerCase()))),
+      map((keywordsRank) =>
+        keywordsRank.filter((keywordData) =>
+          keywordData.word.toLowerCase().includes(this.keywordSearchString.toLowerCase()),
+        ),
+      ),
     );
   }
 

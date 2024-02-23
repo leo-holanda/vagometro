@@ -11,8 +11,14 @@ import { InclusionData, InclusionTypes } from '../shared/keywords-matcher/inclus
 import { EducationData } from './ranks/education-rank/education-rank.types';
 import { MonthData, ComparisonData } from './ranks/months-rank/months-rank.types';
 import { ContractTypes } from '../shared/keywords-matcher/contract-types.data';
-import { ExperienceLevelData, ExperienceLevels } from '../shared/keywords-matcher/experience-levels.data';
-import { CertificationStatus, CertificationsData } from '../shared/keywords-matcher/certification.data';
+import {
+  ExperienceLevelData,
+  ExperienceLevels,
+} from '../shared/keywords-matcher/experience-levels.data';
+import {
+  CertificationStatus,
+  CertificationsData,
+} from '../shared/keywords-matcher/certification.data';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +26,9 @@ import { CertificationStatus, CertificationsData } from '../shared/keywords-matc
 export class StatisticsService {
   constructor(private jobService: JobService) {}
 
-  getCitiesRank(jobs$: Observable<Job[] | undefined> = this.jobService.jobs$): Observable<CityData[]> {
+  getCitiesRank(
+    jobs$: Observable<Job[] | undefined> = this.jobService.jobs$,
+  ): Observable<CityData[]> {
     return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
@@ -44,7 +52,9 @@ export class StatisticsService {
     );
   }
 
-  getStatesRank(jobs$: Observable<Job[] | undefined> = this.jobService.jobs$): Observable<StateData[]> {
+  getStatesRank(
+    jobs$: Observable<Job[] | undefined> = this.jobService.jobs$,
+  ): Observable<StateData[]> {
     return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
@@ -74,7 +84,9 @@ export class StatisticsService {
     );
   }
 
-  getWorkplaceRank(jobs$: Observable<Job[] | undefined> = this.jobService.jobs$): Observable<WorkplaceData[]> {
+  getWorkplaceRank(
+    jobs$: Observable<Job[] | undefined> = this.jobService.jobs$,
+  ): Observable<WorkplaceData[]> {
     return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
 
@@ -100,7 +112,9 @@ export class StatisticsService {
     );
   }
 
-  getTypesRank(jobs$: Observable<Job[] | undefined> = this.jobService.jobs$): Observable<TypeData[]> {
+  getTypesRank(
+    jobs$: Observable<Job[] | undefined> = this.jobService.jobs$,
+  ): Observable<TypeData[]> {
     return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
@@ -125,7 +139,9 @@ export class StatisticsService {
     );
   }
 
-  getCompanyRank(jobs$: Observable<Job[] | undefined> = this.jobService.jobs$): Observable<CompanyData[]> {
+  getCompanyRank(
+    jobs$: Observable<Job[] | undefined> = this.jobService.jobs$,
+  ): Observable<CompanyData[]> {
     return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
 
@@ -152,7 +168,9 @@ export class StatisticsService {
     );
   }
 
-  getKeywordsRank(jobs$: Observable<Job[] | undefined> = this.jobService.jobs$): Observable<KeywordStatsData[]> {
+  getKeywordsRank(
+    jobs$: Observable<Job[] | undefined> = this.jobService.jobs$,
+  ): Observable<KeywordStatsData[]> {
     return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
@@ -179,7 +197,9 @@ export class StatisticsService {
     );
   }
 
-  getExperienceLevelsRank(jobs$: Observable<Job[] | undefined> = this.jobService.jobs$): Observable<ExperienceLevelData[]> {
+  getExperienceLevelsRank(
+    jobs$: Observable<Job[] | undefined> = this.jobService.jobs$,
+  ): Observable<ExperienceLevelData[]> {
     return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
@@ -207,7 +227,9 @@ export class StatisticsService {
     );
   }
 
-  getInclusionRank(jobs$: Observable<Job[] | undefined> = this.jobService.jobs$): Observable<InclusionData[]> {
+  getInclusionRank(
+    jobs$: Observable<Job[] | undefined> = this.jobService.jobs$,
+  ): Observable<InclusionData[]> {
     return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
@@ -234,7 +256,9 @@ export class StatisticsService {
     );
   }
 
-  getEducationRank(jobs$: Observable<Job[] | undefined> = this.jobService.jobs$): Observable<EducationData[]> {
+  getEducationRank(
+    jobs$: Observable<Job[] | undefined> = this.jobService.jobs$,
+  ): Observable<EducationData[]> {
     return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
@@ -266,7 +290,9 @@ export class StatisticsService {
     );
   }
 
-  getEducationalLevelRank(jobs$: Observable<Job[] | undefined> = this.jobService.jobs$): Observable<EducationData[]> {
+  getEducationalLevelRank(
+    jobs$: Observable<Job[] | undefined> = this.jobService.jobs$,
+  ): Observable<EducationData[]> {
     return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
@@ -298,7 +324,9 @@ export class StatisticsService {
     );
   }
 
-  getLanguagesRank(jobs$: Observable<Job[] | undefined> = this.jobService.jobs$): Observable<EducationData[]> {
+  getLanguagesRank(
+    jobs$: Observable<Job[] | undefined> = this.jobService.jobs$,
+  ): Observable<EducationData[]> {
     return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
@@ -330,7 +358,9 @@ export class StatisticsService {
     );
   }
 
-  getMonthsRank(jobs$: Observable<Job[] | undefined> = this.jobService.jobs$): Observable<MonthData[]> {
+  getMonthsRank(
+    jobs$: Observable<Job[] | undefined> = this.jobService.jobs$,
+  ): Observable<MonthData[]> {
     return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
@@ -354,7 +384,9 @@ export class StatisticsService {
     );
   }
 
-  getCertificationsRank(jobs$: Observable<Job[] | undefined> = this.jobService.jobs$): Observable<CertificationsData[]> {
+  getCertificationsRank(
+    jobs$: Observable<Job[] | undefined> = this.jobService.jobs$,
+  ): Observable<CertificationsData[]> {
     return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
@@ -379,7 +411,9 @@ export class StatisticsService {
     );
   }
 
-  getMonthlyComparison(jobs$: Observable<Job[] | undefined> = this.jobService.jobs$): Observable<ComparisonData[]> {
+  getMonthlyComparison(
+    jobs$: Observable<Job[] | undefined> = this.jobService.jobs$,
+  ): Observable<ComparisonData[]> {
     return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
@@ -426,7 +460,9 @@ export class StatisticsService {
     );
   }
 
-  getAnnualComparison(jobs$: Observable<Job[] | undefined> = this.jobService.jobs$): Observable<ComparisonData[]> {
+  getAnnualComparison(
+    jobs$: Observable<Job[] | undefined> = this.jobService.jobs$,
+  ): Observable<ComparisonData[]> {
     return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {

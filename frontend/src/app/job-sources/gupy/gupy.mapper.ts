@@ -2,7 +2,12 @@ import { Job } from 'src/app/job/job.types';
 import { CertificationStatus } from 'src/app/shared/keywords-matcher/certification.data';
 import { ContractTypes } from 'src/app/shared/keywords-matcher/contract-types.data';
 import { EducationalData } from 'src/app/shared/keywords-matcher/education.data';
-import { ExperienceLevels, internLevelRelatedTypes, traineeLevelRelatedTypes, juniorLevelRelatedTypes } from 'src/app/shared/keywords-matcher/experience-levels.data';
+import {
+  ExperienceLevels,
+  internLevelRelatedTypes,
+  traineeLevelRelatedTypes,
+  juniorLevelRelatedTypes,
+} from 'src/app/shared/keywords-matcher/experience-levels.data';
 import { InclusionTypes } from 'src/app/shared/keywords-matcher/inclusion.data';
 import {
   matchCertificationStatus,
@@ -55,7 +60,10 @@ function findJobContractType(job: GupyJob): ContractTypes[] {
 }
 
 function findJobInclusionTypes(job: GupyJob): InclusionTypes[] {
-  let matchedInclusionTypes = matchInclusionTypes({ title: job.name, description: job.description });
+  let matchedInclusionTypes = matchInclusionTypes({
+    title: job.name,
+    description: job.description,
+  });
 
   if (job.disabilities) {
     if (matchedInclusionTypes.includes(InclusionTypes.unknown)) {

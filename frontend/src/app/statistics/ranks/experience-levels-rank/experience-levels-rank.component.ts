@@ -26,12 +26,18 @@ export class ExperienceLevelsRankComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.experienceLevelsRank$ = this.statisticsService.getExperienceLevelsRank(this.jobs$);
 
-    if (this.rankSize) this.experienceLevelsRank$ = this.experienceLevelsRank$.pipe(map((experienceLevelsRank) => experienceLevelsRank.slice(0, this.rankSize)));
+    if (this.rankSize)
+      this.experienceLevelsRank$ = this.experienceLevelsRank$.pipe(
+        map((experienceLevelsRank) => experienceLevelsRank.slice(0, this.rankSize)),
+      );
   }
 
   ngOnChanges(): void {
     this.experienceLevelsRank$ = this.statisticsService.getExperienceLevelsRank(this.jobs$);
 
-    if (this.rankSize) this.experienceLevelsRank$ = this.experienceLevelsRank$.pipe(map((experienceLevelsRank) => experienceLevelsRank.slice(0, this.rankSize)));
+    if (this.rankSize)
+      this.experienceLevelsRank$ = this.experienceLevelsRank$.pipe(
+        map((experienceLevelsRank) => experienceLevelsRank.slice(0, this.rankSize)),
+      );
   }
 }

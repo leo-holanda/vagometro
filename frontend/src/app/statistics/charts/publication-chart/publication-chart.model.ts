@@ -23,9 +23,6 @@ export type DailyPostingsSeries = ShortTermSeriesData[];
 export type MonthlyPostingsSeries = LongTermSeriesData[];
 export type AnnualPostingsSeries = LongTermSeriesData[];
 
-export type JobPostingsSeries =
-  | DailyPostingsSeries
-  | MonthlyPostingsSeries
-  | AnnualPostingsSeries;
+export type JobPostingsSeries = DailyPostingsSeries | MonthlyPostingsSeries | AnnualPostingsSeries;
 
 export type IntervalTypes = 'daily' | 'monthly' | 'annual';

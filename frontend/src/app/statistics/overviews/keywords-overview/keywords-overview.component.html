@@ -28,11 +28,17 @@
 
                 <div class="flex gap-2">
                   <span>{{ keyword.count | number }}</span>
-                  <span class="text-gray-600">({{ keyword.count / jobsQuantity | percent: "1.1-1" }})</span>
+                  <span class="text-gray-600"
+                    >({{ keyword.count / jobsQuantity | percent: "1.1-1" }})</span
+                  >
                 </div>
               </div>
 
-              <progress class="progress w-full" [value]="keyword.count" [max]="jobsQuantity"></progress>
+              <progress
+                class="progress w-full"
+                [value]="keyword.count"
+                [max]="jobsQuantity"
+              ></progress>
             </button>
           </ng-container>
 
@@ -180,7 +186,11 @@
               <span>{{ i + 1 + ". " + keyword.word }}</span>
               <span>{{ keyword.count | number }}</span>
             </div>
-            <progress class="progress w-full" [value]="keyword.count" [max]="jobsQuantity"></progress>
+            <progress
+              class="progress w-full"
+              [value]="keyword.count"
+              [max]="jobsQuantity"
+            ></progress>
           </button>
         </ng-container>
 
@@ -197,7 +207,9 @@
 
       <span class="text-slate-300 text-sm p-4"
         >Não achou a tecnologia que procurava?
-        <a class="link" target="_blank" href="https://github.com/leo-holanda/vagometro/issues">Crie uma issue!</a>
+        <a class="link" target="_blank" href="https://github.com/leo-holanda/vagometro/issues"
+          >Crie uma issue!</a
+        >
       </span>
     </section>
   </main>

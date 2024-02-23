@@ -144,10 +144,15 @@ function findJobCity(job: LinkedInJob): string {
 }
 
 function findJobContractTypes(job: LinkedInJob): ContractTypes[] {
-  const matchedContractTypes = matchContractTypes({ title: job.title, description: job.description });
+  const matchedContractTypes = matchContractTypes({
+    title: job.title,
+    description: job.description,
+  });
 
   if (matchedContractTypes.length == 0 && job.employment_type) {
-    matchedContractTypes.push(linkedInEmploymentTypesMap[job.employment_type] || ContractTypes.unknown);
+    matchedContractTypes.push(
+      linkedInEmploymentTypesMap[job.employment_type] || ContractTypes.unknown,
+    );
     return matchedContractTypes;
   }
 

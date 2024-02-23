@@ -24,11 +24,17 @@
 
               <div class="flex gap-2">
                 <span>{{ language.count | number }}</span>
-                <span class="text-gray-600">({{ language.count / jobsQuantity | percent: "1.1-1" }})</span>
+                <span class="text-gray-600"
+                  >({{ language.count / jobsQuantity | percent: "1.1-1" }})</span
+                >
               </div>
             </div>
 
-            <progress class="progress w-full" [value]="language.count" [max]="jobsQuantity"></progress>
+            <progress
+              class="progress w-full"
+              [value]="language.count"
+              [max]="jobsQuantity"
+            ></progress>
           </button>
         </ng-container>
 
@@ -61,7 +67,9 @@
   <div class="card card-bordered card-compact w-full bg-base-300">
     <div class="card-body">
       <ng-container *ngIf="selectedLanguage !== 'Desconhecido'; else unknownLanguageTemplate">
-        <h1 class="font-bold text-lg mb-4">Sobre as vagas que mencionam o idioma {{ selectedLanguage }}</h1>
+        <h1 class="font-bold text-lg mb-4">
+          Sobre as vagas que mencionam o idioma {{ selectedLanguage }}
+        </h1>
       </ng-container>
 
       <ng-template #unknownLanguageTemplate>

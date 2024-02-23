@@ -24,11 +24,17 @@
 
               <div class="flex gap-2">
                 <span>{{ workplace.count | number }}</span>
-                <span class="text-gray-600">({{ workplace.count / jobsQuantity | percent: "1.1-1" }})</span>
+                <span class="text-gray-600"
+                  >({{ workplace.count / jobsQuantity | percent: "1.1-1" }})</span
+                >
               </div>
             </div>
 
-            <progress class="progress w-full" [value]="workplace.count" [max]="jobsQuantity"></progress>
+            <progress
+              class="progress w-full"
+              [value]="workplace.count"
+              [max]="jobsQuantity"
+            ></progress>
           </button>
         </ng-container>
 
@@ -58,7 +64,9 @@
 
   <div class="card card-bordered card-compact w-full bg-base-300">
     <div class="card-body">
-      <h1 class="font-bold text-lg mb-4">Sobre vagas na modalidade {{ selectedWorkplace | titlecase }}</h1>
+      <h1 class="font-bold text-lg mb-4">
+        Sobre vagas na modalidade {{ selectedWorkplace | titlecase }}
+      </h1>
 
       <section>
         <div class="flex items-center gap-2 mb-2">

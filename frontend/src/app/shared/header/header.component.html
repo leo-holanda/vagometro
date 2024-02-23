@@ -106,7 +106,11 @@
               </div>
             </label>
 
-            <a class="btn btn-ghost btn-circle" href="https://github.com/leo-holanda/vagometro" target="_blank">
+            <a
+              class="btn btn-ghost btn-circle"
+              href="https://github.com/leo-holanda/vagometro"
+              target="_blank"
+            >
               <i class="bx bxl-github"></i>
             </a>
 
@@ -223,7 +227,11 @@
         </div>
       </label>
 
-      <a class="btn btn-ghost btn-circle" href="https://github.com/leo-holanda/vagometro" target="_blank">
+      <a
+        class="btn btn-ghost btn-circle"
+        href="https://github.com/leo-holanda/vagometro"
+        target="_blank"
+      >
         <i class="bx bxl-github"></i>
       </a>
 
@@ -238,9 +246,15 @@
   <div class="modal-box">
     <section class="p-4">
       <h1 class="font-bold text-lg">O que é o vagômetro?</h1>
-      <p class="pt-2">O vagômetro é um projeto open-source que reúne dados sobre as vagas de emprego na área de tecnologia no Brasil.</p>
+      <p class="pt-2">
+        O vagômetro é um projeto open-source que reúne dados sobre as vagas de emprego na área de
+        tecnologia no Brasil.
+      </p>
 
-      <p class="pt-2">Seu objetivo é apresentar tais dados de forma a ajudar profissionais em busca de emprego a encontrarem vagas de seu interesse com mais facilidade.</p>
+      <p class="pt-2">
+        Seu objetivo é apresentar tais dados de forma a ajudar profissionais em busca de emprego a
+        encontrarem vagas de seu interesse com mais facilidade.
+      </p>
 
       <p class="pt-2">Além disso,</p>
     </section>
@@ -251,18 +265,33 @@
       <div>
         <h2 class="font-bold text-lg">O que significa "Desconhecido?"</h2>
 
-        <p class="pt-2">Para identificar, por exemplo, o nível de experiência requisitado nas vagas, é feito um match de palavras-chave como "Sênior", "Júnior" e várias outras.</p>
+        <p class="pt-2">
+          Para identificar, por exemplo, o nível de experiência requisitado nas vagas, é feito um
+          match de palavras-chave como "Sênior", "Júnior" e várias outras.
+        </p>
 
-        <p class="pt-2">Caso não haja um match em pelo menos umas das palavras-chave, o status passa a ser Desconhecido.</p>
+        <p class="pt-2">
+          Caso não haja um match em pelo menos umas das palavras-chave, o status passa a ser
+          Desconhecido.
+        </p>
 
-        <p class="pt-2">100% de precisão nem sempre é garantido pois erros na digitação da descrição da vaga podem prejudicar o match entre palavras-chave.</p>
+        <p class="pt-2">
+          100% de precisão nem sempre é garantido pois erros na digitação da descrição da vaga podem
+          prejudicar o match entre palavras-chave.
+        </p>
       </div>
     </section>
 
     <section class="p-4">
       <h1 class="font-bold text-lg">Aviso importante</h1>
-      <p class="pt-2">O escopo das análises realizadas pelo vagômetro limitam-se apenas às vagas das fontes suportadas.</p>
-      <p class="pt-2">Qualquer conclusão a respeito do mercado de TI como um todo é desencorajada devido ao tamanho restrito da amostra de dados.</p>
+      <p class="pt-2">
+        O escopo das análises realizadas pelo vagômetro limitam-se apenas às vagas das fontes
+        suportadas.
+      </p>
+      <p class="pt-2">
+        Qualquer conclusão a respeito do mercado de TI como um todo é desencorajada devido ao
+        tamanho restrito da amostra de dados.
+      </p>
     </section>
 
     <div class="modal-action">
@@ -277,13 +306,18 @@
   <div class="modal-box">
     <header class="flex items-center gap-2 mb-4">
       <i class="bx bx-data"></i>
-      <h1 class="text-lg font-bold text-balance">Selecione quais fontes de vagas você deseja ver</h1>
+      <h1 class="text-lg font-bold text-balance">
+        Selecione quais fontes de vagas você deseja ver
+      </h1>
     </header>
 
     <vgm-job-source-selector></vgm-job-source-selector>
     <div class="modal-action w-full">
       <form method="dialog" class="w-full">
-        <button class="btn w-full" [ngClass]="{ 'btn-disabled': !(hasOneJobSourceActive$ | async) }">
+        <button
+          class="btn w-full"
+          [ngClass]="{ 'btn-disabled': !(hasOneJobSourceActive$ | async) }"
+        >
           <i class="bx bx-stats"></i>
           Retornar para análise
         </button>

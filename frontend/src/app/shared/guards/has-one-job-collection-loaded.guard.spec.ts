@@ -4,7 +4,8 @@ import { CanActivateFn } from '@angular/router';
 import { hasOneJobCollectionLoadedGuard } from './has-one-job-collection-loaded.guard';
 
 describe('hasOneJobCollectionLoadedGuard', () => {
-  const executeGuard: CanActivateFn = (...guardParameters) => TestBed.runInInjectionContext(() => hasOneJobCollectionLoadedGuard(...guardParameters));
+  const executeGuard: CanActivateFn = (...guardParameters) =>
+    TestBed.runInInjectionContext(() => hasOneJobCollectionLoadedGuard(...guardParameters));
 
   beforeEach(() => {
     TestBed.configureTestingModule({});

@@ -14,7 +14,10 @@ import { trackByExperienceLevel } from 'src/app/shared/track-by-functions';
 import { EducationRankComponent } from '../../ranks/education-rank/education-rank.component';
 import { LanguagesRankComponent } from '../../ranks/languages-rank/languages-rank.component';
 import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-comparison/job-postings-comparison.component';
-import { ExperienceLevelData, ExperienceLevels } from 'src/app/shared/keywords-matcher/experience-levels.data';
+import {
+  ExperienceLevelData,
+  ExperienceLevels,
+} from 'src/app/shared/keywords-matcher/experience-levels.data';
 
 @Component({
   selector: 'vgm-experience-levels-overview',

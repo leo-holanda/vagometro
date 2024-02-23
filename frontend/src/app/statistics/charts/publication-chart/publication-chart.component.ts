@@ -29,9 +29,7 @@ import { Job } from 'src/app/job/job.types';
   templateUrl: './publication-chart.component.html',
   styleUrls: ['./publication-chart.component.scss'],
 })
-export class PublicationChartComponent
-  implements AfterViewInit, OnChanges, OnDestroy
-{
+export class PublicationChartComponent implements AfterViewInit, OnChanges, OnDestroy {
   @Input() jobs$?: Observable<Job[]>;
   @Input() intervalType: IntervalTypes = 'daily';
   @Input() onlyLongTermIntervals = false;
@@ -81,47 +79,37 @@ export class PublicationChartComponent
         this.yAxisMaxValue = this.getYAxisMaxValue(postingsSeries);
       });
 
-      this.chartService
-        .getDailyPostingsSeries(this.jobs$)
-        .subscribe((postingsSeries) => {
-          if (this.isChartLoading) {
-            this.publicationChart.hideLoading();
-            this.isChartLoading = false;
-          }
-          this.drawShortTermPostingsChart(postingsSeries);
-        });
+      this.chartService.getDailyPostingsSeries(this.jobs$).subscribe((postingsSeries) => {
+        if (this.isChartLoading) {
+          this.publicationChart.hideLoading();
+          this.isChartLoading = false;
+        }
+        this.drawShortTermPostingsChart(postingsSeries);
+      });
     } else if (this.intervalType == 'monthly') {
-      this.chartService
-        .getMonthlyPostingsSeries()
-        .subscribe((postingsSeries) => {
-          this.yAxisMaxValue = this.getYAxisMaxValue(postingsSeries);
-        });
+      this.chartService.getMonthlyPostingsSeries().subscribe((postingsSeries) => {
+        this.yAxisMaxValue = this.getYAxisMaxValue(postingsSeries);
+      });
 
-      this.chartService
-        .getMonthlyPostingsSeries(this.jobs$)
-        .subscribe((postingsSeries) => {
-          if (this.isChartLoading) {
-            this.publicationChart.hideLoading();
-            this.isChartLoading = false;
-          }
-          this.drawLongTermPostingsChart(postingsSeries);
-        });
+      this.chartService.getMonthlyPostingsSeries(this.jobs$).subscribe((postingsSeries) => {
+        if (this.isChartLoading) {
+          this.publicationChart.hideLoading();
+          this.isChartLoading = false;
+        }
+        this.drawLongTermPostingsChart(postingsSeries);
+      });
     } else {
-      this.chartService
-        .getAnnualPostingsSeries()
-        .subscribe((postingsSeries) => {
-          this.yAxisMaxValue = this.getYAxisMaxValue(postingsSeries);
-        });
+      this.chartService.getAnnualPostingsSeries().subscribe((postingsSeries) => {
+        this.yAxisMaxValue = this.getYAxisMaxValue(postingsSeries);
+      });
 
-      this.chartService
-        .getAnnualPostingsSeries(this.jobs$)
-        .subscribe((postingsSeries) => {
-          if (this.isChartLoading) {
-            this.publicationChart.hideLoading();
-            this.isChartLoading = false;
-          }
-          this.drawLongTermPostingsChart(postingsSeries);
-        });
+      this.chartService.getAnnualPostingsSeries(this.jobs$).subscribe((postingsSeries) => {
+        if (this.isChartLoading) {
+          this.publicationChart.hideLoading();
+          this.isChartLoading = false;
+        }
+        this.drawLongTermPostingsChart(postingsSeries);
+      });
     }
   }
 
@@ -143,8 +131,7 @@ export class PublicationChartComponent
       const valueRoundedToNextTen = yAxisMaxValue + (10 - (yAxisMaxValue % 10));
       return valueRoundedToNextTen;
     } else {
-      const valueRoundedToNextHundred =
-        yAxisMaxValue + (100 - (yAxisMaxValue % 100));
+      const valueRoundedToNextHundred = yAxisMaxValue + (100 - (yAxisMaxValue % 100));
       return valueRoundedToNextHundred;
     }
   }
@@ -216,9 +203,7 @@ export class PublicationChartComponent
     });
   }
 
-  private drawShortTermPostingsChart(
-    postingsSeries: DailyPostingsSeries,
-  ): void {
+  private drawShortTermPostingsChart(postingsSeries: DailyPostingsSeries): void {
     postingsSeries[postingsSeries.length - 1].itemStyle = {
       color: '#E7A626',
       decal: {

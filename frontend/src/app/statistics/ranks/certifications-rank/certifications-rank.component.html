@@ -9,7 +9,13 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let certificationStatus of certificationsRank; index as i; trackBy: trackByCertificationStatus">
+        <tr
+          *ngFor="
+            let certificationStatus of certificationsRank;
+            index as i;
+            trackBy: trackByCertificationStatus
+          "
+        >
           <th>{{ i + 1 }}</th>
           <td>{{ certificationStatus.status }}</td>
           <td>{{ certificationStatus.count | number }}</td>

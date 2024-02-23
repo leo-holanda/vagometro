@@ -1,4 +1,15 @@
-export type KeywordTypes = 'frontend' | 'backend' | 'database' | 'mobile' | 'cloud' | 'testing' | 'miscellaneous' | 'dataScience' | 'gameDevelopment' | 'AI' | 'UIUX';
+export type KeywordTypes =
+  | 'frontend'
+  | 'backend'
+  | 'database'
+  | 'mobile'
+  | 'cloud'
+  | 'testing'
+  | 'miscellaneous'
+  | 'dataScience'
+  | 'gameDevelopment'
+  | 'AI'
+  | 'UIUX';
 export type KeywordCategoryData = { name: string; badgeClass: string };
 export type KeywordCategories = Record<KeywordTypes, KeywordCategoryData>;
 
@@ -446,8 +457,14 @@ export const multiWordKeywords: Keywords = {
   //BACKEND
   'spring boot': { name: 'Spring Boot', category: keywordCategories.backend },
   'ruby on rails': { name: 'Ruby on Rails', category: keywordCategories.backend },
-  'authentication and authorization': { name: 'Authentication and Authorization', category: keywordCategories.backend },
-  'security best practices': { name: 'Security Best Practices', category: keywordCategories.backend },
+  'authentication and authorization': {
+    name: 'Authentication and Authorization',
+    category: keywordCategories.backend,
+  },
+  'security best practices': {
+    name: 'Security Best Practices',
+    category: keywordCategories.backend,
+  },
   'representational state transfer': { name: 'REST', category: keywordCategories.backend },
   'node.js': { name: 'Node.js', category: keywordCategories.backend },
   'express.js': { name: 'Express', category: keywordCategories.backend },
@@ -498,8 +515,14 @@ export const multiWordKeywords: Keywords = {
   'database management': { name: 'Database Management', category: keywordCategories.database },
   'stored procedures': { name: 'Stored Procedures', category: keywordCategories.database },
   'sql server': { name: 'SQL Server', category: keywordCategories.database },
-  'banco de dados relacionais': { name: 'Banco de dados relacional', category: keywordCategories.database },
-  'banco de dados não relacionais': { name: 'Banco de dados não relacional', category: keywordCategories.database },
+  'banco de dados relacionais': {
+    name: 'Banco de dados relacional',
+    category: keywordCategories.database,
+  },
+  'banco de dados não relacionais': {
+    name: 'Banco de dados não relacional',
+    category: keywordCategories.database,
+  },
   'pl/sql': { name: 'PL/SQL', category: keywordCategories.database },
   'sq-lite': { name: 'SQLite', category: keywordCategories.database },
   //END OF DATABASE
@@ -532,7 +555,10 @@ export const multiWordKeywords: Keywords = {
   'clean code': { name: 'Clean Code', category: keywordCategories.miscellaneous },
   'clean architecture': { name: 'Clean Architecture', category: keywordCategories.miscellaneous },
   'design patterns': { name: 'Design Patterns', category: keywordCategories.miscellaneous },
-  'programacao orientada a eventos': { name: 'Programação Orientada a Eventos', category: keywordCategories.miscellaneous },
+  'programacao orientada a eventos': {
+    name: 'Programação Orientada a Eventos',
+    category: keywordCategories.miscellaneous,
+  },
   'programacao orientada a objetos': { name: 'POO', category: keywordCategories.miscellaneous },
   'orientacao a objetos': { name: 'POO', category: keywordCategories.miscellaneous },
   'metodologias ageis': { name: 'Agile', category: keywordCategories.miscellaneous },
@@ -540,8 +566,14 @@ export const multiWordKeywords: Keywords = {
   'celulas ageis': { name: 'Agile', category: keywordCategories.miscellaneous },
   'desenvolvimento agil': { name: 'Agile', category: keywordCategories.miscellaneous },
   'git flow': { name: 'GitFlow', category: keywordCategories.miscellaneous },
-  'injecao de dependencia': { name: 'Dependency Injection', category: keywordCategories.miscellaneous },
-  'dependency injection': { name: 'Dependency Injection', category: keywordCategories.miscellaneous },
+  'injecao de dependencia': {
+    name: 'Dependency Injection',
+    category: keywordCategories.miscellaneous,
+  },
+  'dependency injection': {
+    name: 'Dependency Injection',
+    category: keywordCategories.miscellaneous,
+  },
   'domain driven design': { name: 'DDD', category: keywordCategories.miscellaneous },
   'domain-driven design': { name: 'DDD', category: keywordCategories.miscellaneous },
   'test driven development': { name: 'TDD', category: keywordCategories.miscellaneous },
@@ -550,7 +582,10 @@ export const multiWordKeywords: Keywords = {
   'behavior driven development': { name: 'TDD', category: keywordCategories.miscellaneous },
   'application programming interface': { name: 'API', category: keywordCategories.miscellaneous },
   'system design': { name: 'System Design', category: keywordCategories.miscellaneous },
-  'arquitetura hexagonal': { name: 'Arquitetura Hexagonal', category: keywordCategories.miscellaneous },
+  'arquitetura hexagonal': {
+    name: 'Arquitetura Hexagonal',
+    category: keywordCategories.miscellaneous,
+  },
   'json web token': { name: 'JWT', category: keywordCategories.miscellaneous },
   'json web tokens': { name: 'JWT', category: keywordCategories.miscellaneous },
   'pub/sub': { name: 'Pub/Sub', category: keywordCategories.miscellaneous },
@@ -575,7 +610,10 @@ export const multiWordKeywords: Keywords = {
   'natural language processing': { name: 'NLP', category: keywordCategories.AI },
   'visao computacional': { name: 'Visão Computacional', category: keywordCategories.AI },
   'computer vision': { name: 'Visão Computacional', category: keywordCategories.AI },
-  'reconhecimento de padroes': { name: 'Reconhecimento de Padrões', category: keywordCategories.AI },
+  'reconhecimento de padroes': {
+    name: 'Reconhecimento de Padrões',
+    category: keywordCategories.AI,
+  },
   //END OF AI
 
   //DATA

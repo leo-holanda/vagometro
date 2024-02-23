@@ -1,7 +1,17 @@
 import { CertificationStatus, certificationRelatedTerms } from './certification.data';
 import { ContractTypes, contractTypeRelatedTerms } from './contract-types.data';
-import { EducationalData, EducationalLevels, HigherEducationCoursesNames, educationalLevelTerms, higherEducationCoursesNames } from './education.data';
-import { ExperienceLevels, experienceLevelRelatedTerms, multiWordExperienceLevelRelatedTerms } from './experience-levels.data';
+import {
+  EducationalData,
+  EducationalLevels,
+  HigherEducationCoursesNames,
+  educationalLevelTerms,
+  higherEducationCoursesNames,
+} from './education.data';
+import {
+  ExperienceLevels,
+  experienceLevelRelatedTerms,
+  multiWordExperienceLevelRelatedTerms,
+} from './experience-levels.data';
 import { InclusionTypes, inclusionRelatedTerms } from './inclusion.data';
 import { Languages, languageRelatedTerms } from './languages.data';
 import { oneWordKeywords, multiWordKeywords, KeywordData } from './technologies.data';
@@ -19,7 +29,9 @@ export function matchLanguages(content: MatcherInput): Languages[] {
   if (content.description) {
     const sanitizedContent = sanitizeString(content.description);
     const matchedLanguagesInDescription = languageRelatedTerms
-      .filter((languageTerm) => languageTerm.termsForMatching.some((term) => sanitizedContent.includes(term)))
+      .filter((languageTerm) =>
+        languageTerm.termsForMatching.some((term) => sanitizedContent.includes(term)),
+      )
       .map((languageTerm) => languageTerm.defaultTerm);
 
     matchedLanguages.push(...matchedLanguagesInDescription);
@@ -28,7 +40,9 @@ export function matchLanguages(content: MatcherInput): Languages[] {
   if (content.labels) {
     const sanitizedContent = sanitizeString(content.labels.join(' '));
     const matchedLanguagesInLabels = languageRelatedTerms
-      .filter((languageTerm) => languageTerm.termsForMatching.some((term) => sanitizedContent.includes(term)))
+      .filter((languageTerm) =>
+        languageTerm.termsForMatching.some((term) => sanitizedContent.includes(term)),
+      )
       .map((languageTerm) => languageTerm.defaultTerm);
 
     matchedLanguages.push(...matchedLanguagesInLabels);
@@ -62,7 +76,9 @@ export function matchExperienceLevel(content: MatcherInput): ExperienceLevels[] 
     matchedExperienceLevels.push(...matchExperienceLevelTermsWithoutSplit(sanitizedDescription));
   }
 
-  const uniqueMatchedExperienceLevels = getUniqueStrings(matchedExperienceLevels) as ExperienceLevels[];
+  const uniqueMatchedExperienceLevels = getUniqueStrings(
+    matchedExperienceLevels,
+  ) as ExperienceLevels[];
 
   if (uniqueMatchedExperienceLevels.length == 0) return [ExperienceLevels.unknown];
   return uniqueMatchedExperienceLevels;
@@ -75,7 +91,8 @@ export function matchKeywords(content: MatcherInput): KeywordData[] {
     const sanitizedTitle = sanitizeString(content.title).split(' ');
     sanitizedTitle.forEach((substring: string) => {
       // The typeof check is necessary to prevent the keywords constructor being matched.
-      if (oneWordKeywords[substring] && typeof oneWordKeywords[substring] !== 'function') jobKeywords.push(oneWordKeywords[substring]);
+      if (oneWordKeywords[substring] && typeof oneWordKeywords[substring] !== 'function')
+        jobKeywords.push(oneWordKeywords[substring]);
     });
   }
 
@@ -83,7 +100,8 @@ export function matchKeywords(content: MatcherInput): KeywordData[] {
     const sanitizedSplittedDescription = sanitizeString(content.description).split(' ');
     sanitizedSplittedDescription.forEach((substring: string) => {
       // The typeof check is necessary to prevent the keywords constructor being matched.
-      if (oneWordKeywords[substring] && typeof oneWordKeywords[substring] !== 'function') jobKeywords.push(oneWordKeywords[substring]);
+      if (oneWordKeywords[substring] && typeof oneWordKeywords[substring] !== 'function')
+        jobKeywords.push(oneWordKeywords[substring]);
     });
 
     const sanitizedDescription = sanitizeString(content.description);
@@ -96,11 +114,14 @@ export function matchKeywords(content: MatcherInput): KeywordData[] {
     const sanitizedDescription = sanitizeString(content.labels.join(' ')).split(' ');
     sanitizedDescription.forEach((substring: string) => {
       // The typeof check is necessary to prevent the keywords constructor being matched.
-      if (oneWordKeywords[substring] && typeof oneWordKeywords[substring] !== 'function') jobKeywords.push(oneWordKeywords[substring]);
+      if (oneWordKeywords[substring] && typeof oneWordKeywords[substring] !== 'function')
+        jobKeywords.push(oneWordKeywords[substring]);
     });
   }
 
-  return getUniqueTechKeywords(jobKeywords).sort((a, b) => (a.category.name > b.category.name ? 1 : -1));
+  return getUniqueTechKeywords(jobKeywords).sort((a, b) =>
+    a.category.name > b.category.name ? 1 : -1,
+  );
 }
 
 export function matchEducationalTerms(content: string): EducationalData {
@@ -280,7 +301,8 @@ function matchExperienceLevelTerms(splittedContent: string[]): ExperienceLevels[
       Without this check, the constructor function becomes the job's assigned experience level
       This breakes the worker that runs the mapToJob function
     */
-    if (matchedExperienceLevel && typeof matchedExperienceLevel === 'string') matchedExperienceLevels.push(matchedExperienceLevel);
+    if (matchedExperienceLevel && typeof matchedExperienceLevel === 'string')
+      matchedExperienceLevels.push(matchedExperienceLevel);
   });
 
   return matchedExperienceLevels;

@@ -45,7 +45,8 @@ export class JobSourcesService {
   toggleJobCollection(jobCollection: JobCollections): void {
     const currentJobSourceState = this.jobCollectionsMap[jobCollection];
 
-    if (currentJobSourceState) this.jobCollectionsMap[jobCollection].isActive = !currentJobSourceState.isActive;
+    if (currentJobSourceState)
+      this.jobCollectionsMap[jobCollection].isActive = !currentJobSourceState.isActive;
 
     this.updateJobs();
   }
@@ -53,7 +54,9 @@ export class JobSourcesService {
   private updateJobs(): void {
     const currentJobs: Job[] = [];
 
-    const activeJobSources = Object.values(this.jobCollectionsMap).filter((jobSource) => jobSource.isActive);
+    const activeJobSources = Object.values(this.jobCollectionsMap).filter(
+      (jobSource) => jobSource.isActive,
+    );
 
     activeJobSources.forEach((jobSource) => {
       if (!jobSource.isLoaded) jobSource.isLoading = true;
@@ -86,11 +89,15 @@ export class JobSourcesService {
   }
 
   private updateOneSourceFlag(): void {
-    const hasOneActiveJobSource = Object.values(jobCollectionsMap).some((jobSource) => jobSource.isLoaded && jobSource.isActive);
+    const hasOneActiveJobSource = Object.values(jobCollectionsMap).some(
+      (jobSource) => jobSource.isLoaded && jobSource.isActive,
+    );
     this._hasOneActiveJobSource$.next(hasOneActiveJobSource);
   }
 
   private updateJobCollectionLoadedFlag(): void {
-    this.hasOneJobCollectionLoaded = Object.values(jobCollectionsMap).some((jobSource) => jobSource.isLoaded);
+    this.hasOneJobCollectionLoaded = Object.values(jobCollectionsMap).some(
+      (jobSource) => jobSource.isLoaded,
+    );
   }
 }

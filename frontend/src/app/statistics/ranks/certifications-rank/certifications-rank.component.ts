@@ -25,11 +25,17 @@ export class CertificationsRankComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.certificationsRank$ = this.statisticsService.getCertificationsRank(this.jobs$);
-    if (this.rankSize) this.certificationsRank$ = this.certificationsRank$.pipe(map((certificationsRank) => certificationsRank.slice(0, this.rankSize)));
+    if (this.rankSize)
+      this.certificationsRank$ = this.certificationsRank$.pipe(
+        map((certificationsRank) => certificationsRank.slice(0, this.rankSize)),
+      );
   }
 
   ngOnChanges(): void {
     this.certificationsRank$ = this.statisticsService.getCertificationsRank(this.jobs$);
-    if (this.rankSize) this.certificationsRank$ = this.certificationsRank$.pipe(map((certificationsRank) => certificationsRank.slice(0, this.rankSize)));
+    if (this.rankSize)
+      this.certificationsRank$ = this.certificationsRank$.pipe(
+        map((certificationsRank) => certificationsRank.slice(0, this.rankSize)),
+      );
   }
 }

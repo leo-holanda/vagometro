@@ -15,7 +15,11 @@
 
           <button
             class="btn btn-ghost p-2"
-            *ngFor="let certificationStatus of certificationsRank; index as i; trackBy: trackByCertificationStatus"
+            *ngFor="
+              let certificationStatus of certificationsRank;
+              index as i;
+              trackBy: trackByCertificationStatus
+            "
             [ngClass]="{ 'btn-active': selectedCertificationStatus === certificationStatus.status }"
             (click)="onCertificationStatusClick(certificationStatus.status)"
           >
@@ -23,11 +27,17 @@
               <span>{{ i + 1 + ". " + certificationStatus.status }}</span>
               <div class="flex gap-2">
                 <span>{{ certificationStatus.count | number }}</span>
-                <span class="text-gray-600">({{ certificationStatus.count / jobsQuantity | percent: "1.1-1" }})</span>
+                <span class="text-gray-600"
+                  >({{ certificationStatus.count / jobsQuantity | percent: "1.1-1" }})</span
+                >
               </div>
             </div>
 
-            <progress class="progress w-full" [value]="certificationStatus.count" [max]="jobsQuantity"></progress>
+            <progress
+              class="progress w-full"
+              [value]="certificationStatus.count"
+              [max]="jobsQuantity"
+            ></progress>
           </button>
         </ng-container>
 
@@ -88,7 +98,9 @@
           <i class="bx bxs-user-detail"></i>
           <h3>Níveis de experiência mais requisitados</h3>
         </div>
-        <vgm-experience-levels-rank [jobs$]="jobsByCertificationStatus$"></vgm-experience-levels-rank>
+        <vgm-experience-levels-rank
+          [jobs$]="jobsByCertificationStatus$"
+        ></vgm-experience-levels-rank>
       </section>
 
       <div class="divider"></div>

@@ -7,9 +7,27 @@
           <h1>Vagas por {{ dataTypeTranslations[dataType] }}</h1>
         </div>
         <div class="flex flex-wrap gap-2">
-          <button (click)="changeDataType('city')" class="btn" [ngClass]="{ 'btn-active': dataType === 'city' }">Ver por cidades</button>
-          <button (click)="changeDataType('state')" class="btn" [ngClass]="{ 'btn-active': dataType === 'state' }">Ver por estados</button>
-          <button (click)="changeDataType('map')" class="btn" [ngClass]="{ 'btn-active': dataType === 'map' }">Ver mapa nacional</button>
+          <button
+            (click)="changeDataType('city')"
+            class="btn"
+            [ngClass]="{ 'btn-active': dataType === 'city' }"
+          >
+            Ver por cidades
+          </button>
+          <button
+            (click)="changeDataType('state')"
+            class="btn"
+            [ngClass]="{ 'btn-active': dataType === 'state' }"
+          >
+            Ver por estados
+          </button>
+          <button
+            (click)="changeDataType('map')"
+            class="btn"
+            [ngClass]="{ 'btn-active': dataType === 'map' }"
+          >
+            Ver mapa nacional
+          </button>
         </div>
       </div>
 
@@ -43,13 +61,21 @@
                 (click)="onCityClicked(city.name)"
               >
                 <div class="w-full flex justify-between">
-                  <span>{{ i + 1 + ". " + city.name + ", " + (city.state | stateAbbreviation) }}</span>
+                  <span>{{
+                    i + 1 + ". " + city.name + ", " + (city.state | stateAbbreviation)
+                  }}</span>
                   <div class="flex gap-2">
                     <span>{{ city.count | number }}</span>
-                    <span class="text-gray-600">({{ city.count / jobsQuantity | percent: "1.1-1" }})</span>
+                    <span class="text-gray-600"
+                      >({{ city.count / jobsQuantity | percent: "1.1-1" }})</span
+                    >
                   </div>
                 </div>
-                <progress class="progress w-full" [value]="city.count" [max]="jobsQuantity"></progress>
+                <progress
+                  class="progress w-full"
+                  [value]="city.count"
+                  [max]="jobsQuantity"
+                ></progress>
               </button>
             </div>
           </ng-container>
@@ -72,18 +98,26 @@
 
                   <div class="flex gap-2">
                     <span>{{ state.count | number }}</span>
-                    <span class="text-gray-600">({{ state.count / jobsQuantity | percent: "1.1-1" }})</span>
+                    <span class="text-gray-600"
+                      >({{ state.count / jobsQuantity | percent: "1.1-1" }})</span
+                    >
                   </div>
                 </div>
 
-                <progress class="progress w-full" [value]="state.count" [max]="jobsQuantity"></progress>
+                <progress
+                  class="progress w-full"
+                  [value]="state.count"
+                  [max]="jobsQuantity"
+                ></progress>
               </button>
             </div>
           </ng-container>
         </div>
       </ng-template>
 
-      <span class="text-xs text-slate-500 p-4"> Na Gupy, considera apenas vagas presenciais e híbridas </span>
+      <span class="text-xs text-slate-500 p-4">
+        Na Gupy, considera apenas vagas presenciais e híbridas
+      </span>
     </div>
 
     <div class="card card-bordered card-compact w-full bg-base-300 flex flex-col gap-4 h-min">
@@ -96,11 +130,15 @@
       </div>
 
       <div class="card-body">
-        <vgm-publication-chart [jobs$]="dataType === 'city' ? jobsByCity$ : jobsByState$"></vgm-publication-chart>
+        <vgm-publication-chart
+          [jobs$]="dataType === 'city' ? jobsByCity$ : jobsByState$"
+        ></vgm-publication-chart>
       </div>
     </div>
 
-    <vgm-job-postings-comparison [jobs$]="dataType === 'city' ? jobsByCity$ : jobsByState$"></vgm-job-postings-comparison>
+    <vgm-job-postings-comparison
+      [jobs$]="dataType === 'city' ? jobsByCity$ : jobsByState$"
+    ></vgm-job-postings-comparison>
   </div>
 
   <div class="card card-bordered card-compact w-full bg-base-300">
@@ -127,7 +165,9 @@
           <i class="bx bxs-chip"></i>
           <h3>Tecnologias em alta</h3>
         </div>
-        <vgm-keywords-rank [jobs$]="dataType === 'city' ? jobsByCity$ : jobsByState$"></vgm-keywords-rank>
+        <vgm-keywords-rank
+          [jobs$]="dataType === 'city' ? jobsByCity$ : jobsByState$"
+        ></vgm-keywords-rank>
       </section>
 
       <div class="divider"></div>
@@ -137,7 +177,9 @@
           <i class="bx bxs-business"></i>
           <h3>Empresas que mais contratam</h3>
         </div>
-        <vgm-companies-rank [jobs$]="dataType === 'city' ? jobsByCity$ : jobsByState$"></vgm-companies-rank>
+        <vgm-companies-rank
+          [jobs$]="dataType === 'city' ? jobsByCity$ : jobsByState$"
+        ></vgm-companies-rank>
       </section>
 
       <div class="divider"></div>
@@ -147,7 +189,9 @@
           <i class="bx bxs-user-detail"></i>
           <h3>Níveis de experiência mais requisitados</h3>
         </div>
-        <vgm-experience-levels-rank [jobs$]="dataType === 'city' ? jobsByCity$ : jobsByState$"></vgm-experience-levels-rank>
+        <vgm-experience-levels-rank
+          [jobs$]="dataType === 'city' ? jobsByCity$ : jobsByState$"
+        ></vgm-experience-levels-rank>
       </section>
 
       <div class="divider"></div>
@@ -167,7 +211,9 @@
           <i class="bx bxs-graduation"></i>
           <h3>Níveis de formação mais requisitados</h3>
         </div>
-        <vgm-education-rank [jobs$]="dataType === 'city' ? jobsByCity$ : jobsByState$"></vgm-education-rank>
+        <vgm-education-rank
+          [jobs$]="dataType === 'city' ? jobsByCity$ : jobsByState$"
+        ></vgm-education-rank>
       </section>
 
       <div class="divider"></div>
@@ -177,7 +223,9 @@
           <i class="bx bx-globe"></i>
           <h3>Idiomas mais requisitados</h3>
         </div>
-        <vgm-languages-rank [jobs$]="dataType === 'city' ? jobsByCity$ : jobsByState$"></vgm-languages-rank>
+        <vgm-languages-rank
+          [jobs$]="dataType === 'city' ? jobsByCity$ : jobsByState$"
+        ></vgm-languages-rank>
       </section>
     </div>
   </div>

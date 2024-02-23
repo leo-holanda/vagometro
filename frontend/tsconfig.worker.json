@@ -15,7 +15,5 @@
     ],
     "types": []
   },
-  "include": [
-    "src/**/*.worker.ts"
-  ]
+  "include": ["src/**/*.worker.ts"]
 }

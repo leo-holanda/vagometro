@@ -26,12 +26,18 @@ export class KeywordsRankComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.keywordsRank$ = this.statisticsService.getKeywordsRank(this.jobs$);
 
-    if (this.rankSize) this.keywordsRank$ = this.keywordsRank$.pipe(map((keywordsRank) => keywordsRank.slice(0, this.rankSize)));
+    if (this.rankSize)
+      this.keywordsRank$ = this.keywordsRank$.pipe(
+        map((keywordsRank) => keywordsRank.slice(0, this.rankSize)),
+      );
   }
 
   ngOnChanges(): void {
     this.keywordsRank$ = this.statisticsService.getKeywordsRank(this.jobs$);
 
-    if (this.rankSize) this.keywordsRank$ = this.keywordsRank$.pipe(map((keywordsRank) => keywordsRank.slice(0, this.rankSize)));
+    if (this.rankSize)
+      this.keywordsRank$ = this.keywordsRank$.pipe(
+        map((keywordsRank) => keywordsRank.slice(0, this.rankSize)),
+      );
   }
 }

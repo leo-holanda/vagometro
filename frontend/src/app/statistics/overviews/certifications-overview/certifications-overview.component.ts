@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CertificationStatus, CertificationsData } from 'src/app/shared/keywords-matcher/certification.data';
+import {
+  CertificationStatus,
+  CertificationsData,
+} from 'src/app/shared/keywords-matcher/certification.data';
 import { trackByCertificationStatus } from 'src/app/shared/track-by-functions';
 import { Observable } from 'rxjs';
 import { JobService } from 'src/app/job/job.service';
@@ -52,7 +55,9 @@ export class CertificationsOverviewComponent implements OnInit {
 
     this.certificationsRank$.subscribe((certificationsRank) => {
       this.selectedCertificationStatus = certificationsRank[0].status;
-      this.jobsByCertificationStatus$ = this.jobService.getJobsByCertificationStatus(this.selectedCertificationStatus);
+      this.jobsByCertificationStatus$ = this.jobService.getJobsByCertificationStatus(
+        this.selectedCertificationStatus,
+      );
     });
 
     this.jobService.jobs$.subscribe((jobs) => {
@@ -62,6 +67,8 @@ export class CertificationsOverviewComponent implements OnInit {
 
   onCertificationStatusClick(certificationStatus: CertificationStatus): void {
     this.selectedCertificationStatus = certificationStatus;
-    this.jobsByCertificationStatus$ = this.jobService.getJobsByCertificationStatus(this.selectedCertificationStatus);
+    this.jobsByCertificationStatus$ = this.jobService.getJobsByCertificationStatus(
+      this.selectedCertificationStatus,
+    );
   }
 }

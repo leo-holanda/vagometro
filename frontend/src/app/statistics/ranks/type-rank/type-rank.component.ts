@@ -24,12 +24,14 @@ export class TypeRankComponent implements OnChanges {
   constructor(private statisticsService: StatisticsService) {
     this.typesRank$ = this.statisticsService.getTypesRank(this.jobs$);
 
-    if (this.rankSize) this.typesRank$ = this.typesRank$.pipe(map((typesRank) => typesRank.slice(0, this.rankSize)));
+    if (this.rankSize)
+      this.typesRank$ = this.typesRank$.pipe(map((typesRank) => typesRank.slice(0, this.rankSize)));
   }
 
   ngOnChanges(): void {
     this.typesRank$ = this.statisticsService.getTypesRank(this.jobs$);
 
-    if (this.rankSize) this.typesRank$ = this.typesRank$.pipe(map((typesRank) => typesRank.slice(0, this.rankSize)));
+    if (this.rankSize)
+      this.typesRank$ = this.typesRank$.pipe(map((typesRank) => typesRank.slice(0, this.rankSize)));
   }
 }

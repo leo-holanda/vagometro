@@ -44,8 +44,10 @@ export class GitHubJobsService {
       if (worker) {
         worker.postMessage(JSON.parse(jobs));
         worker.onmessage = ({ data }) => resolve(data);
-        worker.onerror = () => resolve(JSON.parse(jobs).map((job: GitHubJob) => mapGitHubJobToJob(job)));
-        worker.onmessageerror = () => resolve(JSON.parse(jobs).map((job: GitHubJob) => mapGitHubJobToJob(job)));
+        worker.onerror = () =>
+          resolve(JSON.parse(jobs).map((job: GitHubJob) => mapGitHubJobToJob(job)));
+        worker.onmessageerror = () =>
+          resolve(JSON.parse(jobs).map((job: GitHubJob) => mapGitHubJobToJob(job)));
       } else {
         resolve(JSON.parse(jobs).map((job: GitHubJob) => mapGitHubJobToJob(job)));
       }

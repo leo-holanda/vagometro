@@ -13,7 +13,10 @@ export class MapDataService {
   mapGeoJson!: any; //TODO: Set the correct type
 
   constructor(private jobService: JobService) {
-    this.mapGeoJson = topojson.feature(brazilTopoJson as unknown as TopoJSON.Topology, brazilTopoJson.objects.uf as unknown as TopoJSON.GeometryCollection);
+    this.mapGeoJson = topojson.feature(
+      brazilTopoJson as unknown as TopoJSON.Topology,
+      brazilTopoJson.objects.uf as unknown as TopoJSON.GeometryCollection,
+    );
   }
 
   getCitiesNames(): string[] {

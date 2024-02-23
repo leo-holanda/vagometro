@@ -9,7 +9,13 @@ import { JobSources } from '../job-sources/job-sources.types';
 @Component({
   selector: 'vgm-statistics',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, HeaderComponent, CountdownComponent, JobSourceSelectorComponent],
+  imports: [
+    CommonModule,
+    RouterOutlet,
+    HeaderComponent,
+    CountdownComponent,
+    JobSourceSelectorComponent,
+  ],
   templateUrl: './statistics.component.html',
   styleUrls: ['./statistics.component.scss'],
 })

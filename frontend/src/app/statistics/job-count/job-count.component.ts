@@ -31,6 +31,8 @@ export class JobCountComponent {
     this.jobsCount$ = this.statisticsService.getJobsCount();
     this.oldestJobPublishedDate$ = this.jobService.oldestJobPublishedDate$;
 
-    this.lastMonthDifference$ = this.statisticsService.getMonthlyComparison().pipe(map((monthlyData) => monthlyData[0]));
+    this.lastMonthDifference$ = this.statisticsService
+      .getMonthlyComparison()
+      .pipe(map((monthlyData) => monthlyData[0]));
   }
 }

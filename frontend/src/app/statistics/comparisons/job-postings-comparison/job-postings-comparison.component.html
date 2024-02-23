@@ -50,7 +50,11 @@
                     'text-red-500': month.difference < 0
                   }"
                 >
-                  {{ month.difference > 0 ? "+" + (month.difference | number) : (month.difference | number) }}
+                  {{
+                    month.difference > 0
+                      ? "+" + (month.difference | number)
+                      : (month.difference | number)
+                  }}
                 </td>
                 <td
                   [ngClass]="{
@@ -80,7 +84,13 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let annual of annualComparativeData$ | async; index as i; trackBy: trackByMonth">
+              <tr
+                *ngFor="
+                  let annual of annualComparativeData$ | async;
+                  index as i;
+                  trackBy: trackByMonth
+                "
+              >
                 <td>{{ annual.name | titlecase }}</td>
                 <td>{{ annual.count | number }}</td>
                 <td
@@ -89,7 +99,11 @@
                     'text-red-500': annual.difference < 0
                   }"
                 >
-                  {{ annual.difference > 0 ? "+" + (annual.difference | number) : (annual.difference | number) }}
+                  {{
+                    annual.difference > 0
+                      ? "+" + (annual.difference | number)
+                      : (annual.difference | number)
+                  }}
                 </td>
                 <td
                   [ngClass]="{

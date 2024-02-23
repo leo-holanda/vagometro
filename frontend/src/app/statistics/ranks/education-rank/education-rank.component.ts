@@ -24,11 +24,17 @@ export class EducationRankComponent implements OnChanges {
   constructor(private statisticsService: StatisticsService) {
     this.educationRank$ = this.statisticsService.getEducationalLevelRank();
 
-    if (this.rankSize) this.educationRank$ = this.educationRank$.pipe(map((educationRank) => educationRank.slice(0, this.rankSize)));
+    if (this.rankSize)
+      this.educationRank$ = this.educationRank$.pipe(
+        map((educationRank) => educationRank.slice(0, this.rankSize)),
+      );
   }
 
   ngOnChanges(): void {
     this.educationRank$ = this.statisticsService.getEducationalLevelRank(this.jobs$);
-    if (this.rankSize) this.educationRank$ = this.educationRank$.pipe(map((educationRank) => educationRank.slice(0, this.rankSize)));
+    if (this.rankSize)
+      this.educationRank$ = this.educationRank$.pipe(
+        map((educationRank) => educationRank.slice(0, this.rankSize)),
+      );
   }
 }

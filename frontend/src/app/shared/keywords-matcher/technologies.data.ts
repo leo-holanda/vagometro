@@ -188,6 +188,7 @@ export const oneWordKeywords: Keywords = {
   mongo: { name: 'MongoDB', category: keywordCategories.database },
   mysql: { name: 'MySQL', category: keywordCategories.database },
   postgresql: { name: 'PostgreSQL', category: keywordCategories.database },
+  postgres: { name: 'PostgreSQL', category: keywordCategories.database },
   elasticsearch: { name: 'Elasticsearch', category: keywordCategories.database },
   oracle: { name: 'Oracle', category: keywordCategories.database },
   redis: { name: 'Redis', category: keywordCategories.database },
@@ -343,6 +344,7 @@ export const oneWordKeywords: Keywords = {
   tcp: { name: 'TCP', category: keywordCategories.miscellaneous },
   http: { name: 'HTTP', category: keywordCategories.miscellaneous },
   lua: { name: 'Lua', category: keywordCategories.miscellaneous },
+  crypto: { name: 'Crypto', category: keywordCategories.miscellaneous },
   //END OF MISCELLANEOUS
 
   //DATA SCIENCE
@@ -452,6 +454,7 @@ export const multiWordKeywords: Keywords = {
   'next.js': { name: 'NextJS', category: keywordCategories.frontend },
   'leaflet.js': { name: 'Leaflet', category: keywordCategories.frontend },
   'nuxt.js': { name: 'Nuxt', category: keywordCategories.frontend },
+  'css-in-js': { name: 'CSS-in-JS', category: keywordCategories.frontend },
   //END OF FRONTEND
 
   //BACKEND
@@ -582,6 +585,7 @@ export const multiWordKeywords: Keywords = {
   'behavior driven development': { name: 'TDD', category: keywordCategories.miscellaneous },
   'application programming interface': { name: 'API', category: keywordCategories.miscellaneous },
   'system design': { name: 'System Design', category: keywordCategories.miscellaneous },
+  'systems design': { name: 'System Design', category: keywordCategories.miscellaneous },
   'arquitetura hexagonal': {
     name: 'Arquitetura Hexagonal',
     category: keywordCategories.miscellaneous,
@@ -592,6 +596,7 @@ export const multiWordKeywords: Keywords = {
   'extreme programming': { name: 'Extreme Programming', category: keywordCategories.miscellaneous },
   's.o.l.i.d': { name: 'SOLID', category: keywordCategories.miscellaneous },
   'meteor.js': { name: 'Meteor.js', category: keywordCategories.miscellaneous },
+  solidity: { name: 'Solidity', category: keywordCategories.miscellaneous },
   //END OF MISCELLANEOUS
 
   //AI

@@ -16,6 +16,7 @@ export enum HigherEducationCoursesNames {
   computerEngineering = 'Engenharia de Computação',
   informationSystems = 'Sistemas de Informação',
   sysntemAnalysisAndDevelopment = 'Análise e Desenvolvimento de Sistemas',
+  softwareEngineering = 'Engenharia de Software',
   systemAnalysis = 'Análise de Sistemas',
   eletricEngineering = 'Engenharia Elétrica',
   eletronicEngineering = 'Engenharia Eletrônica',
@@ -56,6 +57,7 @@ export const higherEducationCoursesNames: EducationRelatedTerms = {
   'ciencias da computacao': HigherEducationCoursesNames.computerScience,
   'ciencia de computacao': HigherEducationCoursesNames.computerScience,
   'ciencias de computacao': HigherEducationCoursesNames.computerScience,
+  'computer science': HigherEducationCoursesNames.computerScience,
 
   EC: HigherEducationCoursesNames.computerEngineering,
   'engenharia da computacao': HigherEducationCoursesNames.computerEngineering,
@@ -73,6 +75,9 @@ export const higherEducationCoursesNames: EducationRelatedTerms = {
     HigherEducationCoursesNames.sysntemAnalysisAndDevelopment,
 
   'analise de sistema': HigherEducationCoursesNames.systemAnalysis,
+
+  'software engineering': HigherEducationCoursesNames.softwareEngineering,
+  'engenharia de software': HigherEducationCoursesNames.softwareEngineering,
 
   'engenharia eletrica': HigherEducationCoursesNames.eletricEngineering,
   'engenharia eletronica': HigherEducationCoursesNames.eletronicEngineering,
@@ -118,6 +123,7 @@ export const educationalLevelTerms: EducationalLevelRelatedTerms = {
   graduacao: EducationalLevels.bachelors,
   bacharelado: EducationalLevels.bachelors,
   licenciatura: EducationalLevels.bachelors,
+  'b.s.': EducationalLevels.bachelors,
 
   especializacao: EducationalLevels.specialization,
   'pos-graduacao': EducationalLevels.specialization,

@@ -30,28 +30,22 @@ export class JobSourcesService {
     this.jobCollectionsMap.gupydados.dataSource = this.gupyService.dataJobs$;
     this.jobCollectionsMap.gupyqa.dataSource = this.gupyService.qaJobs$;
     this.jobCollectionsMap.gupyia.dataSource = this.gupyService.aiJobs$;
-    this.jobCollectionsMap.gupyProductManager.dataSource =
-      this.gupyService.productManagerJobs$;
+    this.jobCollectionsMap.gupyProductManager.dataSource = this.gupyService.productManagerJobs$;
+    this.jobCollectionsMap.gupyAgileRelated.dataSource = this.gupyService.agileRelatedJobs$;
 
-    this.jobCollectionsMap.frontendbr.dataSource =
-      this.githubJobsService.frontendJobs$;
+    this.jobCollectionsMap.frontendbr.dataSource = this.githubJobsService.frontendJobs$;
 
-    this.jobCollectionsMap.backendbr.dataSource =
-      this.githubJobsService.backendJobs$;
+    this.jobCollectionsMap.backendbr.dataSource = this.githubJobsService.backendJobs$;
 
-    this.jobCollectionsMap.soujava.dataSource =
-      this.githubJobsService.soujavaJobs$;
+    this.jobCollectionsMap.soujava.dataSource = this.githubJobsService.soujavaJobs$;
 
-    this.jobCollectionsMap.linkedin_dev.dataSource =
-      this.linkedInService.devJobs$;
+    this.jobCollectionsMap.linkedin_dev.dataSource = this.linkedInService.devJobs$;
   }
 
   toggleJobCollection(jobCollection: JobCollections): void {
     const currentJobSourceState = this.jobCollectionsMap[jobCollection];
 
-    if (currentJobSourceState)
-      this.jobCollectionsMap[jobCollection].isActive =
-        !currentJobSourceState.isActive;
+    if (currentJobSourceState) this.jobCollectionsMap[jobCollection].isActive = !currentJobSourceState.isActive;
 
     this.updateJobs();
   }
@@ -59,9 +53,7 @@ export class JobSourcesService {
   private updateJobs(): void {
     const currentJobs: Job[] = [];
 
-    const activeJobSources = Object.values(this.jobCollectionsMap).filter(
-      (jobSource) => jobSource.isActive,
-    );
+    const activeJobSources = Object.values(this.jobCollectionsMap).filter((jobSource) => jobSource.isActive);
 
     activeJobSources.forEach((jobSource) => {
       if (!jobSource.isLoaded) jobSource.isLoading = true;
@@ -94,15 +86,11 @@ export class JobSourcesService {
   }
 
   private updateOneSourceFlag(): void {
-    const hasOneActiveJobSource = Object.values(jobCollectionsMap).some(
-      (jobSource) => jobSource.isLoaded && jobSource.isActive,
-    );
+    const hasOneActiveJobSource = Object.values(jobCollectionsMap).some((jobSource) => jobSource.isLoaded && jobSource.isActive);
     this._hasOneActiveJobSource$.next(hasOneActiveJobSource);
   }
 
   private updateJobCollectionLoadedFlag(): void {
-    this.hasOneJobCollectionLoaded = Object.values(jobCollectionsMap).some(
-      (jobSource) => jobSource.isLoaded,
-    );
+    this.hasOneJobCollectionLoaded = Object.values(jobCollectionsMap).some((jobSource) => jobSource.isLoaded);
   }
 }

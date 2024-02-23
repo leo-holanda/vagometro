@@ -17,6 +17,7 @@ export class GupyService {
   qaJobs$: Observable<Job[]>;
   aiJobs$: Observable<Job[]>;
   productManagerJobs$: Observable<Job[]>;
+  agileRelatedJobs$: Observable<Job[]>;
 
   constructor(private atlasService: AtlasService) {
     //TODO: Find a way to automate this
@@ -28,6 +29,7 @@ export class GupyService {
     this.qaJobs$ = this.getQAJobsObservable();
     this.aiJobs$ = this.getAIJobsObservable();
     this.productManagerJobs$ = this.getProductManagerJobsObservable();
+    this.agileRelatedJobs$ = this.getAgileRelatedJobsObservable();
   }
 
   private getWorkerPromise(jobs: GupyJob[]): Promise<Job[]> {
@@ -42,6 +44,13 @@ export class GupyService {
         resolve(mapGupyJobsToJobs(jobs));
       }
     });
+  }
+
+  private getAgileRelatedJobsObservable(): Observable<Job[]> {
+    return this.atlasService.getAgileRelatedJobs().pipe(
+      switchMap((jobs) => defer(() => this.getWorkerPromise(jobs))),
+      shareReplay(),
+    );
   }
 
   private getProductManagerJobsObservable(): Observable<Job[]> {

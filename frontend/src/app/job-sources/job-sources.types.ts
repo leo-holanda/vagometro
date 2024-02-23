@@ -17,6 +17,7 @@ export enum JobCollections {
   gupyqa = 'gupyqa',
   gupyia = 'gupyia',
   gupyProductManager = 'gupyProductManager',
+  gupyAgileRelated = 'gupyAgileRelated',
 
   // GitHub
   frontendbr = 'frontendbr',
@@ -52,15 +53,7 @@ export const jobCollectionsMap: JobCollectionsMap = {
     isLoading: false,
     isLoaded: false,
     hasFailedToLoad: false,
-    searchStringKeywords: [
-      'desenvolvedor',
-      'dev',
-      'front',
-      'back',
-      'full',
-      'fullstack',
-      'software',
-    ],
+    searchStringKeywords: ['desenvolvedor', 'dev', 'front', 'back', 'full', 'fullstack', 'software'],
     initialDailyFetchDate: '19/12/2023',
   },
   gupymobile: {
@@ -132,13 +125,7 @@ export const jobCollectionsMap: JobCollectionsMap = {
     isLoading: false,
     isLoaded: false,
     hasFailedToLoad: false,
-    searchStringKeywords: [
-      'ia',
-      'ai',
-      'machine learning',
-      'inteligencia artificial',
-      'deep learning',
-    ],
+    searchStringKeywords: ['ia', 'ai', 'machine learning', 'inteligencia artificial', 'deep learning'],
     initialDailyFetchDate: '09/02/2024',
   },
   gupyProductManager: {
@@ -152,6 +139,18 @@ export const jobCollectionsMap: JobCollectionsMap = {
     hasFailedToLoad: false,
     searchStringKeywords: ['product manager'],
     initialDailyFetchDate: '22/02/2024',
+  },
+  gupyAgileRelated: {
+    name: 'Agilista/Scrum Master',
+    icon: 'bx bxs-business',
+    source: JobSources.gupy,
+    dataSource: new Observable(),
+    isActive: false,
+    isLoading: false,
+    isLoaded: false,
+    hasFailedToLoad: false,
+    searchStringKeywords: ['agilista', 'scrum', 'agile'],
+    initialDailyFetchDate: '23/02/2024',
   },
   frontendbr: {
     name: 'frontendbr/vagas',

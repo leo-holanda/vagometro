@@ -18,4 +18,8 @@ export class LandingPageComponent {
   constructor(private jobSourcesService: JobSourcesService) {
     this.hasOneActiveJobSource$ = this.jobSourcesService.hasOneActiveJobSource$;
   }
+
+  scrollTo(element: HTMLElement): void {
+    element.scrollIntoView({ behavior: 'smooth' });
+  }
 }

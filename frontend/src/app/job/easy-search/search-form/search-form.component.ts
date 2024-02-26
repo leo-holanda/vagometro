@@ -30,14 +30,16 @@ export class SearchFormComponent {
   trackByKeyword = trackByKeyword;
 
   constructor(private router: Router) {
-    this.setSearchData();
     this.loadKeywords();
+    this.setSearchData();
   }
 
   filterKeywords(): void {
     this.filteredKeywords = this.keywords.filter((keyword) =>
       keyword.name.toLowerCase().includes(this.keywordSearchString.toLowerCase()),
     );
+
+    this.sortKeywords();
   }
 
   onKeywordClick(keyword: KeywordOnSearchForm): void {
@@ -77,10 +79,26 @@ export class SearchFormComponent {
 
   private setSearchData(): void {
     const data = localStorage.getItem('searchData');
-    if (data) this.searchData = JSON.parse(data);
-    else
+    if (data) {
+      this.searchData = JSON.parse(data);
+      this.selectedKeywords = this.searchData.keywords;
+
+      const selectedKeywordsNames = this.selectedKeywords.map((keyword) => keyword.name);
+
+      this.filteredKeywords.forEach((filteredKeyword) => {
+        if (selectedKeywordsNames.includes(filteredKeyword.name)) {
+          filteredKeyword.isSelected = true;
+        }
+      });
+
+      this.sortKeywords();
+    } else
       this.searchData = {
         keywords: [],
       };
+  }
+
+  private sortKeywords(): void {
+    this.filteredKeywords.sort((a, b) => (a.isSelected ? -1 : 0));
   }
 }

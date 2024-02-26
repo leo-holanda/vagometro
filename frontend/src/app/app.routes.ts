@@ -107,6 +107,12 @@ export const routes: Routes = [
     ],
   },
   {
+    path: 'busca-facil',
+    canActivate: [hasOneJobCollectionLoadedGuard],
+    loadComponent: () =>
+      import('./job/easy-search/easy-search.component').then((mod) => mod.EasySearchComponent),
+  },
+  {
     path: '**',
     redirectTo: '',
   },

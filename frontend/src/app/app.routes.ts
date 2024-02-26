@@ -111,6 +111,15 @@ export const routes: Routes = [
     canActivate: [hasOneJobCollectionLoadedGuard],
     loadComponent: () =>
       import('./job/easy-search/easy-search.component').then((mod) => mod.EasySearchComponent),
+    children: [
+      {
+        path: 'dados',
+        loadComponent: () =>
+          import('./job/easy-search/search-form/search-form.component').then(
+            (mod) => mod.SearchFormComponent,
+          ),
+      },
+    ],
   },
   {
     path: '**',

@@ -14,6 +14,7 @@ export class GitHubJobsService {
   backendJobs$: Observable<Job[]>;
   soujavaJobs$: Observable<Job[]>;
   reactBrasilJobs$: Observable<Job[]>;
+  androidDevBrJobs$: Observable<Job[]>;
 
   constructor() {
     //https://github.com/frontendbr/vagas/issues
@@ -24,11 +25,13 @@ export class GitHubJobsService {
     this.soujavaJobs$ = this.getJobsObservable('soujava');
     //https://github.com/react-brasil/vagas/issues
     this.reactBrasilJobs$ = this.getJobsObservable('react-brasil');
+    //https://github.com/androiddevbr/vagas
+    this.androidDevBrJobs$ = this.getJobsObservable('androiddevbr');
   }
 
   async getJobsPromise(
     //TODO: Auto generate this types
-    type: 'frontend' | 'backend' | 'soujava' | 'react-brasil',
+    type: 'frontend' | 'backend' | 'soujava' | 'react-brasil' | 'androiddevbr',
   ): Promise<Job[]> {
     // https://gildas-lormeau.github.io/zip.js/
     // Try catch is not necessary. Errors are handled in Job Source Service.
@@ -57,7 +60,9 @@ export class GitHubJobsService {
     });
   }
 
-  getJobsObservable(type: 'frontend' | 'backend' | 'soujava' | 'react-brasil'): Observable<Job[]> {
+  getJobsObservable(
+    type: 'frontend' | 'backend' | 'soujava' | 'react-brasil' | 'androiddevbr',
+  ): Observable<Job[]> {
     return defer(() => this.getJobsPromise(type)).pipe(
       first(),
       tap(() => this.sendEventToUmami(type)),

@@ -37,6 +37,7 @@ export class JobSourcesService {
     this.jobCollectionsMap.backendbr.dataSource = this.githubJobsService.backendJobs$;
     this.jobCollectionsMap.soujava.dataSource = this.githubJobsService.soujavaJobs$;
     this.jobCollectionsMap['react-brasil'].dataSource = this.githubJobsService.reactBrasilJobs$;
+    this.jobCollectionsMap.androiddevbr.dataSource = this.githubJobsService.androidDevBrJobs$;
 
     this.jobCollectionsMap.linkedin_dev.dataSource = this.linkedInService.devJobs$;
   }

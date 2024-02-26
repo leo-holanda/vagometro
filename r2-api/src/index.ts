@@ -15,6 +15,7 @@ export interface Env {
 	BACKEND_JOBS_FILE_NAME: string;
 	SOUJAVA_JOBS_FILE_NAME: string;
 	REACT_BRASIL_JOBS_FILE_NAME: string;
+	ANDROIDDEVBR_JOBS_FILE_NAME: string;
 }
 
 export default {
@@ -29,6 +30,7 @@ export default {
 		if (key == 'backend') object = await env.jobsBucket.get(env.BACKEND_JOBS_FILE_NAME);
 		if (key == 'soujava') object = await env.jobsBucket.get(env.SOUJAVA_JOBS_FILE_NAME);
 		if (key == 'react-brasil') object = await env.jobsBucket.get(env.REACT_BRASIL_JOBS_FILE_NAME);
+		if (key == 'androiddevbr') object = await env.jobsBucket.get(env.ANDROIDDEVBR_JOBS_FILE_NAME);
 		if (object === null || object === undefined) return new Response('Object Not Found', { status: 404 });
 
 		const headers = new Headers();

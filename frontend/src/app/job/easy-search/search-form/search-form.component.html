@@ -1,1 +1,55 @@
-<p>search-form works!</p>
+<main class="h-full flex flex-col items-center justify-center p-4 mb-8">
+  <section class="card card-bordered card-compact w-full lg:w-1/2 bg-base-300">
+    <header class="card-title items-center p-4">
+      <i class="bx bxs-hand-up"></i>
+      <h1>Marque as tecnologias de seu interesse</h1>
+    </header>
+
+    <label class="form-control w-full px-4 pr-6 pb-2">
+      <div class="label">
+        <span class="label-text">Buscar por tecnologia</span>
+      </div>
+      <input
+        [(ngModel)]="keywordSearchString"
+        (ngModelChange)="filterKeywords()"
+        id="keywordSearchString"
+        name="keywordSearchString"
+        type="text"
+        placeholder="JavaScript"
+        class="input input-bordered w-full"
+      />
+    </label>
+
+    <section class="card-body max-h-96 overflow-y-auto">
+      <button
+        class="btn p-2"
+        *ngFor="let keyword of filteredKeywords; index as i"
+        [ngClass]="{ 'btn-success': keyword.isSelected }"
+        (click)="onKeywordClick(keyword)"
+      >
+        <div class="w-full flex items-center gap-2">
+          <i *ngIf="keyword.isSelected" class="bx bxs-check-square"></i>
+          <span>{{ keyword.name }}</span>
+        </div>
+      </button>
+    </section>
+
+    <span class="text-slate-300 text-sm p-4"
+      >Não achou a tecnologia que procurava?
+      <a class="link" target="_blank" href="https://github.com/leo-holanda/vagometro/issues"
+        >Crie uma issue!</a
+      >
+    </span>
+  </section>
+
+  <section class="flex items-center justify-end gap-4 w-full lg:w-1/2 mt-4">
+    <button [routerLink]="['/busca-facil']" class="btn btn-outline btn-error items-center flex-1">
+      <i class="bx bxs-trash"></i>
+      <span> Descartar </span>
+    </button>
+    <button (click)="saveSearchData()" class="btn btn-success items-center flex-1">
+      <i class="bx bxs-save"></i>
+      <span>Salvar</span>
+    </button>
+  </section>
+</main>

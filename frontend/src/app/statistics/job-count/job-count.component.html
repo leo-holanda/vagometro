@@ -1,4 +1,4 @@
-<ng-container *ngIf="(jobsCount$ | async) != undefined; else loading">
+<ng-container *ngIf="(jobsCount$ | async) !== undefined; else loading">
   <div class="stats stats-vertical bg-base-300 m-4">
     <div class="stat place-items-center">
       <div class="stat-value text-6xl lg:text-8xl">
@@ -13,7 +13,7 @@
 
     <ng-container
       *ngIf="
-        (currentTimeWindow$ | async) == timeWindows.all &&
+        (currentTimeWindow$ | async) === timeWindows.all &&
         (lastMonthDifference$ | async) as lastMonthDifference
       "
     >
@@ -26,6 +26,7 @@
               'text-red-500': lastMonthDifference.difference < 0
             }"
           >
+            {{ lastMonthDifference.difference > 0 ? "+" : "" }}
             {{ lastMonthDifference.difference | number }}
           </span>
           <i

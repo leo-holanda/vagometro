@@ -1,8 +1,8 @@
 .virtual-scroll-viewport {
-  height: 100dvh;
+  height: 180dvh;
 
   @media (min-width: 768px) {
-    height: 64dvh;
+    height: 100dvh;
   }
 }
 

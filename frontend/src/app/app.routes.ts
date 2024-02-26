@@ -113,6 +113,13 @@ export const routes: Routes = [
       import('./job/easy-search/easy-search.component').then((mod) => mod.EasySearchComponent),
     children: [
       {
+        path: '',
+        loadComponent: () =>
+          import('./job/easy-search/search-results/search-results.component').then(
+            (mod) => mod.SearchResultsComponent,
+          ),
+      },
+      {
         path: 'dados',
         loadComponent: () =>
           import('./job/easy-search/search-form/search-form.component').then(

@@ -65,6 +65,12 @@ export class JobService {
     );
   }
 
+  filterJobsByKeywords(keywordsName: string[], jobs: Job[]): Job[] {
+    return jobs.filter((job) =>
+      job.keywords.find((keyword) => keywordsName.includes(keyword.name)),
+    );
+  }
+
   getJobsByCompany(companyName: string): Observable<Job[]> {
     return this.jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),

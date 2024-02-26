@@ -23,6 +23,7 @@ export enum JobCollections {
   frontendbr = 'frontendbr',
   backendbr = 'backendbr',
   soujava = 'soujava',
+  reactBrasil = 'react-brasil',
 
   //LinkedIn
   linkedin_dev = 'linkedin_dev',
@@ -192,6 +193,18 @@ export const jobCollectionsMap: JobCollectionsMap = {
   },
   soujava: {
     name: 'soujava/vagas-java',
+    icon: 'bx bxl-github',
+    source: JobSources.github,
+    dataSource: new Observable(),
+    isActive: false,
+    isLoading: false,
+    isLoaded: false,
+    hasFailedToLoad: false,
+    searchStringKeywords: ['não se aplica'],
+    initialDailyFetchDate: 'Em progresso',
+  },
+  'react-brasil': {
+    name: 'react-brasil/vagas',
     icon: 'bx bxl-github',
     source: JobSources.github,
     dataSource: new Observable(),

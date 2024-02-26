@@ -34,10 +34,9 @@ export class JobSourcesService {
     this.jobCollectionsMap.gupyAgileRelated.dataSource = this.gupyService.agileRelatedJobs$;
 
     this.jobCollectionsMap.frontendbr.dataSource = this.githubJobsService.frontendJobs$;
-
     this.jobCollectionsMap.backendbr.dataSource = this.githubJobsService.backendJobs$;
-
     this.jobCollectionsMap.soujava.dataSource = this.githubJobsService.soujavaJobs$;
+    this.jobCollectionsMap['react-brasil'].dataSource = this.githubJobsService.reactBrasilJobs$;
 
     this.jobCollectionsMap.linkedin_dev.dataSource = this.linkedInService.devJobs$;
   }

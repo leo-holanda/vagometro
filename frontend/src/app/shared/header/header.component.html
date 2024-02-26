@@ -136,90 +136,23 @@
       <a [routerLink]="['/stats']" class="btn btn-ghost text-xl">vagômetro</a>
     </div>
     <div class="navbar-center gap-2">
-      <div class="flex flex-wrap items-center justify-center gap-2 m-4">
-        <button
-          [ngClass]="{
-            'btn-active': (currentTimeWindow$ | async) === timeWindows.today
-          }"
-          (click)="onTimeWindowClick(timeWindows.today)"
-          class="btn btn-outline"
-        >
-          Hoje
-        </button>
-
-        <button
-          [ngClass]="{
-            'btn-active': (currentTimeWindow$ | async) === timeWindows.yesterday
-          }"
-          (click)="onTimeWindowClick(timeWindows.yesterday)"
-          class="btn btn-outline"
-        >
-          Ontem
-        </button>
-
-        <button
-          [ngClass]="{
-            'btn-active': (currentTimeWindow$ | async) === timeWindows.week
-          }"
-          (click)="onTimeWindowClick(timeWindows.week)"
-          class="btn btn-outline"
-        >
-          Semana
-        </button>
-
-        <button
-          [ngClass]="{
-            'btn-active': (currentTimeWindow$ | async) === timeWindows.month
-          }"
-          (click)="onTimeWindowClick(timeWindows.month)"
-          class="btn btn-outline"
-        >
-          Mês
-        </button>
-
-        <button
-          [ngClass]="{
-            'btn-active': (currentTimeWindow$ | async) === timeWindows['6months']
-          }"
-          (click)="onTimeWindowClick(timeWindows['6months'])"
-          class="btn btn-outline"
-        >
-          6 meses
-        </button>
-
-        <button
-          [ngClass]="{
-            'btn-active': (currentTimeWindow$ | async) === timeWindows.year
-          }"
-          (click)="onTimeWindowClick(timeWindows.year)"
-          class="btn btn-outline"
-        >
-          1 ano
-        </button>
-
-        <button
-          [ngClass]="{
-            'btn-active': (currentTimeWindow$ | async) === timeWindows.all
-          }"
-          (click)="onTimeWindowClick(timeWindows.all)"
-          class="btn btn-outline"
-        >
-          Sempre
-        </button>
-      </div>
-    </div>
-
-    <div class="navbar-end">
       <button class="btn mr-2" [routerLink]="['/busca-facil']">
         <i class="bx bx-search-alt"></i>
         <span> Busca fácil </span>
+      </button>
+
+      <button class="btn mr-2" (click)="timeWindowModal.showModal()">
+        <i class="bx bxs-time-five"></i>
+        <span> Mudar intervalo </span>
       </button>
 
       <button class="btn mr-2" (click)="jobSourcesModal.showModal()">
         <i class="bx bx-data"></i>
         <span> Mudar dados </span>
       </button>
+    </div>
 
+    <div class="navbar-end">
       <label class="btn btn-ghost btn-circle swap swap-rotate">
         <input type="checkbox" class="theme-controller" value="light" />
 
@@ -325,6 +258,96 @@
         >
           <i class="bx bx-stats"></i>
           Retornar para análise
+        </button>
+      </form>
+    </div>
+  </div>
+</dialog>
+
+<dialog #timeWindowModal class="modal">
+  <div class="modal-box">
+    <header class="flex items-center gap-2 mb-4">
+      <i class="bx bxs-time-five"></i>
+      <h1 class="text-lg font-bold text-balance">Selecione um intervalo de tempo</h1>
+    </header>
+
+    <div class="flex flex-wrap items-center gap-2">
+      <button
+        [ngClass]="{
+          'btn-active': (currentTimeWindow$ | async) === timeWindows.today
+        }"
+        (click)="onTimeWindowClick(timeWindows.today)"
+        class="btn btn-outline"
+      >
+        Hoje
+      </button>
+
+      <button
+        [ngClass]="{
+          'btn-active': (currentTimeWindow$ | async) === timeWindows.yesterday
+        }"
+        (click)="onTimeWindowClick(timeWindows.yesterday)"
+        class="btn btn-outline"
+      >
+        Ontem
+      </button>
+
+      <button
+        [ngClass]="{
+          'btn-active': (currentTimeWindow$ | async) === timeWindows.week
+        }"
+        (click)="onTimeWindowClick(timeWindows.week)"
+        class="btn btn-outline"
+      >
+        Semana
+      </button>
+
+      <button
+        [ngClass]="{
+          'btn-active': (currentTimeWindow$ | async) === timeWindows.month
+        }"
+        (click)="onTimeWindowClick(timeWindows.month)"
+        class="btn btn-outline"
+      >
+        Mês
+      </button>
+
+      <button
+        [ngClass]="{
+          'btn-active': (currentTimeWindow$ | async) === timeWindows['6months']
+        }"
+        (click)="onTimeWindowClick(timeWindows['6months'])"
+        class="btn btn-outline"
+      >
+        6 meses
+      </button>
+
+      <button
+        [ngClass]="{
+          'btn-active': (currentTimeWindow$ | async) === timeWindows.year
+        }"
+        (click)="onTimeWindowClick(timeWindows.year)"
+        class="btn btn-outline"
+      >
+        1 ano
+      </button>
+
+      <button
+        [ngClass]="{
+          'btn-active': (currentTimeWindow$ | async) === timeWindows.all
+        }"
+        (click)="onTimeWindowClick(timeWindows.all)"
+        class="btn btn-outline"
+      >
+        Sempre
+      </button>
+    </div>
+
+    <div class="modal-action w-full">
+      <form method="dialog" class="w-full">
+        <button class="btn w-full">
+          <i class="bx bx-arrow-back"></i>
+          Retornar
         </button>
       </form>
     </div>

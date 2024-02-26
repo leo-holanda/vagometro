@@ -247,6 +247,38 @@
         </header>
 
         <div class="card-body">
+          <ng-container *ngIf="job.matchPercentage">
+            <div class="flex flex-col items-center gap-1 w-full pb-4">
+              <div class="flex items-center gap-1 mb-1 w-full">
+                <i class="bx bx-analyse"></i>
+                <span>
+                  Seu match com a vaga é de
+                  <strong
+                    [ngClass]="{
+                      'text-success': job.matchPercentage >= 90,
+                      'text-accent': job.matchPercentage >= 60 && job.matchPercentage < 90,
+                      'text-warning': job.matchPercentage >= 30 && job.matchPercentage < 60,
+                      'text-error': job.matchPercentage < 30
+                    }"
+                    >{{ job.matchPercentage | number: "1.0-0" }}%</strong
+                  >
+                </span>
+              </div>
+
+              <progress
+                class="progress w-full"
+                [ngClass]="{
+                  'progress-success': job.matchPercentage >= 90,
+                  'progress-accent': job.matchPercentage >= 60 && job.matchPercentage < 90,
+                  'progress-warning': job.matchPercentage >= 30 && job.matchPercentage < 60,
+                  'progress-error': job.matchPercentage < 30
+                }"
+                [value]="job.matchPercentage"
+                max="100"
+              ></progress>
+            </div>
+          </ng-container>
+
           <div *ngIf="job.keywords.length > 0" class="flex flex-wrap pb-4 gap-2">
             <div
               [class]="'badge ' + keyword.category.badgeClass"

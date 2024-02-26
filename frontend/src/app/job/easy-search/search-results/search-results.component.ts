@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SearchData } from '../easy-search.types';
 import { JobListComponent } from '../../job-list/job-list.component';
-import { Observable, filter, map } from 'rxjs';
+import { Observable, filter, map, tap } from 'rxjs';
 import { Job } from '../../job.types';
 import { JobService } from '../../job.service';
 import { ExperienceLevelsRankComponent } from 'src/app/statistics/ranks/experience-levels-rank/experience-levels-rank.component';
@@ -53,12 +53,37 @@ export class SearchResultsComponent {
 
   constructor(private jobService: JobService) {
     const data = localStorage.getItem('searchData');
-    if (data) this.searchData = JSON.parse(data);
-    this.jobs$ = this.getJobsFromSearch();
+    if (data) {
+      this.searchData = JSON.parse(data);
+      this.jobs$ = this.getJobsFromSearch();
+    } else {
+      this.jobs$ = new Observable();
+    }
   }
 
   setDataType(dataType: 'jobs' | 'stats'): void {
     this.selectedDataType = dataType;
+  }
+
+  private setMatchPercentage(job: Job): Job {
+    const searchDataKeywords = this.searchData.keywords.map((keyword) => keyword.name);
+
+    const matchedKeywords = job.keywords.filter((keyword) =>
+      searchDataKeywords.includes(keyword.name),
+    );
+
+    job.matchPercentage = (matchedKeywords.length / searchDataKeywords.length) * 100;
+    return job;
+  }
+
+  private sortJobs(jobs: Job[]): void {
+    jobs.sort((a, b) => {
+      if (a.matchPercentage && b.matchPercentage) {
+        return a.matchPercentage > b.matchPercentage ? -1 : 1;
+      }
+
+      return 0;
+    });
   }
 
   private getJobsFromSearch(): Observable<Job[]> {
@@ -67,6 +92,8 @@ export class SearchResultsComponent {
     return this.jobService.jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => this.jobService.filterJobsByKeywords(keywords, jobs)),
+      map((jobs) => jobs.map((job) => this.setMatchPercentage(job))),
+      tap((jobs) => this.sortJobs(jobs)),
     );
   }
 }

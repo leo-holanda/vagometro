@@ -3,6 +3,7 @@ import { SearchData } from './easy-search.types';
 import { Job } from '../job.types';
 import { JobService } from '../job.service';
 import { filter, take } from 'rxjs';
+import { getJobMatchPercentage } from './easy-search.mapper';
 
 @Injectable({
   providedIn: 'root',
@@ -29,29 +30,8 @@ export class EasySearchService {
     this.updateJobsMatchPercentage();
   }
 
-  /*
-    ATTENTION: Every time you change this function, change in easy-search mapper too.
-    This duplication is necessary because the easy search service can't be imported on a worker
-  */
   getJobMatchPercentage(job: Job): number | undefined {
-    if (this.searchData == undefined) return undefined;
-
-    const searchDataKeywords = this.searchData.keywords.map((keyword) => keyword.name);
-
-    const matchedKeywords = job.keywords.filter((keyword) =>
-      searchDataKeywords.includes(keyword.name),
-    );
-
-    const matchedExperienceLevels = job.experienceLevels.filter((experienceLevel) =>
-      this.searchData!.experienceLevels.includes(experienceLevel),
-    );
-
-    const howManyItemsWereMatched = matchedKeywords.length + matchedExperienceLevels.length;
-    const howManyItemsWereSelected =
-      searchDataKeywords.length + this.searchData.experienceLevels.length;
-
-    const matchPercentage = (howManyItemsWereMatched / howManyItemsWereSelected) * 100;
-    return matchPercentage;
+    return getJobMatchPercentage(job, this.searchData);
   }
 
   private updateJobsMatchPercentage(): void {

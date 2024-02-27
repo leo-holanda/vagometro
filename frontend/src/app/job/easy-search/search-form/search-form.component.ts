@@ -14,11 +14,13 @@ import {
   ExperienceLevelOnSearchForm,
   WorkplaceTypeOnSearchForm,
   ContractTypesOnSearchForm,
+  InclusionTypesOnSearchForm,
 } from './search-form.types';
 import { ExperienceLevels } from 'src/app/shared/keywords-matcher/experience-levels.data';
 import { EasySearchService } from '../easy-search.service';
 import { WorkplaceTypes } from 'src/app/shared/keywords-matcher/workplace.data';
 import { ContractTypes } from 'src/app/shared/keywords-matcher/contract-types.data';
+import { InclusionTypes } from 'src/app/shared/keywords-matcher/inclusion.data';
 
 @Component({
   selector: 'vgm-search-form',
@@ -35,6 +37,7 @@ export class SearchFormComponent {
   experienceLevels: ExperienceLevelOnSearchForm[] = [];
   workplaceTypes: WorkplaceTypeOnSearchForm[] = [];
   contractTypes: ContractTypesOnSearchForm[] = [];
+  inclusionTypes: InclusionTypesOnSearchForm[] = [];
 
   private selectedKeywords: KeywordData[] = [];
   private keywords: KeywordOnSearchForm[] = [];
@@ -49,6 +52,7 @@ export class SearchFormComponent {
     this.loadExperienceLevels();
     this.loadWorkplaceTypes();
     this.loadContractTypes();
+    this.loadInclusionTypes();
     this.setSearchData();
   }
 
@@ -98,6 +102,14 @@ export class SearchFormComponent {
       .map((contractType): ContractTypes => contractType.name);
   }
 
+  onInclusionTypeClick(inclusionType: InclusionTypesOnSearchForm): void {
+    inclusionType.isSelected = !inclusionType.isSelected;
+
+    this.searchData.inclusionTypes = this.inclusionTypes
+      .filter((inclusionType) => inclusionType.isSelected)
+      .map((inclusionType): InclusionTypes => inclusionType.name);
+  }
+
   saveSearchData(): void {
     this.easySearchService.saveSearchData(this.searchData);
     this.router.navigate(['busca-facil']);
@@ -139,6 +151,15 @@ export class SearchFormComponent {
     this.contractTypes = Object.values(ContractTypes).map((contractType) => {
       return {
         name: contractType,
+        isSelected: false,
+      };
+    });
+  }
+
+  private loadInclusionTypes(): void {
+    this.inclusionTypes = Object.values(InclusionTypes).map((inclusionType) => {
+      return {
+        name: inclusionType,
         isSelected: false,
       };
     });
@@ -191,6 +212,16 @@ export class SearchFormComponent {
     });
   }
 
+  private selectInclusionTypesFromSearchData(): void {
+    this.searchData.inclusionTypes.forEach((inclusionType) => {
+      const matchedInclusionType = this.inclusionTypes.find(
+        (formInclusionType) => formInclusionType.name == inclusionType,
+      );
+
+      if (matchedInclusionType) matchedInclusionType.isSelected = true;
+    });
+  }
+
   private setSearchData(): void {
     const searchData = this.easySearchService.getSearchData();
     if (!searchData)
@@ -199,6 +230,7 @@ export class SearchFormComponent {
         experienceLevels: [],
         workplaceTypes: [],
         contractTypes: [],
+        inclusionTypes: [],
       };
     else this.searchData = searchData;
 
@@ -206,5 +238,6 @@ export class SearchFormComponent {
     this.selectExperienceLevelsFromSearchData();
     this.selectWorkplaceTypesFromSearchData();
     this.selectContractTypesFromSearchData();
+    this.selectInclusionTypesFromSearchData();
   }
 }

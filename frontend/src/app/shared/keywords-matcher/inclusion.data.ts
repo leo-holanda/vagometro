@@ -1,6 +1,5 @@
 export enum InclusionTypes {
   PCD = 'PCD',
-  nonPCD = 'Não-PCD',
   alsoForPCD = 'Também para PCD',
   women = 'Mulheres',
   blackPeople = 'Pessoas negras',

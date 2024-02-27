@@ -100,6 +100,26 @@
     </div>
   </section>
 
+  <section class="card card-bordered card-compact w-full lg:w-1/2 bg-base-300">
+    <div class="card-body">
+      <header class="card-title items-center">
+        <i class="bx bxs-heart"></i>
+        <h1>Marque os tipos de inclusão do seu interesse</h1>
+      </header>
+
+      <div class="flex flex-wrap gap-4">
+        <button
+          class="btn"
+          *ngFor="let inclusionType of inclusionTypes"
+          [ngClass]="{ 'btn-success': inclusionType.isSelected }"
+          (click)="onInclusionTypeClick(inclusionType)"
+        >
+          {{ inclusionType.name }}
+        </button>
+      </div>
+    </div>
+  </section>
+
   <section class="flex items-center justify-end gap-4 w-full lg:w-1/2 mt-4">
     <button [routerLink]="['/busca-facil']" class="btn btn-outline btn-error items-center flex-1">
       <i class="bx bxs-trash"></i>

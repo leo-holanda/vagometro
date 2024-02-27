@@ -29,6 +29,10 @@ export class EasySearchService {
     this.updateJobsMatchPercentage();
   }
 
+  /*
+    ATTENTION: Every time you change this function, change in easy-search mapper too.
+    This duplication is necessary because the easy search service can't be imported on a worker
+  */
   getJobMatchPercentage(job: Job): number | undefined {
     if (this.searchData == undefined) return undefined;
 

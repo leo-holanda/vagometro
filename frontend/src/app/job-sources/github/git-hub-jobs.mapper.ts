@@ -17,12 +17,14 @@ import {
 import { WorkplaceTypes } from 'src/app/shared/keywords-matcher/workplace.data';
 import { GitHubJob } from './git-hub-jobs.types';
 import { KeywordData } from 'src/app/shared/keywords-matcher/technologies.data';
+import { SearchData } from 'src/app/job/easy-search/easy-search.types';
+import { getJobMatchPercentage } from 'src/app/job/easy-search/easy-search.mapper';
 
 // This function can't go to the git-hub worker file. It will not transpile
-export function mapGitHubJobToJob(job: GitHubJob): Job {
+export function mapGitHubJobToJob(job: GitHubJob, searchData: SearchData | undefined): Job {
   const { coursesNames, educationalLevels } = findEducationalData(job);
 
-  return {
+  const mappedJob: Job = {
     city: 'Desconhecido',
     companyUrl: '',
     country: 'Brasil',
@@ -43,6 +45,9 @@ export function mapGitHubJobToJob(job: GitHubJob): Job {
     workplaceTypes: findJobWorkplaceTypes(job),
     certificationStatuses: findCertificationStatuses(job),
   };
+
+  mappedJob.matchPercentage = getJobMatchPercentage(mappedJob, searchData);
+  return mappedJob;
 }
 
 function findCertificationStatuses(job: GitHubJob): CertificationStatus[] {

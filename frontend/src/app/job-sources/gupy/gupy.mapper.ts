@@ -20,15 +20,19 @@ import {
 import { WorkplaceTypes } from 'src/app/shared/keywords-matcher/workplace.data';
 import { GupyJob, gupyContractTypeMap } from './gupy.types';
 import { KeywordData } from 'src/app/shared/keywords-matcher/technologies.data';
+import { SearchData } from 'src/app/job/easy-search/easy-search.types';
+import { getJobMatchPercentage } from 'src/app/job/easy-search/easy-search.mapper';
 
-export function mapGupyJobsToJobs(jobs: GupyJob[]): Job[] {
-  return jobs.map(mapToJob).sort((a, b) => (a.publishedDate > b.publishedDate ? -1 : 1));
+export function mapGupyJobsToJobs(jobs: GupyJob[], searchData: SearchData | undefined): Job[] {
+  return jobs
+    .map((jobs) => mapToJob(jobs, searchData))
+    .sort((a, b) => (a.publishedDate > b.publishedDate ? -1 : 1));
 }
 
-function mapToJob(job: GupyJob): Job {
+function mapToJob(job: GupyJob, searchData: SearchData | undefined): Job {
   const { coursesNames, educationalLevels } = findEducationalData(job);
 
-  return {
+  const mappedJob: Job = {
     companyName: job.careerPageName,
     companyUrl: job.careerPageUrl,
     description: job.description,
@@ -49,6 +53,9 @@ function mapToJob(job: GupyJob): Job {
     workplaceTypes: getJobWorkplaceType(job),
     certificationStatuses: findCertificationStatuses(job),
   };
+
+  mappedJob.matchPercentage = getJobMatchPercentage(mappedJob, searchData);
+  return mappedJob;
 }
 
 function findCertificationStatuses(job: GupyJob): CertificationStatus[] {

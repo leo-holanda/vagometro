@@ -4,6 +4,7 @@ import { AtlasService } from 'src/app/atlas/atlas.service';
 import { Job } from 'src/app/job/job.types';
 import { mapGupyJobsToJobs } from './gupy.mapper';
 import { GupyJob } from './gupy.types';
+import { EasySearchService } from 'src/app/job/easy-search/easy-search.service';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +20,10 @@ export class GupyService {
   productManagerJobs$: Observable<Job[]>;
   agileRelatedJobs$: Observable<Job[]>;
 
-  constructor(private atlasService: AtlasService) {
+  constructor(
+    private atlasService: AtlasService,
+    private easySearchService: EasySearchService,
+  ) {
     //TODO: Find a way to automate this
     this.devJobs$ = this.getDevJobsObservable();
     this.mobileJobs$ = this.getMobileJobsObservable();
@@ -35,13 +39,14 @@ export class GupyService {
   private getWorkerPromise(jobs: GupyJob[]): Promise<Job[]> {
     return new Promise((resolve) => {
       const worker = this.createWorker();
+      const searchData = this.easySearchService.getSearchData();
       if (worker) {
         worker.postMessage(jobs);
         worker.onmessage = ({ data }) => resolve(data);
-        worker.onerror = () => resolve(mapGupyJobsToJobs(jobs));
-        worker.onmessageerror = () => resolve(mapGupyJobsToJobs(jobs));
+        worker.onerror = () => resolve(mapGupyJobsToJobs(jobs, searchData));
+        worker.onmessageerror = () => resolve(mapGupyJobsToJobs(jobs, searchData));
       } else {
-        resolve(mapGupyJobsToJobs(jobs));
+        resolve(mapGupyJobsToJobs(jobs, searchData));
       }
     });
   }

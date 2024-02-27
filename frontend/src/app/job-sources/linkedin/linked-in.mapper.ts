@@ -18,6 +18,8 @@ import {
 import { WorkplaceTypes } from 'src/app/shared/keywords-matcher/workplace.data';
 import { LinkedInJob, linkedInEmploymentTypesMap } from './linked-in.types';
 import { KeywordData } from 'src/app/shared/keywords-matcher/technologies.data';
+import { SearchData } from 'src/app/job/easy-search/easy-search.types';
+import { getJobMatchPercentage } from 'src/app/job/easy-search/easy-search.mapper';
 
 const statesNames = [
   'acre',
@@ -49,18 +51,23 @@ const statesNames = [
   'tocantins',
 ];
 
-export function mapLinkedInJobsToJobs(jobs: LinkedInJob[]): Job[] {
-  return jobs.map(mapToJob).sort((a, b) => (a.publishedDate > b.publishedDate ? -1 : 1));
+export function mapLinkedInJobsToJobs(
+  jobs: LinkedInJob[],
+  searchData: SearchData | undefined,
+): Job[] {
+  return jobs
+    .map((jobs) => mapToJob(jobs, searchData))
+    .sort((a, b) => (a.publishedDate > b.publishedDate ? -1 : 1));
 }
 
-function mapToJob(job: LinkedInJob): Job {
+function mapToJob(job: LinkedInJob, searchData: SearchData | undefined): Job {
   // Why can't I just do replaceAll in the object below?
   const sanitizedJobDescription = job.description.replaceAll('\n', ' ');
   job.description = sanitizedJobDescription;
 
   const { coursesNames, educationalLevels } = findEducationalData(job);
 
-  return {
+  const mappedJob: Job = {
     companyName: job.company_name,
     companyUrl: job.company_url,
     country: 'Brasil',
@@ -85,6 +92,9 @@ function mapToJob(job: LinkedInJob): Job {
     workplaceTypes: getJobWorkplaceType(job),
     certificationStatuses: findCertificationStatuses(job),
   };
+
+  mappedJob.matchPercentage = getJobMatchPercentage(mappedJob, searchData);
+  return mappedJob;
 }
 
 function findCertificationStatuses(job: LinkedInJob): CertificationStatus[] {

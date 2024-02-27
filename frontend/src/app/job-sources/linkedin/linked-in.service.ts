@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Observable, defer, map, shareReplay, switchMap } from 'rxjs';
+import { Observable, defer, shareReplay, switchMap } from 'rxjs';
 import { AtlasService } from 'src/app/atlas/atlas.service';
 import { Job } from 'src/app/job/job.types';
 import { mapLinkedInJobsToJobs } from './linked-in.mapper';
 import { LinkedInJob } from './linked-in.types';
+import { EasySearchService } from 'src/app/job/easy-search/easy-search.service';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,10 @@ import { LinkedInJob } from './linked-in.types';
 export class LinkedInService {
   devJobs$: Observable<Job[]>;
 
-  constructor(private atlasService: AtlasService) {
+  constructor(
+    private atlasService: AtlasService,
+    private easySearchService: EasySearchService,
+  ) {
     this.devJobs$ = this.getDevJobsObservable();
   }
 
@@ -25,13 +29,14 @@ export class LinkedInService {
   private getWorkerPromise(jobs: LinkedInJob[]): Promise<Job[]> {
     return new Promise((resolve) => {
       const worker = this.createWorker();
+      const searchData = this.easySearchService.getSearchData();
       if (worker) {
-        worker.postMessage(jobs);
+        worker.postMessage({ jobs, searchData });
         worker.onmessage = ({ data }) => resolve(data);
-        worker.onerror = () => resolve(mapLinkedInJobsToJobs(jobs));
-        worker.onmessageerror = () => resolve(mapLinkedInJobsToJobs(jobs));
+        worker.onerror = () => resolve(mapLinkedInJobsToJobs(jobs, searchData));
+        worker.onmessageerror = () => resolve(mapLinkedInJobsToJobs(jobs, searchData));
       } else {
-        resolve(mapLinkedInJobsToJobs(jobs));
+        resolve(mapLinkedInJobsToJobs(jobs, searchData));
       }
     });
   }

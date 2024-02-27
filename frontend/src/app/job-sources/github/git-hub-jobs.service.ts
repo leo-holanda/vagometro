@@ -5,6 +5,7 @@ import { Observable, defer, first, shareReplay, tap } from 'rxjs';
 import * as zip from '@zip.js/zip.js';
 import { Job } from 'src/app/job/job.types';
 import { mapGitHubJobToJob } from './git-hub-jobs.mapper';
+import { EasySearchService } from 'src/app/job/easy-search/easy-search.service';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +17,7 @@ export class GitHubJobsService {
   reactBrasilJobs$: Observable<Job[]>;
   androidDevBrJobs$: Observable<Job[]>;
 
-  constructor() {
+  constructor(private easySearchService: EasySearchService) {
     //https://github.com/frontendbr/vagas/issues
     this.frontendJobs$ = this.getJobsObservable('frontend');
     //https://github.com/backend-br/vagas/issues
@@ -47,15 +48,16 @@ export class GitHubJobsService {
 
     return new Promise((resolve) => {
       const worker = this.createWorker();
+      const searchData = this.easySearchService.getSearchData();
       if (worker) {
-        worker.postMessage(JSON.parse(jobs));
+        worker.postMessage({ jobs: JSON.parse(jobs), searchData });
         worker.onmessage = ({ data }) => resolve(data);
         worker.onerror = () =>
-          resolve(JSON.parse(jobs).map((job: GitHubJob) => mapGitHubJobToJob(job)));
+          resolve(JSON.parse(jobs).map((job: GitHubJob) => mapGitHubJobToJob(job, searchData)));
         worker.onmessageerror = () =>
-          resolve(JSON.parse(jobs).map((job: GitHubJob) => mapGitHubJobToJob(job)));
+          resolve(JSON.parse(jobs).map((job: GitHubJob) => mapGitHubJobToJob(job, searchData)));
       } else {
-        resolve(JSON.parse(jobs).map((job: GitHubJob) => mapGitHubJobToJob(job)));
+        resolve(JSON.parse(jobs).map((job: GitHubJob) => mapGitHubJobToJob(job, searchData)));
       }
     });
   }

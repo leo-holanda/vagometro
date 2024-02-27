@@ -22,6 +22,9 @@ import { RouterModule } from '@angular/router';
 })
 export class JobListComponent implements OnInit, OnDestroy, OnChanges {
   @Input() jobs$!: Observable<Job[] | undefined>;
+  @Input() sortBy: keyof Filter | undefined;
+  @Input() sortOrder: 'asc' | 'desc' = 'desc';
+
   pristineJobs: Job[] = [];
   filteredJobs: Job[] = [];
 
@@ -34,7 +37,7 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
     jobTitle: undefined,
     companyName: undefined,
     experienceLevel: undefined,
-    workplaceType: undefined,
+    workplaceTypes: undefined,
     jobLocation: undefined,
     jobContractType: undefined,
     publishedDate: undefined,
@@ -44,8 +47,6 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
 
   inputMaxDate = new Date().toISOString().slice(0, 10);
 
-  dataToSort: keyof Job | undefined;
-  sortOrder: 'asc' | 'desc' = 'desc';
   trackByJobId = trackByJobId;
 
   private destroy$ = new Subject<void>();
@@ -59,6 +60,7 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
       .subscribe((jobs) => {
         this.pristineJobs = jobs;
         this.filteredJobs = jobs;
+        this.sortJobs();
       });
   }
 
@@ -71,6 +73,7 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
       .subscribe((jobs) => {
         this.pristineJobs = jobs;
         this.filteredJobs = jobs;
+        this.sortJobs();
       });
   }
 
@@ -82,9 +85,10 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
   filterJobs(): void {
     this.filteredJobs = [...this.pristineJobs];
 
-    if (this.filters['jobTitle']) {
+    const jobTitleFilterValue = this.filters['jobTitle'];
+    if (jobTitleFilterValue) {
       this.filteredJobs = this.filteredJobs.filter((job) =>
-        job.title.toLowerCase().includes(this.filters['jobTitle']!.toLowerCase()),
+        job.title.toLowerCase().includes(jobTitleFilterValue.toLowerCase()),
       );
     }
 
@@ -97,27 +101,28 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
 
     if (this.filters['experienceLevel']) {
       this.filteredJobs = this.filteredJobs.filter((job) =>
-        job.experienceLevels.includes(this.filters['experienceLevel']! as ExperienceLevels),
+        job.experienceLevels.includes(this.filters['experienceLevel'] as ExperienceLevels),
       );
     }
 
-    if (this.filters['workplaceType']) {
+    if (this.filters['workplaceTypes']) {
       this.filteredJobs = this.filteredJobs.filter((job) =>
-        job.workplaceTypes.includes(this.filters['workplaceType'] as WorkplaceTypes),
+        job.workplaceTypes.includes(this.filters['workplaceTypes'] as WorkplaceTypes),
       );
     }
 
-    if (this.filters['jobLocation']) {
+    const jobLocationFilterValue = this.filters['jobLocation'];
+    if (jobLocationFilterValue) {
       this.filteredJobs = this.filteredJobs.filter(
         (job) =>
-          job.city.toLowerCase().includes(this.filters['jobLocation']!.toLowerCase()) ||
-          job.state.toLowerCase().includes(this.filters['jobLocation']!.toLowerCase()),
+          job.city.toLowerCase().includes(jobLocationFilterValue.toLowerCase()) ||
+          job.state.toLowerCase().includes(jobLocationFilterValue.toLowerCase()),
       );
     }
 
     if (this.filters['jobContractType']) {
       this.filteredJobs = this.filteredJobs.filter((job) =>
-        job.contractTypes.includes(this.filters['jobContractType']! as ContractTypes),
+        job.contractTypes.includes(this.filters['jobContractType'] as ContractTypes),
       );
     }
 
@@ -147,11 +152,11 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   sortJobs(): void {
-    if (this.dataToSort == undefined || this.sortOrder == undefined) return;
+    if (this.sortBy == undefined || this.sortOrder == undefined) return;
 
     this.filteredJobs.sort((a, b) => {
-      let valueA = a[this.dataToSort!];
-      let valueB = b[this.dataToSort!];
+      let valueA = a[this.sortBy as keyof Job];
+      let valueB = b[this.sortBy as keyof Job];
 
       if (valueA == undefined || valueB == undefined) return 0;
 

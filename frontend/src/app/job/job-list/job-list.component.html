@@ -7,7 +7,7 @@
 
     <label class="form-control gap-2 w-full md:w-fit md:gap-0 flex flex-row flex-wrap">
       <select
-        [(ngModel)]="dataToSort"
+        [(ngModel)]="sortBy"
         (ngModelChange)="sortJobs()"
         class="select select-bordered w-full md:w-fit md:rounded-r-none"
       >
@@ -120,7 +120,7 @@
               <span>Modalidade</span>
             </h2>
             <select
-              [(ngModel)]="filters['workplaceType']"
+              [(ngModel)]="filters['workplaceTypes']"
               (ngModelChange)="filterJobs()"
               id="workplaceType"
               name="workplaceType"

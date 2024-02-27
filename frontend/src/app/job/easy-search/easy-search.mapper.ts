@@ -8,40 +8,39 @@ export function getJobMatchPercentage(
   if (searchData == undefined) return undefined;
 
   const searchDataKeywords = searchData.keywords.map((keyword) => keyword.name);
-
   const matchedKeywords = job.keywords.filter((keyword) =>
     searchDataKeywords.includes(keyword.name),
   );
 
-  const matchedExperienceLevels = job.experienceLevels.filter((experienceLevel) =>
+  const hasMatchedExperienceLevels = job.experienceLevels.some((experienceLevel) =>
     searchData.experienceLevels.includes(experienceLevel),
   );
 
-  const matchedWorkplaceTypes = job.workplaceTypes.filter((workplaceType) => {
-    searchData.workplaceTypes.includes(workplaceType);
-  });
+  const hasMatchedWorkplaceTypes = job.workplaceTypes.some((workplaceType) =>
+    searchData.workplaceTypes.includes(workplaceType),
+  );
 
-  const matchedContractTypes = job.contractTypes.filter((contractType) =>
+  const hasMatchedContractTypes = job.contractTypes.some((contractType) =>
     searchData.contractTypes.includes(contractType),
   );
 
-  const matchedInclusionTypes = job.inclusionTypes.filter((inclusionType) =>
+  const hasMatchedInclusionTypes = job.inclusionTypes.some((inclusionType) =>
     searchData.inclusionTypes.includes(inclusionType),
   );
 
   const howManyItemsWereMatched =
     matchedKeywords.length +
-    matchedExperienceLevels.length +
-    matchedWorkplaceTypes.length +
-    matchedContractTypes.length +
-    matchedInclusionTypes.length;
+    (hasMatchedExperienceLevels ? 1 : 0) +
+    (hasMatchedWorkplaceTypes ? 1 : 0) +
+    (hasMatchedContractTypes ? 1 : 0) +
+    (hasMatchedInclusionTypes ? 1 : 0);
 
   const howManyItemsWereSelected =
     searchDataKeywords.length +
-    searchData.experienceLevels.length +
-    searchData.workplaceTypes.length +
-    searchData.contractTypes.length +
-    searchData.inclusionTypes.length;
+    (searchData.experienceLevels.length ? 1 : 0) +
+    (searchData.workplaceTypes.length ? 1 : 0) +
+    (searchData.contractTypes.length ? 1 : 0) +
+    (searchData.inclusionTypes.length ? 1 : 0);
 
   const matchPercentage = (howManyItemsWereMatched / howManyItemsWereSelected) * 100;
   return matchPercentage;

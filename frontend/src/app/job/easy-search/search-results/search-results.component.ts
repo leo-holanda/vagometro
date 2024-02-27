@@ -72,7 +72,15 @@ export class SearchResultsComponent {
       searchDataKeywords.includes(keyword.name),
     );
 
-    job.matchPercentage = (matchedKeywords.length / searchDataKeywords.length) * 100;
+    const matchedExperienceLevels = job.experienceLevels.filter((experienceLevel) =>
+      this.searchData.experienceLevels.includes(experienceLevel),
+    );
+
+    const howManyItemsWereMatched = matchedKeywords.length + matchedExperienceLevels.length;
+    const howManyItemsWereSelected =
+      searchDataKeywords.length + this.searchData.experienceLevels.length;
+
+    job.matchPercentage = (howManyItemsWereMatched / howManyItemsWereSelected) * 100;
     return job;
   }
 

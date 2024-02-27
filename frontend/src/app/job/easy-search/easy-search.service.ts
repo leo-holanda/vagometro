@@ -12,8 +12,7 @@ export class EasySearchService {
   private searchData: SearchData | undefined;
 
   constructor(private jobService: JobService) {
-    const data = localStorage.getItem('searchData');
-    if (data) this.searchData = JSON.parse(data);
+    this.retrieveSearchDataFromLocalStorage();
   }
 
   hasSearchData(): boolean {
@@ -48,5 +47,26 @@ export class EasySearchService {
 
         this.jobService.setJobs(updatedJobs);
       });
+  }
+
+  private retrieveSearchDataFromLocalStorage(): void {
+    const data = localStorage.getItem('searchData');
+
+    if (data) {
+      const storedSearchData = JSON.parse(data);
+      const searchDataKeys: (keyof SearchData)[] = [
+        'keywords',
+        'experienceLevels',
+        'workplaceTypes',
+        'contractTypes',
+        'inclusionTypes',
+      ];
+
+      searchDataKeys.forEach((key) => {
+        if (storedSearchData[key] == undefined) storedSearchData[key] = [];
+      });
+
+      this.searchData = storedSearchData;
+    }
   }
 }

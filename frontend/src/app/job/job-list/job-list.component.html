@@ -247,7 +247,7 @@
         </header>
 
         <div class="card-body">
-          <ng-container *ngIf="job.matchPercentage">
+          <ng-container *ngIf="job.matchPercentage !== undefined">
             <div class="flex flex-col items-center gap-1 w-full pb-4">
               <div class="flex items-center gap-1 mb-1 w-full">
                 <i class="bx bx-analyse"></i>

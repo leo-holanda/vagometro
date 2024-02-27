@@ -1,19 +1,25 @@
+import { ContractTypes } from 'src/app/shared/keywords-matcher/contract-types.data';
 import { ExperienceLevels } from 'src/app/shared/keywords-matcher/experience-levels.data';
 import { KeywordCategoryData } from 'src/app/shared/keywords-matcher/technologies.data';
 import { WorkplaceTypes } from 'src/app/shared/keywords-matcher/workplace.data';
 
-export type KeywordOnSearchForm = {
+interface SearchFormData {
+  isSelected: boolean;
+}
+
+export interface KeywordOnSearchForm extends SearchFormData {
   name: string;
   category: KeywordCategoryData;
-  isSelected: boolean;
-};
+}
 
-export type ExperienceLevelOnSearchForm = {
+export interface ExperienceLevelOnSearchForm extends SearchFormData {
   name: ExperienceLevels;
-  isSelected: boolean;
-};
+}
 
-export type WorkplaceTypeOnSearchForm = {
+export interface WorkplaceTypeOnSearchForm extends SearchFormData {
   name: WorkplaceTypes;
-  isSelected: boolean;
-};
+}
+
+export interface ContractTypesOnSearchForm extends SearchFormData {
+  name: ContractTypes;
+}

@@ -13,10 +13,12 @@ import {
   KeywordOnSearchForm,
   ExperienceLevelOnSearchForm,
   WorkplaceTypeOnSearchForm,
+  ContractTypesOnSearchForm,
 } from './search-form.types';
 import { ExperienceLevels } from 'src/app/shared/keywords-matcher/experience-levels.data';
 import { EasySearchService } from '../easy-search.service';
 import { WorkplaceTypes } from 'src/app/shared/keywords-matcher/workplace.data';
+import { ContractTypes } from 'src/app/shared/keywords-matcher/contract-types.data';
 
 @Component({
   selector: 'vgm-search-form',
@@ -32,6 +34,7 @@ export class SearchFormComponent {
   filteredKeywords: KeywordOnSearchForm[] = [];
   experienceLevels: ExperienceLevelOnSearchForm[] = [];
   workplaceTypes: WorkplaceTypeOnSearchForm[] = [];
+  contractTypes: ContractTypesOnSearchForm[] = [];
 
   private selectedKeywords: KeywordData[] = [];
   private keywords: KeywordOnSearchForm[] = [];
@@ -45,6 +48,7 @@ export class SearchFormComponent {
     this.loadKeywords();
     this.loadExperienceLevels();
     this.loadWorkplaceTypes();
+    this.loadContractTypes();
     this.setSearchData();
   }
 
@@ -86,6 +90,14 @@ export class SearchFormComponent {
       .map((experienceLevel): WorkplaceTypes => experienceLevel.name);
   }
 
+  onContractTypeClick(contractType: ContractTypesOnSearchForm): void {
+    contractType.isSelected = !contractType.isSelected;
+
+    this.searchData.contractTypes = this.contractTypes
+      .filter((contractType) => contractType.isSelected)
+      .map((contractType): ContractTypes => contractType.name);
+  }
+
   saveSearchData(): void {
     this.easySearchService.saveSearchData(this.searchData);
     this.router.navigate(['busca-facil']);
@@ -118,6 +130,15 @@ export class SearchFormComponent {
     this.workplaceTypes = Object.values(WorkplaceTypes).map((workplaceType) => {
       return {
         name: workplaceType,
+        isSelected: false,
+      };
+    });
+  }
+
+  private loadContractTypes(): void {
+    this.contractTypes = Object.values(ContractTypes).map((contractType) => {
+      return {
+        name: contractType,
         isSelected: false,
       };
     });
@@ -160,6 +181,16 @@ export class SearchFormComponent {
     });
   }
 
+  private selectContractTypesFromSearchData(): void {
+    this.searchData.contractTypes.forEach((contractType) => {
+      const matchedContractType = this.contractTypes.find(
+        (formContractType) => formContractType.name == contractType,
+      );
+
+      if (matchedContractType) matchedContractType.isSelected = true;
+    });
+  }
+
   private setSearchData(): void {
     const searchData = this.easySearchService.getSearchData();
     if (!searchData)
@@ -167,11 +198,13 @@ export class SearchFormComponent {
         keywords: [],
         experienceLevels: [],
         workplaceTypes: [],
+        contractTypes: [],
       };
     else this.searchData = searchData;
 
     this.selectKeywordsFromSearchData();
     this.selectExperienceLevelsFromSearchData();
     this.selectWorkplaceTypesFromSearchData();
+    this.selectContractTypesFromSearchData();
   }
 }

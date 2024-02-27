@@ -21,6 +21,7 @@
         <option value="contractTypes">Tipo de contrato</option>
         <option value="inclusionType">Inclusão</option>
         <option value="publishedDate">Data de publicação</option>
+        <option value="matchPercentage">Porcentagem de match</option>
       </select>
 
       <select
@@ -180,6 +181,28 @@
                 {{ inclusionType.value }}
               </option>
             </select>
+          </section>
+
+          <section>
+            <h2
+              class="rounded rounded-b-none w-full flex items-center justify-start flex-nowrap p-4 bg-base-200 gap-2"
+            >
+              <i class="bx bx-analyse"></i>
+              <span>Porcentagem de match</span>
+            </h2>
+            <div class="flex items-center gap-2 mt-2">
+              <input
+                [(ngModel)]="filters['matchPercentage']"
+                (ngModelChange)="filterJobs()"
+                id="matchPercentage"
+                name="matchPercentage"
+                type="range"
+                min="0"
+                max="100"
+                class="range"
+              />
+              <kbd class="kbd">{{ filters["matchPercentage"] }}%</kbd>
+            </div>
           </section>
 
           <section>

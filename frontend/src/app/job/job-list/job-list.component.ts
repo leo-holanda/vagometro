@@ -39,6 +39,7 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
     jobContractType: undefined,
     publishedDate: undefined,
     inclusionType: undefined,
+    matchPercentage: 0,
   };
 
   inputMaxDate = new Date().toISOString().slice(0, 10);
@@ -134,6 +135,14 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
       this.filteredJobs = this.filteredJobs.filter((job) =>
         job.inclusionTypes.includes(this.filters['inclusionType'] as InclusionTypes),
       );
+    }
+
+    const matchPercentageFilterValue = this.filters['matchPercentage'];
+    if (matchPercentageFilterValue) {
+      this.filteredJobs = this.filteredJobs.filter((job) => {
+        if (job.matchPercentage == undefined) return true;
+        return job.matchPercentage >= matchPercentageFilterValue;
+      });
     }
   }
 

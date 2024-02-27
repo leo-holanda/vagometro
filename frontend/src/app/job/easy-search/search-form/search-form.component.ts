@@ -9,7 +9,8 @@ import { trackByKeyword } from 'src/app/shared/track-by-functions';
 import { SearchData } from '../easy-search.types';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { KeywordOnSearchForm } from './search-form.types';
+import { KeywordOnSearchForm, ExperienceLevelOnSearchForm } from './search-form.types';
+import { ExperienceLevels } from 'src/app/shared/keywords-matcher/experience-levels.data';
 
 @Component({
   selector: 'vgm-search-form',
@@ -23,6 +24,7 @@ export class SearchFormComponent {
   keywordSearchString = '';
 
   filteredKeywords: KeywordOnSearchForm[] = [];
+  experienceLevels: ExperienceLevelOnSearchForm[] = [];
 
   private selectedKeywords: KeywordData[] = [];
   private keywords: KeywordOnSearchForm[] = [];
@@ -31,6 +33,7 @@ export class SearchFormComponent {
 
   constructor(private router: Router) {
     this.loadKeywords();
+    this.loadExperienceLevels();
     this.setSearchData();
   }
 
@@ -56,11 +59,28 @@ export class SearchFormComponent {
     this.searchData.keywords = this.selectedKeywords;
   }
 
+  onExperienceLevelClick(experienceLevel: ExperienceLevelOnSearchForm): void {
+    experienceLevel.isSelected = !experienceLevel.isSelected;
+
+    this.searchData.experienceLevels = this.experienceLevels
+      .filter((experienceLevel) => experienceLevel.isSelected)
+      .map((experienceLevel): ExperienceLevels => experienceLevel.name);
+  }
+
   saveSearchData(): void {
     if (this.searchData) {
       localStorage.setItem('searchData', JSON.stringify(this.searchData));
       this.router.navigate(['busca-facil']);
     }
+  }
+
+  private loadExperienceLevels(): void {
+    this.experienceLevels = Object.values(ExperienceLevels).map((experienceLevel) => {
+      return {
+        name: experienceLevel,
+        isSelected: false,
+      };
+    });
   }
 
   private loadKeywords(): void {
@@ -92,9 +112,18 @@ export class SearchFormComponent {
       });
 
       this.sortKeywords();
+
+      this.searchData.experienceLevels.forEach((experienceLevel) => {
+        const matchedExperienceLevel = this.experienceLevels.find(
+          (formExperienceLevel) => formExperienceLevel.name == experienceLevel,
+        );
+
+        if (matchedExperienceLevel) matchedExperienceLevel.isSelected = true;
+      });
     } else
       this.searchData = {
         keywords: [],
+        experienceLevels: [],
       };
   }
 

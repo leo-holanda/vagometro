@@ -170,7 +170,11 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
         valueB = new Date(valueB).getTime();
       }
 
-      if (valueA == valueB) return 0;
+      if (valueA == valueB) {
+        if (this.sortOrder == 'asc') return a.publishedDate > b.publishedDate ? 1 : -1;
+        return a.publishedDate < b.publishedDate ? 1 : -1;
+      }
+
       if (this.sortOrder == 'asc') return valueA > valueB ? 1 : -1;
       return valueA < valueB ? 1 : -1;
     });

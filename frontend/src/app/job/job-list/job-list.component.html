@@ -247,7 +247,9 @@
         </header>
 
         <div class="card-body">
-          <ng-container *ngIf="job.matchPercentage !== undefined">
+          <ng-container
+            *ngIf="job.matchPercentage !== undefined; else undefinedMatchPercentageTemplate"
+          >
             <div class="flex flex-col items-center gap-1 w-full pb-4">
               <div class="flex items-center gap-1 mb-1 w-full">
                 <i class="bx bx-analyse"></i>
@@ -278,6 +280,17 @@
               ></progress>
             </div>
           </ng-container>
+
+          <ng-template #undefinedMatchPercentageTemplate>
+            <div class="flex items-center gap-1 mb-1 w-full">
+              <i class="bx bx-analyse"></i>
+              <span>
+                Use a
+                <a class="btn btn-link p-0" [routerLink]="['/busca-facil']">busca fácil</a> para
+                saber o seu match com a vaga!
+              </span>
+            </div>
+          </ng-template>
 
           <div *ngIf="job.keywords.length > 0" class="flex flex-wrap pb-4 gap-2">
             <div

@@ -11,11 +11,12 @@ import { WorkplaceTypes } from 'src/app/shared/keywords-matcher/workplace.data';
 import { Job } from '../job.types';
 import { ExperienceLevels } from 'src/app/shared/keywords-matcher/experience-levels.data';
 import { InclusionTypes } from 'src/app/shared/keywords-matcher/inclusion.data';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'vgm-job-list',
   standalone: true,
-  imports: [CommonModule, StateAbbreviationPipe, FormsModule, ScrollingModule],
+  imports: [CommonModule, StateAbbreviationPipe, FormsModule, ScrollingModule, RouterModule],
   templateUrl: './job-list.component.html',
   styleUrls: ['./job-list.component.scss'],
 })

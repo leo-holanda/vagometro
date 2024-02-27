@@ -9,9 +9,14 @@ import { trackByKeyword } from 'src/app/shared/track-by-functions';
 import { SearchData } from '../easy-search.types';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { KeywordOnSearchForm, ExperienceLevelOnSearchForm } from './search-form.types';
+import {
+  KeywordOnSearchForm,
+  ExperienceLevelOnSearchForm,
+  WorkplaceTypeOnSearchForm,
+} from './search-form.types';
 import { ExperienceLevels } from 'src/app/shared/keywords-matcher/experience-levels.data';
 import { EasySearchService } from '../easy-search.service';
+import { WorkplaceTypes } from 'src/app/shared/keywords-matcher/workplace.data';
 
 @Component({
   selector: 'vgm-search-form',
@@ -26,6 +31,7 @@ export class SearchFormComponent {
 
   filteredKeywords: KeywordOnSearchForm[] = [];
   experienceLevels: ExperienceLevelOnSearchForm[] = [];
+  workplaceTypes: WorkplaceTypeOnSearchForm[] = [];
 
   private selectedKeywords: KeywordData[] = [];
   private keywords: KeywordOnSearchForm[] = [];
@@ -38,6 +44,7 @@ export class SearchFormComponent {
   ) {
     this.loadKeywords();
     this.loadExperienceLevels();
+    this.loadWorkplaceTypes();
     this.setSearchData();
   }
 
@@ -71,6 +78,14 @@ export class SearchFormComponent {
       .map((experienceLevel): ExperienceLevels => experienceLevel.name);
   }
 
+  onWorkplaceTypeClick(workplaceType: WorkplaceTypeOnSearchForm): void {
+    workplaceType.isSelected = !workplaceType.isSelected;
+
+    this.searchData.workplaceTypes = this.workplaceTypes
+      .filter((experienceLevel) => experienceLevel.isSelected)
+      .map((experienceLevel): WorkplaceTypes => experienceLevel.name);
+  }
+
   saveSearchData(): void {
     this.easySearchService.saveSearchData(this.searchData);
     this.router.navigate(['busca-facil']);
@@ -97,6 +112,15 @@ export class SearchFormComponent {
     }
 
     this.filteredKeywords = this.keywords;
+  }
+
+  private loadWorkplaceTypes(): void {
+    this.workplaceTypes = Object.values(WorkplaceTypes).map((workplaceType) => {
+      return {
+        name: workplaceType,
+        isSelected: false,
+      };
+    });
   }
 
   private sortKeywords(): void {
@@ -126,16 +150,28 @@ export class SearchFormComponent {
     });
   }
 
+  private selectWorkplaceTypesFromSearchData(): void {
+    this.searchData.workplaceTypes.forEach((workplaceType) => {
+      const matchedWorkplaceType = this.workplaceTypes.find(
+        (formWorkplaceType) => formWorkplaceType.name == workplaceType,
+      );
+
+      if (matchedWorkplaceType) matchedWorkplaceType.isSelected = true;
+    });
+  }
+
   private setSearchData(): void {
     const searchData = this.easySearchService.getSearchData();
     if (!searchData)
       this.searchData = {
         keywords: [],
         experienceLevels: [],
+        workplaceTypes: [],
       };
     else this.searchData = searchData;
 
     this.selectKeywordsFromSearchData();
     this.selectExperienceLevelsFromSearchData();
+    this.selectWorkplaceTypesFromSearchData();
   }
 }

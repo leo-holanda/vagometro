@@ -5,6 +5,7 @@ import { Router, RouterModule } from '@angular/router';
 import { HeaderComponent } from 'src/app/shared/header/header.component';
 import { CountdownComponent } from 'src/app/shared/countdown/countdown.component';
 import { JobSources } from 'src/app/job-sources/job-sources.types';
+import { EasySearchService } from './easy-search.service';
 
 @Component({
   selector: 'vgm-easy-search',
@@ -14,12 +15,13 @@ import { JobSources } from 'src/app/job-sources/job-sources.types';
   styleUrls: ['./easy-search.component.scss'],
 })
 export class EasySearchComponent {
-  private searchData: SearchData | undefined;
   jobSources = JobSources;
 
-  constructor(private router: Router) {
-    const data = localStorage.getItem('searchData');
-    if (data) this.searchData = JSON.parse(data);
-    else this.router.navigate(['/busca-facil/dados']);
+  constructor(
+    private router: Router,
+    private easySearchService: EasySearchService,
+  ) {
+    const hasSearchData = this.easySearchService.hasSearchData();
+    if (!hasSearchData) this.router.navigate(['/busca-facil/dados']);
   }
 }

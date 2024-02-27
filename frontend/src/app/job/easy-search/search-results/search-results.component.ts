@@ -47,61 +47,13 @@ import { CertificationsRankComponent } from 'src/app/statistics/ranks/certificat
 export class SearchResultsComponent {
   selectedDataType: 'jobs' | 'stats' = 'jobs';
 
-  private searchData!: SearchData;
-
   jobs$: Observable<Job[]>;
 
   constructor(private jobService: JobService) {
-    const data = localStorage.getItem('searchData');
-    if (data) {
-      this.searchData = JSON.parse(data);
-      this.jobs$ = this.getJobsFromSearch();
-    } else {
-      this.jobs$ = new Observable();
-    }
+    this.jobs$ = this.jobService.jobs$.pipe(filter((jobs): jobs is Job[] => jobs != undefined));
   }
 
   setDataType(dataType: 'jobs' | 'stats'): void {
     this.selectedDataType = dataType;
-  }
-
-  private setMatchPercentage(job: Job): Job {
-    const searchDataKeywords = this.searchData.keywords.map((keyword) => keyword.name);
-
-    const matchedKeywords = job.keywords.filter((keyword) =>
-      searchDataKeywords.includes(keyword.name),
-    );
-
-    const matchedExperienceLevels = job.experienceLevels.filter((experienceLevel) =>
-      this.searchData.experienceLevels.includes(experienceLevel),
-    );
-
-    const howManyItemsWereMatched = matchedKeywords.length + matchedExperienceLevels.length;
-    const howManyItemsWereSelected =
-      searchDataKeywords.length + this.searchData.experienceLevels.length;
-
-    job.matchPercentage = (howManyItemsWereMatched / howManyItemsWereSelected) * 100;
-    return job;
-  }
-
-  private sortJobs(jobs: Job[]): void {
-    jobs.sort((a, b) => {
-      if (a.matchPercentage && b.matchPercentage) {
-        return a.matchPercentage > b.matchPercentage ? -1 : 1;
-      }
-
-      return 0;
-    });
-  }
-
-  private getJobsFromSearch(): Observable<Job[]> {
-    const keywords = this.searchData.keywords.map((keyword) => keyword.name);
-
-    return this.jobService.jobs$.pipe(
-      filter((jobs): jobs is Job[] => jobs != undefined),
-      map((jobs) => this.jobService.filterJobsByKeywords(keywords, jobs)),
-      map((jobs) => jobs.map((job) => this.setMatchPercentage(job))),
-      tap((jobs) => this.sortJobs(jobs)),
-    );
   }
 }

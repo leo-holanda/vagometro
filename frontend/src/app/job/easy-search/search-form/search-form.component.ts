@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { KeywordOnSearchForm, ExperienceLevelOnSearchForm } from './search-form.types';
 import { ExperienceLevels } from 'src/app/shared/keywords-matcher/experience-levels.data';
+import { EasySearchService } from '../easy-search.service';
 
 @Component({
   selector: 'vgm-search-form',
@@ -31,7 +32,10 @@ export class SearchFormComponent {
 
   trackByKeyword = trackByKeyword;
 
-  constructor(private router: Router) {
+  constructor(
+    private router: Router,
+    private easySearchService: EasySearchService,
+  ) {
     this.loadKeywords();
     this.loadExperienceLevels();
     this.setSearchData();
@@ -68,10 +72,8 @@ export class SearchFormComponent {
   }
 
   saveSearchData(): void {
-    if (this.searchData) {
-      localStorage.setItem('searchData', JSON.stringify(this.searchData));
-      this.router.navigate(['busca-facil']);
-    }
+    this.easySearchService.saveSearchData(this.searchData);
+    this.router.navigate(['busca-facil']);
   }
 
   private loadExperienceLevels(): void {
@@ -97,37 +99,43 @@ export class SearchFormComponent {
     this.filteredKeywords = this.keywords;
   }
 
+  private sortKeywords(): void {
+    this.filteredKeywords.sort((a, b) => (a.isSelected ? -1 : 0));
+  }
+
+  private selectKeywordsFromSearchData(): void {
+    this.selectedKeywords = this.searchData.keywords;
+    const selectedKeywordsNames = this.selectedKeywords.map((keyword) => keyword.name);
+
+    this.filteredKeywords.forEach((filteredKeyword) => {
+      if (selectedKeywordsNames.includes(filteredKeyword.name)) {
+        filteredKeyword.isSelected = true;
+      }
+    });
+
+    this.sortKeywords();
+  }
+
+  private selectExperienceLevelsFromSearchData(): void {
+    this.searchData.experienceLevels.forEach((experienceLevel) => {
+      const matchedExperienceLevel = this.experienceLevels.find(
+        (formExperienceLevel) => formExperienceLevel.name == experienceLevel,
+      );
+
+      if (matchedExperienceLevel) matchedExperienceLevel.isSelected = true;
+    });
+  }
+
   private setSearchData(): void {
-    const data = localStorage.getItem('searchData');
-    if (data) {
-      this.searchData = JSON.parse(data);
-      this.selectedKeywords = this.searchData.keywords;
-
-      const selectedKeywordsNames = this.selectedKeywords.map((keyword) => keyword.name);
-
-      this.filteredKeywords.forEach((filteredKeyword) => {
-        if (selectedKeywordsNames.includes(filteredKeyword.name)) {
-          filteredKeyword.isSelected = true;
-        }
-      });
-
-      this.sortKeywords();
-
-      this.searchData.experienceLevels.forEach((experienceLevel) => {
-        const matchedExperienceLevel = this.experienceLevels.find(
-          (formExperienceLevel) => formExperienceLevel.name == experienceLevel,
-        );
-
-        if (matchedExperienceLevel) matchedExperienceLevel.isSelected = true;
-      });
-    } else
+    const searchData = this.easySearchService.getSearchData();
+    if (!searchData)
       this.searchData = {
         keywords: [],
         experienceLevels: [],
       };
-  }
+    else this.searchData = searchData;
 
-  private sortKeywords(): void {
-    this.filteredKeywords.sort((a, b) => (a.isSelected ? -1 : 0));
+    this.selectKeywordsFromSearchData();
+    this.selectExperienceLevelsFromSearchData();
   }
 }

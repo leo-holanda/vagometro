@@ -43,20 +43,22 @@
   </section>
 
   <section class="card card-bordered card-compact w-full lg:w-1/2 bg-base-300">
-    <header class="card-title items-center p-4">
-      <i class="bx bxs-user-detail"></i>
-      <h1>Marque os níveis de experiência do seu interesse</h1>
-    </header>
+    <div class="card-body">
+      <header class="card-title items-center">
+        <i class="bx bxs-user-detail"></i>
+        <h1>Marque os níveis de experiência do seu interesse</h1>
+      </header>
 
-    <div class="flex flex-wrap gap-4 p-4">
-      <button
-        class="btn"
-        *ngFor="let experienceLevel of experienceLevels"
-        [ngClass]="{ 'btn-success': experienceLevel.isSelected }"
-        (click)="onExperienceLevelClick(experienceLevel)"
-      >
-        {{ experienceLevel.name }}
-      </button>
+      <div class="flex flex-wrap gap-4">
+        <button
+          class="btn"
+          *ngFor="let experienceLevel of experienceLevels"
+          [ngClass]="{ 'btn-success': experienceLevel.isSelected }"
+          (click)="onExperienceLevelClick(experienceLevel)"
+        >
+          {{ experienceLevel.name }}
+        </button>
+      </div>
     </div>
   </section>
 

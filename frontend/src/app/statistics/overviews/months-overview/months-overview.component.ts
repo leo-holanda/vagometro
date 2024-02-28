@@ -3,17 +3,13 @@ import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 import { JobService } from 'src/app/job/job.service';
 import { Job } from 'src/app/job/job.types';
-import { trackByMonth } from 'src/app/shared/track-by-functions';
+import { trackByRankData } from 'src/app/shared/track-by-functions';
 import { StatisticsService } from '../../statistics.service';
-import { MonthData } from '../../ranks/months-rank/months-rank.types';
 import { PublicationChartComponent } from '../../charts/publication-chart/publication-chart.component';
-import { KeywordsRankComponent } from '../../ranks/keywords-rank/keywords-rank.component';
-import { CompaniesRankComponent } from '../../ranks/companies-rank/companies-rank.component';
-import { WorkplaceRankComponent } from '../../ranks/workplace-rank/workplace-rank.component';
-import { ExperienceLevelsRankComponent } from '../../ranks/experience-levels-rank/experience-levels-rank.component';
-import { EducationRankComponent } from '../../ranks/education-rank/education-rank.component';
 import { JobListComponent } from 'src/app/job/job-list/job-list.component';
 import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-comparison/job-postings-comparison.component';
+import { RankComponent } from '../../ranks/rank/rank.component';
+import { RankData, RankTypes } from '../../ranks/rank/rank.types';
 
 @Component({
   selector: 'vgm-months-overview',
@@ -21,24 +17,21 @@ import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-c
   imports: [
     CommonModule,
     PublicationChartComponent,
-    KeywordsRankComponent,
-    CompaniesRankComponent,
-    WorkplaceRankComponent,
-    ExperienceLevelsRankComponent,
-    EducationRankComponent,
     JobListComponent,
     JobPostingsComparisonComponent,
+    RankComponent,
   ],
   templateUrl: './months-overview.component.html',
   styleUrls: ['./months-overview.component.scss'],
 })
 export class MonthsOverviewComponent {
-  monthsRank$!: Observable<MonthData[]>;
+  monthsRank$!: Observable<RankData[]>;
   jobsQuantity!: number;
   selectedMonth!: string;
   jobsByMonth$!: Observable<Job[]>;
 
-  trackByMonth = trackByMonth;
+  trackByRankData = trackByRankData;
+  rankTypes = RankTypes;
 
   constructor(
     private statisticsService: StatisticsService,

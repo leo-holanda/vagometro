@@ -15,7 +15,7 @@
 
           <button
             class="btn btn-ghost p-2"
-            *ngFor="let month of monthsRank; index as i; trackBy: trackByMonth"
+            *ngFor="let month of monthsRank; index as i; trackBy: trackByRankData"
             [ngClass]="{ 'btn-active': selectedMonth === month.name }"
             (click)="onMonthClick(month.name)"
           >
@@ -60,68 +60,42 @@
     <vgm-job-postings-comparison [jobs$]="jobsByMonth$"></vgm-job-postings-comparison>
   </div>
 
-  <div class="card card-bordered card-compact w-full bg-base-300">
-    <div class="card-body">
-      <ng-container *ngIf="selectedMonth !== 'Desconhecido'; else unknownMonthTemplate">
-        <h1 class="font-bold text-lg mb-4">
-          Sobre as vagas que publicadas no mês de
-          {{ selectedMonth | titlecase }}
-        </h1>
-      </ng-container>
+  <section class="grid grid-cols-1 gap-4">
+    <div class="card card-bordered card-compact w-full bg-base-300">
+      <div class="card-body">
+        <ng-container *ngIf="selectedMonth !== 'Desconhecido'; else unknownMonthTemplate">
+          <h1 class="font-bold text-lg mb-4">
+            Sobre as vagas que publicadas no mês de
+            {{ selectedMonth | titlecase }}
+          </h1>
+        </ng-container>
 
-      <ng-template #unknownMonthTemplate>
-        <h1 class="font-bold text-lg mb-4">Sobre as vagas que não mencionam idioma</h1>
-      </ng-template>
-
-      <section>
-        <div class="flex items-center gap-2 mb-2">
-          <i class="bx bxs-chip"></i>
-          <h3>Tecnologias mais frequentes</h3>
-        </div>
-        <vgm-keywords-rank [jobs$]="jobsByMonth$"></vgm-keywords-rank>
-      </section>
-
-      <div class="divider"></div>
-
-      <section>
-        <div class="flex items-center gap-2 mb-2">
-          <i class="bx bxs-business"></i>
-          <h3>Empresas que mais contratam</h3>
-        </div>
-        <vgm-companies-rank [jobs$]="jobsByMonth$"></vgm-companies-rank>
-      </section>
-
-      <div class="divider"></div>
-
-      <section>
-        <div class="flex items-center gap-2 mb-2">
-          <i class="bx bxs-home"></i>
-          <h3>Modalidades mais frequentes</h3>
-        </div>
-        <vgm-workplace-rank [jobs$]="jobsByMonth$"></vgm-workplace-rank>
-      </section>
-
-      <div class="divider"></div>
-
-      <section>
-        <div class="flex items-center gap-2 mb-2">
-          <i class="bx bxs-user-detail"></i>
-          <h3>Níveis de experiência mais requisitados</h3>
-        </div>
-        <vgm-experience-levels-rank [jobs$]="jobsByMonth$"></vgm-experience-levels-rank>
-      </section>
-
-      <div class="divider"></div>
-
-      <section>
-        <div class="flex items-center gap-2 mb-2">
-          <i class="bx bxs-graduation"></i>
-          <h3>Níveis de formação mais requisitados</h3>
-        </div>
-        <vgm-education-rank [jobs$]="jobsByMonth$"></vgm-education-rank>
-      </section>
+        <ng-template #unknownMonthTemplate>
+          <h1 class="font-bold text-lg mb-4">Sobre as vagas que não mencionam idioma</h1>
+        </ng-template>
+      </div>
     </div>
-  </div>
+
+    <vgm-rank [rankType]="rankTypes.experience" [jobs$]="jobsByMonth$"></vgm-rank>
+
+    <vgm-rank [rankType]="rankTypes.workplace" [jobs$]="jobsByMonth$"></vgm-rank>
+
+    <vgm-rank [rankType]="rankTypes.contractTypes" [jobs$]="jobsByMonth$"></vgm-rank>
+
+    <vgm-rank [rankType]="rankTypes.technology" [jobs$]="jobsByMonth$"></vgm-rank>
+
+    <vgm-rank [rankType]="rankTypes.companies" [jobs$]="jobsByMonth$"></vgm-rank>
+
+    <vgm-rank [rankType]="rankTypes.education" [jobs$]="jobsByMonth$"></vgm-rank>
+
+    <vgm-rank [rankType]="rankTypes.languages" [jobs$]="jobsByMonth$"></vgm-rank>
+
+    <vgm-rank [rankType]="rankTypes.cities" [jobs$]="jobsByMonth$"></vgm-rank>
+
+    <vgm-rank [rankType]="rankTypes.inclusion" [jobs$]="jobsByMonth$"></vgm-rank>
+
+    <vgm-rank [rankType]="rankTypes.certification" [jobs$]="jobsByMonth$"></vgm-rank>
+  </section>
 </div>
 
 <div class="divider"></div>

@@ -117,7 +117,7 @@ export class RankComponent implements OnInit, OnChanges {
       },
       certification: {
         name: 'Ranking de Certificação',
-        icon: 'bx bxs-certification',
+        icon: 'bx bxs-award',
         dataColumnName: 'Certificação',
         routerLink: '/stats/certificacoes',
         getRank: this.statisticsService.getCertificationsRank.bind(this.statisticsService),

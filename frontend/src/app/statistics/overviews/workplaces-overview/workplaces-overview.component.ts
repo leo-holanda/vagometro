@@ -1,36 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { JobService } from 'src/app/job/job.service';
-import { CompaniesRankComponent } from '../../ranks/companies-rank/companies-rank.component';
 import { Observable } from 'rxjs';
 import { Job } from 'src/app/job/job.types';
-import { KeywordsRankComponent } from '../../ranks/keywords-rank/keywords-rank.component';
-import { TypeRankComponent } from '../../ranks/type-rank/type-rank.component';
 import { StatisticsService } from '../../statistics.service';
-import { WorkplaceData } from '../../ranks/workplace-rank/workplace-rank.model';
 import { PublicationChartComponent } from '../../charts/publication-chart/publication-chart.component';
 import { JobListComponent } from 'src/app/job/job-list/job-list.component';
-import { ExperienceLevelsRankComponent } from '../../ranks/experience-levels-rank/experience-levels-rank.component';
-import { trackByWorkplace } from 'src/app/shared/track-by-functions';
-import { EducationRankComponent } from '../../ranks/education-rank/education-rank.component';
-import { LanguagesRankComponent } from '../../ranks/languages-rank/languages-rank.component';
+import { trackByRankData, trackByWorkplace } from 'src/app/shared/track-by-functions';
 import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-comparison/job-postings-comparison.component';
-import { RankData } from '../../ranks/rank/rank.types';
+import { RankData, RankTypes } from '../../ranks/rank/rank.types';
+import { RankComponent } from '../../ranks/rank/rank.component';
 
 @Component({
   selector: 'vgm-workplaces-overview',
   standalone: true,
   imports: [
     CommonModule,
-    CompaniesRankComponent,
-    KeywordsRankComponent,
-    TypeRankComponent,
     PublicationChartComponent,
     JobListComponent,
-    ExperienceLevelsRankComponent,
-    EducationRankComponent,
-    LanguagesRankComponent,
     JobPostingsComparisonComponent,
+    RankComponent,
   ],
   templateUrl: './workplaces-overview.component.html',
   styleUrls: ['./workplaces-overview.component.scss'],
@@ -42,7 +31,8 @@ export class WorkplacesOverviewComponent {
   workplacesRank$: Observable<RankData[]>;
   jobsQuantity = 0;
 
-  trackByWorkplace = trackByWorkplace;
+  trackByRankData = trackByRankData;
+  rankTypes = RankTypes;
 
   constructor(
     private jobService: JobService,

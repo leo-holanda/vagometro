@@ -1,23 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  CertificationStatus,
-  CertificationsData,
-} from 'src/app/shared/keywords-matcher/certification.data';
-import { trackByCertificationStatus } from 'src/app/shared/track-by-functions';
+import { CertificationStatus } from 'src/app/shared/keywords-matcher/certification.data';
+import { trackByRankData } from 'src/app/shared/track-by-functions';
 import { Observable } from 'rxjs';
 import { JobService } from 'src/app/job/job.service';
 import { Job } from 'src/app/job/job.types';
 import { StatisticsService } from '../../statistics.service';
 import { PublicationChartComponent } from '../../charts/publication-chart/publication-chart.component';
 import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-comparison/job-postings-comparison.component';
-import { KeywordsRankComponent } from '../../ranks/keywords-rank/keywords-rank.component';
-import { WorkplaceRankComponent } from '../../ranks/workplace-rank/workplace-rank.component';
-import { ExperienceLevelsRankComponent } from '../../ranks/experience-levels-rank/experience-levels-rank.component';
-import { TypeRankComponent } from '../../ranks/type-rank/type-rank.component';
-import { EducationRankComponent } from '../../ranks/education-rank/education-rank.component';
-import { LanguagesRankComponent } from '../../ranks/languages-rank/languages-rank.component';
 import { JobListComponent } from 'src/app/job/job-list/job-list.component';
+import { RankData, RankTypes } from '../../ranks/rank/rank.types';
+import { RankComponent } from '../../ranks/rank/rank.component';
 
 @Component({
   selector: 'vgm-certifications-overview',
@@ -26,24 +19,20 @@ import { JobListComponent } from 'src/app/job/job-list/job-list.component';
     CommonModule,
     PublicationChartComponent,
     JobPostingsComparisonComponent,
-    KeywordsRankComponent,
-    WorkplaceRankComponent,
-    ExperienceLevelsRankComponent,
-    TypeRankComponent,
-    EducationRankComponent,
-    LanguagesRankComponent,
     JobListComponent,
+    RankComponent,
   ],
   templateUrl: './certifications-overview.component.html',
   styleUrls: ['./certifications-overview.component.scss'],
 })
 export class CertificationsOverviewComponent implements OnInit {
-  certificationsRank$!: Observable<CertificationsData[]>;
+  certificationsRank$!: Observable<RankData[]>;
   jobsQuantity!: number;
-  selectedCertificationStatus!: CertificationStatus;
+  selectedCertificationStatus!: string;
   jobsByCertificationStatus$!: Observable<Job[]>;
 
-  trackByCertificationStatus = trackByCertificationStatus;
+  trackByRankData = trackByRankData;
+  rankTypes = RankTypes;
 
   constructor(
     private statisticsService: StatisticsService,
@@ -51,12 +40,12 @@ export class CertificationsOverviewComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.certificationsRank$ = this.statisticsService.getCertificationsRank() as any;
+    this.certificationsRank$ = this.statisticsService.getCertificationsRank();
 
     this.certificationsRank$.subscribe((certificationsRank) => {
-      this.selectedCertificationStatus = certificationsRank[0].status;
+      this.selectedCertificationStatus = certificationsRank[0].name;
       this.jobsByCertificationStatus$ = this.jobService.getJobsByCertificationStatus(
-        this.selectedCertificationStatus,
+        this.selectedCertificationStatus as CertificationStatus,
       );
     });
 
@@ -65,10 +54,10 @@ export class CertificationsOverviewComponent implements OnInit {
     });
   }
 
-  onCertificationStatusClick(certificationStatus: CertificationStatus): void {
+  onCertificationStatusClick(certificationStatus: string): void {
     this.selectedCertificationStatus = certificationStatus;
     this.jobsByCertificationStatus$ = this.jobService.getJobsByCertificationStatus(
-      this.selectedCertificationStatus,
+      this.selectedCertificationStatus as CertificationStatus,
     );
   }
 }

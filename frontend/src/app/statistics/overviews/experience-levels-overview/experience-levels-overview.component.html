@@ -3,7 +3,7 @@
     <div class="card card-bordered card-compact w-full bg-base-300">
       <div class="card-title items-center p-4">
         <i class="bx bxs-user-detail"></i>
-        <h1>Rank de níveis de experiência</h1>
+        <h1>Ranking de níveis de experiência</h1>
       </div>
 
       <div class="card-body max-h-96 overflow-y-auto">
@@ -64,70 +64,32 @@
     <vgm-job-postings-comparison [jobs$]="jobsByExperienceLevel$"></vgm-job-postings-comparison>
   </div>
 
-  <div class="card card-bordered card-compact w-full bg-base-300">
-    <div class="card-body">
-      <h1 class="font-bold text-lg mb-4">
-        Sobre as vagas de nível {{ selectedLevel | titlecase }}
-      </h1>
-
-      <section>
-        <div class="flex items-center gap-2 mb-2">
-          <i class="bx bxs-chip"></i>
-          <h3>Tecnologias mais frequentes</h3>
-        </div>
-        <vgm-keywords-rank [jobs$]="jobsByExperienceLevel$"></vgm-keywords-rank>
-      </section>
-
-      <div class="divider"></div>
-
-      <section>
-        <div class="flex items-center gap-2 mb-2">
-          <i class="bx bxs-business"></i>
-          <h3>Empresas que mais contratam</h3>
-        </div>
-        <vgm-companies-rank [jobs$]="jobsByExperienceLevel$"></vgm-companies-rank>
-      </section>
-
-      <div class="divider"></div>
-
-      <section>
-        <div class="flex items-center gap-2 mb-2">
-          <i class="bx bxs-home"></i>
-          <h3>Modalidades mais frequentes</h3>
-        </div>
-        <vgm-workplace-rank [jobs$]="jobsByExperienceLevel$"></vgm-workplace-rank>
-      </section>
-
-      <div class="divider"></div>
-
-      <section>
-        <div class="flex items-center gap-2 mb-2">
-          <i class="bx bxs-briefcase"></i>
-          <h3>Tipos mais frequentes</h3>
-        </div>
-        <vgm-type-rank [jobs$]="jobsByExperienceLevel$"></vgm-type-rank>
-      </section>
-
-      <div class="divider"></div>
-
-      <section>
-        <div class="flex items-center gap-2 mb-2">
-          <i class="bx bxs-graduation"></i>
-          <h3>Níveis de formação mais requisitados</h3>
-        </div>
-        <vgm-education-rank [jobs$]="jobsByExperienceLevel$"></vgm-education-rank>
-      </section>
-
-      <div class="divider"></div>
-
-      <section>
-        <div class="flex items-center gap-2 mb-2">
-          <i class="bx bx-globe"></i>
-          <h3>Idiomas mais requisitados</h3>
-        </div>
-        <vgm-languages-rank [jobs$]="jobsByExperienceLevel$"></vgm-languages-rank>
-      </section>
+  <div class="grid grid-cols-1 gap-4">
+    <div class="card card-bordered card-compact w-full bg-base-300">
+      <div class="card-body p-4">
+        <h1 class="font-bold text-lg">Sobre as vagas de nível {{ selectedLevel }}</h1>
+      </div>
     </div>
+
+    <vgm-rank [rankType]="rankTypes.workplace" [jobs$]="jobsByExperienceLevel$"></vgm-rank>
+
+    <vgm-rank [rankType]="rankTypes.technology" [jobs$]="jobsByExperienceLevel$"></vgm-rank>
+
+    <vgm-rank [rankType]="rankTypes.contractTypes" [jobs$]="jobsByExperienceLevel$"></vgm-rank>
+
+    <vgm-rank [rankType]="rankTypes.companies" [jobs$]="jobsByExperienceLevel$"></vgm-rank>
+
+    <vgm-rank [rankType]="rankTypes.inclusion" [jobs$]="jobsByExperienceLevel$"></vgm-rank>
+
+    <vgm-rank [rankType]="rankTypes.education" [jobs$]="jobsByExperienceLevel$"></vgm-rank>
+
+    <vgm-rank [rankType]="rankTypes.months" [jobs$]="jobsByExperienceLevel$"></vgm-rank>
+
+    <vgm-rank [rankType]="rankTypes.cities" [jobs$]="jobsByExperienceLevel$"></vgm-rank>
+
+    <vgm-rank [rankType]="rankTypes.languages" [jobs$]="jobsByExperienceLevel$"></vgm-rank>
+
+    <vgm-rank [rankType]="rankTypes.certification" [jobs$]="jobsByExperienceLevel$"></vgm-rank>
   </div>
 </div>
 

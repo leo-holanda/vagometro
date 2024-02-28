@@ -10,7 +10,7 @@ import { KeywordsRankComponent } from '../../ranks/keywords-rank/keywords-rank.c
 import { WorkplaceRankComponent } from '../../ranks/workplace-rank/workplace-rank.component';
 import { JobListComponent } from 'src/app/job/job-list/job-list.component';
 import { TypeRankComponent } from '../../ranks/type-rank/type-rank.component';
-import { trackByExperienceLevel } from 'src/app/shared/track-by-functions';
+import { trackByExperienceLevel, trackByRankData } from 'src/app/shared/track-by-functions';
 import { EducationRankComponent } from '../../ranks/education-rank/education-rank.component';
 import { LanguagesRankComponent } from '../../ranks/languages-rank/languages-rank.component';
 import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-comparison/job-postings-comparison.component';
@@ -18,7 +18,8 @@ import {
   ExperienceLevelData,
   ExperienceLevels,
 } from 'src/app/shared/keywords-matcher/experience-levels.data';
-import { RankData } from '../../ranks/rank/rank.types';
+import { RankData, RankTypes } from '../../ranks/rank/rank.types';
+import { RankComponent } from '../../ranks/rank/rank.component';
 
 @Component({
   selector: 'vgm-experience-levels-overview',
@@ -26,14 +27,9 @@ import { RankData } from '../../ranks/rank/rank.types';
   imports: [
     CommonModule,
     PublicationChartComponent,
-    CompaniesRankComponent,
-    KeywordsRankComponent,
-    WorkplaceRankComponent,
     JobListComponent,
-    TypeRankComponent,
-    EducationRankComponent,
-    LanguagesRankComponent,
     JobPostingsComparisonComponent,
+    RankComponent,
   ],
   templateUrl: './experience-levels-overview.component.html',
   styleUrls: ['./experience-levels-overview.component.scss'],
@@ -41,10 +37,11 @@ import { RankData } from '../../ranks/rank/rank.types';
 export class ExperienceLevelsOverviewComponent implements OnInit {
   experienceLevelsRank$!: Observable<RankData[]>;
   jobsQuantity!: number;
-  selectedLevel!: any;
+  selectedLevel!: string;
   jobsByExperienceLevel$!: Observable<Job[]>;
 
-  trackByExperienceLevel = trackByExperienceLevel;
+  trackByRankData = trackByRankData;
+  rankTypes = RankTypes;
 
   constructor(
     private statisticsService: StatisticsService,
@@ -56,7 +53,9 @@ export class ExperienceLevelsOverviewComponent implements OnInit {
 
     this.experienceLevelsRank$.subscribe((experienceLevelsRank) => {
       this.selectedLevel = experienceLevelsRank[0].name;
-      this.jobsByExperienceLevel$ = this.jobService.getJobsByExperienceLevel(this.selectedLevel);
+      this.jobsByExperienceLevel$ = this.jobService.getJobsByExperienceLevel(
+        this.selectedLevel as ExperienceLevels,
+      );
     });
 
     this.jobService.jobs$.subscribe((jobs) => {
@@ -64,8 +63,10 @@ export class ExperienceLevelsOverviewComponent implements OnInit {
     });
   }
 
-  onExperienceLevelClick(experienceLevel: any): void {
+  onExperienceLevelClick(experienceLevel: string): void {
     this.selectedLevel = experienceLevel;
-    this.jobsByExperienceLevel$ = this.jobService.getJobsByExperienceLevel(this.selectedLevel);
+    this.jobsByExperienceLevel$ = this.jobService.getJobsByExperienceLevel(
+      this.selectedLevel as ExperienceLevels,
+    );
   }
 }

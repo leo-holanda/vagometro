@@ -56,7 +56,7 @@
 
               <button
                 class="btn btn-ghost p-2"
-                *ngFor="let city of citiesRank$ | async; index as i; trackBy: trackByCity"
+                *ngFor="let city of citiesRank$ | async; index as i; trackBy: trackByRankData"
                 [ngClass]="{ 'btn-active': selectedCity === city.name }"
                 (click)="onCityClicked(city.name)"
               >
@@ -89,7 +89,7 @@
 
               <button
                 class="btn btn-ghost p-2"
-                *ngFor="let state of statesRank$ | async; index as i; trackBy: trackByState"
+                *ngFor="let state of statesRank$ | async; index as i; trackBy: trackByRankData"
                 [ngClass]="{ 'btn-active': selectedState === state.name }"
                 (click)="onStateClicked(state.name)"
               >
@@ -141,93 +141,64 @@
     ></vgm-job-postings-comparison>
   </div>
 
-  <div class="card card-bordered card-compact w-full bg-base-300">
-    <div class="card-title p-4">
-      <h1>
-        Sobre as vagas em
-        {{ dataType === "city" ? selectedCity : selectedState }}
-      </h1>
+  <div class="grid grid-cols-1 gap-4">
+    <div class="card card-bordered card-compact w-full bg-base-300">
+      <div class="card-body">
+        <div class="card-title p-4">
+          <h1>Sobre as vagas em {{ dataType === "city" ? selectedCity : selectedState }}</h1>
+        </div>
+      </div>
     </div>
 
-    <div class="card-body">
-      <section *ngIf="dataType !== 'city'">
-        <div class="flex items-center gap-2 mb-2">
-          <i class="bx bxs-map"></i>
-          <h3>Cidades com mais vagas</h3>
-        </div>
-        <vgm-cities-rank [jobs$]="jobsByState$"></vgm-cities-rank>
-      </section>
+    <vgm-rank
+      [rankType]="rankTypes.experience"
+      [jobs$]="dataType === 'city' ? jobsByCity$ : jobsByState$"
+    ></vgm-rank>
 
-      <div *ngIf="dataType !== 'city'" class="divider"></div>
+    <vgm-rank
+      [rankType]="rankTypes.workplace"
+      [jobs$]="dataType === 'city' ? jobsByCity$ : jobsByState$"
+    ></vgm-rank>
 
-      <section>
-        <div class="flex items-center gap-2 mb-2">
-          <i class="bx bxs-chip"></i>
-          <h3>Tecnologias em alta</h3>
-        </div>
-        <vgm-keywords-rank
-          [jobs$]="dataType === 'city' ? jobsByCity$ : jobsByState$"
-        ></vgm-keywords-rank>
-      </section>
+    <vgm-rank
+      [rankType]="rankTypes.technology"
+      [jobs$]="dataType === 'city' ? jobsByCity$ : jobsByState$"
+    ></vgm-rank>
 
-      <div class="divider"></div>
+    <vgm-rank
+      [rankType]="rankTypes.companies"
+      [jobs$]="dataType === 'city' ? jobsByCity$ : jobsByState$"
+    ></vgm-rank>
 
-      <section>
-        <div class="flex items-center gap-2 mb-2">
-          <i class="bx bxs-business"></i>
-          <h3>Empresas que mais contratam</h3>
-        </div>
-        <vgm-companies-rank
-          [jobs$]="dataType === 'city' ? jobsByCity$ : jobsByState$"
-        ></vgm-companies-rank>
-      </section>
+    <vgm-rank
+      [rankType]="rankTypes.contractTypes"
+      [jobs$]="dataType === 'city' ? jobsByCity$ : jobsByState$"
+    ></vgm-rank>
 
-      <div class="divider"></div>
+    <vgm-rank
+      [rankType]="rankTypes.inclusion"
+      [jobs$]="dataType === 'city' ? jobsByCity$ : jobsByState$"
+    ></vgm-rank>
 
-      <section>
-        <div class="flex items-center gap-2 mb-2">
-          <i class="bx bxs-user-detail"></i>
-          <h3>Níveis de experiência mais requisitados</h3>
-        </div>
-        <vgm-experience-levels-rank
-          [jobs$]="dataType === 'city' ? jobsByCity$ : jobsByState$"
-        ></vgm-experience-levels-rank>
-      </section>
+    <vgm-rank
+      [rankType]="rankTypes.education"
+      [jobs$]="dataType === 'city' ? jobsByCity$ : jobsByState$"
+    ></vgm-rank>
 
-      <div class="divider"></div>
+    <vgm-rank
+      [rankType]="rankTypes.months"
+      [jobs$]="dataType === 'city' ? jobsByCity$ : jobsByState$"
+    ></vgm-rank>
 
-      <section>
-        <div class="flex items-center gap-2 mb-2">
-          <i class="bx bxs-briefcase"></i>
-          <h3>Tipos de vagas</h3>
-        </div>
-        <vgm-type-rank [jobs$]="dataType === 'city' ? jobsByCity$ : jobsByState$"></vgm-type-rank>
-      </section>
+    <vgm-rank
+      [rankType]="rankTypes.languages"
+      [jobs$]="dataType === 'city' ? jobsByCity$ : jobsByState$"
+    ></vgm-rank>
 
-      <div class="divider"></div>
-
-      <section>
-        <div class="flex items-center gap-2 mb-2">
-          <i class="bx bxs-graduation"></i>
-          <h3>Níveis de formação mais requisitados</h3>
-        </div>
-        <vgm-education-rank
-          [jobs$]="dataType === 'city' ? jobsByCity$ : jobsByState$"
-        ></vgm-education-rank>
-      </section>
-
-      <div class="divider"></div>
-
-      <section>
-        <div class="flex items-center gap-2 mb-2">
-          <i class="bx bx-globe"></i>
-          <h3>Idiomas mais requisitados</h3>
-        </div>
-        <vgm-languages-rank
-          [jobs$]="dataType === 'city' ? jobsByCity$ : jobsByState$"
-        ></vgm-languages-rank>
-      </section>
-    </div>
+    <vgm-rank
+      [rankType]="rankTypes.certification"
+      [jobs$]="dataType === 'city' ? jobsByCity$ : jobsByState$"
+    ></vgm-rank>
   </div>
 </div>
 

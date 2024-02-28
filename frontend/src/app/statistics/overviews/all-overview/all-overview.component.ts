@@ -19,6 +19,7 @@ import { JobService } from 'src/app/job/job.service';
 import { Job } from 'src/app/job/job.types';
 import { CertificationsRankComponent } from '../../ranks/certifications-rank/certifications-rank.component';
 import { RankComponent } from '../../ranks/rank/rank.component';
+import { RankTypes } from '../../ranks/rank/rank.types';
 
 @Component({
   selector: 'vgm-all-overview',
@@ -47,6 +48,8 @@ import { RankComponent } from '../../ranks/rank/rank.component';
 })
 export class AllOverviewComponent {
   jobs$!: Observable<Job[] | undefined>;
+
+  rankTypes = RankTypes;
 
   constructor(private jobService: JobService) {
     this.jobs$ = jobService.jobs$;

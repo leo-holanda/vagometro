@@ -3,9 +3,8 @@ import { CommonModule } from '@angular/common';
 import { Observable, map } from 'rxjs';
 import { Job } from 'src/app/job/job.types';
 import { StatisticsService } from '../../statistics.service';
-import { RankMetaData, RankOptions } from './rank.data';
 import { RouterLink } from '@angular/router';
-import { RankData } from './rank.types';
+import { RankData, RankMetaData, RankTypes, RanksMap } from './rank.types';
 import { StateAbbreviationPipe } from 'src/app/shared/pipes/state-abbreviation.pipe';
 
 @Component({
@@ -17,7 +16,7 @@ import { StateAbbreviationPipe } from 'src/app/shared/pipes/state-abbreviation.p
 })
 export class RankComponent implements OnInit, OnChanges {
   @Input() jobs$?: Observable<Job[]>;
-  @Input() rankType: string | undefined;
+  @Input({ required: true }) rankType: RankTypes = RankTypes.technology;
   @Input() rankSize: number | undefined;
 
   rankData$!: Observable<RankData[]>;
@@ -44,7 +43,7 @@ export class RankComponent implements OnInit, OnChanges {
     }
   }
 
-  private createRankOptions(): RankOptions {
+  private createRankOptions(): RanksMap {
     return {
       months: {
         name: 'Meses com mais vagas publicadas',

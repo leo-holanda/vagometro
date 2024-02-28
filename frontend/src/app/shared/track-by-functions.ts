@@ -10,6 +10,7 @@ import { TypeData } from '../statistics/ranks/type-rank/type-rank.model';
 import { WorkplaceData } from '../statistics/ranks/workplace-rank/workplace-rank.model';
 import { ExperienceLevelData } from './keywords-matcher/experience-levels.data';
 import { CertificationsData } from './keywords-matcher/certification.data';
+import { RankData } from '../statistics/ranks/rank/rank.types';
 
 export function trackByType(index: number, item: TypeData): string {
   return item.name;
@@ -60,5 +61,9 @@ export function trackByLanguage(index: number, item: LanguageData): string {
 }
 
 export function trackByMonth(index: number, item: MonthData): string {
+  return item.name;
+}
+
+export function trackByRankData(index: number, item: RankData): string {
   return item.name;
 }

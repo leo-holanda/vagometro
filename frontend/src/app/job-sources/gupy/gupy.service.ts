@@ -41,7 +41,7 @@ export class GupyService {
       const worker = this.createWorker();
       const searchData = this.easySearchService.getSearchData();
       if (worker) {
-        worker.postMessage(jobs);
+        worker.postMessage({ jobs, searchData });
         worker.onmessage = ({ data }) => resolve(data);
         worker.onerror = () => resolve(mapGupyJobsToJobs(jobs, searchData));
         worker.onmessageerror = () => resolve(mapGupyJobsToJobs(jobs, searchData));

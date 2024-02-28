@@ -7,26 +7,29 @@
           <h1>Rank de Educação</h1>
         </div>
 
-        <div role="tablist" class="tabs tabs-boxed gap-2">
-          <a
-            role="tab"
-            class="tab"
-            [ngClass]="{
-              'tab-active': selectedDataType === educationalDataTypes.level
-            }"
-            (click)="setDataType(educationalDataTypes.level)"
-            >Por nível</a
-          >
-          <a
-            role="tab"
-            class="tab"
-            [ngClass]="{
-              'tab-active': selectedDataType === educationalDataTypes.course
-            }"
-            (click)="setDataType(educationalDataTypes.course)"
-            >Por curso</a
-          >
-        </div>
+        <section class="flex flex-col gap-2">
+          <div class="flex flex-wrap gap-2">
+            <button
+              [ngClass]="{
+                'btn-active': selectedDataType === educationalDataTypes.level
+              }"
+              (click)="setDataType(educationalDataTypes.level)"
+              class="btn btn-outline"
+            >
+              Por nível
+            </button>
+
+            <button
+              [ngClass]="{
+                'btn-active': selectedDataType === educationalDataTypes.course
+              }"
+              (click)="setDataType(educationalDataTypes.course)"
+              class="btn btn-outline"
+            >
+              Por curso
+            </button>
+          </div>
+        </section>
       </div>
 
       <div class="card-body max-h-96 overflow-y-auto">
@@ -140,136 +143,132 @@
     ></vgm-job-postings-comparison>
   </div>
 
-  <div class="card card-bordered card-compact w-full bg-base-300 -xl">
-    <div class="card-body">
-      <ng-container [ngSwitch]="selectedDataType">
-        <ng-container *ngSwitchCase="educationalDataTypes.level">
-          <h1
-            *ngIf="
-              selectedEducationalLevelTerm !== 'Desconhecido';
-              else unknownEducationalLevelTemplate
-            "
-            class="font-bold text-lg mb-4"
-          >
-            Sobre vagas que mencionam o nível de
-            {{ selectedEducationalLevelTerm }}
-          </h1>
-
-          <ng-template #unknownEducationalLevelTemplate>
-            <h1 class="font-bold text-lg mb-4">
-              Sobre as vagas com nível de formação desconhecido
+  <div class="grid grid-cols-1 gap-4">
+    <div class="card card-bordered card-compact w-full bg-base-300">
+      <div class="card-body p-4">
+        <ng-container [ngSwitch]="selectedDataType">
+          <ng-container *ngSwitchCase="educationalDataTypes.level">
+            <h1
+              *ngIf="
+                selectedEducationalLevelTerm !== 'Desconhecido';
+                else unknownEducationalLevelTemplate
+              "
+              class="font-bold text-lg"
+            >
+              Sobre vagas que mencionam o nível de
+              {{ selectedEducationalLevelTerm }}
             </h1>
-          </ng-template>
+
+            <ng-template #unknownEducationalLevelTemplate>
+              <h1 class="font-bold text-lg">Sobre as vagas com nível de formação desconhecido</h1>
+            </ng-template>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="educationalDataTypes.course">
+            <h1
+              *ngIf="selectedEducationTerm !== 'Desconhecido'; else unknownEducationTermTemplate"
+              class="font-bold text-lg"
+            >
+              Sobre vagas que mencionam o curso de {{ selectedEducationTerm }}
+            </h1>
+
+            <ng-template #unknownEducationTermTemplate>
+              <h1 class="font-bold text-lg">Sobre as vagas onde cursos não foram mencionados</h1>
+            </ng-template>
+          </ng-container>
         </ng-container>
-
-        <ng-container *ngSwitchCase="educationalDataTypes.course">
-          <h1
-            *ngIf="selectedEducationTerm !== 'Desconhecido'; else unknownEducationTermTemplate"
-            class="font-bold text-lg mb-4"
-          >
-            Sobre vagas que mencionam o curso de {{ selectedEducationTerm }}
-          </h1>
-
-          <ng-template #unknownEducationTermTemplate>
-            <h1 class="font-bold text-lg mb-4">Sobre as vagas onde cursos não foram mencionados</h1>
-          </ng-template>
-        </ng-container>
-      </ng-container>
-
-      <section>
-        <div class="flex items-center gap-2 mb-2">
-          <i class="bx bxs-chip"></i>
-          <h3>Tecnologias mais frequentes</h3>
-        </div>
-        <vgm-keywords-rank
-          [jobs$]="
-            selectedDataType === educationalDataTypes.level
-              ? jobsByEducationalLevel$
-              : jobsByEducationTerm$
-          "
-        ></vgm-keywords-rank>
-      </section>
-
-      <div class="divider"></div>
-
-      <section>
-        <div class="flex items-center gap-2 mb-2">
-          <i class="bx bxs-business"></i>
-          <h3>Empresas que mais contratam</h3>
-        </div>
-        <vgm-companies-rank
-          [jobs$]="
-            selectedDataType === educationalDataTypes.level
-              ? jobsByEducationalLevel$
-              : jobsByEducationTerm$
-          "
-        ></vgm-companies-rank>
-      </section>
-
-      <div class="divider"></div>
-
-      <section>
-        <div class="flex items-center gap-2 mb-2">
-          <i class="bx bxs-home"></i>
-          <h3>Modalidades mais frequentes</h3>
-        </div>
-        <vgm-workplace-rank
-          [jobs$]="
-            selectedDataType === educationalDataTypes.level
-              ? jobsByEducationalLevel$
-              : jobsByEducationTerm$
-          "
-        ></vgm-workplace-rank>
-      </section>
-
-      <div class="divider"></div>
-
-      <section>
-        <div class="flex items-center gap-2 mb-2">
-          <i class="bx bxs-user-detail"></i>
-          <h3>Níveis de experiência mais requisitados</h3>
-        </div>
-        <vgm-experience-levels-rank
-          [jobs$]="
-            selectedDataType === educationalDataTypes.level
-              ? jobsByEducationalLevel$
-              : jobsByEducationTerm$
-          "
-        ></vgm-experience-levels-rank>
-      </section>
-
-      <div class="divider"></div>
-
-      <section>
-        <div class="flex items-center gap-2 mb-2">
-          <i class="bx bxs-briefcase"></i>
-          <h3>Tipos de vagas</h3>
-        </div>
-        <vgm-type-rank
-          [jobs$]="
-            selectedDataType === educationalDataTypes.level
-              ? jobsByEducationalLevel$
-              : jobsByEducationTerm$
-          "
-        ></vgm-type-rank>
-      </section>
-
-      <div class="divider"></div>
-
-      <section>
-        <div class="flex items-center gap-2 mb-2">
-          <i class="bx bx-globe"></i>
-          <h3>Idiomas mais requisitados</h3>
-        </div>
-        <vgm-languages-rank
-          [jobs$]="
-            selectedDataType === educationalDataTypes.level
-              ? jobsByEducationalLevel$
-              : jobsByEducationTerm$
-          "
-        ></vgm-languages-rank>
-      </section>
+      </div>
     </div>
+
+    <vgm-rank
+      [rankType]="rankTypes.experience"
+      [jobs$]="
+        selectedDataType === educationalDataTypes.level
+          ? jobsByEducationalLevel$
+          : jobsByEducationTerm$
+      "
+    ></vgm-rank>
+
+    <vgm-rank
+      [rankType]="rankTypes.workplace"
+      [jobs$]="
+        selectedDataType === educationalDataTypes.level
+          ? jobsByEducationalLevel$
+          : jobsByEducationTerm$
+      "
+    ></vgm-rank>
+
+    <vgm-rank
+      [rankType]="rankTypes.technology"
+      [jobs$]="
+        selectedDataType === educationalDataTypes.level
+          ? jobsByEducationalLevel$
+          : jobsByEducationTerm$
+      "
+    ></vgm-rank>
+
+    <vgm-rank
+      [rankType]="rankTypes.contractTypes"
+      [jobs$]="
+        selectedDataType === educationalDataTypes.level
+          ? jobsByEducationalLevel$
+          : jobsByEducationTerm$
+      "
+    ></vgm-rank>
+
+    <vgm-rank
+      [rankType]="rankTypes.inclusion"
+      [jobs$]="
+        selectedDataType === educationalDataTypes.level
+          ? jobsByEducationalLevel$
+          : jobsByEducationTerm$
+      "
+    ></vgm-rank>
+
+    <vgm-rank
+      [rankType]="rankTypes.companies"
+      [jobs$]="
+        selectedDataType === educationalDataTypes.level
+          ? jobsByEducationalLevel$
+          : jobsByEducationTerm$
+      "
+    ></vgm-rank>
+
+    <vgm-rank
+      [rankType]="rankTypes.months"
+      [jobs$]="
+        selectedDataType === educationalDataTypes.level
+          ? jobsByEducationalLevel$
+          : jobsByEducationTerm$
+      "
+    ></vgm-rank>
+
+    <vgm-rank
+      [rankType]="rankTypes.cities"
+      [jobs$]="
+        selectedDataType === educationalDataTypes.level
+          ? jobsByEducationalLevel$
+          : jobsByEducationTerm$
+      "
+    ></vgm-rank>
+
+    <vgm-rank
+      [rankType]="rankTypes.languages"
+      [jobs$]="
+        selectedDataType === educationalDataTypes.level
+          ? jobsByEducationalLevel$
+          : jobsByEducationTerm$
+      "
+    ></vgm-rank>
+
+    <vgm-rank
+      [rankType]="rankTypes.certification"
+      [jobs$]="
+        selectedDataType === educationalDataTypes.level
+          ? jobsByEducationalLevel$
+          : jobsByEducationTerm$
+      "
+    ></vgm-rank>
   </div>
 </div>
 

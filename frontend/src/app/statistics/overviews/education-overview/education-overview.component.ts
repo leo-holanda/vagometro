@@ -1,21 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { EducationData } from '../../ranks/education-rank/education-rank.types';
 import { trackByEducationStatus } from 'src/app/shared/track-by-functions';
 import { Observable } from 'rxjs';
 import { Job } from 'src/app/job/job.types';
 import { JobService } from 'src/app/job/job.service';
 import { StatisticsService } from '../../statistics.service';
 import { PublicationChartComponent } from '../../charts/publication-chart/publication-chart.component';
-import { KeywordsRankComponent } from '../../ranks/keywords-rank/keywords-rank.component';
-import { CompaniesRankComponent } from '../../ranks/companies-rank/companies-rank.component';
-import { WorkplaceRankComponent } from '../../ranks/workplace-rank/workplace-rank.component';
 import { ExperienceLevelsRankComponent } from '../../ranks/experience-levels-rank/experience-levels-rank.component';
 import { JobListComponent } from 'src/app/job/job-list/job-list.component';
 import { EducationalDataTypes } from './education-overview.types';
-import { TypeRankComponent } from '../../ranks/type-rank/type-rank.component';
-import { LanguagesRankComponent } from '../../ranks/languages-rank/languages-rank.component';
 import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-comparison/job-postings-comparison.component';
+import { RankData, RankTypes } from '../../ranks/rank/rank.types';
+import { RankComponent } from '../../ranks/rank/rank.component';
 
 @Component({
   selector: 'vgm-education-overview',
@@ -23,23 +19,19 @@ import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-c
   imports: [
     CommonModule,
     PublicationChartComponent,
-    KeywordsRankComponent,
-    CompaniesRankComponent,
-    WorkplaceRankComponent,
     ExperienceLevelsRankComponent,
     JobListComponent,
-    TypeRankComponent,
-    LanguagesRankComponent,
     JobPostingsComparisonComponent,
+    RankComponent,
   ],
   templateUrl: './education-overview.component.html',
   styleUrls: ['./education-overview.component.scss'],
 })
 export class EducationOverviewComponent implements OnInit {
-  educationRank$!: Observable<EducationData[]>;
+  educationRank$!: Observable<RankData[]>;
   selectedEducationTerm!: string;
 
-  educationalLevelRank$!: Observable<EducationData[]>;
+  educationalLevelRank$!: Observable<RankData[]>;
   selectedEducationalLevelTerm!: string;
 
   jobsQuantity = 0;
@@ -48,6 +40,7 @@ export class EducationOverviewComponent implements OnInit {
   jobsByEducationalLevel$!: Observable<Job[]>;
 
   trackByEducationTerm = trackByEducationStatus;
+  rankTypes = RankTypes;
 
   selectedDataType = EducationalDataTypes.level;
   educationalDataTypes = EducationalDataTypes;

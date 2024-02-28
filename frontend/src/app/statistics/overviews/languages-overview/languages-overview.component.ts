@@ -1,19 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { trackByLanguage } from 'src/app/shared/track-by-functions';
+import { trackByLanguage, trackByRankData } from 'src/app/shared/track-by-functions';
 import { Observable } from 'rxjs';
 import { Job } from 'src/app/job/job.types';
 import { JobService } from 'src/app/job/job.service';
 import { StatisticsService } from '../../statistics.service';
 import { PublicationChartComponent } from '../../charts/publication-chart/publication-chart.component';
-import { KeywordsRankComponent } from '../../ranks/keywords-rank/keywords-rank.component';
-import { CompaniesRankComponent } from '../../ranks/companies-rank/companies-rank.component';
-import { WorkplaceRankComponent } from '../../ranks/workplace-rank/workplace-rank.component';
-import { ExperienceLevelsRankComponent } from '../../ranks/experience-levels-rank/experience-levels-rank.component';
-import { EducationRankComponent } from '../../ranks/education-rank/education-rank.component';
 import { JobListComponent } from 'src/app/job/job-list/job-list.component';
 import { LanguageData } from '../../ranks/languages-rank/languages-rank.types';
 import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-comparison/job-postings-comparison.component';
+import { RankComponent } from '../../ranks/rank/rank.component';
+import { RankData, RankTypes } from '../../ranks/rank/rank.types';
 
 @Component({
   selector: 'vgm-languages-overview',
@@ -21,24 +18,21 @@ import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-c
   imports: [
     CommonModule,
     PublicationChartComponent,
-    KeywordsRankComponent,
-    CompaniesRankComponent,
-    WorkplaceRankComponent,
-    ExperienceLevelsRankComponent,
-    EducationRankComponent,
     JobListComponent,
     JobPostingsComparisonComponent,
+    RankComponent,
   ],
   templateUrl: './languages-overview.component.html',
   styleUrls: ['./languages-overview.component.scss'],
 })
 export class LanguagesOverviewComponent implements OnInit {
-  languagesRank$!: Observable<LanguageData[]>;
+  languagesRank$!: Observable<RankData[]>;
   jobsQuantity!: number;
   selectedLanguage!: string;
   jobsByLanguage$!: Observable<Job[]>;
 
-  trackByLanguage = trackByLanguage;
+  trackByRankData = trackByRankData;
+  rankTypes = RankTypes;
 
   constructor(
     private statisticsService: StatisticsService,

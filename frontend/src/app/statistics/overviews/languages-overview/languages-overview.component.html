@@ -1,4 +1,4 @@
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-4 m-4 h-full">
+<main class="grid grid-cols-1 lg:grid-cols-2 gap-4 m-4 h-full">
   <div class="flex flex-col gap-4 h-min">
     <div class="card card-bordered card-compact w-full bg-base-300">
       <div class="card-title items-center p-4">
@@ -15,7 +15,7 @@
 
           <button
             class="btn btn-ghost p-2"
-            *ngFor="let language of languagesRank; index as i; trackBy: trackByLanguage"
+            *ngFor="let language of languagesRank; index as i; trackBy: trackByRankData"
             [ngClass]="{ 'btn-active': selectedLanguage === language.name }"
             (click)="onLanguageClick(language.name)"
           >
@@ -64,68 +64,42 @@
     <vgm-job-postings-comparison [jobs$]="jobsByLanguage$"></vgm-job-postings-comparison>
   </div>
 
-  <div class="card card-bordered card-compact w-full bg-base-300">
-    <div class="card-body">
-      <ng-container *ngIf="selectedLanguage !== 'Desconhecido'; else unknownLanguageTemplate">
-        <h1 class="font-bold text-lg mb-4">
-          Sobre as vagas que mencionam o idioma {{ selectedLanguage }}
-        </h1>
-      </ng-container>
+  <section class="grid grid-cols-1 gap-4">
+    <div class="card card-bordered card-compact w-full bg-base-300">
+      <div class="card-body p-4">
+        <ng-container *ngIf="selectedLanguage !== 'Desconhecido'; else unknownLanguageTemplate">
+          <h1 class="font-bold text-lg">
+            Sobre as vagas que mencionam o idioma {{ selectedLanguage }}
+          </h1>
+        </ng-container>
 
-      <ng-template #unknownLanguageTemplate>
-        <h1 class="font-bold text-lg mb-4">Sobre as vagas que não mencionam idioma</h1>
-      </ng-template>
-
-      <section>
-        <div class="flex items-center gap-2 mb-2">
-          <i class="bx bxs-chip"></i>
-          <h3>Tecnologias mais frequentes</h3>
-        </div>
-        <vgm-keywords-rank [jobs$]="jobsByLanguage$"></vgm-keywords-rank>
-      </section>
-
-      <div class="divider"></div>
-
-      <section>
-        <div class="flex items-center gap-2 mb-2">
-          <i class="bx bxs-business"></i>
-          <h3>Empresas que mais contratam</h3>
-        </div>
-        <vgm-companies-rank [jobs$]="jobsByLanguage$"></vgm-companies-rank>
-      </section>
-
-      <div class="divider"></div>
-
-      <section>
-        <div class="flex items-center gap-2 mb-2">
-          <i class="bx bxs-home"></i>
-          <h3>Modalidades mais frequentes</h3>
-        </div>
-        <vgm-workplace-rank [jobs$]="jobsByLanguage$"></vgm-workplace-rank>
-      </section>
-
-      <div class="divider"></div>
-
-      <section>
-        <div class="flex items-center gap-2 mb-2">
-          <i class="bx bxs-user-detail"></i>
-          <h3>Níveis de experiência mais requisitados</h3>
-        </div>
-        <vgm-experience-levels-rank [jobs$]="jobsByLanguage$"></vgm-experience-levels-rank>
-      </section>
-
-      <div class="divider"></div>
-
-      <section>
-        <div class="flex items-center gap-2 mb-2">
-          <i class="bx bxs-graduation"></i>
-          <h3>Níveis de formação mais requisitados</h3>
-        </div>
-        <vgm-education-rank [jobs$]="jobsByLanguage$"></vgm-education-rank>
-      </section>
+        <ng-template #unknownLanguageTemplate>
+          <h1 class="font-bold text-lg">Sobre as vagas que não mencionam idioma</h1>
+        </ng-template>
+      </div>
     </div>
-  </div>
-</div>
+
+    <vgm-rank [rankType]="rankTypes.experience" [jobs$]="jobsByLanguage$"></vgm-rank>
+
+    <vgm-rank [rankType]="rankTypes.workplace" [jobs$]="jobsByLanguage$"></vgm-rank>
+
+    <vgm-rank [rankType]="rankTypes.contractTypes" [jobs$]="jobsByLanguage$"></vgm-rank>
+
+    <vgm-rank [rankType]="rankTypes.technology" [jobs$]="jobsByLanguage$"></vgm-rank>
+
+    <vgm-rank [rankType]="rankTypes.companies" [jobs$]="jobsByLanguage$"></vgm-rank>
+
+    <vgm-rank [rankType]="rankTypes.education" [jobs$]="jobsByLanguage$"></vgm-rank>
+
+    <vgm-rank [rankType]="rankTypes.months" [jobs$]="jobsByLanguage$"></vgm-rank>
+
+    <vgm-rank [rankType]="rankTypes.cities" [jobs$]="jobsByLanguage$"></vgm-rank>
+
+    <vgm-rank [rankType]="rankTypes.inclusion" [jobs$]="jobsByLanguage$"></vgm-rank>
+
+    <vgm-rank [rankType]="rankTypes.certification" [jobs$]="jobsByLanguage$"></vgm-rank>
+  </section>
+</main>
 
 <div class="divider"></div>
 

@@ -36,9 +36,11 @@ export class RankComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(): void {
-    this.rankData$ = this.rankMetaData.getRank(this.jobs$);
-    if (this.rankSize)
-      this.rankData$ = this.rankData$.pipe(map((rankData) => rankData.slice(0, this.rankSize)));
+    if (this.rankMetaData) {
+      this.rankData$ = this.rankMetaData.getRank(this.jobs$);
+      if (this.rankSize)
+        this.rankData$ = this.rankData$.pipe(map((rankData) => rankData.slice(0, this.rankSize)));
+    }
   }
 
   private createRankOptions(): RankOptions {

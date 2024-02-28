@@ -23,11 +23,11 @@
                   class="absolute top-0 left-0 z-0 bg-blue-500 h-full opacity-20"
                   [ngStyle]="{ width: item.percentage | percent: '1.0-0' }"
                 ></div>
-                <span class="z-10">{{ item.name | titlecase }}</span>
+                <span class="z-10">{{ item.name }}</span>
               </td>
-              <td class="flex items-center gap-2">
+              <td class="flex items-center flex-wrap gap-2">
                 <span>{{ item.count | number }}</span>
-                <span class="text-gray-600">({{ item.percentage | percent: "1.1-1" }})</span>
+                <span class="text-gray-600">({{ item.percentage | percent: "1.0-0" }})</span>
               </td>
             </tr>
           </tbody>

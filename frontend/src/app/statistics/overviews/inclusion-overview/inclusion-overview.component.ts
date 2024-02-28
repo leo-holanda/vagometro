@@ -4,35 +4,23 @@ import { Observable } from 'rxjs';
 import { Job } from 'src/app/job/job.types';
 import { JobService } from 'src/app/job/job.service';
 import { StatisticsService } from '../../statistics.service';
-import { CompaniesRankComponent } from '../../ranks/companies-rank/companies-rank.component';
-import { KeywordsRankComponent } from '../../ranks/keywords-rank/keywords-rank.component';
-import { TypeRankComponent } from '../../ranks/type-rank/type-rank.component';
-import { WorkplaceRankComponent } from '../../ranks/workplace-rank/workplace-rank.component';
 import { JobListComponent } from 'src/app/job/job-list/job-list.component';
-import { ExperienceLevelsRankComponent } from '../../ranks/experience-levels-rank/experience-levels-rank.component';
 import { PublicationChartComponent } from '../../charts/publication-chart/publication-chart.component';
-import { EducationRankComponent } from '../../ranks/education-rank/education-rank.component';
-import { LanguagesRankComponent } from '../../ranks/languages-rank/languages-rank.component';
 import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-comparison/job-postings-comparison.component';
-import { InclusionData, InclusionTypes } from '../../../shared/keywords-matcher/inclusion.data';
-import { trackByInclusionType } from 'src/app/shared/track-by-functions';
-import { RankData } from '../../ranks/rank/rank.types';
+import { InclusionTypes } from '../../../shared/keywords-matcher/inclusion.data';
+import { trackByInclusionType, trackByRankData } from 'src/app/shared/track-by-functions';
+import { RankData, RankTypes } from '../../ranks/rank/rank.types';
+import { RankComponent } from '../../ranks/rank/rank.component';
 
 @Component({
   selector: 'vgm-inclusion-overview',
   standalone: true,
   imports: [
     CommonModule,
-    CompaniesRankComponent,
-    KeywordsRankComponent,
-    TypeRankComponent,
-    WorkplaceRankComponent,
-    ExperienceLevelsRankComponent,
     PublicationChartComponent,
     JobListComponent,
-    EducationRankComponent,
-    LanguagesRankComponent,
     JobPostingsComparisonComponent,
+    RankComponent,
   ],
   templateUrl: './inclusion-overview.component.html',
   styleUrls: ['./inclusion-overview.component.scss'],
@@ -43,7 +31,8 @@ export class InclusionOverviewComponent implements OnInit {
   jobsQuantity!: number;
   jobsByInclusionType$!: Observable<Job[]>;
 
-  trackByInclusionType = trackByInclusionType;
+  trackByRankData = trackByRankData;
+  rankTypes = RankTypes;
 
   constructor(
     private statisticsService: StatisticsService,

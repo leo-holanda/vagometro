@@ -5,6 +5,7 @@ import { Job } from 'src/app/job/job.types';
 import { StatisticsService } from '../../statistics.service';
 import { trackByExperienceLevel } from 'src/app/shared/track-by-functions';
 import { ExperienceLevelData } from 'src/app/shared/keywords-matcher/experience-levels.data';
+import { RankData } from '../rank/rank.types';
 
 @Component({
   selector: 'vgm-experience-levels-rank',
@@ -17,7 +18,7 @@ export class ExperienceLevelsRankComponent implements OnInit, OnChanges {
   @Input() jobs$?: Observable<Job[]>;
   @Input() rankSize: number | undefined;
 
-  experienceLevelsRank$!: Observable<ExperienceLevelData[]>;
+  experienceLevelsRank$!: Observable<RankData[]>;
 
   trackByExperienceLevel = trackByExperienceLevel;
 

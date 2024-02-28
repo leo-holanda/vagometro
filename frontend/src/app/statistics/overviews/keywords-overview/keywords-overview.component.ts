@@ -16,6 +16,7 @@ import { FormsModule } from '@angular/forms';
 import { EducationRankComponent } from '../../ranks/education-rank/education-rank.component';
 import { LanguagesRankComponent } from '../../ranks/languages-rank/languages-rank.component';
 import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-comparison/job-postings-comparison.component';
+import { RankData } from '../../ranks/rank/rank.types';
 
 @Component({
   selector: 'vgm-keywords-overview',
@@ -37,12 +38,12 @@ import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-c
   styleUrls: ['./keywords-overview.component.scss'],
 })
 export class KeywordsOverviewComponent implements OnInit {
-  keywordsRank$!: Observable<KeywordStatsData[]>;
+  keywordsRank$!: Observable<RankData[]>;
   jobsQuantity!: number;
   selectedKeyword = '';
   jobsByKeyword$!: Observable<Job[]>;
 
-  filteredKeywords$!: Observable<KeywordStatsData[]>;
+  filteredKeywords$!: Observable<RankData[]>;
   keywordSearchString = '';
 
   trackByKeyword = trackByKeyword;
@@ -75,7 +76,7 @@ export class KeywordsOverviewComponent implements OnInit {
     this.filteredKeywords$ = this.keywordsRank$.pipe(
       map((keywordsRank) =>
         keywordsRank.filter((keywordData) =>
-          keywordData.word.toLowerCase().includes(this.keywordSearchString.toLowerCase()),
+          keywordData.name.toLowerCase().includes(this.keywordSearchString.toLowerCase()),
         ),
       ),
     );

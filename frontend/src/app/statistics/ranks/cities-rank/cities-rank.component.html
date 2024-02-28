@@ -9,9 +9,9 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let city of citiesRank; index as i; trackBy: trackByCity">
+        <tr *ngFor="let city of citiesRank; index as i">
           <th>{{ i + 1 }}</th>
-          <td>{{ city.name + ", " + (city.state | stateAbbreviation) }}</td>
+          <td>{{ city.name + ", " + (city.name | stateAbbreviation) }}</td>
           <td>{{ city.count | number }}</td>
         </tr>
       </tbody>

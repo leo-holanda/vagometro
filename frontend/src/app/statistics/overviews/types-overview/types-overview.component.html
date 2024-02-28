@@ -15,7 +15,7 @@
 
           <button
             class="btn btn-ghost p-2"
-            *ngFor="let type of typesRank; index as i; trackBy: trackByType"
+            *ngFor="let type of typesRank; index as i"
             [ngClass]="{ 'btn-active': selectedType === type.name }"
             (click)="onContractTypeClick(type.name)"
           >

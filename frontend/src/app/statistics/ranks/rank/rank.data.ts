@@ -5,6 +5,7 @@ export type RankMetaData = {
   name: string;
   icon: string;
   dataColumnName: string;
+  routerLink: string;
   getRank: (jobs?: Observable<Job[]>) => any;
 };
 

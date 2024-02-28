@@ -15,7 +15,7 @@
 
           <button
             class="btn btn-ghost p-2"
-            *ngFor="let inclusionType of inclusionRank$; index as i; trackBy: trackByInclusionType"
+            *ngFor="let inclusionType of inclusionRank$; index as i"
             [ngClass]="{
               'btn-active': selectedInclusionType === inclusionType.name
             }"

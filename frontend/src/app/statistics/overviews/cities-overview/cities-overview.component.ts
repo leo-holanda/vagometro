@@ -74,7 +74,7 @@ export class CitiesOverviewComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.citiesRank$ = this.statisticsService.getCitiesRank();
+    this.citiesRank$ = this.statisticsService.getCitiesRank() as any;
     this.statesRank$ = this.statisticsService.getStatesRank();
 
     this.citiesRank$.subscribe((citiesRank) => {

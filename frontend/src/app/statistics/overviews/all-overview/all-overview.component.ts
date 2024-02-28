@@ -18,6 +18,7 @@ import { Observable } from 'rxjs';
 import { JobService } from 'src/app/job/job.service';
 import { Job } from 'src/app/job/job.types';
 import { CertificationsRankComponent } from '../../ranks/certifications-rank/certifications-rank.component';
+import { RankComponent } from '../../ranks/rank/rank.component';
 
 @Component({
   selector: 'vgm-all-overview',
@@ -39,6 +40,7 @@ import { CertificationsRankComponent } from '../../ranks/certifications-rank/cer
     LanguagesRankComponent,
     MonthsRankComponent,
     CertificationsRankComponent,
+    RankComponent,
   ],
   templateUrl: './all-overview.component.html',
   styleUrls: ['./all-overview.component.scss'],

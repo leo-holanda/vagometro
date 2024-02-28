@@ -5,6 +5,7 @@ import { KeywordStatsData } from './keywords-rank.model';
 import { StatisticsService } from '../../statistics.service';
 import { Job } from 'src/app/job/job.types';
 import { trackByKeyword } from 'src/app/shared/track-by-functions';
+import { RankData } from '../rank/rank.types';
 
 @Component({
   selector: 'vgm-keywords-rank',
@@ -17,7 +18,7 @@ export class KeywordsRankComponent implements OnInit, OnChanges {
   @Input() jobs$?: Observable<Job[]>;
   @Input() rankSize: number | undefined;
 
-  keywordsRank$!: Observable<KeywordStatsData[]>;
+  keywordsRank$!: Observable<RankData[]>;
 
   trackByKeyword = trackByKeyword;
 

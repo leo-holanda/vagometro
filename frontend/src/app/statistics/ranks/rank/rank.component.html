@@ -1,12 +1,12 @@
 <ng-container *ngIf="rankData$ | async as rank; else loading">
-  <div class="card w-full bg-base-300">
+  <div class="card w-full h-full bg-base-300">
     <div class="card-body">
       <h2 class="card-title">
         <i [class]="rankMetaData.icon"></i>
         <span> {{ rankMetaData.name }} </span>
       </h2>
 
-      <main class="overflow-x-auto max-h-96 w-full">
+      <main class="overflow-x-auto max-h-96 w-full mb-4">
         <table class="table">
           <thead>
             <tr>
@@ -35,7 +35,7 @@
       </main>
 
       <footer class="card-actions mt-auto w-full">
-        <button class="btn btn-neutral w-full" [routerLink]="['/stats/meses']">
+        <button class="btn btn-neutral w-full" [routerLink]="[rankMetaData.routerLink]">
           <i class="bx bx-search"></i>
           <span>Ver detalhes</span>
         </button>

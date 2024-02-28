@@ -1,24 +1,12 @@
 import { Injectable } from '@angular/core';
 import { JobService } from '../job/job.service';
 import { Observable, filter, map } from 'rxjs';
-import { CityData, StateData } from './ranks/cities-rank/cities-rank.model';
-import { WorkplaceData } from './ranks/workplace-rank/workplace-rank.model';
-import { TypeData } from './ranks/type-rank/type-rank.model';
-import { CompanyData } from './ranks/companies-rank/companies-rank.model';
 import { Job } from '../job/job.types';
-import { KeywordStatsData } from './ranks/keywords-rank/keywords-rank.model';
-import { InclusionData, InclusionTypes } from '../shared/keywords-matcher/inclusion.data';
-import { EducationData } from './ranks/education-rank/education-rank.types';
-import { MonthData, ComparisonData } from './ranks/months-rank/months-rank.types';
+import { InclusionTypes } from '../shared/keywords-matcher/inclusion.data';
+import { ComparisonData } from './ranks/months-rank/months-rank.types';
 import { ContractTypes } from '../shared/keywords-matcher/contract-types.data';
-import {
-  ExperienceLevelData,
-  ExperienceLevels,
-} from '../shared/keywords-matcher/experience-levels.data';
-import {
-  CertificationStatus,
-  CertificationsData,
-} from '../shared/keywords-matcher/certification.data';
+import { CertificationStatus } from '../shared/keywords-matcher/certification.data';
+import { RankData } from './ranks/rank/rank.types';
 
 @Injectable({
   providedIn: 'root',
@@ -28,7 +16,7 @@ export class StatisticsService {
 
   getCitiesRank(
     jobs$: Observable<Job[] | undefined> = this.jobService.jobs$,
-  ): Observable<CityData[]> {
+  ): Observable<RankData[]> {
     return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
@@ -43,8 +31,9 @@ export class StatisticsService {
 
         const sortedObjects = sortedEntries.map(([key, value]) => ({
           name: key,
-          state: jobs.find((job) => key == job.city)?.state || 'Desconhecido',
           count: value,
+          percentage: value / jobs.length,
+          state: jobs.find((job) => key == job.city)?.state || 'Desconhecido',
         }));
 
         return sortedObjects;
@@ -54,7 +43,7 @@ export class StatisticsService {
 
   getStatesRank(
     jobs$: Observable<Job[] | undefined> = this.jobService.jobs$,
-  ): Observable<StateData[]> {
+  ): Observable<RankData[]> {
     return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
@@ -70,6 +59,7 @@ export class StatisticsService {
         const sortedObjects = sortedEntries.map(([key, value]) => ({
           name: key,
           count: value,
+          percentage: value / jobs.length,
         }));
 
         return sortedObjects;
@@ -77,8 +67,8 @@ export class StatisticsService {
     );
   }
 
-  getJobsCount(): Observable<number> {
-    return this.jobService.jobs$.pipe(
+  getJobsCount(jobs$: Observable<Job[] | undefined> = this.jobService.jobs$): Observable<number> {
+    return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => jobs.length),
     );
@@ -86,7 +76,7 @@ export class StatisticsService {
 
   getWorkplaceRank(
     jobs$: Observable<Job[] | undefined> = this.jobService.jobs$,
-  ): Observable<WorkplaceData[]> {
+  ): Observable<RankData[]> {
     return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
 
@@ -103,8 +93,9 @@ export class StatisticsService {
         const sortedEntries = Array.from(workplaceMap.entries()).sort((a, b) => b[1] - a[1]);
 
         const sortedObjects = sortedEntries.map(([key, value]) => ({
-          type: key,
+          name: key,
           count: value,
+          percentage: value / jobs.length,
         }));
 
         return sortedObjects;
@@ -114,7 +105,7 @@ export class StatisticsService {
 
   getTypesRank(
     jobs$: Observable<Job[] | undefined> = this.jobService.jobs$,
-  ): Observable<TypeData[]> {
+  ): Observable<RankData[]> {
     return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
@@ -132,6 +123,7 @@ export class StatisticsService {
         const sortedObjects = sortedEntries.map(([key, value]) => ({
           name: key,
           count: value,
+          percentage: value / jobs.length,
         }));
 
         return sortedObjects;
@@ -141,7 +133,7 @@ export class StatisticsService {
 
   getCompanyRank(
     jobs$: Observable<Job[] | undefined> = this.jobService.jobs$,
-  ): Observable<CompanyData[]> {
+  ): Observable<RankData[]> {
     return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
 
@@ -160,6 +152,7 @@ export class StatisticsService {
         const sortedObjects = sortedEntries.map(([key, value]) => ({
           name: key,
           count: value,
+          percentage: value / jobs.length,
           link: jobs.find((job) => job.companyName == key)?.companyUrl,
         }));
 
@@ -170,7 +163,7 @@ export class StatisticsService {
 
   getKeywordsRank(
     jobs$: Observable<Job[] | undefined> = this.jobService.jobs$,
-  ): Observable<KeywordStatsData[]> {
+  ): Observable<RankData[]> {
     return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
@@ -188,8 +181,9 @@ export class StatisticsService {
           .sort((a, b) => b[1] - a[1]);
 
         const sortedObjects = sortedEntries.map(([key, value]) => ({
-          word: key,
+          name: key,
           count: value,
+          percentage: value / jobs.length,
         }));
 
         return sortedObjects;
@@ -199,7 +193,7 @@ export class StatisticsService {
 
   getExperienceLevelsRank(
     jobs$: Observable<Job[] | undefined> = this.jobService.jobs$,
-  ): Observable<ExperienceLevelData[]> {
+  ): Observable<RankData[]> {
     return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
@@ -215,12 +209,11 @@ export class StatisticsService {
 
         const sortedEntries = Array.from(experienceLevelsMap.entries()).sort((a, b) => b[1] - a[1]);
 
-        const sortedObjects = sortedEntries.map(
-          ([key, value]): ExperienceLevelData => ({
-            level: key as ExperienceLevels,
-            count: value,
-          }),
-        );
+        const sortedObjects = sortedEntries.map(([key, value]) => ({
+          name: key,
+          count: value,
+          percentage: value / jobs.length,
+        }));
 
         return sortedObjects;
       }),
@@ -229,7 +222,7 @@ export class StatisticsService {
 
   getInclusionRank(
     jobs$: Observable<Job[] | undefined> = this.jobService.jobs$,
-  ): Observable<InclusionData[]> {
+  ): Observable<RankData[]> {
     return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
@@ -244,12 +237,11 @@ export class StatisticsService {
 
         const sortedEntries = Array.from(inclusionTypeMap.entries()).sort((a, b) => b[1] - a[1]);
 
-        const sortedObjects = sortedEntries.map(
-          ([key, value]): InclusionData => ({
-            name: key,
-            count: value,
-          }),
-        );
+        const sortedObjects = sortedEntries.map(([key, value]) => ({
+          name: key,
+          count: value,
+          percentage: value / jobs.length,
+        }));
 
         return sortedObjects;
       }),
@@ -258,7 +250,7 @@ export class StatisticsService {
 
   getEducationRank(
     jobs$: Observable<Job[] | undefined> = this.jobService.jobs$,
-  ): Observable<EducationData[]> {
+  ): Observable<RankData[]> {
     return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
@@ -278,12 +270,11 @@ export class StatisticsService {
 
         const sortedEntries = Array.from(educationMap.entries()).sort((a, b) => b[1] - a[1]);
 
-        const sortedObjects = sortedEntries.map(
-          ([key, value]): EducationData => ({
-            name: key,
-            count: value,
-          }),
-        );
+        const sortedObjects = sortedEntries.map(([key, value]) => ({
+          name: key,
+          count: value,
+          percentage: value / jobs.length,
+        }));
 
         return sortedObjects;
       }),
@@ -292,7 +283,7 @@ export class StatisticsService {
 
   getEducationalLevelRank(
     jobs$: Observable<Job[] | undefined> = this.jobService.jobs$,
-  ): Observable<EducationData[]> {
+  ): Observable<RankData[]> {
     return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
@@ -312,12 +303,11 @@ export class StatisticsService {
 
         const sortedEntries = Array.from(educationMap.entries()).sort((a, b) => b[1] - a[1]);
 
-        const sortedObjects = sortedEntries.map(
-          ([key, value]): EducationData => ({
-            name: key,
-            count: value,
-          }),
-        );
+        const sortedObjects = sortedEntries.map(([key, value]) => ({
+          name: key,
+          count: value,
+          percentage: value / jobs.length,
+        }));
 
         return sortedObjects;
       }),
@@ -326,7 +316,7 @@ export class StatisticsService {
 
   getLanguagesRank(
     jobs$: Observable<Job[] | undefined> = this.jobService.jobs$,
-  ): Observable<EducationData[]> {
+  ): Observable<RankData[]> {
     return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
@@ -346,12 +336,11 @@ export class StatisticsService {
 
         const sortedEntries = Array.from(languageMap.entries()).sort((a, b) => b[1] - a[1]);
 
-        const sortedObjects = sortedEntries.map(
-          ([key, value]): EducationData => ({
-            name: key,
-            count: value,
-          }),
-        );
+        const sortedObjects = sortedEntries.map(([key, value]) => ({
+          name: key,
+          count: value,
+          percentage: value / jobs.length,
+        }));
 
         return sortedObjects;
       }),
@@ -360,7 +349,7 @@ export class StatisticsService {
 
   getMonthsRank(
     jobs$: Observable<Job[] | undefined> = this.jobService.jobs$,
-  ): Observable<MonthData[]> {
+  ): Observable<RankData[]> {
     return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
@@ -377,6 +366,7 @@ export class StatisticsService {
         const sortedObjects = sortedEntries.map(([key, value]) => ({
           name: key,
           count: value,
+          percentage: value / jobs.length,
         }));
 
         return sortedObjects;
@@ -386,7 +376,7 @@ export class StatisticsService {
 
   getCertificationsRank(
     jobs$: Observable<Job[] | undefined> = this.jobService.jobs$,
-  ): Observable<CertificationsData[]> {
+  ): Observable<RankData[]> {
     return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
@@ -402,8 +392,9 @@ export class StatisticsService {
         const sortedEntries = Array.from(certificationsMap.entries()).sort((a, b) => b[1] - a[1]);
 
         const sortedObjects = sortedEntries.map(([key, value]) => ({
-          status: key,
+          name: key,
           count: value,
+          percentage: value / jobs.length,
         }));
 
         return sortedObjects;

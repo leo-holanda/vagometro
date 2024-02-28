@@ -49,14 +49,14 @@ export const routes: Routes = [
           ),
       },
       {
-        path: 'tipos',
+        path: 'contratos',
         loadComponent: () =>
           import('./statistics/overviews/types-overview/types-overview.component').then(
             (mod) => mod.TypesOverviewComponent,
           ),
       },
       {
-        path: 'niveis',
+        path: 'experiencia',
         loadComponent: () =>
           import(
             './statistics/overviews/experience-levels-overview/experience-levels-overview.component'

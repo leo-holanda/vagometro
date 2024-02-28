@@ -18,6 +18,7 @@ import {
   ExperienceLevelData,
   ExperienceLevels,
 } from 'src/app/shared/keywords-matcher/experience-levels.data';
+import { RankData } from '../../ranks/rank/rank.types';
 
 @Component({
   selector: 'vgm-experience-levels-overview',
@@ -38,9 +39,9 @@ import {
   styleUrls: ['./experience-levels-overview.component.scss'],
 })
 export class ExperienceLevelsOverviewComponent implements OnInit {
-  experienceLevelsRank$!: Observable<ExperienceLevelData[]>;
+  experienceLevelsRank$!: Observable<RankData[]>;
   jobsQuantity!: number;
-  selectedLevel!: ExperienceLevels;
+  selectedLevel!: any;
   jobsByExperienceLevel$!: Observable<Job[]>;
 
   trackByExperienceLevel = trackByExperienceLevel;
@@ -54,7 +55,7 @@ export class ExperienceLevelsOverviewComponent implements OnInit {
     this.experienceLevelsRank$ = this.statisticsService.getExperienceLevelsRank();
 
     this.experienceLevelsRank$.subscribe((experienceLevelsRank) => {
-      this.selectedLevel = experienceLevelsRank[0].level;
+      this.selectedLevel = experienceLevelsRank[0].name;
       this.jobsByExperienceLevel$ = this.jobService.getJobsByExperienceLevel(this.selectedLevel);
     });
 
@@ -63,7 +64,7 @@ export class ExperienceLevelsOverviewComponent implements OnInit {
     });
   }
 
-  onExperienceLevelClick(experienceLevel: ExperienceLevels): void {
+  onExperienceLevelClick(experienceLevel: any): void {
     this.selectedLevel = experienceLevel;
     this.jobsByExperienceLevel$ = this.jobService.getJobsByExperienceLevel(this.selectedLevel);
   }

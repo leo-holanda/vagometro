@@ -51,7 +51,7 @@ export class CertificationsOverviewComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.certificationsRank$ = this.statisticsService.getCertificationsRank();
+    this.certificationsRank$ = this.statisticsService.getCertificationsRank() as any;
 
     this.certificationsRank$.subscribe((certificationsRank) => {
       this.selectedCertificationStatus = certificationsRank[0].status;

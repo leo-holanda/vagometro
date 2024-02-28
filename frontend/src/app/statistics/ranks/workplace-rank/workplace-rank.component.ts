@@ -5,6 +5,7 @@ import { WorkplaceData } from './workplace-rank.model';
 import { Observable } from 'rxjs';
 import { Job } from 'src/app/job/job.types';
 import { trackByWorkplace } from 'src/app/shared/track-by-functions';
+import { RankData } from '../rank/rank.types';
 
 @Component({
   selector: 'vgm-workplace-rank',
@@ -15,7 +16,7 @@ import { trackByWorkplace } from 'src/app/shared/track-by-functions';
 })
 export class WorkplaceRankComponent implements OnInit, OnChanges {
   @Input() jobs$?: Observable<Job[]>;
-  workplaceRank$!: Observable<WorkplaceData[]>;
+  workplaceRank$!: Observable<RankData[]>;
 
   trackByWorkplace = trackByWorkplace;
 

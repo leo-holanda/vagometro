@@ -16,6 +16,7 @@ import { EducationRankComponent } from '../../ranks/education-rank/education-ran
 import { LanguagesRankComponent } from '../../ranks/languages-rank/languages-rank.component';
 import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-comparison/job-postings-comparison.component';
 import { ContractTypes } from 'src/app/shared/keywords-matcher/contract-types.data';
+import { RankData } from '../../ranks/rank/rank.types';
 
 @Component({
   selector: 'vgm-types-overview',
@@ -36,9 +37,9 @@ import { ContractTypes } from 'src/app/shared/keywords-matcher/contract-types.da
   styleUrls: ['./types-overview.component.scss'],
 })
 export class TypesOverviewComponent {
-  typesRank$: Observable<TypeData[]>;
+  typesRank$: Observable<any[]>;
   jobsQuantity!: number;
-  selectedType!: ContractTypes;
+  selectedType!: any;
   jobsByType$!: Observable<Job[]>;
 
   trackByType = trackByType;

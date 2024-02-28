@@ -16,6 +16,7 @@ import { LanguagesRankComponent } from '../../ranks/languages-rank/languages-ran
 import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-comparison/job-postings-comparison.component';
 import { InclusionData, InclusionTypes } from '../../../shared/keywords-matcher/inclusion.data';
 import { trackByInclusionType } from 'src/app/shared/track-by-functions';
+import { RankData } from '../../ranks/rank/rank.types';
 
 @Component({
   selector: 'vgm-inclusion-overview',
@@ -37,7 +38,7 @@ import { trackByInclusionType } from 'src/app/shared/track-by-functions';
   styleUrls: ['./inclusion-overview.component.scss'],
 })
 export class InclusionOverviewComponent implements OnInit {
-  inclusionRank$!: Observable<InclusionData[]>;
+  inclusionRank$!: Observable<RankData[]>;
   selectedInclusionType!: InclusionTypes;
   jobsQuantity!: number;
   jobsByInclusionType$!: Observable<Job[]>;
@@ -53,7 +54,7 @@ export class InclusionOverviewComponent implements OnInit {
     this.inclusionRank$ = this.statisticsService.getInclusionRank();
 
     this.inclusionRank$.subscribe((inclusionRank) => {
-      this.selectedInclusionType = inclusionRank[0].name;
+      this.selectedInclusionType = inclusionRank[0].name as InclusionTypes;
       this.jobsByInclusionType$ = this.jobService.getJobsByInclusionType(
         this.selectedInclusionType,
       );
@@ -64,8 +65,8 @@ export class InclusionOverviewComponent implements OnInit {
     });
   }
 
-  onInclusionTypeClick(inclusionType: InclusionTypes): void {
-    this.selectedInclusionType = inclusionType;
+  onInclusionTypeClick(inclusionType: string): void {
+    this.selectedInclusionType = inclusionType as InclusionTypes;
     this.jobsByInclusionType$ = this.jobService.getJobsByInclusionType(this.selectedInclusionType);
   }
 }

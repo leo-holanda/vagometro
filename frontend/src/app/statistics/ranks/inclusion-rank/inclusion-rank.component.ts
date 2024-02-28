@@ -5,6 +5,7 @@ import { Job } from 'src/app/job/job.types';
 import { StatisticsService } from '../../statistics.service';
 import { InclusionData } from '../../../shared/keywords-matcher/inclusion.data';
 import { trackByInclusionType } from 'src/app/shared/track-by-functions';
+import { RankData } from '../rank/rank.types';
 
 @Component({
   selector: 'vgm-inclusion-rank',
@@ -17,7 +18,7 @@ export class InclusionRankComponent implements OnInit, OnChanges {
   @Input() jobs$?: Observable<Job[]>;
   @Input() rankSize: number | undefined;
 
-  inclusionRank$!: Observable<InclusionData[]>;
+  inclusionRank$!: Observable<RankData[]>;
 
   trackByInclusionType = trackByInclusionType;
 

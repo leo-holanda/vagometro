@@ -3,4 +3,5 @@ export type RankData = {
   count: number;
   percentage: number;
   link?: string;
+  state?: string;
 };

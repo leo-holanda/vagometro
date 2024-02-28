@@ -15,6 +15,7 @@ import { trackByWorkplace } from 'src/app/shared/track-by-functions';
 import { EducationRankComponent } from '../../ranks/education-rank/education-rank.component';
 import { LanguagesRankComponent } from '../../ranks/languages-rank/languages-rank.component';
 import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-comparison/job-postings-comparison.component';
+import { RankData } from '../../ranks/rank/rank.types';
 
 @Component({
   selector: 'vgm-workplaces-overview',
@@ -38,7 +39,7 @@ export class WorkplacesOverviewComponent {
   selectedWorkplace = 'remoto';
 
   jobsByWorkplace$!: Observable<Job[]>;
-  workplacesRank$: Observable<WorkplaceData[]>;
+  workplacesRank$: Observable<RankData[]>;
   jobsQuantity = 0;
 
   trackByWorkplace = trackByWorkplace;
@@ -50,7 +51,7 @@ export class WorkplacesOverviewComponent {
     this.workplacesRank$ = this.statisticsService.getWorkplaceRank();
 
     this.workplacesRank$.subscribe((workplacesRank) => {
-      this.selectedWorkplace = workplacesRank[0].type;
+      this.selectedWorkplace = workplacesRank[0].name;
       this.jobsByWorkplace$ = this.jobService.getJobsByWorkplace(this.selectedWorkplace);
     });
 

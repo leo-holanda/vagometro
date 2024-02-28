@@ -15,12 +15,12 @@
 
           <button
             class="btn btn-ghost p-2"
-            *ngFor="let workplace of workplacesRank; index as i; trackBy: trackByWorkplace"
-            [ngClass]="{ 'btn-active': selectedWorkplace === workplace.type }"
-            (click)="onWorkplaceClick(workplace.type)"
+            *ngFor="let workplace of workplacesRank; index as i"
+            [ngClass]="{ 'btn-active': selectedWorkplace === workplace.name }"
+            (click)="onWorkplaceClick(workplace.name)"
           >
             <div class="w-full flex justify-between">
-              <span>{{ i + 1 + ". " + workplace.type | titlecase }}</span>
+              <span>{{ i + 1 + ". " + workplace.name | titlecase }}</span>
 
               <div class="flex gap-2">
                 <span>{{ workplace.count | number }}</span>

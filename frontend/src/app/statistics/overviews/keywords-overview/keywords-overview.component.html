@@ -19,12 +19,12 @@
 
             <button
               class="btn btn-ghost p-2"
-              *ngFor="let keyword of keywordsRank; index as i; trackBy: trackByKeyword"
-              [ngClass]="{ 'btn-active': selectedKeyword === keyword.word }"
-              (click)="onKeywordClick(keyword.word)"
+              *ngFor="let keyword of keywordsRank; index as i"
+              [ngClass]="{ 'btn-active': selectedKeyword === keyword.name }"
+              (click)="onKeywordClick(keyword.name)"
             >
               <div class="w-full flex justify-between">
-                <span>{{ i + 1 + ". " + keyword.word }}</span>
+                <span>{{ i + 1 + ". " + keyword.name }}</span>
 
                 <div class="flex gap-2">
                   <span>{{ keyword.count | number }}</span>
@@ -178,12 +178,12 @@
         <ng-container *ngIf="filteredKeywords$ | async as keywordsRank; else loading">
           <button
             class="btn btn-ghost p-2"
-            *ngFor="let keyword of keywordsRank; index as i; trackBy: trackByKeyword"
-            [ngClass]="{ 'btn-active': selectedKeyword === keyword.word }"
-            (click)="onKeywordClick(keyword.word)"
+            *ngFor="let keyword of keywordsRank; index as i"
+            [ngClass]="{ 'btn-active': selectedKeyword === keyword.name }"
+            (click)="onKeywordClick(keyword.name)"
           >
             <div class="w-full flex justify-between">
-              <span>{{ i + 1 + ". " + keyword.word }}</span>
+              <span>{{ i + 1 + ". " + keyword.name }}</span>
               <span>{{ keyword.count | number }}</span>
             </div>
             <progress

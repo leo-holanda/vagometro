@@ -15,16 +15,12 @@
         <ng-container *ngIf="experienceLevelsRank$ | async as experienceLevelsRank; else loading">
           <button
             class="btn btn-ghost p-2"
-            *ngFor="
-              let experienceLevel of experienceLevelsRank;
-              index as i;
-              trackBy: trackByExperienceLevel
-            "
-            [ngClass]="{ 'btn-active': selectedLevel === experienceLevel.level }"
-            (click)="onExperienceLevelClick(experienceLevel.level)"
+            *ngFor="let experienceLevel of experienceLevelsRank; index as i"
+            [ngClass]="{ 'btn-active': selectedLevel === experienceLevel.name }"
+            (click)="onExperienceLevelClick(experienceLevel.name)"
           >
             <div class="w-full flex justify-between">
-              <span>{{ i + 1 + ". " + experienceLevel.level }}</span>
+              <span>{{ i + 1 + ". " + experienceLevel.name }}</span>
 
               <div class="flex gap-2">
                 <span>{{ experienceLevel.count | number }}</span>

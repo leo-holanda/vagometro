@@ -9,7 +9,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let type of typesRank; index as i; trackBy: trackByType">
+        <tr *ngFor="let type of typesRank; index as i">
           <th>{{ i + 1 }}</th>
           <td>{{ type.name }}</td>
           <td>{{ type.count | number }}</td>

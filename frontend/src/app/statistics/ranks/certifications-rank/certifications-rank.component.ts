@@ -5,6 +5,7 @@ import { trackByCertificationStatus } from 'src/app/shared/track-by-functions';
 import { Observable, map } from 'rxjs';
 import { Job } from 'src/app/job/job.types';
 import { StatisticsService } from '../../statistics.service';
+import { RankData } from '../rank/rank.types';
 
 @Component({
   selector: 'vgm-certifications-rank',
@@ -17,7 +18,7 @@ export class CertificationsRankComponent implements OnInit, OnChanges {
   @Input() jobs$?: Observable<Job[]>;
   @Input() rankSize: number | undefined;
 
-  certificationsRank$!: Observable<CertificationsData[]>;
+  certificationsRank$!: Observable<RankData[]>;
 
   trackByCertificationStatus = trackByCertificationStatus;
 

@@ -9,10 +9,10 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let keyword of keywordsRank; index as i; trackBy: trackByKeyword">
+        <tr *ngFor="let keyword of keywordsRank; index as i">
           <th>{{ i + 1 }}</th>
           <td>
-            {{ keyword.word }}
+            {{ keyword.name }}
           </td>
           <td>{{ keyword.count | number }}</td>
         </tr>

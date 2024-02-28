@@ -51,115 +51,27 @@
 
       <vgm-job-postings-comparison [jobs$]="jobs$"></vgm-job-postings-comparison>
 
-      <div class="card w-full bg-base-300">
-        <div class="card-body">
-          <h2 class="card-title">
-            <i class="bx bxs-user-detail"></i>
-            <span> Níveis de experiência mais requisitados </span>
-          </h2>
-          <vgm-experience-levels-rank [jobs$]="jobs$"></vgm-experience-levels-rank>
-        </div>
-      </div>
+      <vgm-rank [rankType]="rankTypes.experience" [jobs$]="jobs$"></vgm-rank>
 
-      <div class="card w-full bg-base-300">
-        <div class="card-body">
-          <h2 class="card-title">
-            <i class="bx bxs-home"></i>
-            <span> Modalidades mais frequentes </span>
-          </h2>
-          <vgm-workplace-rank [jobs$]="jobs$"></vgm-workplace-rank>
-        </div>
-      </div>
+      <vgm-rank [rankType]="rankTypes.technology" [jobs$]="jobs$"></vgm-rank>
 
-      <div class="card w-full bg-base-300">
-        <div class="card-body">
-          <h2 class="card-title">
-            <i class="bx bxs-chip"></i>
-            <span> Tecnologias mais requisitadas </span>
-          </h2>
-          <vgm-keywords-rank [jobs$]="jobs$"></vgm-keywords-rank>
-        </div>
-      </div>
+      <vgm-rank [rankType]="rankTypes.workplace" [jobs$]="jobs$"></vgm-rank>
 
-      <div class="card w-full bg-base-300">
-        <div class="card-body">
-          <h2 class="card-title">
-            <i class="bx bxs-business"></i>
-            <span> Empresas que mais contratam </span>
-          </h2>
-          <vgm-companies-rank [jobs$]="jobs$"></vgm-companies-rank>
-        </div>
-      </div>
+      <vgm-rank [rankType]="rankTypes.companies" [jobs$]="jobs$"></vgm-rank>
 
-      <div class="card w-full bg-base-300">
-        <div class="card-body">
-          <h2 class="card-title">
-            <i class="bx bxs-briefcase"></i>
-            <span> Tipos de contratos mais frequentes </span>
-          </h2>
-          <vgm-type-rank [jobs$]="jobs$"></vgm-type-rank>
-        </div>
-      </div>
+      <vgm-rank [rankType]="rankTypes.contractTypes" [jobs$]="jobs$"></vgm-rank>
 
-      <div class="card w-full bg-base-300">
-        <div class="card-body">
-          <h2 class="card-title">
-            <i class="bx bxs-heart"></i>
-            <span> Tipos de inclusão mais frequentes </span>
-          </h2>
-          <vgm-inclusion-rank [jobs$]="jobs$"></vgm-inclusion-rank>
-        </div>
-      </div>
+      <vgm-rank [rankType]="rankTypes.education" [jobs$]="jobs$"></vgm-rank>
 
-      <div class="card w-full bg-base-300">
-        <div class="card-body">
-          <h2 class="card-title">
-            <i class="bx bxs-map"></i>
-            <span> Cidades com mais vagas </span>
-          </h2>
-          <vgm-cities-rank [jobs$]=""></vgm-cities-rank>
-        </div>
-      </div>
+      <vgm-rank [rankType]="rankTypes.languages" [jobs$]="jobs$"></vgm-rank>
 
-      <div class="card w-full bg-base-300">
-        <div class="card-body">
-          <h2 class="card-title">
-            <i class="bx bxs-graduation"></i>
-            <span> Níveis educacionais mais requisitados </span>
-          </h2>
-          <vgm-education-rank [jobs$]=""></vgm-education-rank>
-        </div>
-      </div>
+      <vgm-rank [rankType]="rankTypes.cities" [jobs$]="jobs$"></vgm-rank>
 
-      <div class="card w-full bg-base-300">
-        <div class="card-body">
-          <h2 class="card-title">
-            <i class="bx bxs-calendar"></i>
-            <span> Meses com mais vagas publicadas </span>
-          </h2>
-          <vgm-months-rank [jobs$]="jobs$"></vgm-months-rank>
-        </div>
-      </div>
+      <vgm-rank [rankType]="rankTypes.months" [jobs$]="jobs$"></vgm-rank>
 
-      <div class="card w-full bg-base-300">
-        <div class="card-body">
-          <h2 class="card-title">
-            <i class="bx bx-globe"></i>
-            <span> Idiomas mais requisitados </span>
-          </h2>
-          <vgm-languages-rank [jobs$]="jobs$"></vgm-languages-rank>
-        </div>
-      </div>
+      <vgm-rank [rankType]="rankTypes.inclusion" [jobs$]="jobs$"></vgm-rank>
 
-      <div class="card w-full bg-base-300">
-        <div class="card-body">
-          <h2 class="card-title">
-            <i class="bx bxs-certification"></i>
-            <span> Certificações mais requisitadas </span>
-          </h2>
-          <vgm-certifications-rank [jobs$]="jobs$"></vgm-certifications-rank>
-        </div>
-      </div>
+      <vgm-rank [rankType]="rankTypes.certification" [jobs$]="jobs$"></vgm-rank>
     </section>
   </ng-container>
 </main>

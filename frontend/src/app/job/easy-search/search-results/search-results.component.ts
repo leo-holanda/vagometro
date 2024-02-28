@@ -19,6 +19,8 @@ import { EducationRankComponent } from 'src/app/statistics/ranks/education-rank/
 import { MonthsRankComponent } from 'src/app/statistics/ranks/months-rank/months-rank.component';
 import { LanguagesRankComponent } from 'src/app/statistics/ranks/languages-rank/languages-rank.component';
 import { CertificationsRankComponent } from 'src/app/statistics/ranks/certifications-rank/certifications-rank.component';
+import { RankComponent } from 'src/app/statistics/ranks/rank/rank.component';
+import { RankTypes } from 'src/app/statistics/ranks/rank/rank.types';
 
 @Component({
   selector: 'vgm-search-results',
@@ -27,19 +29,9 @@ import { CertificationsRankComponent } from 'src/app/statistics/ranks/certificat
     CommonModule,
     RouterModule,
     JobListComponent,
-    ExperienceLevelsRankComponent,
     PublicationChartComponent,
     JobPostingsComparisonComponent,
-    WorkplaceRankComponent,
-    KeywordsRankComponent,
-    CompaniesRankComponent,
-    TypeRankComponent,
-    InclusionRankComponent,
-    CitiesRankComponent,
-    EducationRankComponent,
-    MonthsRankComponent,
-    LanguagesRankComponent,
-    CertificationsRankComponent,
+    RankComponent,
   ],
   templateUrl: './search-results.component.html',
   styleUrls: ['./search-results.component.scss'],
@@ -48,6 +40,8 @@ export class SearchResultsComponent {
   selectedDataType: 'jobs' | 'stats' = 'jobs';
 
   jobs$: Observable<Job[]>;
+
+  rankTypes = RankTypes;
 
   constructor(private jobService: JobService) {
     this.jobs$ = this.jobService.jobs$.pipe(filter((jobs): jobs is Job[] => jobs != undefined));

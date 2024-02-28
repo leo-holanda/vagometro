@@ -2,37 +2,26 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StatisticsService } from '../../statistics.service';
 import { Observable, map } from 'rxjs';
-import { KeywordStatsData } from '../../ranks/keywords-rank/keywords-rank.model';
 import { JobService } from 'src/app/job/job.service';
 import { Job } from 'src/app/job/job.types';
-import { CompaniesRankComponent } from '../../ranks/companies-rank/companies-rank.component';
-import { WorkplaceRankComponent } from '../../ranks/workplace-rank/workplace-rank.component';
-import { TypeRankComponent } from '../../ranks/type-rank/type-rank.component';
 import { PublicationChartComponent } from '../../charts/publication-chart/publication-chart.component';
 import { JobListComponent } from 'src/app/job/job-list/job-list.component';
-import { ExperienceLevelsRankComponent } from '../../ranks/experience-levels-rank/experience-levels-rank.component';
-import { trackByKeyword } from 'src/app/shared/track-by-functions';
+import { trackByKeyword, trackByRankData } from 'src/app/shared/track-by-functions';
 import { FormsModule } from '@angular/forms';
-import { EducationRankComponent } from '../../ranks/education-rank/education-rank.component';
-import { LanguagesRankComponent } from '../../ranks/languages-rank/languages-rank.component';
 import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-comparison/job-postings-comparison.component';
-import { RankData } from '../../ranks/rank/rank.types';
+import { RankData, RankTypes } from '../../ranks/rank/rank.types';
+import { RankComponent } from '../../ranks/rank/rank.component';
 
 @Component({
   selector: 'vgm-keywords-overview',
   standalone: true,
   imports: [
     CommonModule,
-    CompaniesRankComponent,
-    WorkplaceRankComponent,
-    TypeRankComponent,
     PublicationChartComponent,
     JobListComponent,
-    ExperienceLevelsRankComponent,
     FormsModule,
-    EducationRankComponent,
-    LanguagesRankComponent,
     JobPostingsComparisonComponent,
+    RankComponent,
   ],
   templateUrl: './keywords-overview.component.html',
   styleUrls: ['./keywords-overview.component.scss'],
@@ -46,7 +35,8 @@ export class KeywordsOverviewComponent implements OnInit {
   filteredKeywords$!: Observable<RankData[]>;
   keywordSearchString = '';
 
-  trackByKeyword = trackByKeyword;
+  trackByRankData = trackByRankData;
+  rankTypes = RankTypes;
 
   constructor(
     private statisticsService: StatisticsService,

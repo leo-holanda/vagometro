@@ -19,7 +19,7 @@
 
             <button
               class="btn btn-ghost p-2"
-              *ngFor="let keyword of keywordsRank; index as i"
+              *ngFor="let keyword of keywordsRank; index as i; trackBy: trackByRankData"
               [ngClass]="{ 'btn-active': selectedKeyword === keyword.name }"
               (click)="onKeywordClick(keyword.name)"
             >
@@ -68,70 +68,34 @@
       <vgm-job-postings-comparison [jobs$]="jobsByKeyword$"></vgm-job-postings-comparison>
     </section>
 
-    <section class="card card-bordered card-compact w-full bg-base-300">
-      <header class="card-title p-4">
-        <h1>Sobre as vagas que pedem {{ selectedKeyword }}</h1>
-      </header>
+    <section class="grid grid-cols-1 gap-4">
+      <div class="card card-bordered card-compact w-full bg-base-300">
+        <div class="card-body">
+          <header class="card-title p-4">
+            <h1>Sobre as vagas que pedem {{ selectedKeyword }}</h1>
+          </header>
+        </div>
+      </div>
 
-      <section class="card-body">
-        <section>
-          <div class="flex items-center gap-2 mb-2">
-            <i class="bx bxs-business"></i>
-            <h3>Empresas que mais contratam</h3>
-          </div>
-          <vgm-companies-rank [jobs$]="jobsByKeyword$"></vgm-companies-rank>
-        </section>
+      <vgm-rank [rankType]="rankTypes.experience" [jobs$]="jobsByKeyword$"></vgm-rank>
 
-        <div class="divider"></div>
+      <vgm-rank [rankType]="rankTypes.workplace" [jobs$]="jobsByKeyword$"></vgm-rank>
 
-        <section>
-          <div class="flex items-center gap-2 mb-2">
-            <i class="bx bxs-home"></i>
-            <h3>Modalidades mais frequentes</h3>
-          </div>
-          <vgm-workplace-rank [jobs$]="jobsByKeyword$"></vgm-workplace-rank>
-        </section>
+      <vgm-rank [rankType]="rankTypes.contractTypes" [jobs$]="jobsByKeyword$"></vgm-rank>
 
-        <div class="divider"></div>
+      <vgm-rank [rankType]="rankTypes.companies" [jobs$]="jobsByKeyword$"></vgm-rank>
 
-        <section>
-          <div class="flex items-center gap-2 mb-2">
-            <i class="bx bxs-user-detail"></i>
-            <h3>Níveis de experiência mais requisitados</h3>
-          </div>
-          <vgm-experience-levels-rank [jobs$]="jobsByKeyword$"></vgm-experience-levels-rank>
-        </section>
+      <vgm-rank [rankType]="rankTypes.education" [jobs$]="jobsByKeyword$"></vgm-rank>
 
-        <div class="divider"></div>
+      <vgm-rank [rankType]="rankTypes.months" [jobs$]="jobsByKeyword$"></vgm-rank>
 
-        <section>
-          <div class="flex items-center gap-2 mb-2">
-            <i class="bx bxs-briefcase"></i>
-            <h3>Tipos de vagas</h3>
-          </div>
-          <vgm-type-rank [jobs$]="jobsByKeyword$"></vgm-type-rank>
-        </section>
+      <vgm-rank [rankType]="rankTypes.cities" [jobs$]="jobsByKeyword$"></vgm-rank>
 
-        <div class="divider"></div>
+      <vgm-rank [rankType]="rankTypes.inclusion" [jobs$]="jobsByKeyword$"></vgm-rank>
 
-        <section>
-          <div class="flex items-center gap-2 mb-2">
-            <i class="bx bxs-graduation"></i>
-            <h3>Níveis de formação mais requisitados</h3>
-          </div>
-          <vgm-education-rank [jobs$]="jobsByKeyword$"></vgm-education-rank>
-        </section>
+      <vgm-rank [rankType]="rankTypes.languages" [jobs$]="jobsByKeyword$"></vgm-rank>
 
-        <div class="divider"></div>
-
-        <section>
-          <div class="flex items-center gap-2 mb-2">
-            <i class="bx bx-globe"></i>
-            <h3>Idiomas mais requisitados</h3>
-          </div>
-          <vgm-languages-rank [jobs$]="jobsByKeyword$"></vgm-languages-rank>
-        </section>
-      </section>
+      <vgm-rank [rankType]="rankTypes.certification" [jobs$]="jobsByKeyword$"></vgm-rank>
     </section>
   </main>
 

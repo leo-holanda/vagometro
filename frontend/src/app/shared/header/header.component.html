@@ -13,93 +13,30 @@
 
       <dialog #menuModal id="menuModal" class="modal modal-top">
         <div class="modal-box flex flex-col gap-4">
-          <section class="flex flex-col gap-2">
-            <h1>Seletor de janela de tempo</h1>
-            <div class="flex flex-wrap gap-2">
-              <button
-                [ngClass]="{
-                  'btn-active': (currentTimeWindow$ | async) === timeWindows.today
-                }"
-                (click)="onTimeWindowClick(timeWindows.today)"
-                class="btn btn-outline"
-              >
-                Hoje
-              </button>
-
-              <button
-                [ngClass]="{
-                  'btn-active': (currentTimeWindow$ | async) === timeWindows.yesterday
-                }"
-                (click)="onTimeWindowClick(timeWindows.yesterday)"
-                class="btn btn-outline"
-              >
-                Ontem
-              </button>
-
-              <button
-                [ngClass]="{
-                  'btn-active': (currentTimeWindow$ | async) === timeWindows.week
-                }"
-                (click)="onTimeWindowClick(timeWindows.week)"
-                class="btn btn-outline"
-              >
-                Semana
-              </button>
-
-              <button
-                [ngClass]="{
-                  'btn-active': (currentTimeWindow$ | async) === timeWindows.month
-                }"
-                (click)="onTimeWindowClick(timeWindows.month)"
-                class="btn btn-outline"
-              >
-                Mês
-              </button>
-
-              <button
-                [ngClass]="{
-                  'btn-active': (currentTimeWindow$ | async) === timeWindows['6months']
-                }"
-                (click)="onTimeWindowClick(timeWindows['6months'])"
-                class="btn btn-outline"
-              >
-                6 meses
-              </button>
-
-              <button
-                [ngClass]="{
-                  'btn-active': (currentTimeWindow$ | async) === timeWindows.year
-                }"
-                (click)="onTimeWindowClick(timeWindows.year)"
-                class="btn btn-outline"
-              >
-                1 ano
-              </button>
-
-              <button
-                [ngClass]="{
-                  'btn-active': (currentTimeWindow$ | async) === timeWindows.all
-                }"
-                (click)="onTimeWindowClick(timeWindows.all)"
-                class="btn btn-outline"
-              >
-                Sempre
-              </button>
-            </div>
-          </section>
-
-          <section class="flex flex-wrap gap-2">
-            <button class="btn mr-2" [routerLink]="['/busca-facil']">
+          <section class="flex flex-wrap items-end gap-2">
+            <button class="btn mr-2 justify-start w-full" [routerLink]="['/busca-facil']">
               <i class="bx bx-search-alt"></i>
               <span> Busca fácil </span>
             </button>
 
-            <button class="btn mr-2" (click)="jobSourcesModal.showModal()">
+            <button class="btn mr-2 justify-start w-full" (click)="timeWindowModal.showModal()">
+              <i class="bx bxs-time-five"></i>
+              <span> Mudar intervalo </span>
+            </button>
+
+            <button class="btn mr-2 justify-start w-full" (click)="jobSourcesModal.showModal()">
               <i class="bx bx-data"></i>
               <span> Mudar dados </span>
             </button>
 
-            <label class="btn btn-ghost btn-circle swap swap-rotate">
+            <button class="btn mr-2 justify-start w-full" (click)="donationModal.showModal()">
+              <i class="bx bxs-donate-heart"></i>
+              <span> Apoiar </span>
+            </button>
+          </section>
+
+          <section class="flex flex-wrap gap-2">
+            <label class="btn flex-1 swap swap-rotate">
               <input type="checkbox" class="theme-controller" value="light" />
 
               <div class="swap-on">
@@ -111,15 +48,11 @@
               </div>
             </label>
 
-            <a
-              class="btn btn-ghost btn-circle"
-              href="https://github.com/leo-holanda/vagometro"
-              target="_blank"
-            >
+            <a class="btn flex-1" href="https://github.com/leo-holanda/vagometro" target="_blank">
               <i class="bx bxl-github"></i>
             </a>
 
-            <button class="btn btn-ghost btn-circle" onclick="my_modal_1.showModal()">
+            <button class="btn flex-1" onclick="my_modal_1.showModal()">
               <i class="bx bxs-help-circle"></i>
             </button>
           </section>
@@ -157,8 +90,13 @@
       </button>
     </div>
 
-    <div class="navbar-end">
-      <label class="btn btn-ghost btn-circle swap swap-rotate">
+    <div class="navbar-end gap-2">
+      <button class="btn mr-2" (click)="donationModal.showModal()">
+        <i class="bx bxs-donate-heart"></i>
+        <span> Apoiar </span>
+      </button>
+
+      <label class="btn swap swap-rotate">
         <input type="checkbox" class="theme-controller" value="light" />
 
         <div class="swap-on">
@@ -170,15 +108,11 @@
         </div>
       </label>
 
-      <a
-        class="btn btn-ghost btn-circle"
-        href="https://github.com/leo-holanda/vagometro"
-        target="_blank"
-      >
+      <a class="btn" href="https://github.com/leo-holanda/vagometro" target="_blank">
         <i class="bx bxl-github"></i>
       </a>
 
-      <button class="btn btn-ghost btn-circle" onclick="my_modal_1.showModal()">
+      <button class="btn" onclick="my_modal_1.showModal()">
         <i class="bx bxs-help-circle"></i>
       </button>
     </div>
@@ -347,6 +281,32 @@
         Sempre
       </button>
     </div>
+
+    <div class="modal-action w-full">
+      <form method="dialog" class="w-full">
+        <button class="btn w-full">
+          <i class="bx bx-arrow-back"></i>
+          Retornar
+        </button>
+      </form>
+    </div>
+  </div>
+</dialog>
+
+<dialog #donationModal class="modal">
+  <div class="modal-box">
+    <header class="flex items-center gap-2 mb-4">
+      <i class="bx bxs-donate-heart"></i>
+      <h1 class="text-lg font-bold text-balance">Apoie o vagômetro!</h1>
+    </header>
+
+    <main class="flex flex-col gap-4">
+      <p>
+        Se o vagômetro foi útil para você, considere apoiar o projeto! Sua contribuição ajudará o
+        vagômetro a continuar funcionando e recebendo atualizações.
+      </p>
+      <p><strong>Chave PIX:</strong> vagometrobr&#64;gmail.com</p>
+    </main>
 
     <div class="modal-action w-full">
       <form method="dialog" class="w-full">

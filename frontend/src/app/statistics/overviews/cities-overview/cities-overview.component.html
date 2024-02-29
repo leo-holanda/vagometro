@@ -9,21 +9,21 @@
         <div class="flex flex-wrap gap-2">
           <button
             (click)="changeDataType('city')"
-            class="btn"
+            class="btn btn-outline"
             [ngClass]="{ 'btn-active': dataType === 'city' }"
           >
             Ver por cidades
           </button>
           <button
             (click)="changeDataType('state')"
-            class="btn"
+            class="btn btn-outline"
             [ngClass]="{ 'btn-active': dataType === 'state' }"
           >
             Ver por estados
           </button>
           <button
             (click)="changeDataType('map')"
-            class="btn"
+            class="btn btn-outline"
             [ngClass]="{ 'btn-active': dataType === 'map' }"
           >
             Ver mapa nacional

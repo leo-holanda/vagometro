@@ -170,6 +170,19 @@ def parse_jobs_data(soup):
 
     return job_list
 
+def save_jobs_in_database(collection, jobs):
+    print("Total jobs to save: ", len(jobs))
+    try:
+        collection.insert_many(jobs, ordered=False)
+        print("Jobs were inserted successfully.")
+    except pymongo_errors.BulkWriteError as e:
+        exception_str = str(e)
+        start_index = exception_str.find("writeConcernErrors")
+        write_errors_str = exception_str[start_index:]
+        print("Bulk write error exception was launched.")
+        print(write_errors_str)
+    except Exception as e:
+        print(f"Error: {e}")
 
 def main():
     print(f"Starting Task #{TASK_INDEX}, Attempt #{TASK_ATTEMPT}...")
@@ -187,24 +200,23 @@ def main():
         print("Connection with Atlas has failed")
         sys.exit(1)
 
-    job_list = []
-    
     session = requests.Session()
     session.headers = {
         'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
     }
 
-    all_jobs = get_parsed_jobs(session)
+    parsed_jobs = get_parsed_jobs(session)
 
-    if len(all_jobs) == 0:
+    if len(parsed_jobs) == 0:
         print("No jobs found")
         return
 
     saved_jobs_id_set = {job['_id'] for job in collection.find({}, {'_id': 1})}
+    new_jobs = [job for job in parsed_jobs if job['id'] not in saved_jobs_id_set]
+    print(f"{len(new_jobs)} new jobs found!")
 
-    for job in all_jobs:
-        if(job['id'] in saved_jobs_id_set): continue
-
+    jobs_to_save = []
+    for job in new_jobs:
         try:
             job_page = get_with_retry(job['url'], session)
             description, employment_type = parse_job_page(
@@ -217,24 +229,17 @@ def main():
                     job['title'], 'at ', job['company_name'], job['url'])
 
             job["_id"] = job['id']
-            job_list.append(job)
+            jobs_to_save.append(job)
             tm.sleep(1)
         except:
             print("An error ocurred while parsing job page")
+        
+        if(len(jobs_to_save) == 50):
+            save_jobs_in_database(collection, jobs_to_save)
+            jobs_to_save = []
 
-    print("Total jobs to add: ", len(job_list))
-    try:
-        collection.insert_many(job_list, ordered=False)
-        print("Jobs were inserted successfully.")
-    except pymongo_errors.BulkWriteError as e:
-        exception_str = str(e)
-        start_index = exception_str.find("writeConcernErrors")
-        write_errors_str = exception_str[start_index:]
-        print("Bulk write error exception was launched.")
-        print(write_errors_str)
-    except Exception as e:
-        print(f"Error: {e}")
 
+    if(len(jobs_to_save) > 0): save_jobs_in_database(collection, jobs_to_save)
     client.close()
     print(f"Completed Task #{TASK_INDEX}.")
 

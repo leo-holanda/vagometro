@@ -6,11 +6,12 @@ import { JobService } from 'src/app/job/job.service';
 import { Job } from 'src/app/job/job.types';
 import { PublicationChartComponent } from '../../charts/publication-chart/publication-chart.component';
 import { JobListComponent } from 'src/app/job/job-list/job-list.component';
-import { trackByKeyword, trackByRankData } from 'src/app/shared/track-by-functions';
+import { trackByRankData } from 'src/app/shared/track-by-functions';
 import { FormsModule } from '@angular/forms';
 import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-comparison/job-postings-comparison.component';
 import { RankData, RankTypes } from '../../rank/rank.types';
 import { RankComponent } from '../../rank/rank.component';
+import { MatchesChartComponent } from '../../charts/matches-chart/matches-chart.component';
 
 @Component({
   selector: 'vgm-keywords-overview',
@@ -22,6 +23,7 @@ import { RankComponent } from '../../rank/rank.component';
     FormsModule,
     JobPostingsComparisonComponent,
     RankComponent,
+    MatchesChartComponent,
   ],
   templateUrl: './keywords-overview.component.html',
   styleUrls: ['./keywords-overview.component.scss'],

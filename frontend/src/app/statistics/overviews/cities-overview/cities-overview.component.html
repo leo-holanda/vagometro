@@ -139,6 +139,10 @@
     <vgm-job-postings-comparison
       [jobs$]="dataType === 'city' ? jobsByCity$ : jobsByState$"
     ></vgm-job-postings-comparison>
+
+    <vgm-matches-chart
+      [jobs$]="dataType === 'city' ? jobsByCity$ : jobsByState$"
+    ></vgm-matches-chart>
   </div>
 
   <div class="grid grid-cols-1 gap-4">

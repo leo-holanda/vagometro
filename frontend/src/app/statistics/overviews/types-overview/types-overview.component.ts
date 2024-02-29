@@ -11,6 +11,7 @@ import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-c
 import { ContractTypes } from 'src/app/shared/keywords-matcher/contract-types.data';
 import { RankData, RankTypes } from '../../rank/rank.types';
 import { RankComponent } from '../../rank/rank.component';
+import { MatchesChartComponent } from '../../charts/matches-chart/matches-chart.component';
 
 @Component({
   selector: 'vgm-types-overview',
@@ -21,6 +22,7 @@ import { RankComponent } from '../../rank/rank.component';
     JobListComponent,
     JobPostingsComparisonComponent,
     RankComponent,
+    MatchesChartComponent,
   ],
   templateUrl: './types-overview.component.html',
   styleUrls: ['./types-overview.component.scss'],

@@ -11,6 +11,7 @@ import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-c
 import { JobListComponent } from 'src/app/job/job-list/job-list.component';
 import { RankData, RankTypes } from '../../rank/rank.types';
 import { RankComponent } from '../../rank/rank.component';
+import { MatchesChartComponent } from '../../charts/matches-chart/matches-chart.component';
 
 @Component({
   selector: 'vgm-certifications-overview',
@@ -21,6 +22,7 @@ import { RankComponent } from '../../rank/rank.component';
     JobPostingsComparisonComponent,
     JobListComponent,
     RankComponent,
+    MatchesChartComponent,
   ],
   templateUrl: './certifications-overview.component.html',
   styleUrls: ['./certifications-overview.component.scss'],

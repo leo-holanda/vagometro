@@ -11,6 +11,7 @@ import { InclusionTypes } from '../../../shared/keywords-matcher/inclusion.data'
 import { trackByRankData } from 'src/app/shared/track-by-functions';
 import { RankData, RankTypes } from '../../rank/rank.types';
 import { RankComponent } from '../../rank/rank.component';
+import { MatchesChartComponent } from '../../charts/matches-chart/matches-chart.component';
 
 @Component({
   selector: 'vgm-inclusion-overview',
@@ -21,6 +22,7 @@ import { RankComponent } from '../../rank/rank.component';
     JobListComponent,
     JobPostingsComparisonComponent,
     RankComponent,
+    MatchesChartComponent,
   ],
   templateUrl: './inclusion-overview.component.html',
   styleUrls: ['./inclusion-overview.component.scss'],

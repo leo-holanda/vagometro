@@ -11,6 +11,7 @@ import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-c
 import { RankData, RankTypes } from '../../rank/rank.types';
 import { RankComponent } from '../../rank/rank.component';
 import { trackByRankData } from 'src/app/shared/track-by-functions';
+import { MatchesChartComponent } from '../../charts/matches-chart/matches-chart.component';
 
 @Component({
   selector: 'vgm-education-overview',
@@ -21,6 +22,7 @@ import { trackByRankData } from 'src/app/shared/track-by-functions';
     JobListComponent,
     JobPostingsComparisonComponent,
     RankComponent,
+    MatchesChartComponent,
   ],
   templateUrl: './education-overview.component.html',
   styleUrls: ['./education-overview.component.scss'],

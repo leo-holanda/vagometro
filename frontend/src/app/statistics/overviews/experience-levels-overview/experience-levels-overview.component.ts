@@ -11,6 +11,7 @@ import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-c
 import { ExperienceLevels } from 'src/app/shared/keywords-matcher/experience-levels.data';
 import { RankData, RankTypes } from '../../rank/rank.types';
 import { RankComponent } from '../../rank/rank.component';
+import { MatchesChartComponent } from '../../charts/matches-chart/matches-chart.component';
 
 @Component({
   selector: 'vgm-experience-levels-overview',
@@ -21,6 +22,7 @@ import { RankComponent } from '../../rank/rank.component';
     JobListComponent,
     JobPostingsComparisonComponent,
     RankComponent,
+    MatchesChartComponent,
   ],
   templateUrl: './experience-levels-overview.component.html',
   styleUrls: ['./experience-levels-overview.component.scss'],

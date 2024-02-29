@@ -10,6 +10,7 @@ import { trackByRankData } from 'src/app/shared/track-by-functions';
 import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-comparison/job-postings-comparison.component';
 import { RankData, RankTypes } from '../../rank/rank.types';
 import { RankComponent } from '../../rank/rank.component';
+import { MatchesChartComponent } from '../../charts/matches-chart/matches-chart.component';
 
 @Component({
   selector: 'vgm-workplaces-overview',
@@ -20,6 +21,7 @@ import { RankComponent } from '../../rank/rank.component';
     JobListComponent,
     JobPostingsComparisonComponent,
     RankComponent,
+    MatchesChartComponent,
   ],
   templateUrl: './workplaces-overview.component.html',
   styleUrls: ['./workplaces-overview.component.scss'],

@@ -12,6 +12,7 @@ import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-c
 import { RankData, RankTypes } from '../../rank/rank.types';
 import { trackByRankData } from 'src/app/shared/track-by-functions';
 import { RankComponent } from '../../rank/rank.component';
+import { MatchesChartComponent } from '../../charts/matches-chart/matches-chart.component';
 
 @Component({
   selector: 'vgm-cities-overview',
@@ -24,6 +25,7 @@ import { RankComponent } from '../../rank/rank.component';
     StateAbbreviationPipe,
     JobPostingsComparisonComponent,
     RankComponent,
+    MatchesChartComponent,
   ],
   templateUrl: './cities-overview.component.html',
   styleUrls: ['./cities-overview.component.scss'],

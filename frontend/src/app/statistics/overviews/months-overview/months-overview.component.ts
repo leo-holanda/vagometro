@@ -10,6 +10,7 @@ import { JobListComponent } from 'src/app/job/job-list/job-list.component';
 import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-comparison/job-postings-comparison.component';
 import { RankComponent } from '../../rank/rank.component';
 import { RankData, RankTypes } from '../../rank/rank.types';
+import { MatchesChartComponent } from '../../charts/matches-chart/matches-chart.component';
 
 @Component({
   selector: 'vgm-months-overview',
@@ -20,6 +21,7 @@ import { RankData, RankTypes } from '../../rank/rank.types';
     JobListComponent,
     JobPostingsComparisonComponent,
     RankComponent,
+    MatchesChartComponent,
   ],
   templateUrl: './months-overview.component.html',
   styleUrls: ['./months-overview.component.scss'],

@@ -4,8 +4,6 @@ import { JobService } from 'src/app/job/job.service';
 import { Observable } from 'rxjs';
 import { Job } from 'src/app/job/job.types';
 import { BrazilMapComponent } from '../../maps/brazil-map/brazil-map.component';
-import { KeywordStatsData } from '../../ranks/keywords-rank/keywords-rank.model';
-import { TypeData } from '../../ranks/type-rank/type-rank.model';
 import { PublicationChartComponent } from '../../charts/publication-chart/publication-chart.component';
 import { JobListComponent } from 'src/app/job/job-list/job-list.component';
 import { StatisticsService } from '../../statistics.service';
@@ -31,9 +29,6 @@ import { RankComponent } from '../../ranks/rank/rank.component';
   styleUrls: ['./cities-overview.component.scss'],
 })
 export class CitiesOverviewComponent implements OnInit {
-  typeRank$!: Observable<TypeData[]>;
-  keywordsRank$!: Observable<KeywordStatsData[]>;
-
   statesRank$!: Observable<RankData[]>;
   citiesRank$!: Observable<RankData[]>;
 
@@ -75,8 +70,8 @@ export class CitiesOverviewComponent implements OnInit {
       this.jobsByState$ = this.jobService.getJobsByState(this.selectedState);
     });
 
-    this.jobService.jobs$.subscribe((jobs) => {
-      this.jobsQuantity = jobs?.length || 0;
+    this.statisticsService.getJobsCount().subscribe((count) => {
+      this.jobsQuantity = count;
     });
   }
 

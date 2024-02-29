@@ -6,10 +6,10 @@ import { JobService } from 'src/app/job/job.service';
 import { StatisticsService } from '../../statistics.service';
 import { PublicationChartComponent } from '../../charts/publication-chart/publication-chart.component';
 import { JobListComponent } from 'src/app/job/job-list/job-list.component';
-import { trackByCompany } from 'src/app/shared/track-by-functions';
 import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-comparison/job-postings-comparison.component';
 import { RankComponent } from '../../ranks/rank/rank.component';
 import { RankData, RankTypes } from '../../ranks/rank/rank.types';
+import { trackByRankData } from 'src/app/shared/track-by-functions';
 
 @Component({
   selector: 'vgm-companies-overview',
@@ -30,7 +30,7 @@ export class CompaniesOverviewComponent implements OnInit {
   selectedCompany!: string;
   jobsByCompany$!: Observable<Job[]>;
 
-  trackByCompany = trackByCompany;
+  trackByRankData = trackByRankData;
   rankTypes = RankTypes;
 
   constructor(

@@ -23,7 +23,7 @@
     <section class="card-body max-h-64 overflow-y-auto">
       <button
         class="btn p-2"
-        *ngFor="let keyword of filteredKeywords; index as i"
+        *ngFor="let keyword of filteredKeywords; index as i; trackBy: trackByKeyword"
         [ngClass]="{ 'btn-success': keyword.isSelected }"
         (click)="onKeywordClick(keyword)"
       >

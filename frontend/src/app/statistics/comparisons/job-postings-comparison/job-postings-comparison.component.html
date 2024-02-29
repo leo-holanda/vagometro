@@ -7,26 +7,29 @@
           Comparativo {{ shouldShowMonthly ? "Mensal" : "Anual" }}
         </div>
 
-        <div role="tablist" class="tabs tabs-boxed gap-2">
-          <a
-            role="tab"
-            class="tab"
-            [ngClass]="{
-              'tab-active': shouldShowMonthly
-            }"
-            (click)="onDataTypeClick(true)"
-            >Ver mensamente</a
-          >
-          <a
-            role="tab"
-            class="tab"
-            [ngClass]="{
-              'tab-active': !shouldShowMonthly
-            }"
-            (click)="onDataTypeClick(false)"
-            >Ver anualmente</a
-          >
-        </div>
+        <section class="flex flex-col gap-2">
+          <div class="flex flex-wrap gap-2">
+            <button
+              [ngClass]="{
+                'btn-active': shouldShowMonthly
+              }"
+              (click)="onDataTypeClick(true)"
+              class="btn btn-outline"
+            >
+              Ver mensamente
+            </button>
+
+            <button
+              [ngClass]="{
+                'btn-active': !shouldShowMonthly
+              }"
+              (click)="onDataTypeClick(false)"
+              class="btn btn-outline"
+            >
+              Ver anualmente
+            </button>
+          </div>
+        </section>
       </h2>
 
       <div class="overflow-x-auto max-h-96 mt-4">
@@ -41,7 +44,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let month of monthlyData; index as i; trackBy: trackByMonth">
+              <tr *ngFor="let month of monthlyData; index as i; trackBy: trackByComparisonData">
                 <td>{{ month.name | titlecase }}</td>
                 <td>{{ month.count | number }}</td>
                 <td
@@ -88,7 +91,7 @@
                 *ngFor="
                   let annual of annualComparativeData$ | async;
                   index as i;
-                  trackBy: trackByMonth
+                  trackBy: trackByComparisonData
                 "
               >
                 <td>{{ annual.name | titlecase }}</td>

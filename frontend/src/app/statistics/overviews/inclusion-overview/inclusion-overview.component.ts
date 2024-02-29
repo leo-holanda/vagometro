@@ -8,7 +8,7 @@ import { JobListComponent } from 'src/app/job/job-list/job-list.component';
 import { PublicationChartComponent } from '../../charts/publication-chart/publication-chart.component';
 import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-comparison/job-postings-comparison.component';
 import { InclusionTypes } from '../../../shared/keywords-matcher/inclusion.data';
-import { trackByInclusionType, trackByRankData } from 'src/app/shared/track-by-functions';
+import { trackByRankData } from 'src/app/shared/track-by-functions';
 import { RankData, RankTypes } from '../../ranks/rank/rank.types';
 import { RankComponent } from '../../ranks/rank/rank.component';
 

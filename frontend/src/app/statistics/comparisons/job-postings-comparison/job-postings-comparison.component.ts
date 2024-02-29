@@ -2,9 +2,9 @@ import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 import { Job } from 'src/app/job/job.types';
-import { trackByMonth } from 'src/app/shared/track-by-functions';
-import { ComparisonData } from '../../ranks/months-rank/months-rank.types';
 import { StatisticsService } from '../../statistics.service';
+import { ComparisonData } from '../comparisons.types';
+import { trackByComparisonData } from 'src/app/shared/track-by-functions';
 
 @Component({
   selector: 'vgm-job-postings-comparison',
@@ -21,7 +21,7 @@ export class JobPostingsComparisonComponent implements OnChanges {
   monthlyComparativeData$: Observable<ComparisonData[]>;
   annualComparativeData$: Observable<ComparisonData[]>;
 
-  trackByMonth = trackByMonth;
+  trackByComparisonData = trackByComparisonData;
 
   constructor(private statisticsService: StatisticsService) {
     this.monthlyComparativeData$ = this.statisticsService.getMonthlyComparison(this.jobs$);

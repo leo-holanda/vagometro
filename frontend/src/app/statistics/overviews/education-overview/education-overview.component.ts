@@ -1,17 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { trackByEducationStatus } from 'src/app/shared/track-by-functions';
 import { Observable } from 'rxjs';
 import { Job } from 'src/app/job/job.types';
 import { JobService } from 'src/app/job/job.service';
 import { StatisticsService } from '../../statistics.service';
 import { PublicationChartComponent } from '../../charts/publication-chart/publication-chart.component';
-import { ExperienceLevelsRankComponent } from '../../ranks/experience-levels-rank/experience-levels-rank.component';
 import { JobListComponent } from 'src/app/job/job-list/job-list.component';
 import { EducationalDataTypes } from './education-overview.types';
 import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-comparison/job-postings-comparison.component';
 import { RankData, RankTypes } from '../../ranks/rank/rank.types';
 import { RankComponent } from '../../ranks/rank/rank.component';
+import { trackByRankData } from 'src/app/shared/track-by-functions';
 
 @Component({
   selector: 'vgm-education-overview',
@@ -19,7 +18,6 @@ import { RankComponent } from '../../ranks/rank/rank.component';
   imports: [
     CommonModule,
     PublicationChartComponent,
-    ExperienceLevelsRankComponent,
     JobListComponent,
     JobPostingsComparisonComponent,
     RankComponent,
@@ -39,7 +37,7 @@ export class EducationOverviewComponent implements OnInit {
   jobsByEducationTerm$!: Observable<Job[]>;
   jobsByEducationalLevel$!: Observable<Job[]>;
 
-  trackByEducationTerm = trackByEducationStatus;
+  trackByRankData = trackByRankData;
   rankTypes = RankTypes;
 
   selectedDataType = EducationalDataTypes.level;

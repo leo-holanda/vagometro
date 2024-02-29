@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { trackByLanguage, trackByRankData } from 'src/app/shared/track-by-functions';
+import { trackByRankData } from 'src/app/shared/track-by-functions';
 import { Observable } from 'rxjs';
 import { Job } from 'src/app/job/job.types';
 import { JobService } from 'src/app/job/job.service';
 import { StatisticsService } from '../../statistics.service';
 import { PublicationChartComponent } from '../../charts/publication-chart/publication-chart.component';
 import { JobListComponent } from 'src/app/job/job-list/job-list.component';
-import { LanguageData } from '../../ranks/languages-rank/languages-rank.types';
 import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-comparison/job-postings-comparison.component';
 import { RankComponent } from '../../ranks/rank/rank.component';
 import { RankData, RankTypes } from '../../ranks/rank/rank.types';

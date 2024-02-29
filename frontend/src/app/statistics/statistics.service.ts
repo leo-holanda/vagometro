@@ -3,10 +3,10 @@ import { JobService } from '../job/job.service';
 import { Observable, filter, map } from 'rxjs';
 import { Job } from '../job/job.types';
 import { InclusionTypes } from '../shared/keywords-matcher/inclusion.data';
-import { ComparisonData } from './ranks/months-rank/months-rank.types';
 import { ContractTypes } from '../shared/keywords-matcher/contract-types.data';
 import { CertificationStatus } from '../shared/keywords-matcher/certification.data';
 import { RankData } from './ranks/rank/rank.types';
+import { ComparisonData } from './comparisons/comparisons.types';
 
 @Injectable({
   providedIn: 'root',

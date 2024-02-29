@@ -5,7 +5,7 @@ import { StatisticsService } from '../statistics.service';
 import { JobService } from 'src/app/job/job.service';
 import { TimeWindows } from 'src/app/job/job.types';
 import { RouterModule } from '@angular/router';
-import { ComparisonData } from '../ranks/months-rank/months-rank.types';
+import { ComparisonData } from '../comparisons/comparisons.types';
 
 @Component({
   selector: 'vgm-job-count',

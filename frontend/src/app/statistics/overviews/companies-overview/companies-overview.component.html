@@ -15,7 +15,7 @@
 
           <button
             class="btn btn-ghost p-2"
-            *ngFor="let company of companiesRank; index as i; trackBy: trackByCompany"
+            *ngFor="let company of companiesRank; index as i; trackBy: trackByRankData"
             [ngClass]="{ 'btn-active': selectedCompany === company.name }"
             (click)="onCompanyClick(company.name)"
           >

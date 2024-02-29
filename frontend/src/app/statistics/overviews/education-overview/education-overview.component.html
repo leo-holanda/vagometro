@@ -45,7 +45,7 @@
               *ngFor="
                 let educationalLevel of educationalLevelRank;
                 index as i;
-                trackBy: trackByEducationTerm
+                trackBy: trackByRankData
               "
               [ngClass]="{
                 'btn-active': selectedEducationalLevelTerm === educationalLevel.name
@@ -79,7 +79,7 @@
 
             <button
               class="btn btn-ghost p-2"
-              *ngFor="let educationTerm of educationRank; index as i; trackBy: trackByEducationTerm"
+              *ngFor="let educationTerm of educationRank; index as i; trackBy: trackByRankData"
               [ngClass]="{
                 'btn-active': selectedEducationTerm === educationTerm.name
               }"

@@ -4,20 +4,9 @@ import { RouterModule } from '@angular/router';
 import { JobListComponent } from 'src/app/job/job-list/job-list.component';
 import { PublicationChartComponent } from '../../charts/publication-chart/publication-chart.component';
 import { JobCountComponent } from '../../job-count/job-count.component';
-import { CitiesRankComponent } from '../../ranks/cities-rank/cities-rank.component';
-import { CompaniesRankComponent } from '../../ranks/companies-rank/companies-rank.component';
-import { InclusionRankComponent } from '../../ranks/inclusion-rank/inclusion-rank.component';
-import { EducationRankComponent } from '../../ranks/education-rank/education-rank.component';
-import { ExperienceLevelsRankComponent } from '../../ranks/experience-levels-rank/experience-levels-rank.component';
-import { KeywordsRankComponent } from '../../ranks/keywords-rank/keywords-rank.component';
-import { LanguagesRankComponent } from '../../ranks/languages-rank/languages-rank.component';
-import { MonthsRankComponent } from '../../ranks/months-rank/months-rank.component';
-import { TypeRankComponent } from '../../ranks/type-rank/type-rank.component';
-import { WorkplaceRankComponent } from '../../ranks/workplace-rank/workplace-rank.component';
 import { Observable } from 'rxjs';
 import { JobService } from 'src/app/job/job.service';
 import { Job } from 'src/app/job/job.types';
-import { CertificationsRankComponent } from '../../ranks/certifications-rank/certifications-rank.component';
 import { RankComponent } from '../../ranks/rank/rank.component';
 import { RankTypes } from '../../ranks/rank/rank.types';
 
@@ -27,20 +16,9 @@ import { RankTypes } from '../../ranks/rank/rank.types';
   imports: [
     CommonModule,
     JobCountComponent,
-    CitiesRankComponent,
-    WorkplaceRankComponent,
-    TypeRankComponent,
-    CompaniesRankComponent,
     PublicationChartComponent,
-    KeywordsRankComponent,
     RouterModule,
     JobListComponent,
-    ExperienceLevelsRankComponent,
-    InclusionRankComponent,
-    EducationRankComponent,
-    LanguagesRankComponent,
-    MonthsRankComponent,
-    CertificationsRankComponent,
     RankComponent,
   ],
   templateUrl: './all-overview.component.html',

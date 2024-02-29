@@ -6,7 +6,7 @@ import { Job } from 'src/app/job/job.types';
 import { StatisticsService } from '../../statistics.service';
 import { PublicationChartComponent } from '../../charts/publication-chart/publication-chart.component';
 import { JobListComponent } from 'src/app/job/job-list/job-list.component';
-import { trackByRankData, trackByWorkplace } from 'src/app/shared/track-by-functions';
+import { trackByRankData } from 'src/app/shared/track-by-functions';
 import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-comparison/job-postings-comparison.component';
 import { RankData, RankTypes } from '../../ranks/rank/rank.types';
 import { RankComponent } from '../../ranks/rank/rank.component';

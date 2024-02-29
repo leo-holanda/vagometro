@@ -83,22 +83,6 @@ export class MatchesChartComponent implements AfterViewInit, OnChanges, OnDestro
       tooltip: {
         trigger: 'axis',
       },
-      grid: {
-        // To prevent the data zoom from overlapping the x axis label
-        // https://stackoverflow.com/questions/44497298/echarts-generated-label-overlaps-with-datazoom
-        bottom: 90,
-      },
-      dataZoom: [
-        {
-          type: 'inside',
-          start: 0,
-          end: 100,
-        },
-        {
-          start: 0,
-          end: 100,
-        },
-      ],
     });
   }
 

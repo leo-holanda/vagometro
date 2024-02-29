@@ -8,8 +8,8 @@ import { PublicationChartComponent } from '../../charts/publication-chart/public
 import { JobListComponent } from 'src/app/job/job-list/job-list.component';
 import { trackByRankData } from 'src/app/shared/track-by-functions';
 import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-comparison/job-postings-comparison.component';
-import { RankData, RankTypes } from '../../ranks/rank/rank.types';
-import { RankComponent } from '../../ranks/rank/rank.component';
+import { RankData, RankTypes } from '../../rank/rank.types';
+import { RankComponent } from '../../rank/rank.component';
 
 @Component({
   selector: 'vgm-workplaces-overview',

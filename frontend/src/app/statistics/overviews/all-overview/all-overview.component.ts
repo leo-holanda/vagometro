@@ -7,8 +7,8 @@ import { JobCountComponent } from '../../job-count/job-count.component';
 import { Observable } from 'rxjs';
 import { JobService } from 'src/app/job/job.service';
 import { Job } from 'src/app/job/job.types';
-import { RankComponent } from '../../ranks/rank/rank.component';
-import { RankTypes } from '../../ranks/rank/rank.types';
+import { RankComponent } from '../../rank/rank.component';
+import { RankTypes } from '../../rank/rank.types';
 
 @Component({
   selector: 'vgm-all-overview',

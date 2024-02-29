@@ -9,9 +9,9 @@ import { JobListComponent } from 'src/app/job/job-list/job-list.component';
 import { StatisticsService } from '../../statistics.service';
 import { StateAbbreviationPipe } from 'src/app/shared/pipes/state-abbreviation.pipe';
 import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-comparison/job-postings-comparison.component';
-import { RankData, RankTypes } from '../../ranks/rank/rank.types';
+import { RankData, RankTypes } from '../../rank/rank.types';
 import { trackByRankData } from 'src/app/shared/track-by-functions';
-import { RankComponent } from '../../ranks/rank/rank.component';
+import { RankComponent } from '../../rank/rank.component';
 
 @Component({
   selector: 'vgm-cities-overview',

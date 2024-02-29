@@ -1,7 +1,7 @@
 import { KeywordOnSearchForm } from '../job/easy-search/search-form/search-form.types';
 import { Job } from '../job/job.types';
 import { ComparisonData, MonthData } from '../statistics/comparisons/comparisons.types';
-import { RankData } from '../statistics/ranks/rank/rank.types';
+import { RankData } from '../statistics/rank/rank.types';
 
 export function trackByKeyword(index: number, item: KeywordOnSearchForm): string {
   return item.name;

@@ -5,7 +5,7 @@ import { Job } from '../job/job.types';
 import { InclusionTypes } from '../shared/keywords-matcher/inclusion.data';
 import { ContractTypes } from '../shared/keywords-matcher/contract-types.data';
 import { CertificationStatus } from '../shared/keywords-matcher/certification.data';
-import { RankData } from './ranks/rank/rank.types';
+import { RankData } from './rank/rank.types';
 import { ComparisonData } from './comparisons/comparisons.types';
 
 @Injectable({

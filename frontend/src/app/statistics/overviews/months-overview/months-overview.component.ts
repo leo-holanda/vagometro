@@ -8,8 +8,8 @@ import { StatisticsService } from '../../statistics.service';
 import { PublicationChartComponent } from '../../charts/publication-chart/publication-chart.component';
 import { JobListComponent } from 'src/app/job/job-list/job-list.component';
 import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-comparison/job-postings-comparison.component';
-import { RankComponent } from '../../ranks/rank/rank.component';
-import { RankData, RankTypes } from '../../ranks/rank/rank.types';
+import { RankComponent } from '../../rank/rank.component';
+import { RankData, RankTypes } from '../../rank/rank.types';
 
 @Component({
   selector: 'vgm-months-overview',

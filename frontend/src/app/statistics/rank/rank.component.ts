@@ -2,10 +2,10 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable, map } from 'rxjs';
 import { Job } from 'src/app/job/job.types';
-import { StatisticsService } from '../../statistics.service';
 import { RouterLink } from '@angular/router';
 import { RankData, RankMetaData, RankTypes, RanksMap } from './rank.types';
 import { StateAbbreviationPipe } from 'src/app/shared/pipes/state-abbreviation.pipe';
+import { StatisticsService } from '../statistics.service';
 
 @Component({
   selector: 'vgm-rank',

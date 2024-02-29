@@ -7,8 +7,8 @@ import { JobService } from '../../job.service';
 import { PublicationChartComponent } from 'src/app/statistics/charts/publication-chart/publication-chart.component';
 import { JobPostingsComparisonComponent } from 'src/app/statistics/comparisons/job-postings-comparison/job-postings-comparison.component';
 import { RouterModule } from '@angular/router';
-import { RankComponent } from 'src/app/statistics/ranks/rank/rank.component';
-import { RankTypes } from 'src/app/statistics/ranks/rank/rank.types';
+import { RankComponent } from 'src/app/statistics/rank/rank.component';
+import { RankTypes } from 'src/app/statistics/rank/rank.types';
 
 @Component({
   selector: 'vgm-search-results',

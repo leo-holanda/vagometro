@@ -9,8 +9,8 @@ import { PublicationChartComponent } from '../../charts/publication-chart/public
 import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-comparison/job-postings-comparison.component';
 import { InclusionTypes } from '../../../shared/keywords-matcher/inclusion.data';
 import { trackByRankData } from 'src/app/shared/track-by-functions';
-import { RankData, RankTypes } from '../../ranks/rank/rank.types';
-import { RankComponent } from '../../ranks/rank/rank.component';
+import { RankData, RankTypes } from '../../rank/rank.types';
+import { RankComponent } from '../../rank/rank.component';
 
 @Component({
   selector: 'vgm-inclusion-overview',

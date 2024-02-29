@@ -11,7 +11,7 @@
         <i class="bx bx-menu"></i>
       </button>
 
-      <dialog #menuModal id="menuModal" class="modal modal-top">
+      <dialog #menuModal id="menuModal" class="modal modal-bottom">
         <div class="modal-box flex flex-col gap-4">
           <section class="flex flex-wrap items-end gap-2">
             <button class="btn mr-2 justify-start w-full" [routerLink]="['/busca-facil']">
@@ -59,7 +59,10 @@
 
           <section class="modal-action">
             <form class="w-full" method="dialog">
-              <button class="btn w-full">Fechar</button>
+              <button class="btn w-full">
+                <i class="bx bx-arrow-back"></i>
+                Retornar
+              </button>
             </form>
           </section>
         </div>

@@ -249,8 +249,16 @@
         *cdkVirtualFor="let job of filteredJobs; trackBy: trackByJobId"
       >
         <header class="card-title flex flex-col items-start pt-4 px-4">
-          <div>
-            <h1>{{ job.title }}</h1>
+          <div class="w-full">
+            <div class="flex items-center justify-between flex-wrap w-full">
+              <h1>{{ job.title }}</h1>
+              <div
+                *ngIf="job.publishedDate.toDateString() === today.toDateString()"
+                class="badge badge-success gap-2"
+              >
+                Nova!
+              </div>
+            </div>
 
             <div class="flex items-center gap-2">
               <i class="bx bxs-business"></i>

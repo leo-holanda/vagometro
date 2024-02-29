@@ -45,6 +45,7 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
     matchPercentage: 0,
   };
 
+  today = new Date();
   inputMaxDate = new Date().toISOString().slice(0, 10);
 
   trackByJobId = trackByJobId;

@@ -250,79 +250,95 @@
       >
         <header class="card-title flex flex-col items-start pt-4 px-4">
           <div class="w-full">
-            <div class="flex items-center justify-between flex-wrap w-full">
-              <h1>{{ job.title }}</h1>
+            <div class="flex items-center w-full gap-4 flex-wrap lg:flex-nowrap">
+              <div
+                *ngIf="job.matchPercentage; else jobWithoutMatchPercentageTemplate"
+                class="flex flex-col border-2 rounded order-0"
+                [ngClass]="{
+                  'border-success': job.matchPercentage >= 90,
+                  'border-accent': job.matchPercentage >= 60 && job.matchPercentage < 90,
+                  'border-warning': job.matchPercentage >= 30 && job.matchPercentage < 60,
+                  'border-error': job.matchPercentage < 30
+                }"
+              >
+                <span
+                  class="flex items-center justify-center text-sm p-1 text-black gap-1"
+                  [ngClass]="{
+                    'bg-success': job.matchPercentage >= 90,
+                    'bg-accent': job.matchPercentage >= 60 && job.matchPercentage < 90,
+                    'bg-warning': job.matchPercentage >= 30 && job.matchPercentage < 60,
+                    'bg-error': job.matchPercentage < 30
+                  }"
+                >
+                  <i class="bx bx-analyse"></i>
+                  MATCH
+                </span>
+                <span
+                  class="flex items-center justify-center text-xl p-1 font-bold"
+                  [ngClass]="{
+                    'text-success': job.matchPercentage >= 90,
+                    'text-accent': job.matchPercentage >= 60 && job.matchPercentage < 90,
+                    'text-warning': job.matchPercentage >= 30 && job.matchPercentage < 60,
+                    'text-error': job.matchPercentage < 30
+                  }"
+                  >{{ job.matchPercentage | number: "1.0-0" }}%</span
+                >
+              </div>
+
+              <ng-template #jobWithoutMatchPercentageTemplate>
+                <div class="flex flex-col border-base-300 border-2 rounded order-0">
+                  <span class="flex items-center justify-center text-sm p-1 gap-1 bg-base-300">
+                    <i class="bx bx-analyse"></i>
+                    MATCH
+                  </span>
+                  <span class="flex items-center justify-center text-xl p-1 font-bold bg-base-100"
+                    >?</span
+                  >
+                </div>
+              </ng-template>
+
+              <div class="order-2 lg:order-1">
+                <h1>{{ job.title }}</h1>
+                <div class="flex items-center gap-2">
+                  <i class="bx bxs-business"></i>
+
+                  <a
+                    *ngIf="job.companyUrl; else jobWithoutCompanyUrlTemplate"
+                    class="text-slate-300 text-sm link"
+                    [href]="job.companyUrl"
+                    >{{ job.companyName }}</a
+                  >
+
+                  <ng-template #jobWithoutCompanyUrlTemplate>
+                    <a class="text-slate-300 text-sm">{{ job.companyName }}</a>
+                  </ng-template>
+                </div>
+              </div>
+
               <div
                 *ngIf="job.publishedDate.toDateString() === today.toDateString()"
-                class="badge badge-success gap-2"
+                class="badge badge-success gap-1 p-4 self-start ml-auto order-1 lg:order-2"
               >
-                Nova!
+                <i class="bx bx-brightness"></i>
+                <span> Nova </span>
               </div>
-            </div>
-
-            <div class="flex items-center gap-2">
-              <i class="bx bxs-business"></i>
-
-              <a
-                *ngIf="job.companyUrl; else jobWithoutCompanyUrlTemplate"
-                class="text-slate-300 text-sm link"
-                [href]="job.companyUrl"
-                >{{ job.companyName }}</a
-              >
-
-              <ng-template #jobWithoutCompanyUrlTemplate>
-                <a class="text-slate-300 text-sm">{{ job.companyName }}</a>
-              </ng-template>
             </div>
           </div>
         </header>
 
         <div class="card-body">
-          <ng-container
-            *ngIf="job.matchPercentage !== undefined; else undefinedMatchPercentageTemplate"
-          >
-            <div class="flex flex-col items-center gap-1 w-full pb-4">
-              <div class="flex items-center gap-1 mb-1 w-full">
-                <i class="bx bx-analyse"></i>
-                <span>
-                  Seu match com a vaga é de
-                  <strong
-                    [ngClass]="{
-                      'text-success': job.matchPercentage >= 90,
-                      'text-accent': job.matchPercentage >= 60 && job.matchPercentage < 90,
-                      'text-warning': job.matchPercentage >= 30 && job.matchPercentage < 60,
-                      'text-error': job.matchPercentage < 30
-                    }"
-                    >{{ job.matchPercentage | number: "1.0-0" }}%</strong
-                  >
-                </span>
-              </div>
-
-              <progress
-                class="progress w-full"
-                [ngClass]="{
-                  'progress-success': job.matchPercentage >= 90,
-                  'progress-accent': job.matchPercentage >= 60 && job.matchPercentage < 90,
-                  'progress-warning': job.matchPercentage >= 30 && job.matchPercentage < 60,
-                  'progress-error': job.matchPercentage < 30
-                }"
-                [value]="job.matchPercentage"
-                max="100"
-              ></progress>
-            </div>
-          </ng-container>
-
-          <ng-template #undefinedMatchPercentageTemplate>
-            <div class="flex items-center gap-1 mb-1 w-full">
+          <ng-container *ngIf="job.matchPercentage === undefined">
+            <div class="flex items-center gap-2 mb-4 w-full">
               <i class="bx bx-analyse"></i>
               <span>
                 Use a
-                <a class="btn btn-link p-0" [routerLink]="['/busca-facil']">busca fácil</a> para
-                saber o seu match com a vaga!
+                <a class="btn btn-link p-0 min-h-fit h-fit" [routerLink]="['/busca-facil']"
+                  >busca fácil</a
+                >
+                para saber o seu match com a vaga!
               </span>
             </div>
-          </ng-template>
-
+          </ng-container>
           <div *ngIf="job.keywords.length > 0" class="flex flex-wrap pb-4 gap-2">
             <div
               [class]="'badge ' + keyword.category.badgeClass"

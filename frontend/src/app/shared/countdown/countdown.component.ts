@@ -22,14 +22,15 @@ export class CountdownComponent implements OnInit {
     const today = new Date();
     today.setMinutes(0);
     today.setSeconds(0);
+    today.setMilliseconds(0);
 
     if (this.jobSource == JobSources.gupy) {
       this.jobSourceText = 'da Gupy';
-      if (today.getHours() > 19) {
+      if (today.getHours() >= 19) {
         today.setDate(today.getDate() + 1);
         today.setHours(11);
       }
-      if (today.getHours() > 11) today.setHours(19);
+      if (today.getHours() >= 11) today.setHours(19);
       else today.setHours(11);
     } else {
       this.jobSourceText = 'do LinkedIn';

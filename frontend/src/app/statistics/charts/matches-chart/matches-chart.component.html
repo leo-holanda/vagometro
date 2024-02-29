@@ -1,0 +1,26 @@
+<main class="card bg-base-300 w-full">
+  <div class="card-body">
+    <header class="card-title">
+      <i class="bx bx-analyse"></i>
+      Divisão por match
+    </header>
+
+    <main class="w-full">
+      <div
+        *ngIf="hasSearchData; else emptySearchDataTemplate"
+        class="chart-wrapper"
+        #chartWrapper
+      ></div>
+
+      <ng-template #emptySearchDataTemplate>
+        <div class="flex items-center gap-1 mb-1 w-full">
+          <span>
+            Use a
+            <a class="btn btn-link p-0" [routerLink]="['/busca-facil']">busca fácil</a> para saber o
+            seu match com a vaga!
+          </span>
+        </div>
+      </ng-template>
+    </main>
+  </div>
+</main>

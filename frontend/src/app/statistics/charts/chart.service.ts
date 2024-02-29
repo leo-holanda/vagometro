@@ -8,6 +8,7 @@ import {
   DailyPostingsSeries,
   ShortTermSeriesData,
   LongTermSeriesData,
+  MatchData,
 } from './publication-chart/publication-chart.model';
 
 @Injectable({
@@ -46,6 +47,16 @@ export class ChartService {
     );
   }
 
+  getMatchesData(
+    jobs$: Observable<Job[] | undefined> = this.jobService.jobs$,
+  ): Observable<MatchData[]> {
+    return jobs$.pipe(
+      filter((jobs): jobs is Job[] => jobs != undefined),
+      map(this.getAccumulatedMatchLevels),
+      map(this.mapToMatchesData),
+    );
+  }
+
   private isJobsUndefined(
     params: [Job[] | undefined, TimeWindows],
   ): params is [Job[], TimeWindows] {
@@ -61,6 +72,49 @@ export class ChartService {
   private getDateYear(date: Date): string {
     return date.getFullYear().toString();
   }
+
+  private getAccumulatedMatchLevels(jobs: Job[]): Map<string, number> {
+    const matchesMap = new Map<string, number>();
+
+    jobs.forEach((job) => {
+      if (!job.matchPercentage) return;
+      const matchPercentage = job.matchPercentage.toFixed(0).toString() + '%';
+      const currentPercentageCount = matchesMap.get(matchPercentage) || 0;
+      matchesMap.set(matchPercentage, currentPercentageCount + 1);
+    });
+
+    return matchesMap;
+  }
+
+  private getPercentageValueFromMatchData(matchData: [string, number]): number {
+    return +matchData[0].slice(0, -1);
+  }
+
+  private getMatchDataBarColor(matchData: [string, number]): string {
+    const percentageValue = this.getPercentageValueFromMatchData(matchData);
+    //TODO: Use colors from theme
+    if (percentageValue >= 30 && percentageValue < 60) return '#F8BE29';
+    if (percentageValue >= 60 && percentageValue < 90) return '#66D0B9';
+    if (percentageValue >= 90) return '#58AB6F';
+    return '#E94C5C';
+  }
+
+  private mapToMatchesData = (matchesMap: Map<string, number>): MatchData[] => {
+    const mapEntries = Array.from(matchesMap.entries());
+
+    return mapEntries
+      .sort((a, b) =>
+        this.getPercentageValueFromMatchData(a) > this.getPercentageValueFromMatchData(b) ? 1 : -1,
+      )
+      .map((entry) => {
+        return {
+          value: entry,
+          itemStyle: {
+            color: this.getMatchDataBarColor(entry),
+          },
+        };
+      });
+  };
 
   private mapToShortTermSeries(postingsMap: Map<string, number>): ShortTermSeriesData[] {
     const mapEntries = Array.from(postingsMap.entries())

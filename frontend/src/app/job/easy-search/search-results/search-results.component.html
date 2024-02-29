@@ -45,8 +45,19 @@
 
   <ng-container *ngIf="selectedDataType === 'stats'">
     <section class="grid grid-cols-1 lg:grid-cols-3 gap-4 w-full">
-      <div class="flex item items-center justify-center lg:col-span-2">
-        <vgm-publication-chart [jobs$]="jobs$"></vgm-publication-chart>
+      <div class="lg:col-span-3">
+        <vgm-matches-chart [jobs$]="jobs$"></vgm-matches-chart>
+      </div>
+
+      <div class="card card-bordered card-compact w-full h-full bg-base-300 lg:col-span-2">
+        <div class="card-title items-center p-4">
+          <i class="bx bx-line-chart"></i>
+          <h1>Vagas publicadas ao longo do tempo</h1>
+        </div>
+
+        <div class="card-body">
+          <vgm-publication-chart [jobs$]="jobs$"></vgm-publication-chart>
+        </div>
       </div>
 
       <vgm-job-postings-comparison [jobs$]="jobs$"></vgm-job-postings-comparison>

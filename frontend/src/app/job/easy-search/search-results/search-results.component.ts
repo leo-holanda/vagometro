@@ -9,6 +9,7 @@ import { JobPostingsComparisonComponent } from 'src/app/statistics/comparisons/j
 import { RouterModule } from '@angular/router';
 import { RankComponent } from 'src/app/statistics/rank/rank.component';
 import { RankTypes } from 'src/app/statistics/rank/rank.types';
+import { MatchesChartComponent } from 'src/app/statistics/charts/matches-chart/matches-chart.component';
 
 @Component({
   selector: 'vgm-search-results',
@@ -20,6 +21,7 @@ import { RankTypes } from 'src/app/statistics/rank/rank.types';
     PublicationChartComponent,
     JobPostingsComparisonComponent,
     RankComponent,
+    MatchesChartComponent,
   ],
   templateUrl: './search-results.component.html',
   styleUrls: ['./search-results.component.scss'],

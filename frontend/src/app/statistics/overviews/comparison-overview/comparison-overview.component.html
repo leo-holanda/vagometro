@@ -1,11 +1,28 @@
-<main class="container mx-auto flex flex-col items-center justify-center h-full mb-4 gap-12">
-  <vgm-job-postings-comparison
-    [shouldShowMonthly]="shouldShowMonthly"
-    (dataTypeChanged)="onDataTypeChange($event)"
-  ></vgm-job-postings-comparison>
-  <vgm-publication-chart
-    (intervalTypeChanged)="onIntervalTypeChange($event)"
-    [intervalType]="chartIntervalType"
-    [onlyLongTermIntervals]="true"
-  ></vgm-publication-chart>
+<main class="container mx-auto overflow-x-hidden flex">
+  <section class="grid lg:grid-cols-3 h-full w-full p-4 gap-4">
+    <div class="order-1 lg:order-2 overflow-x-auto">
+      <!-- TODO: consider using cards instead of table when screen is small -->
+      <vgm-job-postings-comparison
+        [shouldShowMonthly]="shouldShowMonthly"
+        (dataTypeChanged)="onDataTypeChange($event)"
+      ></vgm-job-postings-comparison>
+    </div>
+
+    <div
+      class="card card-bordered card-compact w-full h-full bg-base-300 p-4 lg:col-span-2 order-2 lg:order-1"
+    >
+      <div class="card-title items-center p-4">
+        <i class="bx bx-line-chart"></i>
+        <h1>Vagas publicadas ao longo do tempo</h1>
+      </div>
+
+      <div class="card-body">
+        <vgm-publication-chart
+          (intervalTypeChanged)="onIntervalTypeChange($event)"
+          [intervalType]="chartIntervalType"
+          [onlyLongTermIntervals]="true"
+        ></vgm-publication-chart>
+      </div>
+    </div>
+  </section>
 </main>

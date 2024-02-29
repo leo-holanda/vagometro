@@ -25,17 +25,19 @@
                 ></div>
 
                 <ng-container *ngIf="item.link">
-                  <a class="link z-10" [href]="item.link" target="_blank">{{ item.name }}</a>
+                  <a class="link relative z-10" [href]="item.link" target="_blank">{{
+                    item.name
+                  }}</a>
                 </ng-container>
 
                 <ng-container *ngIf="item.state">
-                  <span class="z-10">{{
+                  <span class="relative z-10">{{
                     item.name + ", " + (item.state! | stateAbbreviation)
                   }}</span>
                 </ng-container>
 
                 <ng-container *ngIf="!item.link && !item.state">
-                  <span class="z-10">{{ item.name }}</span>
+                  <span class="relative z-10">{{ item.name }}</span>
                 </ng-container>
               </td>
               <td class="flex items-center flex-wrap gap-2">

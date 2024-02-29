@@ -2,7 +2,7 @@
   <div class="flex flex-col gap-4 h-min">
     <div class="card card-bordered card-compact w-full bg-base-300">
       <div class="card-title p-4">
-        <i class="bx bxs-certification"></i>
+        <i class="bx bxs-award"></i>
         <h1>Rank de certificação</h1>
       </div>
 
@@ -14,13 +14,13 @@
           </div>
 
           <button
-            class="btn p-2"
+            class="btn btn-ghost p-2"
             *ngFor="
               let certificationStatus of certificationsRank;
               index as i;
               trackBy: trackByRankData
             "
-            [ngClass]="{ 'btn-primary': selectedCertificationStatus === certificationStatus.name }"
+            [ngClass]="{ 'btn-active': selectedCertificationStatus === certificationStatus.name }"
             (click)="onCertificationStatusClick(certificationStatus.name)"
           >
             <div class="w-full flex justify-between">

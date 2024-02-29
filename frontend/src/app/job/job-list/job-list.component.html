@@ -252,7 +252,7 @@
           <div class="w-full">
             <div class="flex items-center w-full gap-4 flex-wrap lg:flex-nowrap">
               <div
-                *ngIf="job.matchPercentage; else jobWithoutMatchPercentageTemplate"
+                *ngIf="job.matchPercentage !== undefined; else jobWithoutMatchPercentageTemplate"
                 class="flex flex-col border-2 rounded order-0"
                 [ngClass]="{
                   'border-success': job.matchPercentage >= 90,

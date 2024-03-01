@@ -35,4 +35,8 @@ export class HeaderComponent {
   onTimeWindowClick(timeWindow: TimeWindows): void {
     this.jobService.filterJobsByTime(timeWindow);
   }
+
+  copyLinkToClipboard(): void {
+    navigator.clipboard.writeText('https://vagometro.vercel.app/');
+  }
 }

@@ -29,7 +29,7 @@
               <span> Mudar dados </span>
             </button>
 
-            <button class="btn mr-2 justify-start w-full" (click)="donationModal.showModal()">
+            <button class="btn mr-2 justify-start w-full" (click)="contributionModal.showModal()">
               <i class="bx bxs-donate-heart"></i>
               <span> Apoiar </span>
             </button>
@@ -94,7 +94,7 @@
     </div>
 
     <div class="navbar-end gap-2">
-      <button class="btn mr-2" (click)="donationModal.showModal()">
+      <button class="btn mr-2" (click)="contributionModal.showModal()">
         <i class="bx bxs-donate-heart"></i>
         <span> Apoiar </span>
       </button>
@@ -296,7 +296,7 @@
   </div>
 </dialog>
 
-<dialog #donationModal class="modal">
+<dialog #contributionModal class="modal">
   <div class="modal-box">
     <header class="flex items-center gap-2 mb-4">
       <i class="bx bxs-donate-heart"></i>
@@ -308,7 +308,29 @@
         Se o vagômetro foi útil para você, considere apoiar o projeto! Sua contribuição ajudará o
         vagômetro a continuar funcionando e recebendo atualizações.
       </p>
-      <p><strong>Chave PIX:</strong> vagometrobr&#64;gmail.com</p>
+      <div class="flex flex-col gap-2">
+        <strong>Chave PIX</strong>
+        <p>vagometrobr&#64;gmail.com</p>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <strong>Você também pode contribuir...</strong>
+
+        <a href="https://github.com/leo-holanda/vagometro" target="_blank">
+          <button class="btn flex items-center justify-start gap-2 w-full">
+            <i class="bx bxl-github"></i>
+            <span> Deixando uma estrela no repositório do GitHub </span>
+          </button>
+        </a>
+
+        <button
+          class="btn flex items-center justify-start gap-2 w-full"
+          (click)="copyLinkToClipboard()"
+        >
+          <i class="bx bxs-copy"></i>
+          <p>Compartilhando o link com amigos</p>
+        </button>
+      </div>
     </main>
 
     <div class="modal-action w-full">

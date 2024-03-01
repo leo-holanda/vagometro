@@ -92,7 +92,7 @@ export class MatchesChartComponent implements AfterViewInit, OnChanges, OnDestro
       xAxis: {
         type: 'category',
         axisLabel: { showMaxLabel: true },
-        name: 'Match das vagas',
+        name: 'Seu match com as vagas',
         nameLocation: 'center',
         nameGap: 30,
       },

@@ -1,504 +1,510 @@
-<ng-container *ngIf="jobs$ | async; else loading">
-  <section class="flex flex-wrap gap-4 justify-end">
-    <button class="btn w-full md:w-fit" (click)="filterAndSortModal.showModal()">
-      <i class="bx bxs-filter-alt"></i>
-      <span> Filtrar </span>
-    </button>
+<ng-container *ngIf="jobs$ | async as jobs; else loading">
+  <ng-container *ngIf="jobs.length > 0; else emptyJobsTemplate">
+    <section class="flex flex-wrap gap-4 justify-end">
+      <button class="btn w-full md:w-fit" (click)="filterAndSortModal.showModal()">
+        <i class="bx bxs-filter-alt"></i>
+        <span> Filtrar </span>
+      </button>
 
-    <label class="form-control gap-2 w-full md:w-fit md:gap-0 flex flex-row flex-wrap">
-      <select
-        [(ngModel)]="sortBy"
-        (ngModelChange)="sortJobs()"
-        class="select select-bordered w-full md:w-fit md:rounded-r-none"
-      >
-        <option [value]="undefined" selected>Ordenar por</option>
-        <option value="title">Título</option>
-        <option value="companyName">Empresa</option>
-        <option value="city">Cidade</option>
-        <option value="state">Estado</option>
-        <option value="experienceLevels">Nível de experiência</option>
-        <option value="workplaceTypes">Modalidade</option>
-        <option value="contractTypes">Tipo de contrato</option>
-        <option value="inclusionType">Inclusão</option>
-        <option value="publishedDate">Data de publicação</option>
-        <option value="matchPercentage">Porcentagem de match</option>
-      </select>
+      <label class="form-control gap-2 w-full md:w-fit md:gap-0 flex flex-row flex-wrap">
+        <select
+          [(ngModel)]="sortBy"
+          (ngModelChange)="sortJobs()"
+          class="select select-bordered w-full md:w-fit md:rounded-r-none"
+        >
+          <option [value]="undefined" selected>Ordenar por</option>
+          <option value="title">Título</option>
+          <option value="companyName">Empresa</option>
+          <option value="city">Cidade</option>
+          <option value="state">Estado</option>
+          <option value="experienceLevels">Nível de experiência</option>
+          <option value="workplaceTypes">Modalidade</option>
+          <option value="contractTypes">Tipo de contrato</option>
+          <option value="inclusionType">Inclusão</option>
+          <option value="publishedDate">Data de publicação</option>
+          <option value="matchPercentage">Porcentagem de match</option>
+        </select>
 
-      <select
-        [(ngModel)]="sortOrder"
-        (ngModelChange)="sortJobs()"
-        class="select select-bordered w-full md:w-fit md:rounded-l-none"
-      >
-        <option value="asc">Ascendente</option>
-        <option value="desc">Descendente</option>
-      </select>
-    </label>
+        <select
+          [(ngModel)]="sortOrder"
+          (ngModelChange)="sortJobs()"
+          class="select select-bordered w-full md:w-fit md:rounded-l-none"
+        >
+          <option value="asc">Ascendente</option>
+          <option value="desc">Descendente</option>
+        </select>
+      </label>
 
-    <dialog #filterAndSortModal class="modal modal-top md:modal-middle">
-      <main class="modal-box flex flex-col gap-4">
-        <div class="flex flex-col overflow-x-auto max-h-96 md:max-h-none gap-6 p-4">
-          <section>
-            <h2
-              class="rounded rounded-b-none w-full flex items-center justify-start flex-nowrap p-4 bg-base-200 gap-2"
-            >
-              <i class="bx bx-text"></i>
-              <span>Título</span>
-            </h2>
-            <input
-              [(ngModel)]="filters['jobTitle']"
-              (ngModelChange)="filterJobs()"
-              id="jobTitle"
-              name="jobTitle"
-              type="text"
-              class="input input-bordered rounded-t-none w-full"
-            />
-          </section>
-
-          <section>
-            <h2
-              class="rounded rounded-b-none w-full flex items-center justify-start flex-nowrap p-4 bg-base-200 gap-2"
-            >
-              <i class="bx bxs-business"></i>
-              <span>Empresa</span>
-            </h2>
-            <input
-              [(ngModel)]="filters['companyName']"
-              (ngModelChange)="filterJobs()"
-              id="companyName"
-              name="companyName"
-              type="text"
-              class="input input-bordered rounded-t-none w-full"
-            />
-          </section>
-
-          <section>
-            <h2
-              class="rounded rounded-b-none w-full flex items-center justify-start flex-nowrap p-4 bg-base-200 gap-2"
-            >
-              <i class="bx bxs-map"></i>
-              <span>Local</span>
-            </h2>
-            <input
-              [(ngModel)]="filters['jobLocation']"
-              (ngModelChange)="filterJobs()"
-              id="jobLocation"
-              name="jobLocation"
-              type="text"
-              class="input input-bordered rounded-t-none w-full"
-            />
-          </section>
-
-          <section>
-            <h2
-              class="rounded rounded-b-none w-full flex items-center justify-start flex-nowrap p-4 bg-base-200 gap-2"
-            >
-              <i class="bx bxs-user-detail"></i>
-              <span>Nível de experiência</span>
-            </h2>
-            <select
-              [(ngModel)]="filters['experienceLevel']"
-              (ngModelChange)="filterJobs()"
-              id="experienceLevel"
-              name="experienceLevel"
-              class="select select-bordered rounded-t-none w-full"
-            >
-              <option value=""></option>
-              <option
-                *ngFor="let experienceLevel of experienceLevels | keyvalue"
-                [value]="experienceLevel.value"
+      <dialog #filterAndSortModal class="modal modal-top md:modal-middle">
+        <main class="modal-box flex flex-col gap-4">
+          <div class="flex flex-col overflow-x-auto max-h-96 md:max-h-none gap-6 p-4">
+            <section>
+              <h2
+                class="rounded rounded-b-none w-full flex items-center justify-start flex-nowrap p-4 bg-base-200 gap-2"
               >
-                {{ experienceLevel.value }}
-              </option>
-            </select>
-          </section>
-
-          <section>
-            <h2
-              class="rounded rounded-b-none w-full flex items-center justify-start flex-nowrap p-4 bg-base-200 gap-2"
-            >
-              <i class="bx bxs-home"></i>
-              <span>Modalidade</span>
-            </h2>
-            <select
-              [(ngModel)]="filters['workplaceTypes']"
-              (ngModelChange)="filterJobs()"
-              id="workplaceType"
-              name="workplaceType"
-              class="select select-bordered rounded-t-none w-full"
-            >
-              <option selected></option>
-              <option
-                *ngFor="let workplaceType of workplaceTypes | keyvalue"
-                [value]="workplaceType.value"
-              >
-                {{ workplaceType.value }}
-              </option>
-            </select>
-          </section>
-
-          <section>
-            <h2
-              class="rounded rounded-b-none w-full flex items-center justify-start flex-nowrap p-4 bg-base-200 gap-2"
-            >
-              <i class="bx bxs-hard-hat"></i>
-              <span>Tipo de contrato</span>
-            </h2>
-            <select
-              [(ngModel)]="filters['jobContractType']"
-              (ngModelChange)="filterJobs()"
-              id="jobType"
-              name="jobType"
-              class="select select-bordered rounded-t-none w-full"
-            >
-              <option selected></option>
-              <option
-                *ngFor="let contractType of contractTypes | keyvalue"
-                [value]="contractType.value"
-              >
-                {{ contractType.value }}
-              </option>
-            </select>
-          </section>
-
-          <section>
-            <h2
-              class="rounded rounded-b-none w-full flex items-center justify-start flex-nowrap p-4 bg-base-200 gap-2"
-            >
-              <i class="bx bxs-heart"></i>
-              <span>Inclusão</span>
-            </h2>
-            <select
-              [(ngModel)]="filters['inclusionType']"
-              (ngModelChange)="filterJobs()"
-              id="inclusionType"
-              name="inclusionType"
-              class="select select-bordered rounded-t-none w-full"
-            >
-              <option
-                *ngFor="let inclusionType of inclusionTypes | keyvalue"
-                [value]="inclusionType.value"
-              >
-                {{ inclusionType.value }}
-              </option>
-            </select>
-          </section>
-
-          <section>
-            <h2
-              class="rounded rounded-b-none w-full flex items-center justify-start flex-nowrap p-4 bg-base-200 gap-2"
-            >
-              <i class="bx bx-analyse"></i>
-              <span>Porcentagem de match</span>
-            </h2>
-            <div class="flex items-center gap-2 mt-2">
+                <i class="bx bx-text"></i>
+                <span>Título</span>
+              </h2>
               <input
-                [(ngModel)]="filters['matchPercentage']"
+                [(ngModel)]="filters['jobTitle']"
                 (ngModelChange)="filterJobs()"
-                id="matchPercentage"
-                name="matchPercentage"
-                type="range"
-                min="0"
-                max="100"
-                class="range"
+                id="jobTitle"
+                name="jobTitle"
+                type="text"
+                class="input input-bordered rounded-t-none w-full"
               />
-              <kbd class="kbd">{{ filters["matchPercentage"] }}%</kbd>
-            </div>
-          </section>
+            </section>
 
-          <section>
-            <h2
-              class="rounded rounded-b-none w-full flex items-center justify-start flex-nowrap p-4 bg-base-200 gap-2"
-            >
-              <i class="bx bxs-calendar"></i>
-              <span>Data de publicação</span>
-            </h2>
-            <input
-              [(ngModel)]="filters['publishedDate']"
-              (ngModelChange)="filterJobs()"
-              id="publishedDate"
-              name="publishedDate"
-              type="date"
-              class="input input-bordered rounded-t-none w-full"
-              [max]="inputMaxDate"
-            />
-          </section>
-        </div>
-
-        <div class="modal-action">
-          <form method="dialog" class="w-full">
-            <button class="btn w-full">
-              <i class="bx bx-arrow-back"></i>
-              <span> Voltar </span>
-            </button>
-          </form>
-        </div>
-      </main>
-    </dialog>
-  </section>
-
-  <section class="mt-4">
-    <cdk-virtual-scroll-viewport
-      class="virtual-scroll-viewport"
-      itemSize="500"
-      minBufferPx="1000"
-      maxBufferPx="2000"
-      [appendOnly]="true"
-    >
-      <div
-        class="card card-bordered card-compact bg-base-100 -xl mr-4"
-        *cdkVirtualFor="let job of filteredJobs; trackBy: trackByJobId"
-      >
-        <header class="card-title flex flex-col items-start pt-4 px-4">
-          <div class="w-full">
-            <div class="flex items-center w-full gap-4 flex-wrap lg:flex-nowrap">
-              <div
-                *ngIf="job.matchPercentage !== undefined; else jobWithoutMatchPercentageTemplate"
-                class="flex flex-col border-2 rounded order-0"
-                [ngClass]="{
-                  'border-success': job.matchPercentage >= 90,
-                  'border-accent': job.matchPercentage >= 60 && job.matchPercentage < 90,
-                  'border-warning': job.matchPercentage >= 30 && job.matchPercentage < 60,
-                  'border-error': job.matchPercentage < 30
-                }"
+            <section>
+              <h2
+                class="rounded rounded-b-none w-full flex items-center justify-start flex-nowrap p-4 bg-base-200 gap-2"
               >
-                <span
-                  class="flex items-center justify-center text-sm p-1 text-black gap-1"
-                  [ngClass]="{
-                    'bg-success': job.matchPercentage >= 90,
-                    'bg-accent': job.matchPercentage >= 60 && job.matchPercentage < 90,
-                    'bg-warning': job.matchPercentage >= 30 && job.matchPercentage < 60,
-                    'bg-error': job.matchPercentage < 30
-                  }"
-                >
-                  <i class="bx bx-analyse"></i>
-                  MATCH
-                </span>
-                <span
-                  class="flex items-center justify-center text-xl p-1 font-bold"
-                  [ngClass]="{
-                    'text-success': job.matchPercentage >= 90,
-                    'text-accent': job.matchPercentage >= 60 && job.matchPercentage < 90,
-                    'text-warning': job.matchPercentage >= 30 && job.matchPercentage < 60,
-                    'text-error': job.matchPercentage < 30
-                  }"
-                  >{{ job.matchPercentage | number: "1.0-0" }}%</span
-                >
-              </div>
+                <i class="bx bxs-business"></i>
+                <span>Empresa</span>
+              </h2>
+              <input
+                [(ngModel)]="filters['companyName']"
+                (ngModelChange)="filterJobs()"
+                id="companyName"
+                name="companyName"
+                type="text"
+                class="input input-bordered rounded-t-none w-full"
+              />
+            </section>
 
-              <ng-template #jobWithoutMatchPercentageTemplate>
-                <div class="flex flex-col border-base-300 border-2 rounded order-0">
-                  <span class="flex items-center justify-center text-sm p-1 gap-1 bg-base-300">
+            <section>
+              <h2
+                class="rounded rounded-b-none w-full flex items-center justify-start flex-nowrap p-4 bg-base-200 gap-2"
+              >
+                <i class="bx bxs-map"></i>
+                <span>Local</span>
+              </h2>
+              <input
+                [(ngModel)]="filters['jobLocation']"
+                (ngModelChange)="filterJobs()"
+                id="jobLocation"
+                name="jobLocation"
+                type="text"
+                class="input input-bordered rounded-t-none w-full"
+              />
+            </section>
+
+            <section>
+              <h2
+                class="rounded rounded-b-none w-full flex items-center justify-start flex-nowrap p-4 bg-base-200 gap-2"
+              >
+                <i class="bx bxs-user-detail"></i>
+                <span>Nível de experiência</span>
+              </h2>
+              <select
+                [(ngModel)]="filters['experienceLevel']"
+                (ngModelChange)="filterJobs()"
+                id="experienceLevel"
+                name="experienceLevel"
+                class="select select-bordered rounded-t-none w-full"
+              >
+                <option value=""></option>
+                <option
+                  *ngFor="let experienceLevel of experienceLevels | keyvalue"
+                  [value]="experienceLevel.value"
+                >
+                  {{ experienceLevel.value }}
+                </option>
+              </select>
+            </section>
+
+            <section>
+              <h2
+                class="rounded rounded-b-none w-full flex items-center justify-start flex-nowrap p-4 bg-base-200 gap-2"
+              >
+                <i class="bx bxs-home"></i>
+                <span>Modalidade</span>
+              </h2>
+              <select
+                [(ngModel)]="filters['workplaceTypes']"
+                (ngModelChange)="filterJobs()"
+                id="workplaceType"
+                name="workplaceType"
+                class="select select-bordered rounded-t-none w-full"
+              >
+                <option selected></option>
+                <option
+                  *ngFor="let workplaceType of workplaceTypes | keyvalue"
+                  [value]="workplaceType.value"
+                >
+                  {{ workplaceType.value }}
+                </option>
+              </select>
+            </section>
+
+            <section>
+              <h2
+                class="rounded rounded-b-none w-full flex items-center justify-start flex-nowrap p-4 bg-base-200 gap-2"
+              >
+                <i class="bx bxs-hard-hat"></i>
+                <span>Tipo de contrato</span>
+              </h2>
+              <select
+                [(ngModel)]="filters['jobContractType']"
+                (ngModelChange)="filterJobs()"
+                id="jobType"
+                name="jobType"
+                class="select select-bordered rounded-t-none w-full"
+              >
+                <option selected></option>
+                <option
+                  *ngFor="let contractType of contractTypes | keyvalue"
+                  [value]="contractType.value"
+                >
+                  {{ contractType.value }}
+                </option>
+              </select>
+            </section>
+
+            <section>
+              <h2
+                class="rounded rounded-b-none w-full flex items-center justify-start flex-nowrap p-4 bg-base-200 gap-2"
+              >
+                <i class="bx bxs-heart"></i>
+                <span>Inclusão</span>
+              </h2>
+              <select
+                [(ngModel)]="filters['inclusionType']"
+                (ngModelChange)="filterJobs()"
+                id="inclusionType"
+                name="inclusionType"
+                class="select select-bordered rounded-t-none w-full"
+              >
+                <option
+                  *ngFor="let inclusionType of inclusionTypes | keyvalue"
+                  [value]="inclusionType.value"
+                >
+                  {{ inclusionType.value }}
+                </option>
+              </select>
+            </section>
+
+            <section>
+              <h2
+                class="rounded rounded-b-none w-full flex items-center justify-start flex-nowrap p-4 bg-base-200 gap-2"
+              >
+                <i class="bx bx-analyse"></i>
+                <span>Porcentagem de match</span>
+              </h2>
+              <div class="flex items-center gap-2 mt-2">
+                <input
+                  [(ngModel)]="filters['matchPercentage']"
+                  (ngModelChange)="filterJobs()"
+                  id="matchPercentage"
+                  name="matchPercentage"
+                  type="range"
+                  min="0"
+                  max="100"
+                  class="range"
+                />
+                <kbd class="kbd">{{ filters["matchPercentage"] }}%</kbd>
+              </div>
+            </section>
+
+            <section>
+              <h2
+                class="rounded rounded-b-none w-full flex items-center justify-start flex-nowrap p-4 bg-base-200 gap-2"
+              >
+                <i class="bx bxs-calendar"></i>
+                <span>Data de publicação</span>
+              </h2>
+              <input
+                [(ngModel)]="filters['publishedDate']"
+                (ngModelChange)="filterJobs()"
+                id="publishedDate"
+                name="publishedDate"
+                type="date"
+                class="input input-bordered rounded-t-none w-full"
+                [max]="inputMaxDate"
+              />
+            </section>
+          </div>
+
+          <div class="modal-action">
+            <form method="dialog" class="w-full">
+              <button class="btn w-full">
+                <i class="bx bx-arrow-back"></i>
+                <span> Voltar </span>
+              </button>
+            </form>
+          </div>
+        </main>
+      </dialog>
+    </section>
+
+    <section class="mt-4">
+      <cdk-virtual-scroll-viewport
+        class="virtual-scroll-viewport"
+        itemSize="500"
+        minBufferPx="1000"
+        maxBufferPx="2000"
+        [appendOnly]="true"
+      >
+        <div
+          class="card card-bordered card-compact bg-base-100 -xl mr-4"
+          *cdkVirtualFor="let job of filteredJobs; trackBy: trackByJobId"
+        >
+          <header class="card-title flex flex-col items-start pt-4 px-4">
+            <div class="w-full">
+              <div class="flex items-center w-full gap-4 flex-wrap lg:flex-nowrap">
+                <div
+                  *ngIf="job.matchPercentage !== undefined; else jobWithoutMatchPercentageTemplate"
+                  class="flex flex-col border-2 rounded order-0"
+                  [ngClass]="{
+                    'border-success': job.matchPercentage >= 90,
+                    'border-accent': job.matchPercentage >= 60 && job.matchPercentage < 90,
+                    'border-warning': job.matchPercentage >= 30 && job.matchPercentage < 60,
+                    'border-error': job.matchPercentage < 30
+                  }"
+                >
+                  <span
+                    class="flex items-center justify-center text-sm p-1 text-black gap-1"
+                    [ngClass]="{
+                      'bg-success': job.matchPercentage >= 90,
+                      'bg-accent': job.matchPercentage >= 60 && job.matchPercentage < 90,
+                      'bg-warning': job.matchPercentage >= 30 && job.matchPercentage < 60,
+                      'bg-error': job.matchPercentage < 30
+                    }"
+                  >
                     <i class="bx bx-analyse"></i>
                     MATCH
                   </span>
-                  <span class="flex items-center justify-center text-xl p-1 font-bold bg-base-100"
-                    >?</span
+                  <span
+                    class="flex items-center justify-center text-xl p-1 font-bold"
+                    [ngClass]="{
+                      'text-success': job.matchPercentage >= 90,
+                      'text-accent': job.matchPercentage >= 60 && job.matchPercentage < 90,
+                      'text-warning': job.matchPercentage >= 30 && job.matchPercentage < 60,
+                      'text-error': job.matchPercentage < 30
+                    }"
+                    >{{ job.matchPercentage | number: "1.0-0" }}%</span
                   >
                 </div>
-              </ng-template>
 
-              <div class="order-2 lg:order-1">
-                <h1>{{ job.title }}</h1>
-                <div class="flex items-center gap-2">
-                  <i class="bx bxs-business"></i>
+                <ng-template #jobWithoutMatchPercentageTemplate>
+                  <div class="flex flex-col border-base-300 border-2 rounded order-0">
+                    <span class="flex items-center justify-center text-sm p-1 gap-1 bg-base-300">
+                      <i class="bx bx-analyse"></i>
+                      MATCH
+                    </span>
+                    <span class="flex items-center justify-center text-xl p-1 font-bold bg-base-100"
+                      >?</span
+                    >
+                  </div>
+                </ng-template>
 
-                  <a
-                    *ngIf="job.companyUrl; else jobWithoutCompanyUrlTemplate"
-                    class="text-slate-300 text-sm link"
-                    [href]="job.companyUrl"
-                    >{{ job.companyName }}</a
-                  >
+                <div class="order-2 lg:order-1">
+                  <h1>{{ job.title }}</h1>
+                  <div class="flex items-center gap-2">
+                    <i class="bx bxs-business"></i>
 
-                  <ng-template #jobWithoutCompanyUrlTemplate>
-                    <a class="text-slate-300 text-sm">{{ job.companyName }}</a>
-                  </ng-template>
+                    <a
+                      *ngIf="job.companyUrl; else jobWithoutCompanyUrlTemplate"
+                      class="text-slate-300 text-sm link"
+                      [href]="job.companyUrl"
+                      >{{ job.companyName }}</a
+                    >
+
+                    <ng-template #jobWithoutCompanyUrlTemplate>
+                      <a class="text-slate-300 text-sm">{{ job.companyName }}</a>
+                    </ng-template>
+                  </div>
                 </div>
-              </div>
 
-              <div
-                *ngIf="job.publishedDate.toDateString() === today.toDateString()"
-                class="badge badge-success gap-1 p-4 self-start ml-auto order-1 lg:order-2"
-              >
-                <i class="bx bx-brightness"></i>
-                <span> Nova </span>
-              </div>
-            </div>
-          </div>
-        </header>
-
-        <div class="card-body">
-          <ng-container *ngIf="job.matchPercentage === undefined">
-            <div class="flex items-center gap-2 mb-4 w-full">
-              <i class="bx bx-analyse"></i>
-              <span>
-                Use a
-                <a class="btn btn-link p-0 min-h-fit h-fit" [routerLink]="['/busca-facil']"
-                  >busca fácil</a
-                >
-                para saber o seu match com a vaga!
-              </span>
-            </div>
-          </ng-container>
-          <div *ngIf="job.keywords.length > 0" class="flex flex-wrap pb-4 gap-2">
-            <div
-              [class]="'badge ' + keyword.category.badgeClass"
-              *ngFor="let keyword of job.keywords"
-            >
-              {{ keyword.name }}
-            </div>
-          </div>
-
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            <div>
-              <div class="flex items-center gap-1 mb-1">
-                <i class="bx bxs-user-detail"></i>
-                <span> Nível de experiência </span>
-              </div>
-
-              <div *ngIf="job.experienceLevels.length > 0" class="flex flex-wrap gap-2">
                 <div
-                  class="badge badge-neutral"
-                  *ngFor="let experienceLevel of job.experienceLevels"
+                  *ngIf="job.publishedDate.toDateString() === today.toDateString()"
+                  class="badge badge-success gap-1 p-4 self-start ml-auto order-1 lg:order-2"
                 >
-                  {{ experienceLevel }}
+                  <i class="bx bx-brightness"></i>
+                  <span> Nova </span>
                 </div>
               </div>
             </div>
+          </header>
 
-            <div>
-              <div class="flex items-center gap-1 mb-1">
-                <i class="bx bxs-home"></i>
-                <span>Modalidade</span>
+          <div class="card-body">
+            <ng-container *ngIf="job.matchPercentage === undefined">
+              <div class="flex items-center gap-2 mb-4 w-full">
+                <i class="bx bx-analyse"></i>
+                <span>
+                  Use a
+                  <a class="btn btn-link p-0 min-h-fit h-fit" [routerLink]="['/busca-facil']"
+                    >busca fácil</a
+                  >
+                  para saber o seu match com a vaga!
+                </span>
               </div>
-
-              <div *ngIf="job.workplaceTypes.length > 0" class="flex flex-wrap gap-2">
-                <div class="badge badge-neutral" *ngFor="let workplaceType of job.workplaceTypes">
-                  {{ workplaceType }}
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <div class="flex items-center gap-1 mb-1">
-                <i class="bx bxs-briefcase"></i>
-                <span>Tipo</span>
-              </div>
-
-              <div class="flex flex-wrapitems-center gap-2">
-                <div class="badge badge-neutral" *ngFor="let contractType of job.contractTypes">
-                  {{ contractType }}
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <div class="flex items-center gap-1 mb-1">
-                <i class="bx bxs-map"></i>
-                <span>Local</span>
-              </div>
-
-              <span class="font-bold">
-                {{ job.city ? job.city + ", " + (job.state | stateAbbreviation) : "N/A" }}
-              </span>
-            </div>
-
-            <div>
-              <div class="flex items-center gap-1 mb-1">
-                <i class="bx bxs-calendar"></i>
-                <span>Data de publicação</span>
-              </div>
-
-              <span class="font-bold">
-                {{ job.publishedDate | date: "dd/MM/yyyy" }}
-              </span>
-            </div>
-
-            <div>
-              <div class="flex items-center gap-1 mb-1">
-                <i class="bx bx-accessibility"></i>
-                <span>Inclusão</span>
-              </div>
-
-              <div class="flex flex-wrap items-center gap-2">
-                <div class="badge badge-neutral" *ngFor="let inclusionType of job.inclusionTypes">
-                  {{ inclusionType }}
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <div class="flex items-center gap-1 mb-1">
-                <i class="bx bxs-graduation"></i>
-                <span>Nível educacional</span>
-              </div>
-
-              <ng-container
-                *ngIf="job.educationalLevelTerms.length > 0; else emptyEducationalLevelsTemplate"
+            </ng-container>
+            <div *ngIf="job.keywords.length > 0" class="flex flex-wrap pb-4 gap-2">
+              <div
+                [class]="'badge ' + keyword.category.badgeClass"
+                *ngFor="let keyword of job.keywords"
               >
-                <div class="flex flex-wrap items-center gap-2">
+                {{ keyword.name }}
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <div>
+                <div class="flex items-center gap-1 mb-1">
+                  <i class="bx bxs-user-detail"></i>
+                  <span> Nível de experiência </span>
+                </div>
+
+                <div *ngIf="job.experienceLevels.length > 0" class="flex flex-wrap gap-2">
                   <div
                     class="badge badge-neutral"
-                    *ngFor="let educacionalLevelTerm of job.educationalLevelTerms"
+                    *ngFor="let experienceLevel of job.experienceLevels"
                   >
-                    {{ educacionalLevelTerm }}
+                    {{ experienceLevel }}
                   </div>
                 </div>
-              </ng-container>
-
-              <ng-template #emptyEducationalLevelsTemplate>
-                <span class="font-bold">Desconhecido</span>
-              </ng-template>
-            </div>
-
-            <div>
-              <div class="flex items-center gap-1 mb-1">
-                <i class="bx bx-globe"></i>
-                <span>Idiomas</span>
               </div>
 
-              <ng-container *ngIf="job.languages.length > 0; else emptyLanguagesTemplate">
-                <div class="flex items-center gap-2">
-                  <div class="badge badge-neutral" *ngFor="let language of job.languages">
-                    {{ language }}
+              <div>
+                <div class="flex items-center gap-1 mb-1">
+                  <i class="bx bxs-home"></i>
+                  <span>Modalidade</span>
+                </div>
+
+                <div *ngIf="job.workplaceTypes.length > 0" class="flex flex-wrap gap-2">
+                  <div class="badge badge-neutral" *ngFor="let workplaceType of job.workplaceTypes">
+                    {{ workplaceType }}
                   </div>
                 </div>
-              </ng-container>
+              </div>
 
-              <ng-template #emptyLanguagesTemplate>
-                <span class="font-bold">Desconhecido</span>
-              </ng-template>
-            </div>
-          </div>
+              <div>
+                <div class="flex items-center gap-1 mb-1">
+                  <i class="bx bxs-briefcase"></i>
+                  <span>Tipo</span>
+                </div>
 
-          <div class="mt-2">
-            <div class="flex flex-wrap items-center gap-1 mb-1">
-              <i class="bx bxs-certification"></i>
-              <span>Certificações</span>
-            </div>
+                <div class="flex flex-wrapitems-center gap-2">
+                  <div class="badge badge-neutral" *ngFor="let contractType of job.contractTypes">
+                    {{ contractType }}
+                  </div>
+                </div>
+              </div>
 
-            <div class="flex items-center gap-2">
-              <div
-                class="badge badge-neutral"
-                *ngFor="let certificationStatus of job.certificationStatuses"
-              >
-                {{ certificationStatus }}
+              <div>
+                <div class="flex items-center gap-1 mb-1">
+                  <i class="bx bxs-map"></i>
+                  <span>Local</span>
+                </div>
+
+                <span class="font-bold">
+                  {{ job.city ? job.city + ", " + (job.state | stateAbbreviation) : "N/A" }}
+                </span>
+              </div>
+
+              <div>
+                <div class="flex items-center gap-1 mb-1">
+                  <i class="bx bxs-calendar"></i>
+                  <span>Data de publicação</span>
+                </div>
+
+                <span class="font-bold">
+                  {{ job.publishedDate | date: "dd/MM/yyyy" }}
+                </span>
+              </div>
+
+              <div>
+                <div class="flex items-center gap-1 mb-1">
+                  <i class="bx bx-accessibility"></i>
+                  <span>Inclusão</span>
+                </div>
+
+                <div class="flex flex-wrap items-center gap-2">
+                  <div class="badge badge-neutral" *ngFor="let inclusionType of job.inclusionTypes">
+                    {{ inclusionType }}
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex items-center gap-1 mb-1">
+                  <i class="bx bxs-graduation"></i>
+                  <span>Nível educacional</span>
+                </div>
+
+                <ng-container
+                  *ngIf="job.educationalLevelTerms.length > 0; else emptyEducationalLevelsTemplate"
+                >
+                  <div class="flex flex-wrap items-center gap-2">
+                    <div
+                      class="badge badge-neutral"
+                      *ngFor="let educacionalLevelTerm of job.educationalLevelTerms"
+                    >
+                      {{ educacionalLevelTerm }}
+                    </div>
+                  </div>
+                </ng-container>
+
+                <ng-template #emptyEducationalLevelsTemplate>
+                  <span class="font-bold">Desconhecido</span>
+                </ng-template>
+              </div>
+
+              <div>
+                <div class="flex items-center gap-1 mb-1">
+                  <i class="bx bx-globe"></i>
+                  <span>Idiomas</span>
+                </div>
+
+                <ng-container *ngIf="job.languages.length > 0; else emptyLanguagesTemplate">
+                  <div class="flex items-center gap-2">
+                    <div class="badge badge-neutral" *ngFor="let language of job.languages">
+                      {{ language }}
+                    </div>
+                  </div>
+                </ng-container>
+
+                <ng-template #emptyLanguagesTemplate>
+                  <span class="font-bold">Desconhecido</span>
+                </ng-template>
               </div>
             </div>
-          </div>
 
-          <div class="card-actions mt-2">
-            <a class="flex items-center gap-2 w-full" [href]="job.jobUrl" target="_blank">
-              <button class="btn w-full">
-                <i class="bx bx-link-external"></i>
-                <span>Acessar vaga</span>
-              </button>
-            </a>
+            <div class="mt-2">
+              <div class="flex flex-wrap items-center gap-1 mb-1">
+                <i class="bx bxs-certification"></i>
+                <span>Certificações</span>
+              </div>
+
+              <div class="flex items-center gap-2">
+                <div
+                  class="badge badge-neutral"
+                  *ngFor="let certificationStatus of job.certificationStatuses"
+                >
+                  {{ certificationStatus }}
+                </div>
+              </div>
+            </div>
+
+            <div class="card-actions mt-2">
+              <a class="flex items-center gap-2 w-full" [href]="job.jobUrl" target="_blank">
+                <button class="btn w-full">
+                  <i class="bx bx-link-external"></i>
+                  <span>Acessar vaga</span>
+                </button>
+              </a>
+            </div>
           </div>
         </div>
-      </div>
-    </cdk-virtual-scroll-viewport>
-  </section>
+      </cdk-virtual-scroll-viewport>
+    </section>
+  </ng-container>
 </ng-container>
+
+<ng-template #emptyJobsTemplate>
+  <h2 class="text-lg">Não há vagas para mostrar.</h2>
+</ng-template>
 
 <ng-template #loading>
   <div class="flex flex-col w-full gap-4 mt-4">

@@ -29,18 +29,42 @@
   </section>
 
   <ng-container *ngIf="selectedDataType === 'jobs'">
-    <section class="w-full lg:w-1/2">
-      <div class="card card-bordered card-compact bg-base-300">
-        <div class="card-title justify-between p-4">
-          <h1>Vagas encontradas</h1>
-          <span>Total: {{ ((jobs$ | async) || []).length }} vagas</span>
-        </div>
+    <ng-container *ngIf="((jobs$ | async) || []).length; else emptyResultsTemplate">
+      <section class="w-full lg:w-1/2">
+        <div class="card card-bordered card-compact bg-base-300">
+          <div class="card-title justify-between p-4">
+            <h1>Vagas encontradas</h1>
+            <span>Total: {{ ((jobs$ | async) || []).length }} vagas</span>
+          </div>
 
-        <div class="card-body overflow-y-hidden">
-          <vgm-job-list [jobs$]="jobs$" [sortBy]="'matchPercentage'"></vgm-job-list>
+          <div class="card-body overflow-y-hidden">
+            <vgm-job-list [jobs$]="jobs$" [sortBy]="'matchPercentage'"></vgm-job-list>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </ng-container>
+
+    <ng-template #emptyResultsTemplate>
+      <section class="w-full lg:w-1/2">
+        <div class="card card-bordered card-compact bg-base-300">
+          <div class="card-body">
+            <div class="card-title">
+              <span> Nenhuma vaga foi encontrada. </span>
+            </div>
+
+            <span>Você pode tentar:</span>
+            <ul class="list-disc list-inside">
+              <li>Editar os parâmetros para ampliar o alcance da busca.</li>
+              <li>Utilizar um intervalo de tempo maior caso você o tenha alterado.</li>
+              <li>
+                Conferir novamente após a próxima atualização de vagas. Confira sua contagem
+                regressiva no rodapé da página.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </ng-template>
   </ng-container>
 
   <ng-container *ngIf="selectedDataType === 'stats'">

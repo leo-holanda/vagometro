@@ -1,66 +1,81 @@
 <ng-container *ngIf="rankData$ | async as rank; else loading">
-  <div class="card w-full h-full bg-base-300">
-    <div class="card-body">
-      <h2 class="card-title">
-        <i [class]="rankMetaData.icon"></i>
-        <span> {{ rankMetaData.name }} </span>
-      </h2>
+  <ng-container *ngIf="rank.length > 0; else emptyRankTemplate">
+    <div class="card w-full h-full bg-base-300">
+      <div class="card-body">
+        <h2 class="card-title">
+          <i [class]="rankMetaData.icon"></i>
+          <span> {{ rankMetaData.name }} </span>
+        </h2>
 
-      <main class="overflow-x-auto max-h-96 w-full mb-4">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>{{ rankMetaData.dataColumnName }}</th>
-              <th>Vagas</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let item of rank; index as i">
-              <th>{{ i + 1 }}</th>
-              <td class="relative">
-                <div
-                  class="absolute top-0 left-0 z-0 bg-blue-500 h-full opacity-20"
-                  [ngStyle]="{ width: item.percentage | percent: '1.0-0' }"
-                ></div>
+        <main class="overflow-x-auto max-h-96 w-full mb-4">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>{{ rankMetaData.dataColumnName }}</th>
+                <th>Vagas</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of rank; index as i">
+                <th>{{ i + 1 }}</th>
+                <td class="relative">
+                  <div
+                    class="absolute top-0 left-0 z-0 bg-blue-500 h-full opacity-20"
+                    [ngStyle]="{ width: item.percentage | percent: '1.0-0' }"
+                  ></div>
 
-                <ng-container *ngIf="item.link">
-                  <a class="link relative z-10" [href]="item.link" target="_blank">{{
-                    item.name
-                  }}</a>
-                </ng-container>
+                  <ng-container *ngIf="item.link">
+                    <a class="link relative z-10" [href]="item.link" target="_blank">{{
+                      item.name
+                    }}</a>
+                  </ng-container>
 
-                <ng-container *ngIf="item.state">
-                  <span class="relative z-10">{{
-                    item.name + ", " + (item.state! | stateAbbreviation)
-                  }}</span>
-                </ng-container>
+                  <ng-container *ngIf="item.state">
+                    <span class="relative z-10">{{
+                      item.name + ", " + (item.state! | stateAbbreviation)
+                    }}</span>
+                  </ng-container>
 
-                <ng-container *ngIf="!item.link && !item.state">
-                  <span class="relative z-10">{{ item.name }}</span>
-                </ng-container>
-              </td>
-              <td class="flex items-center flex-wrap gap-2">
-                <span>{{ item.count | number }}</span>
-                <span class="text-gray-600"
-                  >({{
-                    item.percentage | percent: (item.percentage < 0.01 ? "1.1-2" : "1.0-0")
-                  }})</span
-                >
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </main>
+                  <ng-container *ngIf="!item.link && !item.state">
+                    <span class="relative z-10">{{ item.name }}</span>
+                  </ng-container>
+                </td>
+                <td class="flex items-center flex-wrap gap-2">
+                  <span>{{ item.count | number }}</span>
+                  <span class="text-gray-600"
+                    >({{
+                      item.percentage | percent: (item.percentage < 0.01 ? "1.1-2" : "1.0-0")
+                    }})</span
+                  >
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </main>
 
-      <footer class="card-actions mt-auto w-full">
-        <button class="btn btn-neutral w-full" [routerLink]="[rankMetaData.routerLink]">
-          <i class="bx bx-search"></i>
-          <span>Ver detalhes</span>
-        </button>
-      </footer>
+        <footer class="card-actions mt-auto w-full">
+          <button class="btn btn-neutral w-full" [routerLink]="[rankMetaData.routerLink]">
+            <i class="bx bx-search"></i>
+            <span>Ver detalhes</span>
+          </button>
+        </footer>
+      </div>
     </div>
-  </div>
+  </ng-container>
+
+  <ng-template #emptyRankTemplate>
+    <div class="card w-full h-full bg-base-300">
+      <div class="card-body">
+        <h2 class="card-title">
+          <i [class]="rankMetaData.icon"></i>
+          <span> {{ rankMetaData.name }} </span>
+        </h2>
+
+        <span>Não há dados para mostrar.</span>
+      </div>
+    </div>
+  </ng-template>
 </ng-container>
 
 <ng-template #loading>

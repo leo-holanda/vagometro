@@ -185,6 +185,11 @@
     ></vgm-rank>
 
     <vgm-rank
+      [rankType]="rankTypes.repostings"
+      [jobs$]="dataType === 'city' ? jobsByCity$ : jobsByState$"
+    ></vgm-rank>
+
+    <vgm-rank
       [rankType]="rankTypes.education"
       [jobs$]="dataType === 'city' ? jobsByCity$ : jobsByState$"
     ></vgm-rank>

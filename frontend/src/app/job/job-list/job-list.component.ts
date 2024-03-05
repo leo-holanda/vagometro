@@ -52,6 +52,7 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
     publishedDate: undefined,
     inclusionType: undefined,
     matchPercentage: 0,
+    duplicates: 0,
   };
 
   today = new Date();
@@ -159,6 +160,14 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
       this.filteredJobs = this.filteredJobs.filter((job) => {
         if (job.matchPercentage == undefined) return true;
         return job.matchPercentage >= matchPercentageFilterValue;
+      });
+    }
+
+    const duplicatesFilterValue = this.filters['duplicates'];
+    if (duplicatesFilterValue) {
+      this.filteredJobs = this.filteredJobs.filter((job) => {
+        if (job.duplicates == undefined) return true;
+        return job.duplicates.length >= duplicatesFilterValue;
       });
     }
   }

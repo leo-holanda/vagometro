@@ -8,4 +8,5 @@ export type Filter = {
   publishedDate: string | undefined;
   inclusionType: string | undefined;
   matchPercentage: number | undefined;
+  duplicates: number | undefined;
 };

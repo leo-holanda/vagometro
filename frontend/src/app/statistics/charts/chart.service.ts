@@ -77,7 +77,7 @@ export class ChartService {
     const matchesMap = new Map<string, number>();
 
     jobs.forEach((job) => {
-      if (!job.matchPercentage) return;
+      if (job.matchPercentage == undefined) return;
       const matchPercentage = job.matchPercentage.toFixed(0).toString() + '%';
       const currentPercentageCount = matchesMap.get(matchPercentage) || 0;
       matchesMap.set(matchPercentage, currentPercentageCount + 1);

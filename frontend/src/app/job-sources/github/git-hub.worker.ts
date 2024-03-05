@@ -1,11 +1,9 @@
 /// <reference lib="webworker" />
 
-import { mapGitHubJobToJob } from './git-hub-jobs.mapper';
+import { mapGitHubJobsToJobs } from './git-hub-jobs.mapper';
 import { GitHubJob } from './git-hub-jobs.types';
 
 addEventListener('message', ({ data }) => {
-  const response = (data.jobs as GitHubJob[])
-    .map((job) => mapGitHubJobToJob(job, data.searchData))
-    .sort((a, b) => (a.publishedDate > b.publishedDate ? -1 : 1));
+  const response = mapGitHubJobsToJobs(data.jobs as GitHubJob[], data.searchData);
   postMessage(response);
 });

@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-import { GitHubJob } from './git-hub-jobs.types';
 import { environment } from 'src/environments/environment';
 import { Observable, defer, first, shareReplay, tap } from 'rxjs';
 import * as zip from '@zip.js/zip.js';
 import { Job } from 'src/app/job/job.types';
-import { mapGitHubJobToJob } from './git-hub-jobs.mapper';
 import { EasySearchService } from 'src/app/job/easy-search/easy-search.service';
+import { mapGitHubJobsToJobs } from './git-hub-jobs.mapper';
 
 @Injectable({
   providedIn: 'root',
@@ -52,12 +51,10 @@ export class GitHubJobsService {
       if (worker) {
         worker.postMessage({ jobs: JSON.parse(jobs), searchData });
         worker.onmessage = ({ data }) => resolve(data);
-        worker.onerror = () =>
-          resolve(JSON.parse(jobs).map((job: GitHubJob) => mapGitHubJobToJob(job, searchData)));
-        worker.onmessageerror = () =>
-          resolve(JSON.parse(jobs).map((job: GitHubJob) => mapGitHubJobToJob(job, searchData)));
+        worker.onerror = () => resolve(mapGitHubJobsToJobs(JSON.parse(jobs), searchData));
+        worker.onmessageerror = () => resolve(mapGitHubJobsToJobs(JSON.parse(jobs), searchData));
       } else {
-        resolve(JSON.parse(jobs).map((job: GitHubJob) => mapGitHubJobToJob(job, searchData)));
+        resolve(mapGitHubJobsToJobs(JSON.parse(jobs), searchData));
       }
     });
   }

@@ -20,8 +20,35 @@ import { KeywordData } from 'src/app/shared/keywords-matcher/technologies.data';
 import { SearchData } from 'src/app/job/easy-search/easy-search.types';
 import { getJobMatchPercentage } from 'src/app/job/easy-search/easy-search.mapper';
 
+export function mapGitHubJobsToJobs(jobs: GitHubJob[], searchData: SearchData | undefined): Job[] {
+  const jobsByCompanyMap = new Map<string, Job[]>();
+
+  return jobs
+    .map((jobs) => mapToJob(jobs, searchData, jobsByCompanyMap))
+    .map((jobs) => setDuplicates(jobs, jobsByCompanyMap))
+    .sort((a, b) => (a.publishedDate > b.publishedDate ? -1 : 1));
+}
+
+function setDuplicates(job: Job, jobsByCompanyMap: Map<string, Job[]>): Job {
+  const jobsByCompany = jobsByCompanyMap.get(job.companyName) || [];
+
+  const duplicatedJobs = jobsByCompany.filter((jobFromCompany) => {
+    const hasSameTitle = jobFromCompany.title == job.title;
+    const hasSameDescription = jobFromCompany.description == job.description;
+    const hasDifferentIDs = jobFromCompany.id != job.id;
+    return hasSameTitle && hasSameDescription && hasDifferentIDs;
+  });
+
+  job.duplicates = duplicatedJobs;
+  return job;
+}
+
 // This function can't go to the git-hub worker file. It will not transpile
-export function mapGitHubJobToJob(job: GitHubJob, searchData: SearchData | undefined): Job {
+export function mapToJob(
+  job: GitHubJob,
+  searchData: SearchData | undefined,
+  jobsByCompanyMap: Map<string, Job[]>,
+): Job {
   const { coursesNames, educationalLevels } = findEducationalData(job);
 
   const mappedJob: Job = {
@@ -46,6 +73,10 @@ export function mapGitHubJobToJob(job: GitHubJob, searchData: SearchData | undef
     certificationStatuses: findCertificationStatuses(job),
     duplicates: [],
   };
+
+  const jobsByCompany = jobsByCompanyMap.get(mappedJob.companyName) || [];
+  jobsByCompany.push(mappedJob);
+  jobsByCompanyMap.set(mappedJob.companyName, jobsByCompany);
 
   mappedJob.matchPercentage = getJobMatchPercentage(mappedJob, searchData);
   return mappedJob;

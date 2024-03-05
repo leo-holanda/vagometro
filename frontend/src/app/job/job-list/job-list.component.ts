@@ -68,7 +68,7 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
 
   trackByJobId = trackByJobId;
 
-  @ViewChild('repostingsList') duplcatesListModal: ElementRef | undefined;
+  @ViewChild('repostingsList') repostingsListModal: ElementRef | undefined;
 
   private destroy$ = new Subject<void>();
 
@@ -213,6 +213,6 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
 
   openRepostingsDialog(job: Job): void {
     this.repostingsFromSelectedJob = job.repostings;
-    if (this.duplcatesListModal) this.duplcatesListModal.nativeElement.showModal();
+    if (this.repostingsListModal) this.repostingsListModal.nativeElement.showModal();
   }
 }

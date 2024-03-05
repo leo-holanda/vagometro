@@ -1,0 +1,139 @@
+<main class="grid grid-cols-1 lg:grid-cols-2 gap-4 m-4 h-full">
+  <div class="flex flex-col gap-4 h-min">
+    <div class="card card-bordered card-compact w-full bg-base-300">
+      <div class="card-title items-center p-4">
+        <i class="bx bx-refresh"></i>
+        <h1>Rank de Repostagens</h1>
+      </div>
+
+      <div class="card-body max-h-96 overflow-y-auto">
+        <ng-container *ngIf="repostingsRank$ | async as repostingsRank; else loading">
+          <div class="flex justify-between w-full px-2 text-gray-600">
+            <span>Repostagens</span>
+            <span>Vagas</span>
+          </div>
+
+          <button
+            class="btn btn-ghost p-2"
+            *ngFor="let repostingCount of repostingsRank; index as i; trackBy: trackByRankData"
+            [ngClass]="{ 'btn-active': selectedRepostingCount === +repostingCount.name }"
+            (click)="onRepostingCountClick(+repostingCount.name)"
+          >
+            <div class="w-full flex justify-between">
+              <span [ngPlural]="+repostingCount.name">
+                <ng-template ngPluralCase="=0">
+                  <span>{{ i + 1 + ". " }} Nenhuma vez</span>
+                </ng-template>
+
+                <ng-template ngPluralCase="=1">
+                  <span>{{ i + 1 + ". " + repostingCount.name + " vez" }}</span>
+                </ng-template>
+
+                <ng-template ngPluralCase="other">
+                  <span>{{ i + 1 + ". " + repostingCount.name + " vezes" }}</span>
+                </ng-template>
+              </span>
+
+              <div class="flex gap-2">
+                <span>{{ repostingCount.count | number }}</span>
+                <span class="text-gray-600"
+                  >({{ repostingCount.count / jobsQuantity | percent: "1.1-1" }})</span
+                >
+              </div>
+            </div>
+
+            <progress
+              class="progress w-full"
+              [value]="repostingCount.count"
+              [max]="jobsQuantity"
+            ></progress>
+          </button>
+        </ng-container>
+
+        <ng-template #loading>
+          <div class="flex flex-col w-full gap-4 mt-4">
+            <div class="skeleton h-8 w-full"></div>
+            <div class="skeleton h-8 w-full"></div>
+            <div class="skeleton h-8 w-full"></div>
+            <div class="skeleton h-8 w-full"></div>
+            <div class="skeleton h-8 w-full"></div>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+
+    <div class="card card-bordered card-compact w-full bg-base-300 flex flex-col gap-4 h-min">
+      <div class="card-title items-center p-4">
+        <i class="bx bxs-calendar"></i>
+        <h1>Vagas publicadas ao longo do tempo</h1>
+      </div>
+
+      <div class="card-body">
+        <vgm-publication-chart [jobs$]="jobsByRepostingCount$"></vgm-publication-chart>
+      </div>
+    </div>
+
+    <vgm-job-postings-comparison [jobs$]="jobsByRepostingCount$"></vgm-job-postings-comparison>
+
+    <vgm-matches-chart [jobs$]="jobsByRepostingCount$"></vgm-matches-chart>
+  </div>
+
+  <section class="grid grid-cols-1 gap-4">
+    <div class="card card-bordered card-compact w-full bg-base-300">
+      <div class="card-body p-4">
+        <span [ngPlural]="selectedRepostingCount">
+          <ng-template ngPluralCase="=0">
+            <h1 class="font-bold text-lg">Sobre as vagas que não foram repostadas</h1>
+          </ng-template>
+
+          <ng-template ngPluralCase="=1">
+            <h1 class="font-bold text-lg">
+              Sobre as vagas que foram repostadas {{ selectedRepostingCount }} vez
+            </h1>
+          </ng-template>
+
+          <ng-template ngPluralCase="other">
+            <h1 class="font-bold text-lg">
+              Sobre as vagas que foram repostadas {{ selectedRepostingCount }} vezes
+            </h1>
+          </ng-template>
+        </span>
+      </div>
+    </div>
+
+    <vgm-rank [rankType]="rankTypes.experience" [jobs$]="jobsByRepostingCount$"></vgm-rank>
+
+    <vgm-rank [rankType]="rankTypes.workplace" [jobs$]="jobsByRepostingCount$"></vgm-rank>
+
+    <vgm-rank [rankType]="rankTypes.contractTypes" [jobs$]="jobsByRepostingCount$"></vgm-rank>
+
+    <vgm-rank [rankType]="rankTypes.technology" [jobs$]="jobsByRepostingCount$"></vgm-rank>
+
+    <vgm-rank [rankType]="rankTypes.companies" [jobs$]="jobsByRepostingCount$"></vgm-rank>
+
+    <vgm-rank [rankType]="rankTypes.inclusion" [jobs$]="jobsByRepostingCount$"></vgm-rank>
+
+    <vgm-rank [rankType]="rankTypes.education" [jobs$]="jobsByRepostingCount$"></vgm-rank>
+
+    <vgm-rank [rankType]="rankTypes.months" [jobs$]="jobsByRepostingCount$"></vgm-rank>
+
+    <vgm-rank [rankType]="rankTypes.cities" [jobs$]="jobsByRepostingCount$"></vgm-rank>
+
+    <vgm-rank [rankType]="rankTypes.certification" [jobs$]="jobsByRepostingCount$"></vgm-rank>
+  </section>
+</main>
+
+<div class="divider"></div>
+
+<div class="flex items-center justify-center mb-4">
+  <div class="card card-bordered card-compact w-full lg:w-1/2 bg-base-300">
+    <div class="card-title justify-between p-4">
+      <h1>Vagas consideradas nos dados acima</h1>
+      <span>Total: {{ ((jobsByRepostingCount$ | async) || []).length }} vagas</span>
+    </div>
+
+    <div class="card-body overflow-y-hidden">
+      <vgm-job-list [jobs$]="jobsByRepostingCount$"></vgm-job-list>
+    </div>
+  </div>
+</div>

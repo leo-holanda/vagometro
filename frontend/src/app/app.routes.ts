@@ -104,6 +104,13 @@ export const routes: Routes = [
             './statistics/overviews/certifications-overview/certifications-overview.component'
           ).then((mod) => mod.CertificationsOverviewComponent),
       },
+      {
+        path: 'repostagens',
+        loadComponent: () =>
+          import('./statistics/overviews/repostings-overview/repostings-overview.component').then(
+            (mod) => mod.RepostingsOverviewComponent,
+          ),
+      },
     ],
   },
   {

@@ -206,6 +206,15 @@ export class JobService {
     );
   }
 
+  getJobsByRepostingCount(repostingCount: number): Observable<Job[]> {
+    return this.jobs$.pipe(
+      filter((jobs): jobs is Job[] => jobs != undefined),
+      map((jobs) => {
+        return jobs.filter((job) => job.duplicates.length == repostingCount);
+      }),
+    );
+  }
+
   getJobMonth(job: Job): string {
     return monthsMap[job.publishedDate.getMonth()];
   }

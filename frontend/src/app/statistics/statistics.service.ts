@@ -411,8 +411,8 @@ export class StatisticsService {
         const repostingsMap = new Map<number, number>();
 
         jobs.forEach((job) => {
-          const currentRepostingsCount = repostingsMap.get(job.duplicates.length) || 0;
-          repostingsMap.set(job.duplicates.length, currentRepostingsCount + 1);
+          const currentRepostingsCount = repostingsMap.get(job.repostings.length) || 0;
+          repostingsMap.set(job.repostings.length, currentRepostingsCount + 1);
         });
 
         const sortedEntries = Array.from(repostingsMap.entries()).sort((a, b) => b[1] - a[1]);

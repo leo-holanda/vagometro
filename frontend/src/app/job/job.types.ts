@@ -26,7 +26,7 @@ export type Job = {
   languages: string[];
   certificationStatuses: CertificationStatus[];
   matchPercentage?: number;
-  duplicates: Job[];
+  repostings: Job[];
 };
 
 export enum TimeWindows {

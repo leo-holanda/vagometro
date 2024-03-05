@@ -35,7 +35,7 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
 
   pristineJobs: Job[] = [];
   filteredJobs: Job[] = [];
-  duplicatesFromSelectedJob: Job[] = [];
+  repostingsFromSelectedJob: Job[] = [];
 
   contractTypes = ContractTypes;
   experienceLevels = ExperienceLevels;
@@ -52,7 +52,7 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
     publishedDate: undefined,
     inclusionType: undefined,
     matchPercentage: 0,
-    duplicates: 0,
+    repostings: 0,
   };
 
   today = new Date();
@@ -60,7 +60,7 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
 
   trackByJobId = trackByJobId;
 
-  @ViewChild('duplicatesList') duplcatesListModal: ElementRef | undefined;
+  @ViewChild('repostingsList') duplcatesListModal: ElementRef | undefined;
 
   private destroy$ = new Subject<void>();
 
@@ -163,11 +163,11 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
       });
     }
 
-    const duplicatesFilterValue = this.filters['duplicates'];
-    if (duplicatesFilterValue) {
+    const repostingsFilterValue = this.filters['repostings'];
+    if (repostingsFilterValue) {
       this.filteredJobs = this.filteredJobs.filter((job) => {
-        if (job.duplicates == undefined) return true;
-        return job.duplicates.length >= duplicatesFilterValue;
+        if (job.repostings == undefined) return true;
+        return job.repostings.length >= repostingsFilterValue;
       });
     }
   }
@@ -203,8 +203,8 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
     this.filteredJobs = [...this.filteredJobs];
   }
 
-  openDuplicatesDialog(job: Job): void {
-    this.duplicatesFromSelectedJob = job.duplicates;
+  openRepostingsDialog(job: Job): void {
+    this.repostingsFromSelectedJob = job.repostings;
     if (this.duplcatesListModal) this.duplcatesListModal.nativeElement.showModal();
   }
 }

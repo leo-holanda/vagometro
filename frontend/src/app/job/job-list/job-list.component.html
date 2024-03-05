@@ -23,7 +23,7 @@
           <option value="inclusionType">Inclusão</option>
           <option value="publishedDate">Data de publicação</option>
           <option value="matchPercentage">Porcentagem de match</option>
-          <option value="duplicates">Repostagens</option>
+          <option value="repostings">Repostagens</option>
         </select>
 
         <select
@@ -216,16 +216,16 @@
               </h2>
               <div class="flex items-center gap-2 mt-2">
                 <input
-                  [(ngModel)]="filters['duplicates']"
+                  [(ngModel)]="filters['repostings']"
                   (ngModelChange)="filterJobs()"
-                  id="duplicates"
-                  name="duplicates"
+                  id="repostings"
+                  name="repostings"
                   type="range"
                   min="0"
                   max="100"
                   class="range"
                 />
-                <kbd class="kbd">{{ filters["duplicates"] }}</kbd>
+                <kbd class="kbd">{{ filters["repostings"] }}</kbd>
               </div>
             </section>
 
@@ -281,18 +281,18 @@
       <div class="card-body">
         <header class="card-title flex flex-col items-start">
           <button
-            *ngIf="job.duplicates.length > 0"
+            *ngIf="job.repostings.length > 0"
             class="badge badge-success gap-1 p-4 mb-4"
-            (click)="openDuplicatesDialog(job)"
+            (click)="openRepostingsDialog(job)"
           >
             <i class="bx bx-refresh"></i>
-            <span [ngPlural]="job.duplicates.length">
+            <span [ngPlural]="job.repostings.length">
               <ng-template ngPluralCase="=1">
-                Repostada {{ job.duplicates.length }} vez
+                Repostada {{ job.repostings.length }} vez
               </ng-template>
 
               <ng-template ngPluralCase="other">
-                Repostada {{ job.duplicates.length }} vezes
+                Repostada {{ job.repostings.length }} vezes
               </ng-template>
             </span>
           </button>
@@ -557,10 +557,10 @@
   </div>
 </ng-template>
 
-<dialog #duplicatesList class="modal">
+<dialog #repostingsList class="modal">
   <div class="modal-box overflow-y-hidden">
     <cdk-virtual-scroll-viewport
-      class="duplicates-virtual-scroll-viewport"
+      class="repostings-virtual-scroll-viewport"
       itemSize="500"
       minBufferPx="1000"
       maxBufferPx="2000"
@@ -568,7 +568,7 @@
     >
       <div
         class="card card-bordered card-compact bg-base-300 -xl mr-4"
-        *cdkVirtualFor="let job of duplicatesFromSelectedJob; trackBy: trackByJobId"
+        *cdkVirtualFor="let job of repostingsFromSelectedJob; trackBy: trackByJobId"
       >
         <div class="card-body">
           <header class="card-title flex flex-col items-start">

@@ -25,21 +25,21 @@ export function mapGitHubJobsToJobs(jobs: GitHubJob[], searchData: SearchData | 
 
   return jobs
     .map((jobs) => mapToJob(jobs, searchData, jobsByCompanyMap))
-    .map((jobs) => setDuplicates(jobs, jobsByCompanyMap))
+    .map((jobs) => setRepostings(jobs, jobsByCompanyMap))
     .sort((a, b) => (a.publishedDate > b.publishedDate ? -1 : 1));
 }
 
-function setDuplicates(job: Job, jobsByCompanyMap: Map<string, Job[]>): Job {
+function setRepostings(job: Job, jobsByCompanyMap: Map<string, Job[]>): Job {
   const jobsByCompany = jobsByCompanyMap.get(job.companyName) || [];
 
-  const duplicatedJobs = jobsByCompany.filter((jobFromCompany) => {
+  const repostings = jobsByCompany.filter((jobFromCompany) => {
     const hasSameTitle = jobFromCompany.title == job.title;
     const hasSameDescription = jobFromCompany.description == job.description;
     const hasDifferentIDs = jobFromCompany.id != job.id;
     return hasSameTitle && hasSameDescription && hasDifferentIDs;
   });
 
-  job.duplicates = duplicatedJobs;
+  job.repostings = repostings;
   return job;
 }
 
@@ -71,7 +71,7 @@ export function mapToJob(
     languages: findJobLanguages(job),
     workplaceTypes: findJobWorkplaceTypes(job),
     certificationStatuses: findCertificationStatuses(job),
-    duplicates: [],
+    repostings: [],
   };
 
   const jobsByCompany = jobsByCompanyMap.get(mappedJob.companyName) || [];

@@ -282,17 +282,19 @@
         <header class="card-title flex flex-col items-start">
           <button
             *ngIf="job.repostings.length > 0"
-            class="badge badge-success gap-1 p-4 mb-4"
+            class="badge badge-success gap-1 p-6 lg:p-4 mb-4"
             (click)="openRepostingsDialog(job)"
           >
             <i class="bx bx-refresh"></i>
             <span [ngPlural]="job.repostings.length">
               <ng-template ngPluralCase="=1">
-                Repostada {{ job.repostings.length }} vez
+                Repostada {{ job.repostings.length }} vez entre
+                {{ job.repostings | repostingsTimespan }} dias
               </ng-template>
 
               <ng-template ngPluralCase="other">
-                Repostada {{ job.repostings.length }} vezes
+                Repostada {{ job.repostings.length }} vezes durante
+                {{ job.repostings | repostingsTimespan }} dias
               </ng-template>
             </span>
           </button>

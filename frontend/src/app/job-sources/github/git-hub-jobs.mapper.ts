@@ -44,6 +44,7 @@ export function mapGitHubJobToJob(job: GitHubJob, searchData: SearchData | undef
     languages: findJobLanguages(job),
     workplaceTypes: findJobWorkplaceTypes(job),
     certificationStatuses: findCertificationStatuses(job),
+    duplicates: [],
   };
 
   mappedJob.matchPercentage = getJobMatchPercentage(mappedJob, searchData);

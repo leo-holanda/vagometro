@@ -55,12 +55,33 @@ export function mapLinkedInJobsToJobs(
   jobs: LinkedInJob[],
   searchData: SearchData | undefined,
 ): Job[] {
+  const jobsByCompanyMap = new Map<string, Job[]>();
+
   return jobs
-    .map((jobs) => mapToJob(jobs, searchData))
+    .map((jobs) => mapToJob(jobs, searchData, jobsByCompanyMap))
+    .map((jobs) => setDuplicates(jobs, jobsByCompanyMap))
     .sort((a, b) => (a.publishedDate > b.publishedDate ? -1 : 1));
 }
 
-function mapToJob(job: LinkedInJob, searchData: SearchData | undefined): Job {
+function setDuplicates(job: Job, jobsByCompanyMap: Map<string, Job[]>): Job {
+  const jobsByCompany = jobsByCompanyMap.get(job.companyName) || [];
+
+  const duplicatedJobs = jobsByCompany.filter((jobFromCompany) => {
+    const hasSameTitle = jobFromCompany.title == job.title;
+    const hasSameDescription = jobFromCompany.description == job.description;
+    const hasDifferentIDs = jobFromCompany.id != job.id;
+    return hasSameTitle && hasSameDescription && hasDifferentIDs;
+  });
+
+  job.duplicates = duplicatedJobs;
+  return job;
+}
+
+function mapToJob(
+  job: LinkedInJob,
+  searchData: SearchData | undefined,
+  jobsByCompanyMap: Map<string, Job[]>,
+): Job {
   // Why can't I just do replaceAll in the object below?
   const sanitizedJobDescription = job.description.replaceAll('\n', ' ');
   job.description = sanitizedJobDescription;
@@ -91,7 +112,12 @@ function mapToJob(job: LinkedInJob, searchData: SearchData | undefined): Job {
     state: findJobState(job),
     workplaceTypes: getJobWorkplaceType(job),
     certificationStatuses: findCertificationStatuses(job),
+    duplicates: [],
   };
+
+  const jobsByCompany = jobsByCompanyMap.get(mappedJob.companyName) || [];
+  jobsByCompany.push(mappedJob);
+  jobsByCompanyMap.set(mappedJob.companyName, jobsByCompany);
 
   mappedJob.matchPercentage = getJobMatchPercentage(mappedJob, searchData);
   return mappedJob;

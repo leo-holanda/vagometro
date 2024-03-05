@@ -1,4 +1,12 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable, Subject, filter, takeUntil } from 'rxjs';
 import { StateAbbreviationPipe } from 'src/app/shared/pipes/state-abbreviation.pipe';
@@ -27,6 +35,7 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
 
   pristineJobs: Job[] = [];
   filteredJobs: Job[] = [];
+  duplicatesFromSelectedJob: Job[] = [];
 
   contractTypes = ContractTypes;
   experienceLevels = ExperienceLevels;
@@ -49,6 +58,8 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
   inputMaxDate = new Date().toISOString().slice(0, 10);
 
   trackByJobId = trackByJobId;
+
+  @ViewChild('duplicatesList') duplcatesListModal: ElementRef | undefined;
 
   private destroy$ = new Subject<void>();
 
@@ -181,5 +192,10 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
     });
 
     this.filteredJobs = [...this.filteredJobs];
+  }
+
+  openDuplicatesDialog(job: Job): void {
+    this.duplicatesFromSelectedJob = job.duplicates;
+    if (this.duplcatesListModal) this.duplcatesListModal.nativeElement.showModal();
   }
 }

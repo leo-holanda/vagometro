@@ -6,6 +6,10 @@
   }
 }
 
+.duplicates-virtual-scroll-viewport {
+  height: 50dvh;
+}
+
 :host ::ng-deep .cdk-virtual-scroll-content-wrapper {
   display: flex;
   flex-direction: column;

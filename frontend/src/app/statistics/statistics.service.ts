@@ -402,6 +402,32 @@ export class StatisticsService {
     );
   }
 
+  getRepostingsRank(
+    jobs$: Observable<Job[] | undefined> = this.jobService.jobs$,
+  ): Observable<RankData[]> {
+    return jobs$.pipe(
+      filter((jobs): jobs is Job[] => jobs != undefined),
+      map((jobs) => {
+        const repostingsMap = new Map<number, number>();
+
+        jobs.forEach((job) => {
+          const currentRepostingsCount = repostingsMap.get(job.duplicates.length) || 0;
+          repostingsMap.set(job.duplicates.length, currentRepostingsCount + 1);
+        });
+
+        const sortedEntries = Array.from(repostingsMap.entries()).sort((a, b) => b[1] - a[1]);
+
+        const sortedObjects = sortedEntries.map(([key, value]) => ({
+          name: key.toString(),
+          count: value,
+          percentage: value / jobs.length,
+        }));
+
+        return sortedObjects;
+      }),
+    );
+  }
+
   getMonthlyComparison(
     jobs$: Observable<Job[] | undefined> = this.jobService.jobs$,
   ): Observable<ComparisonData[]> {

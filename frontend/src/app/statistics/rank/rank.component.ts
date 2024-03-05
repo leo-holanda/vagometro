@@ -23,6 +23,8 @@ export class RankComponent implements OnInit, OnChanges {
   rankMetaData!: RankMetaData;
   jobsQuantity!: Observable<number>;
 
+  rankTypes = RankTypes;
+
   constructor(private statisticsService: StatisticsService) {}
 
   ngOnInit(): void {
@@ -121,6 +123,13 @@ export class RankComponent implements OnInit, OnChanges {
         dataColumnName: 'Certificação',
         routerLink: '/stats/certificacoes',
         getRank: this.statisticsService.getCertificationsRank.bind(this.statisticsService),
+      },
+      repostings: {
+        name: 'Ranking de Repostagens',
+        icon: 'bx bx-refresh',
+        dataColumnName: 'Repostagens',
+        routerLink: '/stats/repostagens',
+        getRank: this.statisticsService.getRepostingsRank.bind(this.statisticsService),
       },
     };
   }

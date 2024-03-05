@@ -19,11 +19,30 @@
             <tbody>
               <tr *ngFor="let item of rank; index as i">
                 <th>{{ i + 1 }}</th>
+
                 <td class="relative">
                   <div
                     class="absolute top-0 left-0 z-0 bg-blue-500 h-full opacity-20"
                     [ngStyle]="{ width: item.percentage | percent: '1.0-0' }"
                   ></div>
+
+                  <!-- TODO: improve these conditions -->
+
+                  <ng-container *ngIf="rankType === rankTypes.repostings">
+                    <span [ngPlural]="+item.name">
+                      <ng-template ngPluralCase="=0">
+                        <span> Nenhuma vez </span>
+                      </ng-template>
+
+                      <ng-template ngPluralCase="=1">
+                        <span> {{ item.name }} vez </span>
+                      </ng-template>
+
+                      <ng-template ngPluralCase="other">
+                        <span> {{ item.name }} vezes </span>
+                      </ng-template>
+                    </span>
+                  </ng-container>
 
                   <ng-container *ngIf="item.link">
                     <a class="link relative z-10" [href]="item.link" target="_blank">{{
@@ -37,10 +56,13 @@
                     }}</span>
                   </ng-container>
 
-                  <ng-container *ngIf="!item.link && !item.state">
+                  <ng-container
+                    *ngIf="!item.link && !item.state && rankType !== rankTypes.repostings"
+                  >
                     <span class="relative z-10">{{ item.name }}</span>
                   </ng-container>
                 </td>
+
                 <td class="flex items-center flex-wrap gap-2">
                   <span>{{ item.count | number }}</span>
                   <span class="text-gray-600"

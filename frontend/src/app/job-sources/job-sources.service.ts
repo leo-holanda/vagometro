@@ -32,6 +32,7 @@ export class JobSourcesService {
     this.jobCollectionsMap.gupyia.dataSource = this.gupyService.aiJobs$;
     this.jobCollectionsMap.gupyProductManager.dataSource = this.gupyService.productManagerJobs$;
     this.jobCollectionsMap.gupyAgileRelated.dataSource = this.gupyService.agileRelatedJobs$;
+    this.jobCollectionsMap.gupyRecruitment.dataSource = this.gupyService.recruitmentJobs$;
 
     this.jobCollectionsMap.frontendbr.dataSource = this.githubJobsService.frontendJobs$;
     this.jobCollectionsMap.backendbr.dataSource = this.githubJobsService.backendJobs$;

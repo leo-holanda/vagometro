@@ -19,6 +19,7 @@ export class GupyService {
   aiJobs$: Observable<Job[]>;
   productManagerJobs$: Observable<Job[]>;
   agileRelatedJobs$: Observable<Job[]>;
+  recruitmentJobs$: Observable<Job[]>;
 
   constructor(
     private atlasService: AtlasService,
@@ -34,6 +35,7 @@ export class GupyService {
     this.aiJobs$ = this.getAIJobsObservable();
     this.productManagerJobs$ = this.getProductManagerJobsObservable();
     this.agileRelatedJobs$ = this.getAgileRelatedJobsObservable();
+    this.recruitmentJobs$ = this.getRecruitmentJobsObservable();
   }
 
   private getWorkerPromise(jobs: GupyJob[]): Promise<Job[]> {
@@ -49,6 +51,13 @@ export class GupyService {
         resolve(mapGupyJobsToJobs(jobs, searchData));
       }
     });
+  }
+
+  private getRecruitmentJobsObservable(): Observable<Job[]> {
+    return this.atlasService.getRecruitmentJobs().pipe(
+      switchMap((jobs) => defer(() => this.getWorkerPromise(jobs))),
+      shareReplay(),
+    );
   }
 
   private getAgileRelatedJobsObservable(): Observable<Job[]> {

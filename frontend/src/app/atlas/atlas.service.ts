@@ -20,6 +20,7 @@ export class AtlasService {
   private aiJobsCollection: any;
   private productManagerJobsCollection: any;
   private agileRelatedJobsCollection: any;
+  private recruitmentJobsCollection: any;
 
   private linkedInDevJobsCollection: any;
 
@@ -68,9 +69,14 @@ export class AtlasService {
       this.productManagerJobsCollection = mongoDB
         .db(environment.GUPY_DATABASE_NAME)
         .collection(environment.GUPY_PRODUCT_MANAGER_COLLECTION_NAME);
+
       this.agileRelatedJobsCollection = mongoDB
         .db(environment.GUPY_DATABASE_NAME)
         .collection(environment.GUPY_AGILE_COLLECTION_NAME);
+
+      this.recruitmentJobsCollection = mongoDB
+        .db(environment.GUPY_DATABASE_NAME)
+        .collection(environment.GUPY_RECRUITMENT_COLLECTION_NAME);
 
       this.linkedInDevJobsCollection = mongoDB
         .db(environment.LINKEDIN_DATABASE_NAME)
@@ -84,6 +90,17 @@ export class AtlasService {
       tap(() =>
         this.sendEventToUmami(
           `${jobCollectionsMap.linkedin_dev.source} - ${jobCollectionsMap.linkedin_dev.name}`,
+        ),
+      ),
+    );
+  }
+
+  getRecruitmentJobs(): Observable<GupyJob[]> {
+    return this.connectionObservable$.pipe(
+      switchMap(() => this.recruitmentJobsCollection.find() as Observable<GupyJob[]>),
+      tap(() =>
+        this.sendEventToUmami(
+          `${jobCollectionsMap.gupyRecruitment.source} - ${jobCollectionsMap.gupyRecruitment.name}`,
         ),
       ),
     );

@@ -18,6 +18,7 @@ export enum JobCollections {
   gupyia = 'gupyia',
   gupyProductManager = 'gupyProductManager',
   gupyAgileRelated = 'gupyAgileRelated',
+  gupyRecruitment = 'gupyRecruitment',
 
   // GitHub
   frontendbr = 'frontendbr',
@@ -167,6 +168,18 @@ export const jobCollectionsMap: JobCollectionsMap = {
     hasFailedToLoad: false,
     searchStringKeywords: ['agilista', 'scrum', 'agile'],
     initialDailyFetchDate: '23/02/2024',
+  },
+  gupyRecruitment: {
+    name: 'Recrutamento',
+    icon: 'bx bxs-business',
+    source: JobSources.gupy,
+    dataSource: new Observable(),
+    isActive: false,
+    isLoading: false,
+    isLoaded: false,
+    hasFailedToLoad: false,
+    searchStringKeywords: ['recrutador', 'recruiter', 'recrutamento', 'recursos humanos', 'RH'],
+    initialDailyFetchDate: '05/03/2024',
   },
   frontendbr: {
     name: 'frontendbr/vagas',

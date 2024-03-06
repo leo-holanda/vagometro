@@ -340,12 +340,12 @@ export class PublicationChartComponent implements AfterViewInit, OnChanges, OnDe
           },
           {
             type: 'line',
-            name: `Média movel (${this.movingAverageType})`,
+            name: `Média móvel (${this.movingAverageType})`,
             data: movingAverageSeries.slice(0, movingAverageSeries.length - 1),
           },
           {
             type: 'line',
-            name: `Média movel (${this.movingAverageType})`,
+            name: `Média móvel (${this.movingAverageType})`,
             lineStyle: {
               color: '#E7A626',
               type: 'dashed',

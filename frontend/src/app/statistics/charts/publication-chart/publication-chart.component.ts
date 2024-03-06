@@ -75,46 +75,9 @@ export class PublicationChartComponent implements AfterViewInit, OnChanges, OnDe
   }
 
   setPostingsData(): void {
-    if (this.intervalType == 'daily') {
-      this.chartService.getDailyPostingsSeries().subscribe((postingsSeries) => {
-        this.yAxisMaxValue = this.getYAxisMaxValue(postingsSeries);
-      });
-
-      combineLatest([
-        this.chartService.getDailyPostingsSeries(this.jobs$),
-        this.chartService.getWeeklyMovingAverage(this.jobs$),
-      ]).subscribe(([dailyPostingsSeries, weeklyMovingAverage]) => {
-        if (this.isChartLoading) {
-          this.publicationChart.hideLoading();
-          this.isChartLoading = false;
-        }
-        this.drawShortTermPostingsChart(dailyPostingsSeries, weeklyMovingAverage);
-      });
-    } else if (this.intervalType == 'monthly') {
-      this.chartService.getMonthlyPostingsSeries().subscribe((postingsSeries) => {
-        this.yAxisMaxValue = this.getYAxisMaxValue(postingsSeries);
-      });
-
-      this.chartService.getMonthlyPostingsSeries(this.jobs$).subscribe((postingsSeries) => {
-        if (this.isChartLoading) {
-          this.publicationChart.hideLoading();
-          this.isChartLoading = false;
-        }
-        this.drawLongTermPostingsChart(postingsSeries);
-      });
-    } else {
-      this.chartService.getAnnualPostingsSeries().subscribe((postingsSeries) => {
-        this.yAxisMaxValue = this.getYAxisMaxValue(postingsSeries);
-      });
-
-      this.chartService.getAnnualPostingsSeries(this.jobs$).subscribe((postingsSeries) => {
-        if (this.isChartLoading) {
-          this.publicationChart.hideLoading();
-          this.isChartLoading = false;
-        }
-        this.drawLongTermPostingsChart(postingsSeries);
-      });
-    }
+    if (this.intervalType == 'daily') this.setDailyPostings();
+    else if (this.intervalType == 'monthly') this.setMonthlyPostings();
+    else this.setAnnualPostings();
   }
 
   setIntervalType(intervalType: IntervalTypes): void {
@@ -138,6 +101,57 @@ export class PublicationChartComponent implements AfterViewInit, OnChanges, OnDe
       const valueRoundedToNextHundred = yAxisMaxValue + (100 - (yAxisMaxValue % 100));
       return valueRoundedToNextHundred;
     }
+  }
+
+  private setDailyPostings(): void {
+    this.chartService.getDailyPostingsSeries().subscribe((postingsSeries) => {
+      this.yAxisMaxValue = this.getYAxisMaxValue(postingsSeries);
+    });
+
+    combineLatest([
+      this.chartService.getDailyPostingsSeries(this.jobs$),
+      this.chartService.getWeeklyMovingAverage(this.jobs$),
+      this.chartService.getMonthlyMovingAverage(this.jobs$),
+    ]).subscribe(([dailyPostingsSeries, weeklyMovingAverage, monthlyMovingAverage]) => {
+      if (this.isChartLoading) {
+        this.publicationChart.hideLoading();
+        this.isChartLoading = false;
+      }
+
+      if (dailyPostingsSeries.length > 180) {
+        this.drawShortTermPostingsChart(dailyPostingsSeries, monthlyMovingAverage, false);
+      } else {
+        this.drawShortTermPostingsChart(dailyPostingsSeries, weeklyMovingAverage);
+      }
+    });
+  }
+
+  private setMonthlyPostings(): void {
+    this.chartService.getMonthlyPostingsSeries().subscribe((postingsSeries) => {
+      this.yAxisMaxValue = this.getYAxisMaxValue(postingsSeries);
+    });
+
+    this.chartService.getMonthlyPostingsSeries(this.jobs$).subscribe((postingsSeries) => {
+      if (this.isChartLoading) {
+        this.publicationChart.hideLoading();
+        this.isChartLoading = false;
+      }
+      this.drawLongTermPostingsChart(postingsSeries);
+    });
+  }
+
+  private setAnnualPostings(): void {
+    this.chartService.getAnnualPostingsSeries().subscribe((postingsSeries) => {
+      this.yAxisMaxValue = this.getYAxisMaxValue(postingsSeries);
+    });
+
+    this.chartService.getAnnualPostingsSeries(this.jobs$).subscribe((postingsSeries) => {
+      if (this.isChartLoading) {
+        this.publicationChart.hideLoading();
+        this.isChartLoading = false;
+      }
+      this.drawLongTermPostingsChart(postingsSeries);
+    });
   }
 
   private setChartDefaultOptions(): void {
@@ -214,7 +228,8 @@ export class PublicationChartComponent implements AfterViewInit, OnChanges, OnDe
 
   private drawShortTermPostingsChart(
     postingsSeries: DailyPostingsSeries,
-    weeklyMovingAverage: ShortTermSeriesData[],
+    movingAverageSeries: ShortTermSeriesData[],
+    isWeekly = true,
   ): void {
     postingsSeries[postingsSeries.length - 1].itemStyle = {
       color: '#E7A626',
@@ -254,12 +269,12 @@ export class PublicationChartComponent implements AfterViewInit, OnChanges, OnDe
           },
           {
             type: 'line',
-            name: 'Média movel (7 dias)',
-            data: weeklyMovingAverage.slice(0, weeklyMovingAverage.length - 1),
+            name: `Média movel (${isWeekly ? '7' : '30'} dias)`,
+            data: movingAverageSeries.slice(0, movingAverageSeries.length - 1),
           },
           {
             type: 'line',
-            name: 'Média movel (7 dias)',
+            name: `Média movel (${isWeekly ? '7' : '30'} dias)`,
             lineStyle: {
               color: '#E7A626',
               type: 'dashed',
@@ -267,7 +282,7 @@ export class PublicationChartComponent implements AfterViewInit, OnChanges, OnDe
             itemStyle: {
               color: '#E7A626',
             },
-            data: weeklyMovingAverage.slice(weeklyMovingAverage.length - 2),
+            data: movingAverageSeries.slice(movingAverageSeries.length - 2),
           },
         ],
       },

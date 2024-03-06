@@ -66,6 +66,15 @@ export class ChartService {
     );
   }
 
+  getMonthlyMovingAverage(
+    jobs$: Observable<Job[] | undefined> = this.jobService.jobs$,
+  ): Observable<ShortTermSeriesData[]> {
+    return this.getDailyPostingsSeries(jobs$).pipe(
+      map((series) => this.splitInGroups(series, 30)),
+      map(this.mapToMovingAverageSeries),
+    );
+  }
+
   private isJobsUndefined(
     params: [Job[] | undefined, TimeWindows],
   ): params is [Job[], TimeWindows] {

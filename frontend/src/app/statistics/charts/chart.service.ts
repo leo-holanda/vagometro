@@ -246,7 +246,7 @@ export class ChartService {
     const totalJobsPublished = postings.reduce((acc, item) => acc + item.value[1], 0);
 
     return {
-      value: [startDate, Math.round(totalJobsPublished / postings.length)],
+      value: [startDate, +(totalJobsPublished / postings.length).toFixed(2)],
     };
   }
 

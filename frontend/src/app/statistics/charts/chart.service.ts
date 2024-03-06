@@ -57,6 +57,15 @@ export class ChartService {
     );
   }
 
+  getWeeklyMovingAverage(
+    jobs$: Observable<Job[] | undefined> = this.jobService.jobs$,
+  ): Observable<ShortTermSeriesData[]> {
+    return this.getDailyPostingsSeries(jobs$).pipe(
+      map((series) => this.splitInGroups(series, 7)),
+      map(this.mapToMovingAverageSeries),
+    );
+  }
+
   private isJobsUndefined(
     params: [Job[] | undefined, TimeWindows],
   ): params is [Job[], TimeWindows] {
@@ -211,5 +220,40 @@ export class ChartService {
     });
 
     return postingsMap;
+  };
+
+  private splitInGroups(series: ShortTermSeriesData[], groupSize: number): ShortTermSeriesData[][] {
+    const result = [];
+
+    for (let i = 0; i < series.length; i += groupSize) {
+      result.push(series.slice(i, i + groupSize));
+    }
+
+    return result;
+  }
+
+  private getMovingAverage(postings: ShortTermSeriesData[]): ShortTermSeriesData {
+    const startDate = postings[0].value[0];
+    const totalJobsPublished = postings.reduce((acc, item) => acc + item.value[1], 0);
+
+    return {
+      value: [startDate, Math.round(totalJobsPublished / postings.length)],
+    };
+  }
+
+  private mapToMovingAverageSeries = (
+    postingsInGroups: ShortTermSeriesData[][],
+  ): ShortTermSeriesData[] => {
+    const movingAverageSeries = postingsInGroups.map((postingsGroup) => {
+      return this.getMovingAverage(postingsGroup);
+    });
+
+    const lastGroup = postingsInGroups[postingsInGroups.length - 1];
+    if (lastGroup.length == 1) return movingAverageSeries;
+
+    const lastDayFromLastGroup = [lastGroup[lastGroup.length - 1]];
+    movingAverageSeries.push(this.getMovingAverage(lastDayFromLastGroup));
+
+    return movingAverageSeries;
   };
 }

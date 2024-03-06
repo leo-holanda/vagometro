@@ -17,8 +17,9 @@ import {
   AnnualPostingsSeries,
   JobPostingsSeries,
   IntervalTypes,
+  ShortTermSeriesData,
 } from './publication-chart.model';
-import { Observable, Subject, debounceTime, fromEvent, takeUntil } from 'rxjs';
+import { Observable, Subject, combineLatest, debounceTime, fromEvent, takeUntil } from 'rxjs';
 import { ChartService } from '../chart.service';
 import { Job } from 'src/app/job/job.types';
 
@@ -79,12 +80,15 @@ export class PublicationChartComponent implements AfterViewInit, OnChanges, OnDe
         this.yAxisMaxValue = this.getYAxisMaxValue(postingsSeries);
       });
 
-      this.chartService.getDailyPostingsSeries(this.jobs$).subscribe((postingsSeries) => {
+      combineLatest([
+        this.chartService.getDailyPostingsSeries(this.jobs$),
+        this.chartService.getWeeklyMovingAverage(this.jobs$),
+      ]).subscribe(([dailyPostingsSeries, weeklyMovingAverage]) => {
         if (this.isChartLoading) {
           this.publicationChart.hideLoading();
           this.isChartLoading = false;
         }
-        this.drawShortTermPostingsChart(postingsSeries);
+        this.drawShortTermPostingsChart(dailyPostingsSeries, weeklyMovingAverage);
       });
     } else if (this.intervalType == 'monthly') {
       this.chartService.getMonthlyPostingsSeries().subscribe((postingsSeries) => {
@@ -172,38 +176,46 @@ export class PublicationChartComponent implements AfterViewInit, OnChanges, OnDe
       },
     };
 
-    this.publicationChart.setOption({
-      xAxis: {
-        type: 'category',
-        axisLabel: { showMaxLabel: true },
-        name: 'Data de publicação',
-        nameLocation: 'center',
-        nameGap: 30,
-      },
-      yAxis: {
-        type: 'value',
-        splitLine: {
-          show: false,
+    this.publicationChart.setOption(
+      {
+        xAxis: {
+          type: 'category',
+          axisLabel: { showMaxLabel: true },
+          name: 'Data de publicação',
+          nameLocation: 'center',
+          nameGap: 30,
         },
-        min: 0,
-        max: this.yAxisMaxValue,
-        boundaryGap: ['0%', '10%'],
-        name: 'Vagas publicadas',
-        nameLocation: 'center',
-        nameGap: 30,
-      },
-      series: [
-        {
-          type: 'bar',
+        yAxis: {
+          type: 'value',
+          splitLine: {
+            show: false,
+          },
+          min: 0,
+          max: this.yAxisMaxValue,
+          boundaryGap: ['0%', '10%'],
           name: 'Vagas publicadas',
-          data: postingsSeries,
-          smooth: true,
+          nameLocation: 'center',
+          nameGap: 30,
         },
-      ],
-    });
+        series: [
+          {
+            type: 'bar',
+            name: 'Vagas publicadas',
+            data: postingsSeries,
+            smooth: true,
+          },
+        ],
+      },
+      true,
+    );
+
+    this.setChartDefaultOptions();
   }
 
-  private drawShortTermPostingsChart(postingsSeries: DailyPostingsSeries): void {
+  private drawShortTermPostingsChart(
+    postingsSeries: DailyPostingsSeries,
+    weeklyMovingAverage: ShortTermSeriesData[],
+  ): void {
     postingsSeries[postingsSeries.length - 1].itemStyle = {
       color: '#E7A626',
       decal: {
@@ -213,33 +225,55 @@ export class PublicationChartComponent implements AfterViewInit, OnChanges, OnDe
       },
     };
 
-    this.publicationChart.setOption({
-      xAxis: {
-        type: 'time',
-        axisLabel: { showMaxLabel: true },
-        name: 'Data de publicação',
-        nameLocation: 'center',
-        nameGap: 30,
-      },
-      yAxis: {
-        type: 'value',
-        splitLine: {
-          show: false,
+    this.publicationChart.setOption(
+      {
+        xAxis: {
+          type: 'time',
+          axisLabel: { showMaxLabel: true },
+          name: 'Data de publicação',
+          nameLocation: 'center',
+          nameGap: 30,
         },
-        min: 0,
-        max: this.yAxisMaxValue,
-        boundaryGap: ['0%', '10%'],
-        name: 'Vagas publicadas',
-        nameLocation: 'center',
-        nameGap: 30,
-      },
-      series: [
-        {
-          type: 'bar',
+        yAxis: {
+          type: 'value',
+          splitLine: {
+            show: false,
+          },
+          min: 0,
+          max: this.yAxisMaxValue,
+          boundaryGap: ['0%', '10%'],
           name: 'Vagas publicadas',
-          data: postingsSeries,
+          nameLocation: 'center',
+          nameGap: 30,
         },
-      ],
-    });
+        series: [
+          {
+            type: 'bar',
+            name: 'Vagas publicadas',
+            data: postingsSeries,
+          },
+          {
+            type: 'line',
+            name: 'Média movel (7 dias)',
+            data: weeklyMovingAverage.slice(0, weeklyMovingAverage.length - 1),
+          },
+          {
+            type: 'line',
+            name: 'Média movel (7 dias)',
+            lineStyle: {
+              color: '#E7A626',
+              type: 'dashed',
+            },
+            itemStyle: {
+              color: '#E7A626',
+            },
+            data: weeklyMovingAverage.slice(weeklyMovingAverage.length - 2),
+          },
+        ],
+      },
+      true,
+    );
+
+    this.setChartDefaultOptions();
   }
 }

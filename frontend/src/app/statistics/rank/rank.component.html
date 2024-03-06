@@ -51,9 +51,18 @@
                   </ng-container>
 
                   <ng-container *ngIf="item.state">
-                    <span class="relative z-10">{{
-                      item.name + ", " + (item.state! | stateAbbreviation)
-                    }}</span>
+                    <span
+                      *ngIf="
+                        item.name !== 'Desconhecido' && item.state !== 'Desconhecido';
+                        else unknownLocationTemplate
+                      "
+                      class="relative z-10"
+                      >{{ item.name + ", " + (item.state | stateAbbreviation) }}</span
+                    >
+
+                    <ng-template #unknownLocationTemplate>
+                      <span class="relative z-10">{{ item.name }}</span>
+                    </ng-template>
                   </ng-container>
 
                   <ng-container

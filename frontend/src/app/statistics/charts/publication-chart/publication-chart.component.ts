@@ -18,10 +18,21 @@ import {
   JobPostingsSeries,
   IntervalTypes,
   ShortTermSeriesData,
+  MovingAverageTypes,
 } from './publication-chart.model';
-import { Observable, Subject, combineLatest, debounceTime, fromEvent, takeUntil } from 'rxjs';
+import {
+  Observable,
+  Subject,
+  combineLatest,
+  debounceTime,
+  fromEvent,
+  of,
+  switchMap,
+  takeUntil,
+} from 'rxjs';
 import { ChartService } from '../chart.service';
 import { Job } from 'src/app/job/job.types';
+import { WindowResolutionObserverService } from 'src/app/shared/window-resolution-observer.service';
 
 @Component({
   selector: 'vgm-publication-chart',
@@ -37,14 +48,23 @@ export class PublicationChartComponent implements AfterViewInit, OnChanges, OnDe
   @Output() intervalTypeChanged = new EventEmitter<IntervalTypes>();
   @ViewChild('chartwrapper') chartWrapper!: ElementRef<HTMLElement>;
 
+  matchesMobileBreakpoint$: Observable<boolean>;
   isChartLoading = true;
+
+  movingAverageType: MovingAverageTypes = '7d';
+  hasChangedMovingAverageType = false;
 
   private publicationChart!: echarts.EChartsType;
   private yAxisMaxValue!: number;
 
   private destroy$ = new Subject<void>();
 
-  constructor(private chartService: ChartService) {}
+  constructor(
+    private chartService: ChartService,
+    private windowResolutionObserver: WindowResolutionObserverService,
+  ) {
+    this.matchesMobileBreakpoint$ = this.windowResolutionObserver.matchesMobileBreakpoint();
+  }
 
   ngOnDestroy(): void {
     this.destroy$.next();
@@ -86,6 +106,12 @@ export class PublicationChartComponent implements AfterViewInit, OnChanges, OnDe
     this.setPostingsData();
   }
 
+  setMovingAverageType(movingAverageType: MovingAverageTypes): void {
+    this.movingAverageType = movingAverageType;
+    this.hasChangedMovingAverageType = true;
+    this.setPostingsData();
+  }
+
   private getYAxisMaxValue(postingsSeries: JobPostingsSeries): number {
     //Without this map, the app doesn't not compile. TypeScript error.
     const postingsSeriesValues = postingsSeries.map((data) => data.value);
@@ -104,26 +130,49 @@ export class PublicationChartComponent implements AfterViewInit, OnChanges, OnDe
   }
 
   private setDailyPostings(): void {
-    this.chartService.getDailyPostingsSeries().subscribe((postingsSeries) => {
-      this.yAxisMaxValue = this.getYAxisMaxValue(postingsSeries);
-    });
+    this.chartService
+      .getDailyPostingsSeries()
+      .pipe(
+        switchMap((postingsSeries) => {
+          this.yAxisMaxValue = this.getYAxisMaxValue(postingsSeries);
+          //TODO: Make this only call the necessary moving average function
+          return combineLatest([
+            this.chartService.getDailyPostingsSeries(this.jobs$),
+            this.chartService.getWeeklyMovingAverage(this.jobs$),
+            this.chartService.getMonthlyMovingAverage(this.jobs$),
+          ]);
+        }),
+      )
+      .subscribe(([dailyPostingsSeries, weeklyMovingAverage, monthlyMovingAverage]) => {
+        if (this.isChartLoading) {
+          this.publicationChart.hideLoading();
+          this.isChartLoading = false;
+        }
 
-    combineLatest([
-      this.chartService.getDailyPostingsSeries(this.jobs$),
-      this.chartService.getWeeklyMovingAverage(this.jobs$),
-      this.chartService.getMonthlyMovingAverage(this.jobs$),
-    ]).subscribe(([dailyPostingsSeries, weeklyMovingAverage, monthlyMovingAverage]) => {
-      if (this.isChartLoading) {
-        this.publicationChart.hideLoading();
-        this.isChartLoading = false;
-      }
+        if (this.hasChangedMovingAverageType) {
+          switch (this.movingAverageType) {
+            case '7d':
+              this.drawShortTermPostingsChart(dailyPostingsSeries, weeklyMovingAverage);
+              break;
 
-      if (dailyPostingsSeries.length > 180) {
-        this.drawShortTermPostingsChart(dailyPostingsSeries, monthlyMovingAverage, false);
-      } else {
-        this.drawShortTermPostingsChart(dailyPostingsSeries, weeklyMovingAverage);
-      }
-    });
+            case '30d':
+              this.drawShortTermPostingsChart(dailyPostingsSeries, monthlyMovingAverage, false);
+              break;
+
+            default:
+              this.drawShortTermPostingsChart(dailyPostingsSeries, weeklyMovingAverage);
+              break;
+          }
+        } else {
+          if (dailyPostingsSeries.length > 180) {
+            this.movingAverageType = '30d';
+            this.drawShortTermPostingsChart(dailyPostingsSeries, monthlyMovingAverage, false);
+          } else {
+            this.movingAverageType = '7d';
+            this.drawShortTermPostingsChart(dailyPostingsSeries, weeklyMovingAverage);
+          }
+        }
+      });
   }
 
   private setMonthlyPostings(): void {
@@ -160,9 +209,7 @@ export class PublicationChartComponent implements AfterViewInit, OnChanges, OnDe
         trigger: 'axis',
       },
       grid: {
-        // To prevent the data zoom from overlapping the x axis label
-        // https://stackoverflow.com/questions/44497298/echarts-generated-label-overlaps-with-datazoom
-        bottom: 90,
+        containLabel: true,
       },
       dataZoom: [
         {

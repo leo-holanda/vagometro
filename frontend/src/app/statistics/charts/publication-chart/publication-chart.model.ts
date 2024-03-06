@@ -26,6 +26,7 @@ export type AnnualPostingsSeries = LongTermSeriesData[];
 export type JobPostingsSeries = DailyPostingsSeries | MonthlyPostingsSeries | AnnualPostingsSeries;
 
 export type IntervalTypes = 'daily' | 'monthly' | 'annual';
+export type MovingAverageTypes = '7d' | '30d' | '180d' | '1y';
 
 export interface MatchData extends SeriesData {
   value: [string, number];

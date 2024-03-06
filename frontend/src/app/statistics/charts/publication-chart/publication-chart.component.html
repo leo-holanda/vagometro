@@ -1,35 +1,186 @@
 <main class="w-full">
-  <section *ngIf="!isChartLoading" class="w-min mx-auto">
-    <div class="join flex">
-      <button
-        *ngIf="!onlyLongTermIntervals"
-        class="btn btn-xs join-item flex-1"
-        [ngClass]="{
-          'btn-primary': intervalType === 'daily'
-        }"
-        (click)="setIntervalType('daily')"
-      >
-        Diariamente
-      </button>
-      <button
-        class="btn btn-xs join-item flex-1"
-        [ngClass]="{
-          'btn-primary': intervalType === 'monthly'
-        }"
-        (click)="setIntervalType('monthly')"
-      >
-        Mensalmente
-      </button>
-      <button
-        class="btn btn-xs join-item flex-1"
-        [ngClass]="{
-          'btn-primary': intervalType === 'annual'
-        }"
-        (click)="setIntervalType('annual')"
-      >
-        Anualmente
+  <ng-container *ngIf="!isChartLoading && (matchesMobileBreakpoint$ | async); else desktopTemplate">
+    <div class="chart-utils">
+      <button (click)="publicationChartModal.showModal()" class="btn btn-xs">
+        <i class="bx bxs-bar-chart-square"></i>
+        <span>Mudar gráfico</span>
       </button>
     </div>
-  </section>
+  </ng-container>
+
+  <ng-template #desktopTemplate>
+    <div class="flex justify-between gap-4 chart-utils">
+      <div class="join flex">
+        <span class="btn btn-neutral btn-xs join-item">
+          <i class="bx bxs-bar-chart-square"></i>
+        </span>
+        <button
+          *ngIf="!onlyLongTermIntervals"
+          class="btn btn-xs join-item"
+          [ngClass]="{
+            'btn-primary': intervalType === 'daily'
+          }"
+          (click)="setIntervalType('daily')"
+        >
+          Diariamente
+        </button>
+        <button
+          class="btn btn-xs join-item"
+          [ngClass]="{
+            'btn-primary': intervalType === 'monthly'
+          }"
+          (click)="setIntervalType('monthly')"
+        >
+          Mensalmente
+        </button>
+        <button
+          class="btn btn-xs join-item"
+          [ngClass]="{
+            'btn-primary': intervalType === 'annual'
+          }"
+          (click)="setIntervalType('annual')"
+        >
+          Anualmente
+        </button>
+      </div>
+
+      <div *ngIf="intervalType === 'daily'" class="join">
+        <span class="btn btn-neutral btn-xs join-item">
+          <i class="bx bx-line-chart"></i>
+        </span>
+        <button
+          class="btn btn-xs join-item"
+          [ngClass]="{
+            'btn-primary': movingAverageType === '7d'
+          }"
+          (click)="setMovingAverageType('7d')"
+        >
+          7d
+        </button>
+        <button
+          class="btn btn-xs join-item"
+          [ngClass]="{
+            'btn-primary': movingAverageType === '30d'
+          }"
+          (click)="setMovingAverageType('30d')"
+        >
+          30d
+        </button>
+        <button
+          class="btn btn-xs join-item"
+          [ngClass]="{
+            'btn-primary': movingAverageType === '180d'
+          }"
+          (click)="setMovingAverageType('180d')"
+        >
+          180d
+        </button>
+        <button
+          class="btn btn-xs join-item"
+          [ngClass]="{
+            'btn-primary': movingAverageType === '1y'
+          }"
+          (click)="setMovingAverageType('1y')"
+        >
+          1y
+        </button>
+      </div>
+    </div>
+  </ng-template>
+
   <div class="chart-wrapper" #chartwrapper></div>
 </main>
+
+<dialog #publicationChartModal class="modal modal-bottom">
+  <div class="modal-box">
+    <header class="flex items-center gap-2 mb-4">
+      <i class="bx bxs-bar-chart-square"></i>
+      <h1 class="text-lg font-bold text-balance">Opções do gráfico</h1>
+    </header>
+
+    <main class="flex flex-col gap-4">
+      <span> Tipo de visualização </span>
+      <div class="flex flex-wrap items-center gap-2">
+        <button
+          *ngIf="!onlyLongTermIntervals"
+          class="btn btn-outline"
+          [ngClass]="{
+            'btn-active': intervalType === 'daily'
+          }"
+          (click)="setIntervalType('daily')"
+        >
+          Diariamente
+        </button>
+        <button
+          class="btn btn-outline"
+          [ngClass]="{
+            'btn-active': intervalType === 'monthly'
+          }"
+          (click)="setIntervalType('monthly')"
+        >
+          Mensalmente
+        </button>
+        <button
+          class="btn btn-outline"
+          [ngClass]="{
+            'btn-active': intervalType === 'annual'
+          }"
+          (click)="setIntervalType('annual')"
+        >
+          Anualmente
+        </button>
+      </div>
+
+      <ng-container *ngIf="intervalType === 'daily'">
+        <span> Intervalo de média móvel </span>
+        <div class="flex flex-wrap items-center gap-2">
+          <button
+            class="btn btn-outline"
+            [ngClass]="{
+              'btn-active': movingAverageType === '7d'
+            }"
+            (click)="setMovingAverageType('7d')"
+          >
+            7 dias
+          </button>
+          <button
+            class="btn btn-outline"
+            [ngClass]="{
+              'btn-active': movingAverageType === '30d'
+            }"
+            (click)="setMovingAverageType('30d')"
+          >
+            30 dias
+          </button>
+          <button
+            class="btn btn-outline"
+            [ngClass]="{
+              'btn-active': movingAverageType === '180d'
+            }"
+            (click)="setMovingAverageType('180d')"
+          >
+            180 dias
+          </button>
+          <button
+            class="btn btn-outline"
+            [ngClass]="{
+              'btn-active': movingAverageType === '1y'
+            }"
+            (click)="setMovingAverageType('1y')"
+          >
+            1 ano
+          </button>
+        </div>
+      </ng-container>
+    </main>
+
+    <div class="modal-action w-full">
+      <form method="dialog" class="w-full">
+        <button class="btn w-full">
+          <i class="bx bx-arrow-back"></i>
+          Retornar
+        </button>
+      </form>
+    </div>
+  </div>
+</dialog>

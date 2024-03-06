@@ -83,6 +83,9 @@ export class MatchesChartComponent implements AfterViewInit, OnChanges, OnDestro
       tooltip: {
         trigger: 'axis',
       },
+      grid: {
+        containLabel: true,
+      },
     });
   }
 

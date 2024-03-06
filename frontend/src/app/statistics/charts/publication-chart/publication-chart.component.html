@@ -51,36 +51,36 @@
         <button
           class="btn btn-xs join-item"
           [ngClass]="{
-            'btn-primary': movingAverageType === '7d'
+            'btn-primary': movingAverageType === movingAverageTypes.oneWeek
           }"
-          (click)="setMovingAverageType('7d')"
+          (click)="setMovingAverageType(movingAverageTypes.oneWeek)"
         >
           7d
         </button>
         <button
           class="btn btn-xs join-item"
           [ngClass]="{
-            'btn-primary': movingAverageType === '30d'
+            'btn-primary': movingAverageType === movingAverageTypes.oneMonth
           }"
-          (click)="setMovingAverageType('30d')"
+          (click)="setMovingAverageType(movingAverageTypes.oneMonth)"
         >
           30d
         </button>
         <button
           class="btn btn-xs join-item"
           [ngClass]="{
-            'btn-primary': movingAverageType === '180d'
+            'btn-primary': movingAverageType === movingAverageTypes.halfYear
           }"
-          (click)="setMovingAverageType('180d')"
+          (click)="setMovingAverageType(movingAverageTypes.halfYear)"
         >
           180d
         </button>
         <button
           class="btn btn-xs join-item"
           [ngClass]="{
-            'btn-primary': movingAverageType === '1y'
+            'btn-primary': movingAverageType === movingAverageTypes.oneYear
           }"
-          (click)="setMovingAverageType('1y')"
+          (click)="setMovingAverageType(movingAverageTypes.oneYear)"
         >
           1y
         </button>
@@ -137,36 +137,36 @@
           <button
             class="btn btn-outline"
             [ngClass]="{
-              'btn-active': movingAverageType === '7d'
+              'btn-active': movingAverageType === movingAverageTypes.oneWeek
             }"
-            (click)="setMovingAverageType('7d')"
+            (click)="setMovingAverageType(movingAverageTypes.oneWeek)"
           >
             7 dias
           </button>
           <button
             class="btn btn-outline"
             [ngClass]="{
-              'btn-active': movingAverageType === '30d'
+              'btn-active': movingAverageType === movingAverageTypes.oneMonth
             }"
-            (click)="setMovingAverageType('30d')"
+            (click)="setMovingAverageType(movingAverageTypes.oneMonth)"
           >
             30 dias
           </button>
           <button
             class="btn btn-outline"
             [ngClass]="{
-              'btn-active': movingAverageType === '180d'
+              'btn-active': movingAverageType === movingAverageTypes.halfYear
             }"
-            (click)="setMovingAverageType('180d')"
+            (click)="setMovingAverageType(movingAverageTypes.halfYear)"
           >
             180 dias
           </button>
           <button
             class="btn btn-outline"
             [ngClass]="{
-              'btn-active': movingAverageType === '1y'
+              'btn-active': movingAverageType === movingAverageTypes.oneYear
             }"
-            (click)="setMovingAverageType('1y')"
+            (click)="setMovingAverageType(movingAverageTypes.oneYear)"
           >
             1 ano
           </button>

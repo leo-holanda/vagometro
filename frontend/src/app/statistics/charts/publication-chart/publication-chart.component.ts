@@ -51,7 +51,8 @@ export class PublicationChartComponent implements AfterViewInit, OnChanges, OnDe
   matchesMobileBreakpoint$: Observable<boolean>;
   isChartLoading = true;
 
-  movingAverageType: MovingAverageTypes = '7d';
+  movingAverageType = MovingAverageTypes.oneWeek;
+  movingAverageTypes = MovingAverageTypes;
   hasChangedMovingAverageType = false;
 
   private publicationChart!: echarts.EChartsType;
@@ -140,39 +141,63 @@ export class PublicationChartComponent implements AfterViewInit, OnChanges, OnDe
             this.chartService.getDailyPostingsSeries(this.jobs$),
             this.chartService.getWeeklyMovingAverage(this.jobs$),
             this.chartService.getMonthlyMovingAverage(this.jobs$),
+            this.chartService.getHalfYearlyMovingAverage(this.jobs$),
+            this.chartService.getYearlyMovingAverage(this.jobs$),
           ]);
         }),
       )
-      .subscribe(([dailyPostingsSeries, weeklyMovingAverage, monthlyMovingAverage]) => {
-        if (this.isChartLoading) {
-          this.publicationChart.hideLoading();
-          this.isChartLoading = false;
-        }
-
-        if (this.hasChangedMovingAverageType) {
-          switch (this.movingAverageType) {
-            case '7d':
-              this.drawShortTermPostingsChart(dailyPostingsSeries, weeklyMovingAverage);
-              break;
-
-            case '30d':
-              this.drawShortTermPostingsChart(dailyPostingsSeries, monthlyMovingAverage, false);
-              break;
-
-            default:
-              this.drawShortTermPostingsChart(dailyPostingsSeries, weeklyMovingAverage);
-              break;
+      .subscribe(
+        ([
+          dailyPostingsSeries,
+          weeklyMovingAverage,
+          monthlyMovingAverage,
+          halfYearlyMovingAverage,
+          yearlyMovingAverage,
+        ]) => {
+          if (this.isChartLoading) {
+            this.publicationChart.hideLoading();
+            this.isChartLoading = false;
           }
-        } else {
-          if (dailyPostingsSeries.length > 180) {
-            this.movingAverageType = '30d';
-            this.drawShortTermPostingsChart(dailyPostingsSeries, monthlyMovingAverage, false);
+
+          if (this.hasChangedMovingAverageType) {
+            switch (this.movingAverageType) {
+              case MovingAverageTypes.oneWeek:
+                this.drawShortTermPostingsChart(dailyPostingsSeries, weeklyMovingAverage);
+                break;
+
+              case MovingAverageTypes.oneMonth:
+                this.drawShortTermPostingsChart(dailyPostingsSeries, monthlyMovingAverage);
+                break;
+
+              case MovingAverageTypes.halfYear:
+                this.drawShortTermPostingsChart(dailyPostingsSeries, halfYearlyMovingAverage);
+                break;
+
+              case MovingAverageTypes.oneYear:
+                this.drawShortTermPostingsChart(dailyPostingsSeries, yearlyMovingAverage);
+                break;
+
+              default:
+                this.drawShortTermPostingsChart(dailyPostingsSeries, weeklyMovingAverage);
+                break;
+            }
           } else {
-            this.movingAverageType = '7d';
-            this.drawShortTermPostingsChart(dailyPostingsSeries, weeklyMovingAverage);
+            if (dailyPostingsSeries.length > 365 * 3) {
+              this.movingAverageType = MovingAverageTypes.oneYear;
+              this.drawShortTermPostingsChart(dailyPostingsSeries, yearlyMovingAverage);
+            } else if (dailyPostingsSeries.length > 180 * 3) {
+              this.movingAverageType = MovingAverageTypes.halfYear;
+              this.drawShortTermPostingsChart(dailyPostingsSeries, halfYearlyMovingAverage);
+            } else if (dailyPostingsSeries.length > 30 * 3) {
+              this.movingAverageType = MovingAverageTypes.oneMonth;
+              this.drawShortTermPostingsChart(dailyPostingsSeries, monthlyMovingAverage);
+            } else {
+              this.movingAverageType = MovingAverageTypes.oneWeek;
+              this.drawShortTermPostingsChart(dailyPostingsSeries, weeklyMovingAverage);
+            }
           }
-        }
-      });
+        },
+      );
   }
 
   private setMonthlyPostings(): void {
@@ -276,7 +301,6 @@ export class PublicationChartComponent implements AfterViewInit, OnChanges, OnDe
   private drawShortTermPostingsChart(
     postingsSeries: DailyPostingsSeries,
     movingAverageSeries: ShortTermSeriesData[],
-    isWeekly = true,
   ): void {
     postingsSeries[postingsSeries.length - 1].itemStyle = {
       color: '#E7A626',
@@ -316,12 +340,12 @@ export class PublicationChartComponent implements AfterViewInit, OnChanges, OnDe
           },
           {
             type: 'line',
-            name: `Média movel (${isWeekly ? '7' : '30'} dias)`,
+            name: `Média movel (${this.movingAverageType})`,
             data: movingAverageSeries.slice(0, movingAverageSeries.length - 1),
           },
           {
             type: 'line',
-            name: `Média movel (${isWeekly ? '7' : '30'} dias)`,
+            name: `Média movel (${this.movingAverageType})`,
             lineStyle: {
               color: '#E7A626',
               type: 'dashed',

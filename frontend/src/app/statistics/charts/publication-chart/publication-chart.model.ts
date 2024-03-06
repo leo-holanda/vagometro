@@ -26,8 +26,12 @@ export type AnnualPostingsSeries = LongTermSeriesData[];
 export type JobPostingsSeries = DailyPostingsSeries | MonthlyPostingsSeries | AnnualPostingsSeries;
 
 export type IntervalTypes = 'daily' | 'monthly' | 'annual';
-export type MovingAverageTypes = '7d' | '30d' | '180d' | '1y';
-
+export enum MovingAverageTypes {
+  oneWeek = '7 dias',
+  oneMonth = '30 dias',
+  halfYear = '180 dias',
+  oneYear = '1 ano',
+}
 export interface MatchData extends SeriesData {
   value: [string, number];
 }

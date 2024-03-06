@@ -75,6 +75,24 @@ export class ChartService {
     );
   }
 
+  getHalfYearlyMovingAverage(
+    jobs$: Observable<Job[] | undefined> = this.jobService.jobs$,
+  ): Observable<ShortTermSeriesData[]> {
+    return this.getDailyPostingsSeries(jobs$).pipe(
+      map((series) => this.splitInGroups(series, 182)),
+      map(this.mapToMovingAverageSeries),
+    );
+  }
+
+  getYearlyMovingAverage(
+    jobs$: Observable<Job[] | undefined> = this.jobService.jobs$,
+  ): Observable<ShortTermSeriesData[]> {
+    return this.getDailyPostingsSeries(jobs$).pipe(
+      map((series) => this.splitInGroups(series, 365)),
+      map(this.mapToMovingAverageSeries),
+    );
+  }
+
   private isJobsUndefined(
     params: [Job[] | undefined, TimeWindows],
   ): params is [Job[], TimeWindows] {

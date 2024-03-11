@@ -57,6 +57,7 @@
         >
           7d
         </button>
+
         <button
           class="btn btn-xs join-item"
           [ngClass]="{
@@ -66,15 +67,7 @@
         >
           30d
         </button>
-        <button
-          class="btn btn-xs join-item"
-          [ngClass]="{
-            'btn-primary': movingAverageType === movingAverageTypes.halfYear
-          }"
-          (click)="setMovingAverageType(movingAverageTypes.halfYear)"
-        >
-          180d
-        </button>
+
         <button
           class="btn btn-xs join-item"
           [ngClass]="{
@@ -143,6 +136,7 @@
           >
             7 dias
           </button>
+
           <button
             class="btn btn-outline"
             [ngClass]="{
@@ -152,15 +146,7 @@
           >
             30 dias
           </button>
-          <button
-            class="btn btn-outline"
-            [ngClass]="{
-              'btn-active': movingAverageType === movingAverageTypes.halfYear
-            }"
-            (click)="setMovingAverageType(movingAverageTypes.halfYear)"
-          >
-            180 dias
-          </button>
+
           <button
             class="btn btn-outline"
             [ngClass]="{

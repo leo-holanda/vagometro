@@ -61,8 +61,8 @@ export class ChartService {
     jobs$: Observable<Job[] | undefined> = this.jobService.jobs$,
   ): Observable<ShortTermSeriesData[]> {
     return this.getDailyPostingsSeries(jobs$).pipe(
-      map((series) => this.splitInGroups(series, 7)),
-      map(this.mapToMovingAverageSeries),
+      map((series) => this.splitInWeeks(series)),
+      map(this.mapToWeeklyMovingAverageSeries),
     );
   }
 
@@ -70,17 +70,18 @@ export class ChartService {
     jobs$: Observable<Job[] | undefined> = this.jobService.jobs$,
   ): Observable<ShortTermSeriesData[]> {
     return this.getDailyPostingsSeries(jobs$).pipe(
-      map((series) => this.splitInGroups(series, 30)),
-      map(this.mapToMovingAverageSeries),
+      map((series) => this.splitByMonthLastDate(series)),
+      map(this.mapToMonthlyMovingAverageSeries),
     );
   }
 
+  //TODO: Implement tthe split by half year
   getHalfYearlyMovingAverage(
     jobs$: Observable<Job[] | undefined> = this.jobService.jobs$,
   ): Observable<ShortTermSeriesData[]> {
     return this.getDailyPostingsSeries(jobs$).pipe(
       map((series) => this.splitInGroups(series, 182)),
-      map(this.mapToMovingAverageSeries),
+      map(this.mapToWeeklyMovingAverageSeries),
     );
   }
 
@@ -88,8 +89,8 @@ export class ChartService {
     jobs$: Observable<Job[] | undefined> = this.jobService.jobs$,
   ): Observable<ShortTermSeriesData[]> {
     return this.getDailyPostingsSeries(jobs$).pipe(
-      map((series) => this.splitInGroups(series, 365)),
-      map(this.mapToMovingAverageSeries),
+      map((series) => this.splitByYearLastDate(series)),
+      map(this.mapToYearlyMovingAverageSeries),
     );
   }
 
@@ -249,6 +250,84 @@ export class ChartService {
     return postingsMap;
   };
 
+  private splitInWeeks(series: ShortTermSeriesData[]): ShortTermSeriesData[][] {
+    const firstDataEntryDate = new Date(series[0].value[0].getTime());
+    const dayOfWeek = firstDataEntryDate.getDay();
+    const differenceFromWeekFirstDay = 7 - dayOfWeek;
+    const howManyDaysToSlice = differenceFromWeekFirstDay + 1;
+
+    const weeks: ShortTermSeriesData[][] = [];
+    if (howManyDaysToSlice > 0) weeks.push([{ value: [firstDataEntryDate, 0] }]);
+
+    weeks.push(series.slice(0, howManyDaysToSlice));
+
+    for (let i = howManyDaysToSlice; i < series.length; i += 7) {
+      weeks.push(series.slice(i, i + 7));
+    }
+
+    return weeks;
+  }
+
+  private splitByMonthLastDate(series: ShortTermSeriesData[]): ShortTermSeriesData[] {
+    const monthsMap = new Map<number, number>();
+
+    series.forEach((singleSeries) => {
+      const seriesDate = new Date(singleSeries.value[0]);
+      seriesDate.setMonth(seriesDate.getMonth() + 1);
+      seriesDate.setDate(0);
+
+      const currentMonthCount = monthsMap.get(seriesDate.getTime()) || 0;
+      monthsMap.set(seriesDate.getTime(), currentMonthCount + singleSeries.value[1]);
+    });
+
+    const seriesByMonthLastDate = Array.from(monthsMap.entries()).map(
+      (monthsMapEntry): ShortTermSeriesData => {
+        return {
+          value: [new Date(monthsMapEntry[0]), monthsMapEntry[1]],
+        };
+      },
+    );
+
+    const seriesDate = new Date(series[0].value[0]);
+    const lastDateOfFirstMonthInSeries = seriesByMonthLastDate[0].value[0];
+    if (seriesDate != lastDateOfFirstMonthInSeries)
+      seriesByMonthLastDate.unshift({
+        value: [seriesDate, 0],
+      });
+
+    return seriesByMonthLastDate;
+  }
+
+  private splitByYearLastDate(series: ShortTermSeriesData[]): ShortTermSeriesData[] {
+    const yearsMap = new Map<number, number>();
+
+    series.forEach((singleSeries) => {
+      const seriesDate = new Date(singleSeries.value[0]);
+      seriesDate.setMonth(11);
+      seriesDate.setDate(31);
+
+      const currentYearCount = yearsMap.get(seriesDate.getTime()) || 0;
+      yearsMap.set(seriesDate.getTime(), currentYearCount + singleSeries.value[1]);
+    });
+
+    const seriesByYearLastDate = Array.from(yearsMap.entries()).map(
+      (yearsMapEntry): ShortTermSeriesData => {
+        return {
+          value: [new Date(yearsMapEntry[0]), yearsMapEntry[1]],
+        };
+      },
+    );
+
+    const seriesDate = new Date(series[0].value[0]);
+    const lastDateOfFirstMonthInSeries = seriesByYearLastDate[0].value[0];
+    if (seriesDate != lastDateOfFirstMonthInSeries)
+      seriesByYearLastDate.unshift({
+        value: [seriesDate, 0],
+      });
+
+    return seriesByYearLastDate;
+  }
+
   private splitInGroups(series: ShortTermSeriesData[], groupSize: number): ShortTermSeriesData[][] {
     const result = [];
 
@@ -259,28 +338,51 @@ export class ChartService {
     return result;
   }
 
-  private getMovingAverage(postings: ShortTermSeriesData[]): ShortTermSeriesData {
-    const startDate = postings[0].value[0];
+  private getPostingsMovingAverage(postings: ShortTermSeriesData[]): ShortTermSeriesData {
+    const weekEndDate = postings[postings.length - 1].value[0];
     const totalJobsPublished = postings.reduce((acc, item) => acc + item.value[1], 0);
 
     return {
-      value: [startDate, +(totalJobsPublished / postings.length).toFixed(2)],
+      value: [weekEndDate, +(totalJobsPublished / postings.length).toFixed(2)],
     };
   }
 
-  private mapToMovingAverageSeries = (
+  private mapToWeeklyMovingAverageSeries = (
     postingsInGroups: ShortTermSeriesData[][],
   ): ShortTermSeriesData[] => {
     const movingAverageSeries = postingsInGroups.map((postingsGroup) => {
-      return this.getMovingAverage(postingsGroup);
+      return this.getPostingsMovingAverage(postingsGroup);
     });
 
-    const lastGroup = postingsInGroups[postingsInGroups.length - 1];
-    if (lastGroup.length == 1) return movingAverageSeries;
-
-    const lastDayFromLastGroup = [lastGroup[lastGroup.length - 1]];
-    movingAverageSeries.push(this.getMovingAverage(lastDayFromLastGroup));
-
     return movingAverageSeries;
+  };
+
+  private mapToMonthlyMovingAverageSeries = (
+    postingsByMonthLastDate: ShortTermSeriesData[],
+  ): ShortTermSeriesData[] => {
+    return postingsByMonthLastDate.map((postings) => {
+      const postingsCount = postings.value[1];
+      const totalDaysInMonth = postings.value[0].getDate();
+      return {
+        value: [postings.value[0], +(postingsCount / totalDaysInMonth).toFixed(2)],
+      };
+    });
+  };
+
+  private daysInYear(year: number) {
+    const feb29 = new Date(year, 1, 29);
+    return feb29.getMonth() === 1 ? 366 : 365;
+  }
+
+  private mapToYearlyMovingAverageSeries = (
+    postingsByMonthLastDate: ShortTermSeriesData[],
+  ): ShortTermSeriesData[] => {
+    return postingsByMonthLastDate.map((postings) => {
+      const postingsCount = postings.value[1];
+      const totalDaysInMonth = this.daysInYear(postings.value[0].getFullYear());
+      return {
+        value: [postings.value[0], +(postingsCount / totalDaysInMonth).toFixed(2)],
+      };
+    });
   };
 }

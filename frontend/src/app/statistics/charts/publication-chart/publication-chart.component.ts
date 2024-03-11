@@ -26,7 +26,6 @@ import {
   combineLatest,
   debounceTime,
   fromEvent,
-  of,
   switchMap,
   takeUntil,
 } from 'rxjs';

@@ -134,6 +134,7 @@
         class="btn btn-primary flex items-center mt-4 w-full"
         [ngClass]="{ 'btn-disabled': !(hasOneActiveJobSource$ | async) }"
         [routerLink]="['stats']"
+        vgmLoading
       >
         <span
           class="flex items-center gap-2"
@@ -144,7 +145,6 @@
         >
         <ng-template #hasOneActiveJobSourceTemplate>
           <i class="bx bx-stats"></i>
-
           <span> Iniciar análise </span>
         </ng-template>
       </button>

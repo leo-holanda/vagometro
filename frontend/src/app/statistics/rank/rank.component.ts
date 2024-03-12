@@ -6,11 +6,12 @@ import { RouterLink } from '@angular/router';
 import { RankData, RankMetaData, RankTypes, RanksMap } from './rank.types';
 import { StateAbbreviationPipe } from 'src/app/shared/pipes/state-abbreviation.pipe';
 import { StatisticsService } from '../statistics.service';
+import { LoadingDirective } from 'src/app/shared/directives/loading.directive';
 
 @Component({
   selector: 'vgm-rank',
   standalone: true,
-  imports: [CommonModule, RouterLink, StateAbbreviationPipe],
+  imports: [CommonModule, RouterLink, StateAbbreviationPipe, LoadingDirective],
   templateUrl: './rank.component.html',
   styleUrls: ['./rank.component.scss'],
 })

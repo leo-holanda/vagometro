@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Observable, map } from 'rxjs';
+import { Observable } from 'rxjs';
 import { StatisticsService } from '../statistics.service';
 import { JobService } from 'src/app/job/job.service';
 import { TimeWindows } from 'src/app/job/job.types';
 import { RouterModule } from '@angular/router';
-import { ComparisonData } from '../comparisons/comparisons.types';
+import { ChartService } from '../charts/chart.service';
 
 @Component({
   selector: 'vgm-job-count',
@@ -14,25 +14,55 @@ import { ComparisonData } from '../comparisons/comparisons.types';
   templateUrl: './job-count.component.html',
   styleUrls: ['./job-count.component.scss'],
 })
-export class JobCountComponent {
-  jobsCount$: Observable<number>;
-  oldestJobPublishedDate$: Observable<Date | undefined>;
+export class JobCountComponent implements OnInit {
+  jobsCount$!: Observable<number>;
+  oldestJobPublishedDate$!: Observable<Date | undefined>;
 
   currentTimeWindow$!: Observable<TimeWindows>;
   timeWindows = TimeWindows;
 
-  lastMonthDifference$: Observable<ComparisonData>;
+  weeklyMovingAverage!: number;
+  weeklyMovingAverageComparison!: number;
+
+  monthlyMovingAverage!: number;
+  monthlyMovingAverageComparison!: number;
+
+  yearlyMovingAverage!: number;
+  yearlyMovingAverageComparison!: number;
 
   constructor(
     private statisticsService: StatisticsService,
     private jobService: JobService,
-  ) {
+    private chartService: ChartService,
+  ) {}
+
+  ngOnInit(): void {
     this.currentTimeWindow$ = this.jobService.currentTimeWindow$;
     this.jobsCount$ = this.statisticsService.getJobsCount();
     this.oldestJobPublishedDate$ = this.jobService.oldestJobPublishedDate$;
 
-    this.lastMonthDifference$ = this.statisticsService
-      .getMonthlyComparison()
-      .pipe(map((monthlyData) => monthlyData[0]));
+    this.chartService.getWeeklyMovingAverage().subscribe((weeklyMovingAverage) => {
+      this.weeklyMovingAverage = weeklyMovingAverage.at(-1)?.value[1] || 0;
+      this.weeklyMovingAverageComparison =
+        ((weeklyMovingAverage.at(-1)?.value[1] || 0) -
+          (weeklyMovingAverage.at(-2)?.value[1] || 0)) /
+        (weeklyMovingAverage.at(-2)?.value[1] || 1);
+    });
+
+    this.chartService.getMonthlyMovingAverage().subscribe((monthlyMovingAverage) => {
+      this.monthlyMovingAverage = monthlyMovingAverage.at(-1)?.value[1] || 0;
+      this.monthlyMovingAverageComparison =
+        ((monthlyMovingAverage.at(-1)?.value[1] || 0) -
+          (monthlyMovingAverage.at(-2)?.value[1] || 0)) /
+        (monthlyMovingAverage.at(-2)?.value[1] || 1);
+    });
+
+    this.chartService.getYearlyMovingAverage().subscribe((yearlyMovingAverage) => {
+      this.yearlyMovingAverage = yearlyMovingAverage.at(-1)?.value[1] || 0;
+      this.yearlyMovingAverageComparison =
+        ((yearlyMovingAverage.at(-1)?.value[1] || 0) -
+          (yearlyMovingAverage.at(-2)?.value[1] || 0)) /
+        (yearlyMovingAverage.at(-2)?.value[1] || 1);
+    });
   }
 }

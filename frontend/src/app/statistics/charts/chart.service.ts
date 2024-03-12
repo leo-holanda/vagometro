@@ -250,6 +250,7 @@ export class ChartService {
     return postingsMap;
   };
 
+  //TODO: Move all the moving average logic to statistics service and just do the map here
   private splitInWeeks(series: ShortTermSeriesData[]): ShortTermSeriesData[][] {
     const firstDataEntryDate = new Date(series[0].value[0].getTime());
     const dayOfWeek = firstDataEntryDate.getDay();

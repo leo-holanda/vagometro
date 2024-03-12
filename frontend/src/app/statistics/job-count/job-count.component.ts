@@ -27,6 +27,7 @@ export class JobCountComponent implements OnInit {
   monthlyMovingAverage!: number;
   monthlyMovingAverageComparison!: number;
 
+  yearsCount = 0;
   yearlyMovingAverage!: number;
   yearlyMovingAverageComparison!: number;
 
@@ -58,6 +59,7 @@ export class JobCountComponent implements OnInit {
     });
 
     this.chartService.getYearlyMovingAverage().subscribe((yearlyMovingAverage) => {
+      this.yearsCount = yearlyMovingAverage.length;
       this.yearlyMovingAverage = yearlyMovingAverage.at(-1)?.value[1] || 0;
       this.yearlyMovingAverageComparison =
         ((yearlyMovingAverage.at(-1)?.value[1] || 0) -

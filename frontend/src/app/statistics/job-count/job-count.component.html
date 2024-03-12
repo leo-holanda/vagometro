@@ -68,7 +68,7 @@
       </div>
     </div>
 
-    <div class="stat bg-base-300 rounded-2xl gap-2">
+    <div *ngIf="yearsCount > 3" class="stat bg-base-300 rounded-2xl gap-2">
       <div class="stat-figure text-secondary">
         <i
           *ngIf="yearlyMovingAverageComparison > 0"

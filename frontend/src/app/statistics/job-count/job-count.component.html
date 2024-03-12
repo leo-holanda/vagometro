@@ -1,5 +1,32 @@
 <ng-container *ngIf="(jobsCount$ | async) !== undefined; else loading">
-  <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 m-4 w-full">
+  <div class="stats stats-vertical lg:stats-horizontal gap-4 m-4">
+    <ng-container *ngIf="selectedMovingAverageData$ | async">
+      <div class="stat bg-base-300 rounded-2xl gap-2">
+        <div class="stat-title text-balance">O status atual do mercado é</div>
+
+        <div class="stat-value">
+          <span class="text-green-500 flex items-center gap-2" *ngIf="regressionData.slope > 0">
+            <i class="bx bx-up-arrow-circle text-4xl"></i>
+            <span> Em alta </span>
+          </span>
+
+          <span class="text-red-500 flex items-center gap-2" *ngIf="regressionData.slope < 0">
+            <i class="bx bx-down-arrow-circle text-4xl"></i>
+            <span> Em queda </span>
+          </span>
+
+          <span class="text-yellow-500 flex items-center gap-2" *ngIf="regressionData.slope === 0">
+            <i class="bx bx-minus-circle text-4xl"></i>
+            <span>Estável</span>
+          </span>
+        </div>
+
+        <div class="stat-desc">
+          <span class="text-balance">Obtido através da inclinação da reta de regressão</span>
+        </div>
+      </div>
+    </ng-container>
+
     <ng-container *ngIf="selectedMovingAverageData$ | async as selectedMovingAverageData">
       <div class="stat bg-base-300 rounded-2xl gap-4">
         <div class="stat-title flex justify-between flex-wrap gap-2">
@@ -52,11 +79,17 @@
         >
           <i
             *ngIf="selectedMovingAverageData.comparedValue > 0"
-            class="bx bxs-up-arrow-circle text-3xl text-green-500"
+            class="bx bx-up-arrow-circle text-4xl text-green-500"
           ></i>
+
           <i
             *ngIf="selectedMovingAverageData.comparedValue < 0"
-            class="bx bxs-down-arrow-circle text-3xl text-red-500"
+            class="bx bx-down-arrow-circle text-4xl text-red-500"
+          ></i>
+
+          <i
+            *ngIf="selectedMovingAverageData.comparedValue === 0"
+            class="bx bx-minus-circle text-4xl"
           ></i>
 
           <div class="text-balance">

@@ -8,6 +8,7 @@ import { RouterModule } from '@angular/router';
 import { ChartService } from '../charts/chart.service';
 import { MovingAverageTypes } from '../charts/publication-chart/publication-chart.model';
 import { MovingAverageStatData } from './job-count.types';
+import { SimpleLinearRegression } from 'ml-regression-simple-linear';
 
 @Component({
   selector: 'vgm-job-count',
@@ -27,6 +28,8 @@ export class JobCountComponent implements OnInit {
   selectedMovingAverageType = MovingAverageTypes.oneMonth;
 
   selectedMovingAverageData$!: Observable<MovingAverageStatData>;
+
+  regressionData!: SimpleLinearRegression;
 
   constructor(
     private statisticsService: StatisticsService,
@@ -56,6 +59,16 @@ export class JobCountComponent implements OnInit {
         const comparedValue =
           ((movingAverageData.at(-1)?.value[1] || 0) - (movingAverageData.at(-2)?.value[1] || 0)) /
           (movingAverageData.at(-2)?.value[1] || 1);
+
+        const x: number[] = [];
+        const y: number[] = [];
+
+        movingAverageData.forEach((movingAverageItem) => {
+          x.push(movingAverageItem.value[0].getTime());
+          y.push(movingAverageItem.value[1]);
+        });
+
+        this.regressionData = new SimpleLinearRegression(x, y);
 
         return {
           value,

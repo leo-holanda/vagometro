@@ -110,9 +110,16 @@
         <span class="text-sm"> vagas </span>
       </div>
 
-      <div class="stat-desc text-balance">
-        publicadas desde o dia
-        {{ oldestJobPublishedDate$ | async | date: "dd/MM/yyyy" }}
+      <div class="stat-desc flex flex-col gap-4">
+        <span class="text-balance">
+          publicadas desde o dia
+          {{ oldestJobPublishedDate$ | async | date: "dd/MM/yyyy" }}
+        </span>
+
+        <button class="btn btn-sm" [routerLink]="['/stats/comparativo']">
+          <i class="bx bxs-chart"></i>
+          <span> Ver comparativo </span>
+        </button>
       </div>
     </div>
   </div>

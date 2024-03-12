@@ -268,62 +268,66 @@ export class ChartService {
     return weeks;
   }
 
-  private splitByMonthLastDate(series: ShortTermSeriesData[]): ShortTermSeriesData[] {
-    const monthsMap = new Map<number, number>();
+  private getSeriesMonthLastDate(series: ShortTermSeriesData): Date {
+    const seriesDate = new Date(series.value[0]);
+    seriesDate.setMonth(seriesDate.getMonth() + 1);
+    seriesDate.setDate(0);
 
-    series.forEach((singleSeries) => {
-      const seriesDate = new Date(singleSeries.value[0]);
-      seriesDate.setMonth(seriesDate.getMonth() + 1);
-      seriesDate.setDate(0);
+    return seriesDate;
+  }
 
-      const currentMonthCount = monthsMap.get(seriesDate.getTime()) || 0;
-      monthsMap.set(seriesDate.getTime(), currentMonthCount + singleSeries.value[1]);
+  private splitByMonthLastDate(dailySeries: DailyPostingsSeries): [Date, ShortTermSeriesData[]][] {
+    const monthsMap = new Map<number, ShortTermSeriesData[]>();
+
+    dailySeries.forEach((series) => {
+      const seriesMonthLastDate = this.getSeriesMonthLastDate(series);
+      const currentMonthSeries = monthsMap.get(seriesMonthLastDate.getTime()) || [];
+      monthsMap.set(seriesMonthLastDate.getTime(), [...currentMonthSeries, series]);
     });
 
     const seriesByMonthLastDate = Array.from(monthsMap.entries()).map(
-      (monthsMapEntry): ShortTermSeriesData => {
-        return {
-          value: [new Date(monthsMapEntry[0]), monthsMapEntry[1]],
-        };
-      },
+      (monthsMapEntry): [Date, ShortTermSeriesData[]] => [
+        new Date(monthsMapEntry[0]),
+        monthsMapEntry[1],
+      ],
     );
 
-    const seriesDate = new Date(series[0].value[0]);
-    const lastDateOfFirstMonthInSeries = seriesByMonthLastDate[0].value[0];
-    if (seriesDate != lastDateOfFirstMonthInSeries)
-      seriesByMonthLastDate.unshift({
-        value: [seriesDate, 0],
-      });
+    const firstDailySeriesDate = new Date(dailySeries[0].value[0]);
+    const lastDateOfFirstMonthInSeries = seriesByMonthLastDate[0][0];
+    if (firstDailySeriesDate != lastDateOfFirstMonthInSeries)
+      seriesByMonthLastDate.unshift([firstDailySeriesDate, [{ value: [firstDailySeriesDate, 0] }]]);
 
     return seriesByMonthLastDate;
   }
 
-  private splitByYearLastDate(series: ShortTermSeriesData[]): ShortTermSeriesData[] {
-    const yearsMap = new Map<number, number>();
+  private getSeriesYearLastDate(series: ShortTermSeriesData): Date {
+    const seriesDate = new Date(series.value[0]);
+    seriesDate.setMonth(11);
+    seriesDate.setDate(31);
 
-    series.forEach((singleSeries) => {
-      const seriesDate = new Date(singleSeries.value[0]);
-      seriesDate.setMonth(11);
-      seriesDate.setDate(31);
+    return seriesDate;
+  }
 
-      const currentYearCount = yearsMap.get(seriesDate.getTime()) || 0;
-      yearsMap.set(seriesDate.getTime(), currentYearCount + singleSeries.value[1]);
+  private splitByYearLastDate(dailySeries: DailyPostingsSeries): [Date, ShortTermSeriesData[]][] {
+    const yearsMap = new Map<number, ShortTermSeriesData[]>();
+
+    dailySeries.forEach((series) => {
+      const seriesYearLastDate = this.getSeriesYearLastDate(series);
+      const currentYearDailySeries = yearsMap.get(seriesYearLastDate.getTime()) || [];
+      yearsMap.set(seriesYearLastDate.getTime(), [...currentYearDailySeries, series]);
     });
 
     const seriesByYearLastDate = Array.from(yearsMap.entries()).map(
-      (yearsMapEntry): ShortTermSeriesData => {
-        return {
-          value: [new Date(yearsMapEntry[0]), yearsMapEntry[1]],
-        };
-      },
+      (yearsMapEntry): [Date, ShortTermSeriesData[]] => [
+        new Date(yearsMapEntry[0]),
+        yearsMapEntry[1],
+      ],
     );
 
-    const seriesDate = new Date(series[0].value[0]);
-    const lastDateOfFirstMonthInSeries = seriesByYearLastDate[0].value[0];
-    if (seriesDate != lastDateOfFirstMonthInSeries)
-      seriesByYearLastDate.unshift({
-        value: [seriesDate, 0],
-      });
+    const firstDailySeriesDate = new Date(dailySeries[0].value[0]);
+    const lastDateOfFirstYearInSeries = seriesByYearLastDate[0][0];
+    if (firstDailySeriesDate != lastDateOfFirstYearInSeries)
+      seriesByYearLastDate.unshift([firstDailySeriesDate, [{ value: [firstDailySeriesDate, 0] }]]);
 
     return seriesByYearLastDate;
   }
@@ -358,30 +362,41 @@ export class ChartService {
   };
 
   private mapToMonthlyMovingAverageSeries = (
-    postingsByMonthLastDate: ShortTermSeriesData[],
+    dailySeriesByMonthLastDate: [Date, ShortTermSeriesData[]][],
   ): ShortTermSeriesData[] => {
-    return postingsByMonthLastDate.map((postings) => {
-      const postingsCount = postings.value[1];
-      const totalDaysInMonth = postings.value[0].getDate();
+    return dailySeriesByMonthLastDate.map((postings, index) => {
+      const postingsCount = postings[1].reduce(
+        (acc, dailyPosting) => acc + dailyPosting.value[1],
+        0,
+      );
+
+      let seriesEndDate = postings[0];
+      if (index == dailySeriesByMonthLastDate.length - 1) {
+        seriesEndDate = postings[1][postings[1].length - 1].value[0];
+      }
+
       return {
-        value: [postings.value[0], +(postingsCount / totalDaysInMonth).toFixed(2)],
+        value: [seriesEndDate, +(postingsCount / postings[1].length).toFixed(2)],
       };
     });
   };
 
-  private daysInYear(year: number) {
-    const feb29 = new Date(year, 1, 29);
-    return feb29.getMonth() === 1 ? 366 : 365;
-  }
-
   private mapToYearlyMovingAverageSeries = (
-    postingsByMonthLastDate: ShortTermSeriesData[],
+    dailySeriesByYearLastDate: [Date, ShortTermSeriesData[]][],
   ): ShortTermSeriesData[] => {
-    return postingsByMonthLastDate.map((postings) => {
-      const postingsCount = postings.value[1];
-      const totalDaysInMonth = this.daysInYear(postings.value[0].getFullYear());
+    return dailySeriesByYearLastDate.map((postings, index) => {
+      const postingsCount = postings[1].reduce(
+        (acc, dailyPosting) => acc + dailyPosting.value[1],
+        0,
+      );
+
+      let seriesEndDate = postings[0];
+      if (index == dailySeriesByYearLastDate.length - 1) {
+        seriesEndDate = postings[1][postings[1].length - 1].value[0];
+      }
+
       return {
-        value: [postings.value[0], +(postingsCount / totalDaysInMonth).toFixed(2)],
+        value: [seriesEndDate, +(postingsCount / postings[1].length).toFixed(2)],
       };
     });
   };

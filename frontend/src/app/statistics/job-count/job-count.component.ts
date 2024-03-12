@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { StatisticsService } from '../statistics.service';
 import { JobService } from 'src/app/job/job.service';
 import { TimeWindows } from 'src/app/job/job.types';
 import { RouterModule } from '@angular/router';
 import { ChartService } from '../charts/chart.service';
+import { MovingAverageTypes } from '../charts/publication-chart/publication-chart.model';
+import { MovingAverageStatData } from './job-count.types';
 
 @Component({
   selector: 'vgm-job-count',
@@ -21,15 +23,10 @@ export class JobCountComponent implements OnInit {
   currentTimeWindow$!: Observable<TimeWindows>;
   timeWindows = TimeWindows;
 
-  weeklyMovingAverage!: number;
-  weeklyMovingAverageComparison!: number;
+  movingAverageTypes = MovingAverageTypes;
+  selectedMovingAverageType = MovingAverageTypes.oneMonth;
 
-  monthlyMovingAverage!: number;
-  monthlyMovingAverageComparison!: number;
-
-  yearsCount = 0;
-  yearlyMovingAverage!: number;
-  yearlyMovingAverageComparison!: number;
+  selectedMovingAverageData$!: Observable<MovingAverageStatData>;
 
   constructor(
     private statisticsService: StatisticsService,
@@ -41,30 +38,30 @@ export class JobCountComponent implements OnInit {
     this.currentTimeWindow$ = this.jobService.currentTimeWindow$;
     this.jobsCount$ = this.statisticsService.getJobsCount();
     this.oldestJobPublishedDate$ = this.jobService.oldestJobPublishedDate$;
+    this.setMovingAverageType(MovingAverageTypes.oneMonth);
+  }
 
-    this.chartService.getWeeklyMovingAverage().subscribe((weeklyMovingAverage) => {
-      this.weeklyMovingAverage = weeklyMovingAverage.at(-1)?.value[1] || 0;
-      this.weeklyMovingAverageComparison =
-        ((weeklyMovingAverage.at(-1)?.value[1] || 0) -
-          (weeklyMovingAverage.at(-2)?.value[1] || 0)) /
-        (weeklyMovingAverage.at(-2)?.value[1] || 1);
-    });
+  setMovingAverageType(movingAverageType: MovingAverageTypes): void {
+    this.selectedMovingAverageType = movingAverageType;
 
-    this.chartService.getMonthlyMovingAverage().subscribe((monthlyMovingAverage) => {
-      this.monthlyMovingAverage = monthlyMovingAverage.at(-1)?.value[1] || 0;
-      this.monthlyMovingAverageComparison =
-        ((monthlyMovingAverage.at(-1)?.value[1] || 0) -
-          (monthlyMovingAverage.at(-2)?.value[1] || 0)) /
-        (monthlyMovingAverage.at(-2)?.value[1] || 1);
-    });
+    let movingAverageSource$ = this.chartService.getWeeklyMovingAverage();
+    if (this.selectedMovingAverageType == MovingAverageTypes.oneMonth)
+      movingAverageSource$ = this.chartService.getMonthlyMovingAverage();
+    if (this.selectedMovingAverageType == MovingAverageTypes.oneYear)
+      movingAverageSource$ = this.chartService.getYearlyMovingAverage();
 
-    this.chartService.getYearlyMovingAverage().subscribe((yearlyMovingAverage) => {
-      this.yearsCount = yearlyMovingAverage.length;
-      this.yearlyMovingAverage = yearlyMovingAverage.at(-1)?.value[1] || 0;
-      this.yearlyMovingAverageComparison =
-        ((yearlyMovingAverage.at(-1)?.value[1] || 0) -
-          (yearlyMovingAverage.at(-2)?.value[1] || 0)) /
-        (yearlyMovingAverage.at(-2)?.value[1] || 1);
-    });
+    this.selectedMovingAverageData$ = movingAverageSource$.pipe(
+      map((movingAverageData) => {
+        const value = movingAverageData.at(-1)?.value[1] || 0;
+        const comparedValue =
+          ((movingAverageData.at(-1)?.value[1] || 0) - (movingAverageData.at(-2)?.value[1] || 0)) /
+          (movingAverageData.at(-2)?.value[1] || 1);
+
+        return {
+          value,
+          comparedValue,
+        };
+      }),
+    );
   }
 }

@@ -1,106 +1,87 @@
 <ng-container *ngIf="(jobsCount$ | async) !== undefined; else loading">
   <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 m-4 w-full">
-    <div class="stat bg-base-300 rounded-2xl gap-2">
-      <div class="stat-figure text-secondary">
-        <i
-          *ngIf="weeklyMovingAverageComparison > 0"
-          class="bx bxs-up-arrow-circle text-3xl text-green-500"
-        ></i>
-        <i
-          *ngIf="weeklyMovingAverageComparison < 0"
-          class="bx bxs-down-arrow-circle text-3xl text-red-500"
-        ></i>
+    <ng-container *ngIf="selectedMovingAverageData$ | async as selectedMovingAverageData">
+      <div class="stat bg-base-300 rounded-2xl gap-4">
+        <div class="stat-title flex justify-between flex-wrap gap-2">
+          <span> Média móvel ({{ selectedMovingAverageType }}) </span>
+
+          <div class="join">
+            <button
+              class="btn btn-xs join-item"
+              [ngClass]="{
+                'btn-primary': selectedMovingAverageType === movingAverageTypes.oneWeek
+              }"
+              (click)="setMovingAverageType(movingAverageTypes.oneWeek)"
+            >
+              7d
+            </button>
+
+            <button
+              class="btn btn-xs join-item"
+              [ngClass]="{
+                'btn-primary': selectedMovingAverageType === movingAverageTypes.oneMonth
+              }"
+              (click)="setMovingAverageType(movingAverageTypes.oneMonth)"
+            >
+              30d
+            </button>
+
+            <button
+              class="btn btn-xs join-item"
+              [ngClass]="{
+                'btn-primary': selectedMovingAverageType === movingAverageTypes.oneYear
+              }"
+              (click)="setMovingAverageType(movingAverageTypes.oneYear)"
+            >
+              1y
+            </button>
+          </div>
+        </div>
+
+        <div class="stat-value">
+          <span> {{ selectedMovingAverageData.value | number: "1.0-0" }} </span>
+          <span class="text-sm"> vagas/dia </span>
+        </div>
+
+        <div
+          class="stat-desc flex items-center gap-2"
+          [ngClass]="{
+            'text-green-500': selectedMovingAverageData.comparedValue > 0,
+            'text-red-500': selectedMovingAverageData.comparedValue < 0
+          }"
+        >
+          <i
+            *ngIf="selectedMovingAverageData.comparedValue > 0"
+            class="bx bxs-up-arrow-circle text-3xl text-green-500"
+          ></i>
+          <i
+            *ngIf="selectedMovingAverageData.comparedValue < 0"
+            class="bx bxs-down-arrow-circle text-3xl text-red-500"
+          ></i>
+
+          <div class="text-balance">
+            <span *ngIf="selectedMovingAverageData.comparedValue > 0">Aumento de</span>
+            <span *ngIf="selectedMovingAverageData.comparedValue < 0">Queda de</span>
+            <span *ngIf="selectedMovingAverageData.comparedValue === 0">Diferença de</span>
+
+            <span>
+              <strong> {{ selectedMovingAverageData.comparedValue | percent: "1.0-0" }} </strong> em
+              comparação com
+            </span>
+
+            <span *ngIf="selectedMovingAverageType === movingAverageTypes.oneWeek"
+              >a semana passada
+            </span>
+            <span *ngIf="selectedMovingAverageType === movingAverageTypes.oneMonth"
+              >o mês passado
+            </span>
+            <span *ngIf="selectedMovingAverageType === movingAverageTypes.oneYear"
+              >o ano passado
+            </span>
+          </div>
+        </div>
       </div>
-
-      <div class="stat-title">Média móvel (7 dias)</div>
-
-      <div class="stat-value">
-        <span> {{ weeklyMovingAverage | number: "1.0-0" }} </span>
-        <span class="text-sm"> vagas/dia </span>
-      </div>
-
-      <div
-        class="stat-desc text-balance"
-        [ngClass]="{
-          'text-green-500': weeklyMovingAverageComparison > 0,
-          'text-red-500': weeklyMovingAverageComparison < 0
-        }"
-      >
-        <span *ngIf="weeklyMovingAverageComparison > 0">Aumento de</span>
-        <span *ngIf="weeklyMovingAverageComparison < 0">Queda de</span>
-        <span>
-          {{ weeklyMovingAverageComparison | percent: "1.0-0" }} em comparação com a semana passada
-        </span>
-      </div>
-    </div>
-
-    <div class="stat bg-base-300 rounded-2xl gap-2">
-      <div class="stat-figure text-secondary">
-        <i
-          *ngIf="monthlyMovingAverageComparison > 0"
-          class="bx bxs-up-arrow-circle text-3xl text-green-500"
-        ></i>
-        <i
-          *ngIf="monthlyMovingAverageComparison < 0"
-          class="bx bxs-down-arrow-circle text-3xl text-red-500"
-        ></i>
-      </div>
-
-      <div class="stat-title">Média móvel (1 mês)</div>
-
-      <div class="stat-value">
-        <span> {{ monthlyMovingAverage | number: "1.0-0" }} </span>
-        <span class="text-sm"> vagas/dia </span>
-      </div>
-
-      <div
-        class="stat-desc text-balance"
-        [ngClass]="{
-          'text-green-500': monthlyMovingAverageComparison > 0,
-          'text-red-500': monthlyMovingAverageComparison < 0
-        }"
-      >
-        <span *ngIf="monthlyMovingAverageComparison > 0">Aumento de</span>
-        <span *ngIf="monthlyMovingAverageComparison < 0">Queda de</span>
-        <span>
-          {{ monthlyMovingAverageComparison | percent: "1.0-0" }} em comparação com o mês passado
-        </span>
-      </div>
-    </div>
-
-    <div *ngIf="yearsCount > 3" class="stat bg-base-300 rounded-2xl gap-2">
-      <div class="stat-figure text-secondary">
-        <i
-          *ngIf="yearlyMovingAverageComparison > 0"
-          class="bx bxs-up-arrow-circle text-3xl text-green-500"
-        ></i>
-        <i
-          *ngIf="yearlyMovingAverageComparison < 0"
-          class="bx bxs-down-arrow-circle text-3xl text-red-500"
-        ></i>
-      </div>
-
-      <div class="stat-title">Média móvel (1 ano)</div>
-
-      <div class="stat-value">
-        <span> {{ yearlyMovingAverage | number: "1.0-0" }} </span>
-        <span class="text-sm"> vagas/dia </span>
-      </div>
-
-      <div
-        class="stat-desc text-balance"
-        [ngClass]="{
-          'text-green-500': yearlyMovingAverageComparison > 0,
-          'text-red-500': yearlyMovingAverageComparison < 0
-        }"
-      >
-        <span *ngIf="yearlyMovingAverageComparison > 0">Aumento de</span>
-        <span *ngIf="yearlyMovingAverageComparison < 0">Queda de</span>
-        <span>
-          {{ yearlyMovingAverageComparison | percent: "1.0-0" }} em comparação com o ano passado
-        </span>
-      </div>
-    </div>
+    </ng-container>
 
     <div class="stat bg-base-300 rounded-2xl gap-2">
       <div class="stat-title">Total</div>

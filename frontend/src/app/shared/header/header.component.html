@@ -124,55 +124,71 @@
 
 <dialog id="my_modal_1" class="modal">
   <div class="modal-box">
-    <section class="p-4">
-      <h1 class="font-bold text-lg">O que é o vagômetro?</h1>
-      <p class="pt-2">
-        O vagômetro é um projeto open-source que reúne dados sobre as vagas de emprego na área de
-        tecnologia no Brasil.
-      </p>
-
-      <p class="pt-2">
-        Seu objetivo é apresentar tais dados de forma a ajudar profissionais em busca de emprego a
-        encontrarem vagas de seu interesse com mais facilidade.
-      </p>
-
-      <p class="pt-2">Além disso,</p>
-    </section>
-
-    <section class="p-4">
-      <h1 class="font-extrabold text-xl">FAQ</h1>
-
-      <div>
-        <h2 class="font-bold text-lg">O que significa "Desconhecido?"</h2>
-
+    <main class="max-h-96 overflow-y-auto">
+      <section class="p-4">
+        <h1 class="font-bold text-lg">O que é o vagômetro?</h1>
         <p class="pt-2">
-          Para identificar, por exemplo, o nível de experiência requisitado nas vagas, é feito um
-          match de palavras-chave como "Sênior", "Júnior" e várias outras.
+          O vagômetro é um projeto open-source que reúne dados sobre as vagas de emprego na área de
+          tecnologia no Brasil.
         </p>
 
         <p class="pt-2">
-          Caso não haja um match em pelo menos umas das palavras-chave, o status passa a ser
-          Desconhecido.
+          Seu objetivo é apresentar tais dados de forma a melhor embasar decisões profissionais, bem
+          como facilitar a busca por vagas.
         </p>
 
         <p class="pt-2">
-          100% de precisão nem sempre é garantido pois erros na digitação da descrição da vaga podem
-          prejudicar o match entre palavras-chave.
+          Além disso, o vagômetro também realiza análises e comparações em diferentes intervalos de
+          tempo para que seus usuários obtenham uma melhor compreensão do atual momento do mercado
+          de vagas.
         </p>
-      </div>
-    </section>
+      </section>
 
-    <section class="p-4">
-      <h1 class="font-bold text-lg">Aviso importante</h1>
-      <p class="pt-2">
-        O escopo das análises realizadas pelo vagômetro limitam-se apenas às vagas das fontes
-        suportadas.
-      </p>
-      <p class="pt-2">
-        Qualquer conclusão a respeito do mercado de TI como um todo é desencorajada devido ao
-        tamanho restrito da amostra de dados.
-      </p>
-    </section>
+      <section class="p-4">
+        <h1 class="font-extrabold text-xl">FAQ</h1>
+
+        <div>
+          <h2 class="font-bold text-lg">O que significa "Desconhecido?"</h2>
+
+          <p class="pt-2">
+            Para identificar, por exemplo, o nível de experiência requisitado nas vagas, é feito um
+            match de palavras-chave como "Sênior", "Júnior" e várias outras.
+          </p>
+
+          <p class="pt-2">
+            Caso não haja um match em pelo menos umas das palavras-chave, o status passa a ser
+            Desconhecido.
+          </p>
+
+          <p class="pt-2">
+            100% de precisão nem sempre é garantido pois erros na digitação da descrição da vaga
+            podem prejudicar o match entre palavras-chave.
+          </p>
+        </div>
+
+        <div class="mt-2">
+          <h2 class="font-bold text-lg">Como as vagas são coletadas?</h2>
+
+          <p class="pt-2">
+            O vagômetro realiza consultas periódicas nas três fontes de vagas suportadas: Gupy,
+            LinkedIn e GitHub. Os meios usados variam de requisições a APIs ou web scraping. De
+            qualquer forma, todos os meios são considerados públicos.
+          </p>
+        </div>
+      </section>
+
+      <section class="p-4">
+        <h1 class="font-bold text-lg">Aviso importante</h1>
+        <p class="pt-2">
+          O escopo das análises realizadas pelo vagômetro limitam-se apenas às vagas das fontes
+          suportadas.
+        </p>
+        <p class="pt-2">
+          Qualquer conclusão a respeito do mercado de TI como um todo é desencorajada devido ao
+          tamanho restrito da amostra de dados.
+        </p>
+      </section>
+    </main>
 
     <div class="modal-action">
       <form class="w-full" method="dialog">

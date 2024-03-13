@@ -1,0 +1,133 @@
+<footer class="footer p-10 bg-neutral text-neutral-content">
+  <aside>
+    <i class="bx bx-bullseye text-3xl lg:text-5xl"></i>
+
+    <p>vagômetro</p>
+
+    <p class="flex flex-wrap gap-1">
+      mais um projetinho do
+      <a class="link" href="https://github.com/leo-holanda" target="_blank">leo-holanda</a>
+    </p>
+
+    <button (click)="privacyPolicyModal.showModal()" class="link">política de privacidade</button>
+
+    <a class="link" href="https://github.com/leo-holanda/vagometro" target="_blank">
+      link do repositório
+    </a>
+  </aside>
+
+  <aside class="w-full justify-end">
+    <div class="flex flex-col gap-4">
+      <vgm-countdown [jobSource]="jobSources.gupy"></vgm-countdown>
+      <vgm-countdown [jobSource]="jobSources.linkedin"></vgm-countdown>
+    </div>
+  </aside>
+</footer>
+
+<dialog id="privacy-policy-modal" #privacyPolicyModal class="modal">
+  <div class="modal-box">
+    <main class="flex flex-col gap-4 pr-4 max-h-96 overflow-y-auto">
+      <h1 class="font-extrabold text-xl">Política de Privacidade e Uso de Cookies</h1>
+
+      <div class="flex flex-col gap-2">
+        <h2 class="font-bold">1. Informações Gerais</h2>
+
+        <p>
+          1.1. O Vagômetro ("nós", "nosso" ou "site") respeita a sua privacidade e está comprometido
+          em proteger as informações pessoais que você possa fornecer durante o uso do nosso site.
+        </p>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <h2 class="font-bold">2. Informações Coletadas</h2>
+
+        <p>
+          2.1. Ao visitar o Vagômetro, podemos coletar informações não pessoais, como o tipo de
+          navegador, o sistema operacional utilizado e páginas visitadas, para melhorar a
+          experiência do usuário.
+        </p>
+
+        <p>
+          2.2. Se optar por utilizar recursos interativos do site, podemos coletar informações
+          pessoais, como nome, endereço de e-mail e outras informações relevantes.
+        </p>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <h2 class="font-bold">3. Uso de Cookies</h2>
+
+        <p>
+          3.1. O Vagômetro utiliza cookies para melhorar a experiência do usuário. Os cookies são
+          pequenos arquivos de texto armazenados no seu dispositivo que nos ajudam a analisar o uso
+          do site, personalizar conteúdo e anúncios, fornecer funcionalidades de mídia social e
+          entender padrões de navegação.
+        </p>
+
+        <p>
+          3.2. Ao continuar a usar o Vagômetro, você concorda com o uso de cookies de acordo com
+          esta política.
+        </p>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <h2 class="font-bold">4. Como Utilizamos Suas Informações</h2>
+
+        <p>
+          4.1. As informações coletadas podem ser utilizadas para personalizar conteúdo, analisar
+          tendências, melhorar a funcionalidade do site e enviar comunicações relevantes.
+        </p>
+
+        <p>
+          4.2. Não compartilhamos informações pessoais com terceiros sem o seu consentimento, exceto
+          quando exigido por lei.
+        </p>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <h2 class="font-bold">5. Segurança</h2>
+
+        <p>
+          5.1. Implementamos medidas de segurança para proteger suas informações pessoais. No
+          entanto, não podemos garantir a segurança absoluta da transmissão de dados pela Internet.
+        </p>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <h2 class="font-bold">6. Links para Sites Externos</h2>
+
+        <p>
+          6.1. O Vagômetro pode conter links para sites de terceiros. Não somos responsáveis pelas
+          práticas de privacidade desses sites. Recomendamos que leia as políticas de privacidade de
+          cada site que visitar.
+        </p>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <h2 class="font-bold">7. Consentimento</h2>
+
+        <p>
+          7.1. Ao usar o Vagômetro, você consente com os termos desta política de privacidade e uso
+          de cookies.
+        </p>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <h2 class="font-bold">8. Alterações na Política de Privacidade</h2>
+
+        <p>
+          8.1. Reservamo-nos o direito de modificar esta política a qualquer momento. As alterações
+          serão efetivas imediatamente após a publicação no site. Contato: Se tiver dúvidas sobre
+          esta política, entre em contato conosco através do e-mail vagometrobr&#64;gmail.com.
+        </p>
+      </div>
+
+      <p>Última Atualização: 13/03/2024</p>
+    </main>
+
+    <div class="modal-action">
+      <form class="w-full" method="dialog">
+        <button class="btn w-full">Fechar</button>
+      </form>
+    </div>
+  </div>
+</dialog>

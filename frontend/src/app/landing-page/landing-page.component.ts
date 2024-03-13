@@ -5,11 +5,18 @@ import { RouterLink } from '@angular/router';
 import { Observable } from 'rxjs';
 import { JobSourcesService } from '../job-sources/job-sources.service';
 import { LoadingDirective } from '../shared/directives/loading.directive';
+import { FooterComponent } from '../shared/footer/footer.component';
 
 @Component({
   selector: 'vgm-landing-page',
   standalone: true,
-  imports: [CommonModule, JobSourceSelectorComponent, RouterLink, LoadingDirective],
+  imports: [
+    CommonModule,
+    JobSourceSelectorComponent,
+    RouterLink,
+    LoadingDirective,
+    FooterComponent,
+  ],
   templateUrl: './landing-page.component.html',
   styleUrls: ['./landing-page.component.scss'],
 })

@@ -5,6 +5,7 @@ import { JobSourceSelectorComponent } from '../job-sources/job-source-selector/j
 import { CountdownComponent } from '../shared/countdown/countdown.component';
 import { HeaderComponent } from '../shared/header/header.component';
 import { JobSources } from '../job-sources/job-sources.types';
+import { FooterComponent } from '../shared/footer/footer.component';
 
 @Component({
   selector: 'vgm-statistics',
@@ -15,6 +16,7 @@ import { JobSources } from '../job-sources/job-sources.types';
     HeaderComponent,
     CountdownComponent,
     JobSourceSelectorComponent,
+    FooterComponent,
   ],
   templateUrl: './statistics.component.html',
   styleUrls: ['./statistics.component.scss'],

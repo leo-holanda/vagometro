@@ -66,12 +66,14 @@
         </div>
 
         <div class="stat-value">
-          <span *ngIf="selectedMovingAverageData.value > 0; else belowThanOneMovingAverage">
-            {{ selectedMovingAverageData.value | number: "1.0-0" }}
+          <span
+            *ngIf="selectedMovingAverageData.value < 1; else higherThanOneMovingAverageTemplate"
+          >
+            {{ selectedMovingAverageData.value | number: "1.2-2" }}
           </span>
 
-          <ng-template #belowThanOneMovingAverage>
-            {{ selectedMovingAverageData.value | number: "1.2-2" }}
+          <ng-template #higherThanOneMovingAverageTemplate>
+            {{ selectedMovingAverageData.value | number: "1.0-0" }}
           </ng-template>
 
           <span class="text-sm"> vagas/dia </span>

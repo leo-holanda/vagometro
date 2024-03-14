@@ -132,6 +132,13 @@ export class RankComponent implements OnInit, OnChanges {
         routerLink: '/stats/repostagens',
         getRank: this.statisticsService.getRepostingsRank.bind(this.statisticsService),
       },
+      timeBetweenRepostings: {
+        name: 'Ranking de Tempo Entre Repostagens',
+        icon: 'bx bxs-time-five',
+        dataColumnName: 'Tempo entre repostagens',
+        routerLink: '/stats/repostagens',
+        getRank: this.statisticsService.getTimeBetweenRepostingsRank.bind(this.statisticsService),
+      },
     };
   }
 }

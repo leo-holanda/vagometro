@@ -12,7 +12,7 @@
             <thead>
               <tr>
                 <th>#</th>
-                <th>{{ rankMetaData.dataColumnName }}</th>
+                <th class="text-balance">{{ rankMetaData.dataColumnName }}</th>
                 <th>Vagas</th>
               </tr>
             </thead>
@@ -27,6 +27,22 @@
                   ></div>
 
                   <!-- TODO: improve these conditions -->
+
+                  <ng-container *ngIf="rankType === rankTypes.timeBetweenRepostings">
+                    <span [ngPlural]="+item.name">
+                      <ng-template ngPluralCase="=0">
+                        <span> Nenhuma vez </span>
+                      </ng-template>
+
+                      <ng-template ngPluralCase="=1">
+                        <span> {{ item.name | number }} dia </span>
+                      </ng-template>
+
+                      <ng-template ngPluralCase="other">
+                        <span> {{ item.name | number }} dias </span>
+                      </ng-template>
+                    </span>
+                  </ng-container>
 
                   <ng-container *ngIf="rankType === rankTypes.repostings">
                     <span [ngPlural]="+item.name">
@@ -66,7 +82,12 @@
                   </ng-container>
 
                   <ng-container
-                    *ngIf="!item.link && !item.state && rankType !== rankTypes.repostings"
+                    *ngIf="
+                      !item.link &&
+                      !item.state &&
+                      rankType !== rankTypes.repostings &&
+                      rankType !== rankTypes.timeBetweenRepostings
+                    "
                   >
                     <span class="relative z-10">{{ item.name }}</span>
                   </ng-container>

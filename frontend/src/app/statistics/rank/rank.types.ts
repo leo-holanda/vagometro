@@ -30,6 +30,7 @@ export enum RankTypes {
   languages = 'languages',
   certification = 'certification',
   repostings = 'repostings',
+  timeBetweenRepostings = 'timeBetweenRepostings',
 }
 
 export type RanksMap = {

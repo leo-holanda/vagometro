@@ -190,6 +190,11 @@
     ></vgm-rank>
 
     <vgm-rank
+      [rankType]="rankTypes.timeBetweenRepostings"
+      [jobs$]="dataType === 'city' ? jobsByCity$ : jobsByState$"
+    ></vgm-rank>
+
+    <vgm-rank
       [rankType]="rankTypes.education"
       [jobs$]="dataType === 'city' ? jobsByCity$ : jobsByState$"
     ></vgm-rank>

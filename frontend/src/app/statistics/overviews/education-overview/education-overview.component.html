@@ -243,6 +243,15 @@
     ></vgm-rank>
 
     <vgm-rank
+      [rankType]="rankTypes.timeBetweenRepostings"
+      [jobs$]="
+        selectedDataType === educationalDataTypes.level
+          ? jobsByEducationalLevel$
+          : jobsByEducationTerm$
+      "
+    ></vgm-rank>
+
+    <vgm-rank
       [rankType]="rankTypes.companies"
       [jobs$]="
         selectedDataType === educationalDataTypes.level

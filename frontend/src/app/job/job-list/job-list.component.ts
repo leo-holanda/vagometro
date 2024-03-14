@@ -20,19 +20,11 @@ import { Job } from '../job.types';
 import { ExperienceLevels } from 'src/app/shared/keywords-matcher/experience-levels.data';
 import { InclusionTypes } from 'src/app/shared/keywords-matcher/inclusion.data';
 import { RouterLink } from '@angular/router';
-import { RepostingsTimespanPipe } from 'src/app/shared/pipes/repostings-timespan.pipe';
 
 @Component({
   selector: 'vgm-job-list',
   standalone: true,
-  imports: [
-    CommonModule,
-    StateAbbreviationPipe,
-    FormsModule,
-    ScrollingModule,
-    RouterLink,
-    RepostingsTimespanPipe,
-  ],
+  imports: [CommonModule, StateAbbreviationPipe, FormsModule, ScrollingModule, RouterLink],
   templateUrl: './job-list.component.html',
   styleUrls: ['./job-list.component.scss'],
 })

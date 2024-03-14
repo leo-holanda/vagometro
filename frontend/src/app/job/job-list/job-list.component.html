@@ -286,31 +286,16 @@
             (click)="openRepostingsDialog(job)"
           >
             <i class="bx bx-refresh"></i>
-            <span [ngPlural]="job.repostings.length">
-              <ng-template ngPluralCase="=1">
-                <ng-container
-                  *ngIf="(job | repostingsTimespan) > 1; else singleDayRepostingTemplate"
-                >
-                  Postada {{ job.repostings.length + 1 }} vez entre
-                  {{ job | repostingsTimespan | number: "1.0-0" }} dias
-                </ng-container>
+            <span>
+              <ng-container
+                *ngIf="job.timeInDaysBetweenRepostings > 1; else singleDayRepostingTemplate"
+              >
+                Postada {{ job.repostings.length + 1 }} vezes durante
+                {{ job.timeInDaysBetweenRepostings | number }} dias
+              </ng-container>
 
-                <ng-template #singleDayRepostingTemplate>
-                  Postada {{ job.repostings.length + 1 }} vez no mesmo dia
-                </ng-template>
-              </ng-template>
-
-              <ng-template ngPluralCase="other">
-                <ng-container
-                  *ngIf="(job | repostingsTimespan) > 1; else singleDayRepostingTemplate"
-                >
-                  Postada {{ job.repostings.length + 1 }} vezes durante
-                  {{ job | repostingsTimespan | number: "1.0-0" }} dias
-                </ng-container>
-
-                <ng-template #singleDayRepostingTemplate>
-                  Postada {{ job.repostings.length + 1 }} vezes no mesmo dia
-                </ng-template>
+              <ng-template #singleDayRepostingTemplate>
+                Postada {{ job.repostings.length + 1 }} vezes no mesmo dia
               </ng-template>
             </span>
           </button>

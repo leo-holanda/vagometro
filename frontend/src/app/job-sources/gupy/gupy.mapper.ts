@@ -43,6 +43,7 @@ function setRepostings(job: Job, jobsByCompanyMap: Map<string, Job[]>): Job {
   });
 
   job.repostings = repostings;
+  job.timeInDaysBetweenRepostings = getTimeInDaysBetweenRepostings(job);
   return job;
 }
 
@@ -74,6 +75,7 @@ function mapToJob(
     workplaceTypes: getJobWorkplaceType(job),
     certificationStatuses: findCertificationStatuses(job),
     repostings: [],
+    timeInDaysBetweenRepostings: 0,
   };
 
   const jobsByCompany = jobsByCompanyMap.get(mappedJob.companyName) || [];
@@ -82,6 +84,33 @@ function mapToJob(
 
   mappedJob.matchPercentage = getJobMatchPercentage(mappedJob, searchData);
   return mappedJob;
+}
+
+function getTimeInDaysBetweenRepostings(job: Job): number {
+  const jobsToConsider = [job, ...job.repostings];
+  const { earliestDate, latestDate } = findRepostingsStartAndEndDate(jobsToConsider);
+
+  const differenceInDays = (
+    (latestDate.getTime() - earliestDate.getTime()) /
+    (1000 * 3600 * 24)
+  ).toFixed(0);
+
+  return +differenceInDays;
+}
+
+function findRepostingsStartAndEndDate(jobs: Job[]): { earliestDate: Date; latestDate: Date } {
+  let earliestDate = new Date();
+  let latestDate = jobs[jobs.length - 1].publishedDate;
+
+  jobs.forEach((job) => {
+    if (job.publishedDate < earliestDate) earliestDate = job.publishedDate;
+    if (job.publishedDate > latestDate) latestDate = job.publishedDate;
+  });
+
+  console.log(earliestDate);
+  console.log(latestDate);
+
+  return { earliestDate, latestDate };
 }
 
 function findCertificationStatuses(job: GupyJob): CertificationStatus[] {

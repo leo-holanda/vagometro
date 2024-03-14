@@ -27,6 +27,7 @@ export type Job = {
   certificationStatuses: CertificationStatus[];
   matchPercentage?: number;
   repostings: Job[];
+  timeInDaysBetweenRepostings: number;
 };
 
 export enum TimeWindows {

@@ -428,6 +428,39 @@ export class StatisticsService {
     );
   }
 
+  getTimeBetweenRepostingsRank(
+    jobs$: Observable<Job[] | undefined> = this.jobService.jobs$,
+  ): Observable<RankData[]> {
+    return jobs$.pipe(
+      filter((jobs): jobs is Job[] => jobs != undefined),
+      map((jobs) => {
+        const timeBetweenRepostingsMap = new Map<number, number>();
+
+        jobs.forEach((job) => {
+          const currentTimeBetweenRepostings =
+            timeBetweenRepostingsMap.get(job.timeInDaysBetweenRepostings) || 0;
+
+          timeBetweenRepostingsMap.set(
+            job.timeInDaysBetweenRepostings,
+            currentTimeBetweenRepostings + 1,
+          );
+        });
+
+        const sortedEntries = Array.from(timeBetweenRepostingsMap.entries()).sort(
+          (a, b) => b[0] - a[0],
+        );
+
+        const sortedObjects = sortedEntries.map(([key, value]) => ({
+          name: key.toString(),
+          count: value,
+          percentage: value / jobs.length,
+        }));
+
+        return sortedObjects;
+      }),
+    );
+  }
+
   getMonthlyComparison(
     jobs$: Observable<Job[] | undefined> = this.jobService.jobs$,
   ): Observable<ComparisonData[]> {

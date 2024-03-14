@@ -215,6 +215,15 @@ export class JobService {
     );
   }
 
+  getJobsByTimeBetweenRepostings(timeBetweenRepostings: number): Observable<Job[]> {
+    return this.jobs$.pipe(
+      filter((jobs): jobs is Job[] => jobs != undefined),
+      map((jobs) => {
+        return jobs.filter((job) => job.timeInDaysBetweenRepostings == timeBetweenRepostings);
+      }),
+    );
+  }
+
   getJobMonth(job: Job): string {
     return monthsMap[job.publishedDate.getMonth()];
   }

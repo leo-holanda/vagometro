@@ -11,6 +11,7 @@ import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-c
 import { MatchesChartComponent } from '../../charts/matches-chart/matches-chart.component';
 import { RankComponent } from '../../rank/rank.component';
 import { JobListComponent } from 'src/app/job/job-list/job-list.component';
+import { RepostingsDataTypes } from './repostings-overview.types';
 
 @Component({
   selector: 'vgm-repostings-overview',
@@ -28,9 +29,16 @@ import { JobListComponent } from 'src/app/job/job-list/job-list.component';
 })
 export class RepostingsOverviewComponent implements OnInit {
   repostingsRank$!: Observable<RankData[]>;
-  jobsQuantity!: number;
+  timeBetweenRepostingsRank$!: Observable<RankData[]>;
+
+  jobsCount!: number;
   selectedRepostingCount!: number;
-  jobsByRepostingCount$!: Observable<Job[]>;
+  selectedTimeBetweenReposting!: number;
+
+  jobs$!: Observable<Job[]>;
+
+  selectedDataType = RepostingsDataTypes.repostingsCount;
+  repostingsDataTypes = RepostingsDataTypes;
 
   trackByRankData = trackByRankData;
   rankTypes = RankTypes;
@@ -42,23 +50,43 @@ export class RepostingsOverviewComponent implements OnInit {
 
   ngOnInit(): void {
     this.repostingsRank$ = this.statisticsService.getRepostingsRank();
+    this.timeBetweenRepostingsRank$ = this.statisticsService.getTimeBetweenRepostingsRank();
 
     this.repostingsRank$.subscribe((repostingsRank) => {
       this.selectedRepostingCount = +repostingsRank[0].name;
-      this.jobsByRepostingCount$ = this.jobService.getJobsByRepostingCount(
-        +this.selectedRepostingCount,
-      );
+      this.jobs$ = this.jobService.getJobsByRepostingCount(+this.selectedRepostingCount);
     });
 
-    this.jobService.jobs$.subscribe((jobs) => {
-      this.jobsQuantity = jobs?.length || 0;
+    this.timeBetweenRepostingsRank$.subscribe((timeBetweenRepostings) => {
+      this.selectedTimeBetweenReposting = +timeBetweenRepostings[0].name;
+    });
+
+    this.statisticsService.getJobsCount().subscribe((jobsCount) => {
+      this.jobsCount = jobsCount;
     });
   }
 
   onRepostingCountClick(repostingCount: number): void {
     this.selectedRepostingCount = repostingCount;
-    this.jobsByRepostingCount$ = this.jobService.getJobsByRepostingCount(
-      +this.selectedRepostingCount,
-    );
+    this.jobs$ = this.jobService.getJobsByRepostingCount(+this.selectedRepostingCount);
+  }
+
+  onTimeBetweenRepostingsClick(timeBetweenRepostings: number): void {
+    this.selectedTimeBetweenReposting = timeBetweenRepostings;
+    this.jobs$ = this.jobService.getJobsByTimeBetweenRepostings(+this.selectedTimeBetweenReposting);
+  }
+
+  setDataType(dataType: RepostingsDataTypes): void {
+    this.selectedDataType = dataType;
+
+    if (this.selectedDataType == RepostingsDataTypes.repostingsCount) {
+      this.jobs$ = this.jobService.getJobsByRepostingCount(+this.selectedRepostingCount);
+    }
+
+    if (this.selectedDataType == RepostingsDataTypes.timeInDaysBetweenRepostings) {
+      this.jobs$ = this.jobService.getJobsByTimeBetweenRepostings(
+        +this.selectedTimeBetweenReposting,
+      );
+    }
   }
 }

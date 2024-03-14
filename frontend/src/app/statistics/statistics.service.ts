@@ -415,7 +415,7 @@ export class StatisticsService {
           repostingsMap.set(job.repostings.length, currentRepostingsCount + 1);
         });
 
-        const sortedEntries = Array.from(repostingsMap.entries()).sort((a, b) => b[1] - a[1]);
+        const sortedEntries = Array.from(repostingsMap.entries()).sort((a, b) => b[0] - a[0]);
 
         const sortedObjects = sortedEntries.map(([key, value]) => ({
           name: key.toString(),

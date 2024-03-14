@@ -166,23 +166,43 @@
   <section class="grid grid-cols-1 gap-4">
     <div class="card card-bordered card-compact w-full bg-base-300">
       <div class="card-body p-4">
-        <span [ngPlural]="selectedRepostingCount">
-          <ng-template ngPluralCase="=0">
-            <h1 class="font-bold text-lg">Sobre as vagas que não foram repostadas</h1>
-          </ng-template>
+        <ng-container *ngIf="selectedDataType === repostingsDataTypes.repostingsCount">
+          <span [ngPlural]="selectedRepostingCount">
+            <ng-template ngPluralCase="=0">
+              <h1 class="font-bold text-lg">Sobre as vagas que não foram repostadas</h1>
+            </ng-template>
 
-          <ng-template ngPluralCase="=1">
-            <h1 class="font-bold text-lg">
-              Sobre as vagas que foram repostadas {{ selectedRepostingCount }} vez
-            </h1>
-          </ng-template>
+            <ng-template ngPluralCase="=1">
+              <h1 class="font-bold text-lg">
+                Sobre as vagas que foram repostadas {{ selectedRepostingCount }} vez
+              </h1>
+            </ng-template>
 
-          <ng-template ngPluralCase="other">
-            <h1 class="font-bold text-lg">
-              Sobre as vagas que foram repostadas {{ selectedRepostingCount }} vezes
-            </h1>
-          </ng-template>
-        </span>
+            <ng-template ngPluralCase="other">
+              <h1 class="font-bold text-lg">
+                Sobre as vagas que foram repostadas {{ selectedRepostingCount }} vezes
+              </h1>
+            </ng-template>
+          </span>
+        </ng-container>
+
+        <ng-container *ngIf="selectedDataType === repostingsDataTypes.timeInDaysBetweenRepostings">
+          <span [ngPlural]="selectedTimeBetweenReposting">
+            <ng-template ngPluralCase="=0">
+              <h1 class="font-bold text-lg">Sobre as vagas que não foram repostadas</h1>
+            </ng-template>
+
+            <ng-template ngPluralCase="=1">
+              <h1 class="font-bold text-lg">Sobre as vagas que foram repostadas no mesmo dia</h1>
+            </ng-template>
+
+            <ng-template ngPluralCase="other">
+              <h1 class="font-bold text-lg">
+                Sobre as vagas que foram repostadas durante {{ selectedTimeBetweenReposting }} dias
+              </h1>
+            </ng-template>
+          </span>
+        </ng-container>
       </div>
     </div>
 

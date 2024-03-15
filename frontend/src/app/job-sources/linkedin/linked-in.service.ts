@@ -36,9 +36,18 @@ export class LinkedInService {
     return new Promise((resolve) => {
       const worker = this.createWorker();
       const searchData = this.easySearchService.getSearchData();
+
       if (worker) {
         worker.postMessage({ jobs, searchData });
-        worker.onmessage = ({ data }) => resolve(data);
+
+        let hasFinished = false;
+        worker.onmessage = ({ data }) => {
+          if (hasFinished) resolve(data);
+
+          if (data.loadingProgress == 1) hasFinished = true;
+          this.devJobsStatus.loadingProgress = data.loadingProgress;
+        };
+
         worker.onerror = () => resolve(mapLinkedInJobsToJobs(jobs, searchData));
         worker.onmessageerror = () => resolve(mapLinkedInJobsToJobs(jobs, searchData));
       } else {

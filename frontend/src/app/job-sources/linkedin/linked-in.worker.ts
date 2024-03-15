@@ -1,9 +1,24 @@
 /// <reference lib="webworker" />
 
-import { mapLinkedInJobsToJobs } from './linked-in.mapper';
+import { SearchData } from 'src/app/job/easy-search/easy-search.types';
+import { Job } from 'src/app/job/job.types';
+import { mapToJob, setRepostings } from './linked-in.mapper';
 import { LinkedInJob } from './linked-in.types';
 
-addEventListener('message', ({ data }) => {
-  const response = mapLinkedInJobsToJobs(data.jobs as LinkedInJob[], data.searchData);
-  postMessage(response);
+type LinkedInWorkerInput = { jobs: LinkedInJob[]; searchData: SearchData };
+
+addEventListener('message', ({ data }: MessageEvent<LinkedInWorkerInput>) => {
+  const jobsByCompanyMap = new Map<string, Job[]>();
+
+  const mappedJobs = data.jobs.map((jobs) => mapToJob(jobs, data.searchData, jobsByCompanyMap));
+
+  mappedJobs.forEach((job, index) => {
+    setRepostings(job, jobsByCompanyMap);
+
+    postMessage({
+      loadingProgress: (index + 1) / data.jobs.length,
+    });
+  });
+
+  postMessage(mappedJobs);
 });

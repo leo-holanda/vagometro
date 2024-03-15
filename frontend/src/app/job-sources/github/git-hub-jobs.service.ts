@@ -6,6 +6,7 @@ import { Job } from 'src/app/job/job.types';
 import { EasySearchService } from 'src/app/job/easy-search/easy-search.service';
 import { mapGitHubJobsToJobs } from './git-hub-jobs.mapper';
 import { JobCollectionStatus } from '../job-sources.types';
+import { GitHubCollections } from './git-hub-jobs.types';
 
 @Injectable({
   providedIn: 'root',
@@ -41,7 +42,7 @@ export class GitHubJobsService {
 
   async getJobsPromise(
     //TODO: Auto generate this types
-    type: 'frontend' | 'backend' | 'soujava' | 'react-brasil' | 'androiddevbr',
+    type: GitHubCollections,
   ): Promise<Job[]> {
     // https://gildas-lormeau.github.io/zip.js/
     // Try catch is not necessary. Errors are handled in Job Source Service.
@@ -69,12 +70,13 @@ export class GitHubJobsService {
     });
   }
 
-  getJobsObservable(
-    type: 'frontend' | 'backend' | 'soujava' | 'react-brasil' | 'androiddevbr',
-  ): Observable<Job[]> {
+  getJobsObservable(type: GitHubCollections): Observable<Job[]> {
     return defer(() => this.getJobsPromise(type)).pipe(
       first(),
-      tap(() => this.sendEventToUmami(type)),
+      tap(() => {
+        this.updateCollectionStatus(type);
+        this.sendEventToUmami(type);
+      }),
       shareReplay(),
     );
   }
@@ -93,6 +95,38 @@ export class GitHubJobsService {
     } else {
       console.error('Web workers are not supported in this environment.');
       return undefined;
+    }
+  }
+
+  private updateCollectionStatus(type: GitHubCollections): void {
+    switch (type) {
+      case 'frontend':
+        this.frontendJobsStatus.isDownloading = false;
+        this.frontendJobsStatus.isLoading = true;
+        break;
+
+      case 'backend':
+        this.backendJobsStatus.isDownloading = false;
+        this.backendJobsStatus.isLoading = true;
+        break;
+
+      case 'androiddevbr':
+        this.androidDevBrStatus.isDownloading = false;
+        this.androidDevBrStatus.isLoading = true;
+        break;
+
+      case 'react-brasil':
+        this.reactBrasilJobsStatus.isDownloading = false;
+        this.reactBrasilJobsStatus.isLoading = true;
+        break;
+
+      case 'soujava':
+        this.soujavaJobsStatus.isDownloading = false;
+        this.soujavaJobsStatus.isLoading = true;
+        break;
+
+      default:
+        break;
     }
   }
 }

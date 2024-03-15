@@ -100,7 +100,7 @@ export class JobSourcesService {
     );
 
     activeJobSources.forEach((jobSource) => {
-      if (!jobSource.status.isLoaded) jobSource.status.isLoading = true;
+      if (!jobSource.status.isLoaded) jobSource.status.isDownloading = true;
     });
 
     if (activeJobSources.length == 0) {
@@ -111,11 +111,13 @@ export class JobSourcesService {
           next: (jobs) => {
             currentJobs.push(...jobs);
             this.jobService.setJobs(currentJobs);
+            jobSource.status.isDownloading = false;
             jobSource.status.isLoading = false;
             jobSource.status.isLoaded = true;
           },
           error: (error) => {
             console.error(error);
+            jobSource.status.isDownloading = false;
             jobSource.status.isLoading = false;
             jobSource.status.isActive = false;
             jobSource.status.hasFailedToLoad = true;

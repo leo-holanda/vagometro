@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, defer, shareReplay, switchMap } from 'rxjs';
+import { Observable, defer, shareReplay, switchMap, tap } from 'rxjs';
 import { AtlasService } from 'src/app/atlas/atlas.service';
 import { Job } from 'src/app/job/job.types';
 import { mapLinkedInJobsToJobs } from './linked-in.mapper';
@@ -23,6 +23,10 @@ export class LinkedInService {
 
   getDevJobsObservable(): Observable<Job[]> {
     return this.atlasService.getLinkedInDevJobs().pipe(
+      tap(() => {
+        this.devJobsStatus.isDownloading = false;
+        this.devJobsStatus.isLoading = true;
+      }),
       switchMap((jobs) => defer(() => this.getWorkerPromise(jobs))),
       shareReplay(),
     );

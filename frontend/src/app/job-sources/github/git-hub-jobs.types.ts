@@ -9,3 +9,10 @@ export type GitHubJob = {
   closed_at: string;
   body: string;
 };
+
+export type GitHubCollections =
+  | 'frontend'
+  | 'backend'
+  | 'soujava'
+  | 'react-brasil'
+  | 'androiddevbr';

@@ -46,18 +46,24 @@
         [ngClass]="{
           'btn-warning': jobCollection.value.status.isActive,
           'btn-disabled':
-            jobCollection.value.status.isLoading || jobCollection.value.status.hasFailedToLoad
+            jobCollection.value.status.isDownloading ||
+            jobCollection.value.status.isLoading ||
+            jobCollection.value.status.hasFailedToLoad
         }"
       >
         <div class="flex items-center gap-2">
           <span
             class="text-balance"
             *ngIf="
-              !jobCollection.value.status.isLoading && !jobCollection.value.status.hasFailedToLoad
+              !jobCollection.value.status.isDownloading &&
+              !jobCollection.value.status.isLoading &&
+              !jobCollection.value.status.hasFailedToLoad
             "
           >
             {{ jobCollection.value.name }}
           </span>
+
+          <span *ngIf="jobCollection.value.status.isDownloading"> Baixando vagas... </span>
 
           <span *ngIf="jobCollection.value.status.isLoading"> Carregando dados... </span>
 
@@ -66,9 +72,13 @@
           </span>
         </div>
 
-        <span *ngIf="jobCollection.value.status.isLoading" class="loading loading-spinner"></span>
+        <span
+          *ngIf="jobCollection.value.status.isLoading || jobCollection.value.status.isDownloading"
+          class="loading loading-spinner"
+        ></span>
         <i
           *ngIf="
+            jobCollection.value.status.isDownloading === false &&
             jobCollection.value.status.isLoading === false &&
             jobCollection.value.status.isLoaded === false &&
             jobCollection.value.status.hasFailedToLoad === false

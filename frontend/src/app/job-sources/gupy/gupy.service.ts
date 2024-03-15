@@ -75,6 +75,10 @@ export class GupyService {
 
   private getRecruitmentJobsObservable(): Observable<Job[]> {
     return this.atlasService.getRecruitmentJobs().pipe(
+      tap(() => {
+        this.recruitmentJobsStatus.isDownloading = false;
+        this.recruitmentJobsStatus.isLoading = true;
+      }),
       switchMap((jobs) => defer(() => this.getWorkerPromise(jobs))),
       shareReplay(),
     );
@@ -82,6 +86,10 @@ export class GupyService {
 
   private getAgileRelatedJobsObservable(): Observable<Job[]> {
     return this.atlasService.getAgileRelatedJobs().pipe(
+      tap(() => {
+        this.agileRelatedJobsStatus.isDownloading = false;
+        this.agileRelatedJobsStatus.isLoading = true;
+      }),
       switchMap((jobs) => defer(() => this.getWorkerPromise(jobs))),
       shareReplay(),
     );
@@ -89,6 +97,10 @@ export class GupyService {
 
   private getProductManagerJobsObservable(): Observable<Job[]> {
     return this.atlasService.getProductManagerJobs().pipe(
+      tap(() => {
+        this.productManagerJobsStatus.isDownloading = false;
+        this.productManagerJobsStatus.isLoading = true;
+      }),
       switchMap((jobs) => defer(() => this.getWorkerPromise(jobs))),
       shareReplay(),
     );
@@ -96,6 +108,10 @@ export class GupyService {
 
   private getAIJobsObservable(): Observable<Job[]> {
     return this.atlasService.getAIJobs().pipe(
+      tap(() => {
+        this.aiJobsStatus.isDownloading = false;
+        this.aiJobsStatus.isLoading = true;
+      }),
       switchMap((jobs) => defer(() => this.getWorkerPromise(jobs))),
       shareReplay(),
     );
@@ -103,6 +119,10 @@ export class GupyService {
 
   private getQAJobsObservable(): Observable<Job[]> {
     return this.atlasService.getQAJobs().pipe(
+      tap(() => {
+        this.qaJobsStatus.isDownloading = false;
+        this.qaJobsStatus.isLoading = true;
+      }),
       switchMap((jobs) => defer(() => this.getWorkerPromise(jobs))),
       shareReplay(),
     );
@@ -110,6 +130,10 @@ export class GupyService {
 
   private getDataJobsObservable(): Observable<Job[]> {
     return this.atlasService.getDataJobs().pipe(
+      tap(() => {
+        this.dataJobsStatus.isDownloading = false;
+        this.dataJobsStatus.isLoading = true;
+      }),
       switchMap((jobs) => defer(() => this.getWorkerPromise(jobs))),
       shareReplay(),
     );
@@ -117,6 +141,10 @@ export class GupyService {
 
   private getUIUXJobsObservable(): Observable<Job[]> {
     return this.atlasService.getUIUXJobs().pipe(
+      tap(() => {
+        this.uiuxJobsStatus.isDownloading = false;
+        this.uiuxJobsStatus.isLoading = true;
+      }),
       switchMap((jobs) => defer(() => this.getWorkerPromise(jobs))),
       shareReplay(),
     );
@@ -124,6 +152,10 @@ export class GupyService {
 
   private getDevOpsJobsObservable(): Observable<Job[]> {
     return this.atlasService.getDevOpsJobs().pipe(
+      tap(() => {
+        this.devJobsStatus.isDownloading = false;
+        this.devJobsStatus.isLoading = true;
+      }),
       switchMap((jobs) => defer(() => this.getWorkerPromise(jobs))),
       shareReplay(),
     );
@@ -131,6 +163,10 @@ export class GupyService {
 
   private getMobileJobsObservable(): Observable<Job[]> {
     return this.atlasService.getMobileJobs().pipe(
+      tap(() => {
+        this.mobileJobsStatus.isDownloading = false;
+        this.mobileJobsStatus.isLoading = true;
+      }),
       switchMap((jobs) => defer(() => this.getWorkerPromise(jobs))),
       shareReplay(),
     );
@@ -138,6 +174,10 @@ export class GupyService {
 
   private getDevJobsObservable(): Observable<Job[]> {
     return this.atlasService.getWebDevJobs().pipe(
+      tap(() => {
+        this.devJobsStatus.isDownloading = false;
+        this.devJobsStatus.isLoading = true;
+      }),
       switchMap((jobs) => defer(() => this.getWorkerPromise(jobs))),
       shareReplay(),
     );

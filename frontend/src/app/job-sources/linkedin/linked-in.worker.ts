@@ -10,13 +10,19 @@ type LinkedInWorkerInput = { jobs: LinkedInJob[]; searchData: SearchData };
 addEventListener('message', ({ data }: MessageEvent<LinkedInWorkerInput>) => {
   const jobsByCompanyMap = new Map<string, Job[]>();
 
-  const mappedJobs = data.jobs.map((jobs) => mapToJob(jobs, data.searchData, jobsByCompanyMap));
+  const mappedJobs = data.jobs.map((jobs, index) => {
+    postMessage({
+      loadingProgress: (index + 1) / (data.jobs.length * 2),
+    });
+
+    return mapToJob(jobs, data.searchData, jobsByCompanyMap);
+  });
 
   mappedJobs.forEach((job, index) => {
     setRepostings(job, jobsByCompanyMap);
 
     postMessage({
-      loadingProgress: (index + 1) / data.jobs.length,
+      loadingProgress: (data.jobs.length + index + 1) / (data.jobs.length * 2),
     });
   });
 

@@ -32,7 +32,7 @@ export function mapGupyJobsToJobs(jobs: GupyJob[], searchData: SearchData | unde
     .sort((a, b) => (a.publishedDate > b.publishedDate ? -1 : 1));
 }
 
-function setRepostings(job: Job, jobsByCompanyMap: Map<string, Job[]>): Job {
+export function setRepostings(job: Job, jobsByCompanyMap: Map<string, Job[]>): Job {
   const jobsByCompany = jobsByCompanyMap.get(job.companyName) || [];
 
   const repostings = jobsByCompany.filter((jobFromCompany) => {
@@ -47,7 +47,7 @@ function setRepostings(job: Job, jobsByCompanyMap: Map<string, Job[]>): Job {
   return job;
 }
 
-function mapToJob(
+export function mapToJob(
   job: GupyJob,
   searchData: SearchData | undefined,
   jobsByCompanyMap: Map<string, Job[]>,
@@ -106,9 +106,6 @@ function findRepostingsStartAndEndDate(jobs: Job[]): { earliestDate: Date; lates
     if (job.publishedDate < earliestDate) earliestDate = job.publishedDate;
     if (job.publishedDate > latestDate) latestDate = job.publishedDate;
   });
-
-  console.log(earliestDate);
-  console.log(latestDate);
 
   return { earliestDate, latestDate };
 }

@@ -58,13 +58,21 @@ export class GupyService {
     this.recruitmentJobs$ = this.getRecruitmentJobsObservable();
   }
 
-  private getWorkerPromise(jobs: GupyJob[]): Promise<Job[]> {
+  private getWorkerPromise(jobs: GupyJob[], collectionStatus: JobCollectionStatus): Promise<Job[]> {
     return new Promise((resolve) => {
       const worker = this.createWorker();
       const searchData = this.easySearchService.getSearchData();
       if (worker) {
         worker.postMessage({ jobs, searchData });
-        worker.onmessage = ({ data }) => resolve(data);
+
+        let hasFinished = false;
+        worker.onmessage = ({ data }) => {
+          if (hasFinished) resolve(data);
+
+          if (data.loadingProgress == 1) hasFinished = true;
+          collectionStatus.loadingProgress = data.loadingProgress;
+        };
+
         worker.onerror = () => resolve(mapGupyJobsToJobs(jobs, searchData));
         worker.onmessageerror = () => resolve(mapGupyJobsToJobs(jobs, searchData));
       } else {
@@ -79,7 +87,7 @@ export class GupyService {
         this.recruitmentJobsStatus.isDownloading = false;
         this.recruitmentJobsStatus.isLoading = true;
       }),
-      switchMap((jobs) => defer(() => this.getWorkerPromise(jobs))),
+      switchMap((jobs) => defer(() => this.getWorkerPromise(jobs, this.recruitmentJobsStatus))),
       shareReplay(),
     );
   }
@@ -90,7 +98,7 @@ export class GupyService {
         this.agileRelatedJobsStatus.isDownloading = false;
         this.agileRelatedJobsStatus.isLoading = true;
       }),
-      switchMap((jobs) => defer(() => this.getWorkerPromise(jobs))),
+      switchMap((jobs) => defer(() => this.getWorkerPromise(jobs, this.agileRelatedJobsStatus))),
       shareReplay(),
     );
   }
@@ -101,7 +109,7 @@ export class GupyService {
         this.productManagerJobsStatus.isDownloading = false;
         this.productManagerJobsStatus.isLoading = true;
       }),
-      switchMap((jobs) => defer(() => this.getWorkerPromise(jobs))),
+      switchMap((jobs) => defer(() => this.getWorkerPromise(jobs, this.productManagerJobsStatus))),
       shareReplay(),
     );
   }
@@ -112,7 +120,7 @@ export class GupyService {
         this.aiJobsStatus.isDownloading = false;
         this.aiJobsStatus.isLoading = true;
       }),
-      switchMap((jobs) => defer(() => this.getWorkerPromise(jobs))),
+      switchMap((jobs) => defer(() => this.getWorkerPromise(jobs, this.aiJobsStatus))),
       shareReplay(),
     );
   }
@@ -123,7 +131,7 @@ export class GupyService {
         this.qaJobsStatus.isDownloading = false;
         this.qaJobsStatus.isLoading = true;
       }),
-      switchMap((jobs) => defer(() => this.getWorkerPromise(jobs))),
+      switchMap((jobs) => defer(() => this.getWorkerPromise(jobs, this.qaJobsStatus))),
       shareReplay(),
     );
   }
@@ -134,7 +142,7 @@ export class GupyService {
         this.dataJobsStatus.isDownloading = false;
         this.dataJobsStatus.isLoading = true;
       }),
-      switchMap((jobs) => defer(() => this.getWorkerPromise(jobs))),
+      switchMap((jobs) => defer(() => this.getWorkerPromise(jobs, this.dataJobsStatus))),
       shareReplay(),
     );
   }
@@ -145,7 +153,7 @@ export class GupyService {
         this.uiuxJobsStatus.isDownloading = false;
         this.uiuxJobsStatus.isLoading = true;
       }),
-      switchMap((jobs) => defer(() => this.getWorkerPromise(jobs))),
+      switchMap((jobs) => defer(() => this.getWorkerPromise(jobs, this.uiuxJobsStatus))),
       shareReplay(),
     );
   }
@@ -156,7 +164,7 @@ export class GupyService {
         this.devJobsStatus.isDownloading = false;
         this.devJobsStatus.isLoading = true;
       }),
-      switchMap((jobs) => defer(() => this.getWorkerPromise(jobs))),
+      switchMap((jobs) => defer(() => this.getWorkerPromise(jobs, this.devopsJobsStatus))),
       shareReplay(),
     );
   }
@@ -167,7 +175,7 @@ export class GupyService {
         this.mobileJobsStatus.isDownloading = false;
         this.mobileJobsStatus.isLoading = true;
       }),
-      switchMap((jobs) => defer(() => this.getWorkerPromise(jobs))),
+      switchMap((jobs) => defer(() => this.getWorkerPromise(jobs, this.mobileJobsStatus))),
       shareReplay(),
     );
   }
@@ -178,7 +186,7 @@ export class GupyService {
         this.devJobsStatus.isDownloading = false;
         this.devJobsStatus.isLoading = true;
       }),
-      switchMap((jobs) => defer(() => this.getWorkerPromise(jobs))),
+      switchMap((jobs) => defer(() => this.getWorkerPromise(jobs, this.devJobsStatus))),
       shareReplay(),
     );
   }

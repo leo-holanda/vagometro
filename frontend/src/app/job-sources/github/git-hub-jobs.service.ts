@@ -5,16 +5,26 @@ import * as zip from '@zip.js/zip.js';
 import { Job } from 'src/app/job/job.types';
 import { EasySearchService } from 'src/app/job/easy-search/easy-search.service';
 import { mapGitHubJobsToJobs } from './git-hub-jobs.mapper';
+import { JobCollectionStatus } from '../job-sources.types';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GitHubJobsService {
   frontendJobs$: Observable<Job[]>;
+  frontendJobsStatus!: JobCollectionStatus;
+
   backendJobs$: Observable<Job[]>;
+  backendJobsStatus!: JobCollectionStatus;
+
   soujavaJobs$: Observable<Job[]>;
+  soujavaJobsStatus!: JobCollectionStatus;
+
   reactBrasilJobs$: Observable<Job[]>;
+  reactBrasilJobsStatus!: JobCollectionStatus;
+
   androidDevBrJobs$: Observable<Job[]>;
+  androidDevBrStatus!: JobCollectionStatus;
 
   constructor(private easySearchService: EasySearchService) {
     //https://github.com/frontendbr/vagas/issues

@@ -89,7 +89,7 @@ export class AtlasService {
       switchMap(() => this.linkedInDevJobsCollection.find() as Observable<LinkedInJob[]>),
       tap(() =>
         this.sendEventToUmami(
-          `${jobCollectionsMap.linkedin_dev.source} - ${jobCollectionsMap.linkedin_dev.name}`,
+          `${jobCollectionsMap.linkedinDev.source} - ${jobCollectionsMap.linkedinDev.name}`,
         ),
       ),
     );
@@ -133,7 +133,7 @@ export class AtlasService {
       switchMap(() => this.aiJobsCollection.find() as Observable<GupyJob[]>),
       tap(() =>
         this.sendEventToUmami(
-          `${jobCollectionsMap.gupyia.source} - ${jobCollectionsMap.gupyia.name}`,
+          `${jobCollectionsMap.gupyIA.source} - ${jobCollectionsMap.gupyIA.name}`,
         ),
       ),
     );
@@ -144,7 +144,7 @@ export class AtlasService {
       switchMap(() => this.qaJobsCollection.find() as Observable<GupyJob[]>),
       tap(() =>
         this.sendEventToUmami(
-          `${jobCollectionsMap.gupyqa.source} - ${jobCollectionsMap.gupyqa.name}`,
+          `${jobCollectionsMap.gupyQA.source} - ${jobCollectionsMap.gupyQA.name}`,
         ),
       ),
     );
@@ -155,7 +155,7 @@ export class AtlasService {
       switchMap(() => this.dataJobsCollection.find() as Observable<GupyJob[]>),
       tap(() =>
         this.sendEventToUmami(
-          `${jobCollectionsMap.gupydados.source} - ${jobCollectionsMap.gupydados.name}`,
+          `${jobCollectionsMap.gupyDados.source} - ${jobCollectionsMap.gupyDados.name}`,
         ),
       ),
     );
@@ -166,7 +166,7 @@ export class AtlasService {
       switchMap(() => this.webdevJobsCollection.find() as Observable<GupyJob[]>),
       tap(() =>
         this.sendEventToUmami(
-          `${jobCollectionsMap.gupydev.source} - ${jobCollectionsMap.gupydev.name}`,
+          `${jobCollectionsMap.gupyDev.source} - ${jobCollectionsMap.gupyDev.name}`,
         ),
       ),
     );
@@ -177,7 +177,7 @@ export class AtlasService {
       switchMap(() => this.uiuxJobsCollection.find() as Observable<GupyJob[]>),
       tap(() =>
         this.sendEventToUmami(
-          `${jobCollectionsMap.gupyuiux.source} - ${jobCollectionsMap.gupyuiux.name}`,
+          `${jobCollectionsMap.gupyUIUX.source} - ${jobCollectionsMap.gupyUIUX.name}`,
         ),
       ),
     );
@@ -188,7 +188,7 @@ export class AtlasService {
       switchMap(() => this.mobileJobsCollection.find() as Observable<GupyJob[]>),
       tap(() =>
         this.sendEventToUmami(
-          `${jobCollectionsMap.gupymobile.source} - ${jobCollectionsMap.gupymobile.name}`,
+          `${jobCollectionsMap.gupyMobile.source} - ${jobCollectionsMap.gupyMobile.name}`,
         ),
       ),
     );
@@ -199,7 +199,7 @@ export class AtlasService {
       switchMap(() => this.devopsJobsCollection.find() as Observable<GupyJob[]>),
       tap(() =>
         this.sendEventToUmami(
-          `${jobCollectionsMap.gupydevops.source} - ${jobCollectionsMap.gupydevops.name}`,
+          `${jobCollectionsMap.gupyDevops.source} - ${jobCollectionsMap.gupyDevops.name}`,
         ),
       ),
     );

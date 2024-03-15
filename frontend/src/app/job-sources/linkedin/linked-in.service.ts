@@ -5,12 +5,14 @@ import { Job } from 'src/app/job/job.types';
 import { mapLinkedInJobsToJobs } from './linked-in.mapper';
 import { LinkedInJob } from './linked-in.types';
 import { EasySearchService } from 'src/app/job/easy-search/easy-search.service';
+import { JobCollectionStatus } from '../job-sources.types';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LinkedInService {
   devJobs$: Observable<Job[]>;
+  devJobsStatus!: JobCollectionStatus;
 
   constructor(
     private atlasService: AtlasService,

@@ -1,25 +1,45 @@
 import { Injectable } from '@angular/core';
-import { Observable, defer, shareReplay, switchMap } from 'rxjs';
+import { Observable, defer, shareReplay, switchMap, tap } from 'rxjs';
 import { AtlasService } from 'src/app/atlas/atlas.service';
 import { Job } from 'src/app/job/job.types';
 import { mapGupyJobsToJobs } from './gupy.mapper';
 import { GupyJob } from './gupy.types';
 import { EasySearchService } from 'src/app/job/easy-search/easy-search.service';
+import { JobCollectionStatus } from '../job-sources.types';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GupyService {
   devJobs$: Observable<Job[]>;
+  devJobsStatus!: JobCollectionStatus;
+
   mobileJobs$: Observable<Job[]>;
+  mobileJobsStatus!: JobCollectionStatus;
+
   devopsJobs$: Observable<Job[]>;
+  devopsJobsStatus!: JobCollectionStatus;
+
   uiuxJobs$: Observable<Job[]>;
+  uiuxJobsStatus!: JobCollectionStatus;
+
   dataJobs$: Observable<Job[]>;
+  dataJobsStatus!: JobCollectionStatus;
+
   qaJobs$: Observable<Job[]>;
+  qaJobsStatus!: JobCollectionStatus;
+
   aiJobs$: Observable<Job[]>;
+  aiJobsStatus!: JobCollectionStatus;
+
   productManagerJobs$: Observable<Job[]>;
+  productManagerJobsStatus!: JobCollectionStatus;
+
   agileRelatedJobs$: Observable<Job[]>;
+  agileRelatedJobsStatus!: JobCollectionStatus;
+
   recruitmentJobs$: Observable<Job[]>;
+  recruitmentJobsStatus!: JobCollectionStatus;
 
   constructor(
     private atlasService: AtlasService,

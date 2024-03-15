@@ -44,36 +44,39 @@
         class="btn btn-accent w-full flex-nowrap justify-between"
         (click)="toggleJobCollection(jobCollection.key)"
         [ngClass]="{
-          'btn-warning': jobCollection.value.isActive,
-          'btn-disabled': jobCollection.value.isLoading || jobCollection.value.hasFailedToLoad
+          'btn-warning': jobCollection.value.status.isActive,
+          'btn-disabled':
+            jobCollection.value.status.isLoading || jobCollection.value.status.hasFailedToLoad
         }"
       >
         <div class="flex items-center gap-2">
           <span
             class="text-balance"
-            *ngIf="!jobCollection.value.isLoading && !jobCollection.value.hasFailedToLoad"
+            *ngIf="
+              !jobCollection.value.status.isLoading && !jobCollection.value.status.hasFailedToLoad
+            "
           >
             {{ jobCollection.value.name }}
           </span>
 
-          <span *ngIf="jobCollection.value.isLoading"> Carregando dados... </span>
+          <span *ngIf="jobCollection.value.status.isLoading"> Carregando dados... </span>
 
-          <span *ngIf="jobCollection.value.hasFailedToLoad">
+          <span *ngIf="jobCollection.value.status.hasFailedToLoad">
             Falha ao carregar - Tente mais tarde
           </span>
         </div>
 
-        <span *ngIf="jobCollection.value.isLoading" class="loading loading-spinner"></span>
+        <span *ngIf="jobCollection.value.status.isLoading" class="loading loading-spinner"></span>
         <i
           *ngIf="
-            jobCollection.value.isLoading === false &&
-            jobCollection.value.isLoaded === false &&
-            jobCollection.value.hasFailedToLoad === false
+            jobCollection.value.status.isLoading === false &&
+            jobCollection.value.status.isLoaded === false &&
+            jobCollection.value.status.hasFailedToLoad === false
           "
           class="bx bxs-plus-circle"
         ></i>
-        <i *ngIf="jobCollection.value.hasFailedToLoad" class="bx bxs-x-circle"></i>
-        <i *ngIf="jobCollection.value.isLoaded" class="bx bxs-check-circle"></i>
+        <i *ngIf="jobCollection.value.status.hasFailedToLoad" class="bx bxs-x-circle"></i>
+        <i *ngIf="jobCollection.value.status.isLoaded" class="bx bxs-check-circle"></i>
       </button>
     </div>
   </div>

@@ -9,13 +9,13 @@ export enum JobSources {
 
 export enum JobCollections {
   // Gupy
-  gupydev = 'gupydev',
-  gupymobile = 'gupymobile',
-  gupydevops = 'gupydevops',
-  gupyuiux = 'gupyuiux',
-  gupydados = 'gupydados',
-  gupyqa = 'gupyqa',
-  gupyia = 'gupyia',
+  gupyDev = 'gupyDev',
+  gupyMobile = 'gupyMobile',
+  gupyDevops = 'gupyDevops',
+  gupyUIUX = 'gupyUIUX',
+  gupyDados = 'gupyDados',
+  gupyQA = 'gupyQA',
+  gupyIA = 'gupyIA',
   gupyProductManager = 'gupyProductManager',
   gupyAgileRelated = 'gupyAgileRelated',
   gupyRecruitment = 'gupyRecruitment',
@@ -24,38 +24,48 @@ export enum JobCollections {
   frontendbr = 'frontendbr',
   backendbr = 'backendbr',
   soujava = 'soujava',
-  reactBrasil = 'react-brasil',
-  androidDevBr = 'androiddevbr',
+  reactBrasil = 'reactBrasil',
+  androidDevBr = 'androidDevBr',
 
   //LinkedIn
-  linkedin_dev = 'linkedin_dev',
+  linkedinDev = 'linkedinDev',
 }
+
+export type JobCollectionStatus = {
+  isActive: boolean;
+  isDownloading: boolean;
+  isLoading: boolean;
+  isLoaded: boolean;
+  hasFailedToLoad: boolean;
+};
 
 export type JobCollectionData = {
   name: string;
   icon: string;
   source: string;
   dataSource: Observable<Job[]>;
-  isActive: boolean;
-  isLoading: boolean;
-  isLoaded: boolean;
-  hasFailedToLoad: boolean;
+  status: JobCollectionStatus;
   searchStringKeywords: string[];
   initialDailyFetchDate: string;
 };
 
 export type JobCollectionsMap = Record<JobCollections, JobCollectionData>;
 
+const status: JobCollectionStatus = {
+  isActive: false,
+  isDownloading: false,
+  isLoading: false,
+  isLoaded: false,
+  hasFailedToLoad: false,
+};
+
 export const jobCollectionsMap: JobCollectionsMap = {
-  gupydev: {
+  gupyDev: {
     name: 'Desenvolvimento Web',
     icon: 'bx bxs-business',
     source: JobSources.gupy,
     dataSource: new Observable(),
-    isActive: false,
-    isLoading: false,
-    isLoaded: false,
-    hasFailedToLoad: false,
+    status: { ...status },
     searchStringKeywords: [
       'desenvolvedor',
       'dev',
@@ -67,75 +77,57 @@ export const jobCollectionsMap: JobCollectionsMap = {
     ],
     initialDailyFetchDate: '19/12/2023',
   },
-  gupymobile: {
+  gupyMobile: {
     name: 'Mobile',
     icon: 'bx bxs-business',
     source: JobSources.gupy,
     dataSource: new Observable(),
-    isActive: false,
-    isLoading: false,
-    isLoaded: false,
-    hasFailedToLoad: false,
+    status: { ...status },
     searchStringKeywords: ['mobile', 'android', 'ios'],
     initialDailyFetchDate: '05/02/2024',
   },
-  gupydevops: {
+  gupyDevops: {
     name: 'DevOps',
     icon: 'bx bxs-business',
     source: JobSources.gupy,
     dataSource: new Observable(),
-    isActive: false,
-    isLoading: false,
-    isLoaded: false,
-    hasFailedToLoad: false,
+    status: { ...status },
     searchStringKeywords: ['devops', 'sre', 'devsecops', 'cloud'],
     initialDailyFetchDate: '05/02/2024',
   },
-  gupyuiux: {
+  gupyUIUX: {
     name: 'UI/UX',
     icon: 'bx bxs-business',
     source: JobSources.gupy,
     dataSource: new Observable(),
-    isActive: false,
-    isLoading: false,
-    isLoaded: false,
-    hasFailedToLoad: false,
+    status: { ...status },
     searchStringKeywords: ['ui', 'ux'],
     initialDailyFetchDate: '05/02/2024',
   },
-  gupydados: {
+  gupyDados: {
     name: 'Dados',
     icon: 'bx bxs-business',
     source: JobSources.gupy,
     dataSource: new Observable(),
-    isActive: false,
-    isLoading: false,
-    isLoaded: false,
-    hasFailedToLoad: false,
+    status: { ...status },
     searchStringKeywords: ['data', 'dados'],
     initialDailyFetchDate: '05/02/2024',
   },
-  gupyqa: {
+  gupyQA: {
     name: 'QA',
     icon: 'bx bxs-business',
     source: JobSources.gupy,
     dataSource: new Observable(),
-    isActive: false,
-    isLoading: false,
-    isLoaded: false,
-    hasFailedToLoad: false,
+    status: { ...status },
     searchStringKeywords: ['qa', 'teste', 'quality assurance'],
     initialDailyFetchDate: '09/02/2024',
   },
-  gupyia: {
+  gupyIA: {
     name: 'IA',
     icon: 'bx bxs-business',
     source: JobSources.gupy,
     dataSource: new Observable(),
-    isActive: false,
-    isLoading: false,
-    isLoaded: false,
-    hasFailedToLoad: false,
+    status: { ...status },
     searchStringKeywords: [
       'ia',
       'ai',
@@ -150,10 +142,7 @@ export const jobCollectionsMap: JobCollectionsMap = {
     icon: 'bx bxs-business',
     source: JobSources.gupy,
     dataSource: new Observable(),
-    isActive: false,
-    isLoading: false,
-    isLoaded: false,
-    hasFailedToLoad: false,
+    status: { ...status },
     searchStringKeywords: ['product manager'],
     initialDailyFetchDate: '22/02/2024',
   },
@@ -162,10 +151,7 @@ export const jobCollectionsMap: JobCollectionsMap = {
     icon: 'bx bxs-business',
     source: JobSources.gupy,
     dataSource: new Observable(),
-    isActive: false,
-    isLoading: false,
-    isLoaded: false,
-    hasFailedToLoad: false,
+    status: { ...status },
     searchStringKeywords: ['agilista', 'scrum', 'agile'],
     initialDailyFetchDate: '23/02/2024',
   },
@@ -174,10 +160,7 @@ export const jobCollectionsMap: JobCollectionsMap = {
     icon: 'bx bxs-business',
     source: JobSources.gupy,
     dataSource: new Observable(),
-    isActive: false,
-    isLoading: false,
-    isLoaded: false,
-    hasFailedToLoad: false,
+    status: { ...status },
     searchStringKeywords: ['recrutador', 'recruiter', 'recrutamento', 'recursos humanos', 'RH'],
     initialDailyFetchDate: '05/03/2024',
   },
@@ -186,10 +169,7 @@ export const jobCollectionsMap: JobCollectionsMap = {
     icon: 'bx bxl-github',
     source: JobSources.github,
     dataSource: new Observable(),
-    isActive: false,
-    isLoading: false,
-    isLoaded: false,
-    hasFailedToLoad: false,
+    status: { ...status },
     searchStringKeywords: ['não se aplica'],
     initialDailyFetchDate: 'Em progresso',
   },
@@ -198,10 +178,7 @@ export const jobCollectionsMap: JobCollectionsMap = {
     icon: 'bx bxl-github',
     source: JobSources.github,
     dataSource: new Observable(),
-    isActive: false,
-    isLoading: false,
-    isLoaded: false,
-    hasFailedToLoad: false,
+    status: { ...status },
     searchStringKeywords: ['não se aplica'],
     initialDailyFetchDate: 'Em progresso',
   },
@@ -210,46 +187,34 @@ export const jobCollectionsMap: JobCollectionsMap = {
     icon: 'bx bxl-github',
     source: JobSources.github,
     dataSource: new Observable(),
-    isActive: false,
-    isLoading: false,
-    isLoaded: false,
-    hasFailedToLoad: false,
+    status: { ...status },
     searchStringKeywords: ['não se aplica'],
     initialDailyFetchDate: 'Em progresso',
   },
-  'react-brasil': {
+  reactBrasil: {
     name: 'react-brasil/vagas',
     icon: 'bx bxl-github',
     source: JobSources.github,
     dataSource: new Observable(),
-    isActive: false,
-    isLoading: false,
-    isLoaded: false,
-    hasFailedToLoad: false,
+    status: { ...status },
     searchStringKeywords: ['não se aplica'],
     initialDailyFetchDate: 'Em progresso',
   },
-  androiddevbr: {
+  androidDevBr: {
     name: 'androiddevbr/vagas',
     icon: 'bx bxl-github',
     source: JobSources.github,
     dataSource: new Observable(),
-    isActive: false,
-    isLoading: false,
-    isLoaded: false,
-    hasFailedToLoad: false,
+    status: { ...status },
     searchStringKeywords: ['não se aplica'],
     initialDailyFetchDate: 'Em progresso',
   },
-  linkedin_dev: {
+  linkedinDev: {
     name: 'Desenvolvimento de software',
     icon: 'bx bxl-linkedin-square',
     source: JobSources.linkedin,
     dataSource: new Observable(),
-    isActive: false,
-    isLoading: false,
-    isLoaded: false,
-    hasFailedToLoad: false,
+    status: { ...status },
     searchStringKeywords: ['desenvolvedor'],
     initialDailyFetchDate: '08/02/2024',
   },

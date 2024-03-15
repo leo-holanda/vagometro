@@ -26,5 +26,7 @@ addEventListener('message', ({ data }: MessageEvent<GupyWorkerInput>) => {
     });
   });
 
+  mappedJobs.sort((a, b) => (a.publishedDate > b.publishedDate ? -1 : 1));
+
   postMessage(mappedJobs);
 });

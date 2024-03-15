@@ -26,5 +26,7 @@ addEventListener('message', ({ data }: MessageEvent<GitHubWorkerInput>) => {
     });
   });
 
+  mappedJobs.sort((a, b) => (a.publishedDate > b.publishedDate ? -1 : 1));
+
   postMessage(mappedJobs);
 });

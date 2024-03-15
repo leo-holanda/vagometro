@@ -59,9 +59,22 @@ export class GitHubJobsService {
     return new Promise((resolve) => {
       const worker = this.createWorker();
       const searchData = this.easySearchService.getSearchData();
+
+      const collectionStatus = this.getCollectionStatus(type);
+      collectionStatus.isDownloading = false;
+      collectionStatus.isLoading = true;
+
       if (worker) {
         worker.postMessage({ jobs: JSON.parse(jobs), searchData });
-        worker.onmessage = ({ data }) => resolve(data);
+
+        let hasFinished = false;
+        worker.onmessage = ({ data }) => {
+          if (hasFinished) resolve(data);
+
+          if (data.loadingProgress == 1) hasFinished = true;
+          collectionStatus.loadingProgress = data.loadingProgress;
+        };
+
         worker.onerror = () => resolve(mapGitHubJobsToJobs(JSON.parse(jobs), searchData));
         worker.onmessageerror = () => resolve(mapGitHubJobsToJobs(JSON.parse(jobs), searchData));
       } else {
@@ -74,7 +87,6 @@ export class GitHubJobsService {
     return defer(() => this.getJobsPromise(type)).pipe(
       first(),
       tap(() => {
-        this.updateCollectionStatus(type);
         this.sendEventToUmami(type);
       }),
       shareReplay(),
@@ -98,35 +110,22 @@ export class GitHubJobsService {
     }
   }
 
-  private updateCollectionStatus(type: GitHubCollections): void {
+  private getCollectionStatus(type: GitHubCollections): JobCollectionStatus {
     switch (type) {
       case 'frontend':
-        this.frontendJobsStatus.isDownloading = false;
-        this.frontendJobsStatus.isLoading = true;
-        break;
+        return this.frontendJobsStatus;
 
       case 'backend':
-        this.backendJobsStatus.isDownloading = false;
-        this.backendJobsStatus.isLoading = true;
-        break;
+        return this.backendJobsStatus;
 
       case 'androiddevbr':
-        this.androidDevBrStatus.isDownloading = false;
-        this.androidDevBrStatus.isLoading = true;
-        break;
+        return this.androidDevBrStatus;
 
       case 'react-brasil':
-        this.reactBrasilJobsStatus.isDownloading = false;
-        this.reactBrasilJobsStatus.isLoading = true;
-        break;
+        return this.reactBrasilJobsStatus;
 
       case 'soujava':
-        this.soujavaJobsStatus.isDownloading = false;
-        this.soujavaJobsStatus.isLoading = true;
-        break;
-
-      default:
-        break;
+        return this.soujavaJobsStatus;
     }
   }
 }

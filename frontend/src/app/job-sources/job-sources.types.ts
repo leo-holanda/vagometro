@@ -37,6 +37,7 @@ export type JobCollectionStatus = {
   isLoading: boolean;
   isLoaded: boolean;
   hasFailedToLoad: boolean;
+  loadingProgress: number;
 };
 
 export type JobCollectionData = {
@@ -57,6 +58,7 @@ const status: JobCollectionStatus = {
   isLoading: false,
   isLoaded: false,
   hasFailedToLoad: false,
+  loadingProgress: 0,
 };
 
 export const jobCollectionsMap: JobCollectionsMap = {

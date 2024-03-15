@@ -65,7 +65,9 @@
 
           <span *ngIf="jobCollection.value.status.isDownloading"> Baixando vagas... </span>
 
-          <span *ngIf="jobCollection.value.status.isLoading"> Carregando dados... </span>
+          <span *ngIf="jobCollection.value.status.isLoading">
+            Carregando dados... ({{ jobCollection.value.status.loadingProgress | percent }})
+          </span>
 
           <span *ngIf="jobCollection.value.status.hasFailedToLoad">
             Falha ao carregar - Tente mais tarde

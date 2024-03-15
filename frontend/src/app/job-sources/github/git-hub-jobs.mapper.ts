@@ -29,7 +29,7 @@ export function mapGitHubJobsToJobs(jobs: GitHubJob[], searchData: SearchData | 
     .sort((a, b) => (a.publishedDate > b.publishedDate ? -1 : 1));
 }
 
-function setRepostings(job: Job, jobsByCompanyMap: Map<string, Job[]>): Job {
+export function setRepostings(job: Job, jobsByCompanyMap: Map<string, Job[]>): Job {
   const jobsByCompany = jobsByCompanyMap.get(job.companyName) || [];
 
   const repostings = jobsByCompany.filter((jobFromCompany) => {

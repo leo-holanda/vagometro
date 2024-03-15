@@ -154,7 +154,15 @@
           >
             <div class="w-full flex justify-between">
               <span>{{ i + 1 + ". " + keyword.name }}</span>
-              <span>{{ keyword.count | number }}</span>
+              <div class="flex flex-wrap gap-2">
+                <span>{{ keyword.count | number }}</span>
+
+                <span class="text-gray-600"
+                  >({{
+                    keyword.percentage | percent: (keyword.percentage < 0.01 ? "1.1-2" : "1.0-0")
+                  }})</span
+                >
+              </div>
             </div>
             <progress
               class="progress w-full"

@@ -1,33 +1,45 @@
-<div class="join flex join-vertical sm:join-horizontal gap-2 mb-4">
+<div class="join flex join-vertical gap-2 mb-4">
   <button
-    class="btn join-item flex-1"
+    class="btn join-item flex w-full items-center justify-between"
     [ngClass]="{
       'btn-primary': selectedJobSource === jobSources.gupy
     }"
     (click)="setJobSource(jobSources.gupy)"
   >
-    <i class="bx bxs-business"></i>
-    Gupy
+    <div class="flex items-center gap-2">
+      <i class="bx bxs-business"></i>
+      Gupy
+    </div>
+
+    <span class='bx  bxs-chevron-right-circle'></span> 
   </button>
   <button
-    class="btn join-item flex-1"
+    class="btn join-item flex w-full items-center justify-between"
     [ngClass]="{
       'btn-primary': selectedJobSource === jobSources.github
     }"
     (click)="setJobSource(jobSources.github)"
   >
-    <i class="bx bxl-github"></i>
-    GitHub
+    <div class="flex items-center gap-2">
+      <i class="bx bxl-github"></i>
+      GitHub
+    </div>
+
+    <span class='bx  bxs-chevron-right-circle'></span>
   </button>
   <button
-    class="btn join-item flex-1"
+    class="btn join-item flex w-full items-center justify-between"
     [ngClass]="{
       'btn-primary': selectedJobSource === jobSources.linkedin
     }"
     (click)="setJobSource(jobSources.linkedin)"
   >
-    <i class="bx bxl-linkedin-square"></i>
-    LinkedIn
+    <div class="flex items-center gap-2">
+      <i class="bx bxl-linkedin-square"></i>
+      LinkedIn
+    </div>
+
+    <span class='bx  bxs-chevron-right-circle'></span>
   </button>
 </div>
 

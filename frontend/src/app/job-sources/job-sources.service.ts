@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { JobCollections, jobCollectionsMap, JobSources, Quarters } from './job-sources.types';
+import { JobCollections, jobCollectionsMap, JobSources, QuarterData, Quarters } from './job-sources.types';
 import { JobService } from '../job/job.service';
 import { BehaviorSubject, first } from 'rxjs';
 import { GupyService } from './gupy/gupy.service';
@@ -37,7 +37,7 @@ export class JobSourcesService {
     return `${jobSource}_${jobCollection}_${quarter}${year}`
   }
 
-  private setLinkedInJobs(): void {
+  private setLinkedInCollection(): void {
     this.jobCollectionsMap.linkedinDev.dataSource = this.linkedInService.devJobs$;
     this.linkedInService.devJobsStatus = this.jobCollectionsMap.linkedinDev.status;
   }
@@ -94,52 +94,61 @@ export class JobSourcesService {
   private updateJobs(): void {
     const currentJobs: Job[] = [];
 
-    const activeJobSources = Object.values(this.jobCollectionsMap).filter(
-      (jobSource) => jobSource.status.isActive,
+    const selectedQuarters: QuarterData[] = []
+    Object.values(this.jobCollectionsMap).forEach(
+      (jobSource) => {
+        for(const year in jobSource.dataByYear){
+          const yearsData = jobSource.dataByYear[year]
+          for(const quarter in yearsData){
+            const quarterData = yearsData[quarter as Quarters]
+            if(quarterData.isSelected) selectedQuarters.push(quarterData)
+          }
+        }
+      },
     );
 
-    activeJobSources.forEach((jobSource) => {
-      if (!jobSource.status.isLoaded) jobSource.status.isDownloading = true;
+    selectedQuarters.forEach((quarterData) => {
+      if (!quarterData.isLoaded) quarterData.isDownloading = true;
     });
 
-    if (activeJobSources.length == 0) {
+    if (selectedQuarters.length == 0) {
       this.jobService.setJobs(undefined);
     } else {
-      activeJobSources.forEach((jobSource) => {
-        jobSource.dataSource.pipe(first()).subscribe({
+      selectedQuarters.forEach((quarterData) => {
+        quarterData.dataSource.pipe(first()).subscribe({
           next: (jobs) => {
             currentJobs.push(...jobs);
             this.jobService.setJobs(currentJobs);
-            jobSource.status.isDownloading = false;
-            jobSource.status.isLoading = false;
-            jobSource.status.isLoaded = true;
+            quarterData.isDownloading = false;
+            quarterData.isLoading = false;
+            quarterData.isLoaded = true;
           },
           error: (error) => {
             console.error(error);
-            jobSource.status.isDownloading = false;
-            jobSource.status.isLoading = false;
-            jobSource.status.isActive = false;
-            jobSource.status.hasFailedToLoad = true;
+            quarterData.isDownloading = false;
+            quarterData.isLoading = false;
+            quarterData.isSelected = false;
+            quarterData.hasFailedToLoad = true;
           },
           complete: () => {
-            this.updateOneSourceFlag();
-            this.updateJobCollectionLoadedFlag();
+            this.updateOneSourceFlag(selectedQuarters);
+            this.updateJobCollectionLoadedFlag(selectedQuarters);
           },
         });
       });
     }
   }
 
-  private updateOneSourceFlag(): void {
-    const hasOneActiveJobSource = Object.values(jobCollectionsMap).some(
-      (jobSource) => jobSource.status.isLoaded && jobSource.status.isActive,
+  private updateOneSourceFlag(quarterData: QuarterData[]): void {
+    const hasOneActiveJobSource = quarterData.some(
+      (jobSource) => jobSource.isLoaded && jobSource.isSelected,
     );
     this._hasOneActiveJobSource$.next(hasOneActiveJobSource);
   }
 
-  private updateJobCollectionLoadedFlag(): void {
-    this.hasOneJobCollectionLoaded = Object.values(jobCollectionsMap).some(
-      (jobSource) => jobSource.status.isLoaded,
+  private updateJobCollectionLoadedFlag(quarterData: QuarterData[]): void {
+    this.hasOneJobCollectionLoaded = quarterData.some(
+      (jobSource) => jobSource.isLoaded,
     );
   }
 }

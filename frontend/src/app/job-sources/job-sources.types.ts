@@ -38,8 +38,9 @@ export enum JobCollections {
   linkedinDev = 'linkedinDev',
 }
 
-export type QuarterDataStatus = {
-  isActive: boolean;
+export type QuarterData = {
+  dataSource: Observable<Job[]>;
+  isSelected: boolean;
   isDownloading: boolean;
   isLoading: boolean;
   isLoaded: boolean;
@@ -48,14 +49,13 @@ export type QuarterDataStatus = {
 };
 
 
-export type QuartersMap = Record<Quarters, QuarterDataStatus>
+export type QuartersMap = Record<Quarters, QuarterData>
 export type YearsMap = Record<number, QuartersMap>
 
 export type JobCollectionData = {
   name: string;
   icon: string;
   source: string;
-  dataSource: Observable<Job[]>;
   dataByYear: YearsMap;
   searchStringKeywords: string[];
   initialDailyFetchDate: string;
@@ -63,8 +63,9 @@ export type JobCollectionData = {
 
 export type JobCollectionsMap = Record<JobCollections, JobCollectionData>;
 
-const status: QuarterDataStatus = {
-  isActive: false,
+const quarterData: QuarterData = {
+  dataSource: new Observable(),
+  isSelected: false,
   isDownloading: false,
   isLoading: false,
   isLoaded: false,
@@ -73,10 +74,10 @@ const status: QuarterDataStatus = {
 };
 
 const quartersMap: QuartersMap = {
-  Q1: {...status},
-  Q2: {...status},
-  Q3: {...status},
-  Q4: {...status},
+  Q1: {...quarterData},
+  Q2: {...quarterData},
+  Q3: {...quarterData},
+  Q4: {...quarterData},
 }
 
 const yearsMap: YearsMap = {
@@ -89,7 +90,6 @@ export const jobCollectionsMap: JobCollectionsMap = {
     name: 'Desenvolvimento Web',
     icon: 'bx bxs-business',
     source: JobSources.gupy,
-    dataSource: new Observable(),
     dataByYear: { ...yearsMap },
     searchStringKeywords: [
       'desenvolvedor',
@@ -106,7 +106,6 @@ export const jobCollectionsMap: JobCollectionsMap = {
     name: 'Mobile',
     icon: 'bx bxs-business',
     source: JobSources.gupy,
-    dataSource: new Observable(),
     dataByYear: { ...yearsMap },
     searchStringKeywords: ['mobile', 'android', 'ios'],
     initialDailyFetchDate: '05/02/2024',
@@ -115,7 +114,6 @@ export const jobCollectionsMap: JobCollectionsMap = {
     name: 'DevOps',
     icon: 'bx bxs-business',
     source: JobSources.gupy,
-    dataSource: new Observable(),
     dataByYear: { ...yearsMap },
     searchStringKeywords: ['devops', 'sre', 'devsecops', 'cloud'],
     initialDailyFetchDate: '05/02/2024',
@@ -124,7 +122,6 @@ export const jobCollectionsMap: JobCollectionsMap = {
     name: 'UI/UX',
     icon: 'bx bxs-business',
     source: JobSources.gupy,
-    dataSource: new Observable(),
     dataByYear: { ...yearsMap },
     searchStringKeywords: ['ui', 'ux'],
     initialDailyFetchDate: '05/02/2024',
@@ -133,7 +130,6 @@ export const jobCollectionsMap: JobCollectionsMap = {
     name: 'Dados',
     icon: 'bx bxs-business',
     source: JobSources.gupy,
-    dataSource: new Observable(),
     dataByYear: { ...yearsMap },
     searchStringKeywords: ['data', 'dados'],
     initialDailyFetchDate: '05/02/2024',
@@ -142,7 +138,6 @@ export const jobCollectionsMap: JobCollectionsMap = {
     name: 'QA',
     icon: 'bx bxs-business',
     source: JobSources.gupy,
-    dataSource: new Observable(),
     dataByYear: { ...yearsMap },
     searchStringKeywords: ['qa', 'teste', 'quality assurance'],
     initialDailyFetchDate: '09/02/2024',
@@ -151,7 +146,6 @@ export const jobCollectionsMap: JobCollectionsMap = {
     name: 'IA',
     icon: 'bx bxs-business',
     source: JobSources.gupy,
-    dataSource: new Observable(),
     dataByYear: { ...yearsMap },
     searchStringKeywords: [
       'ia',
@@ -166,7 +160,6 @@ export const jobCollectionsMap: JobCollectionsMap = {
     name: 'Product Manager',
     icon: 'bx bxs-business',
     source: JobSources.gupy,
-    dataSource: new Observable(),
     dataByYear: { ...yearsMap },
     searchStringKeywords: ['product manager'],
     initialDailyFetchDate: '22/02/2024',
@@ -175,7 +168,6 @@ export const jobCollectionsMap: JobCollectionsMap = {
     name: 'Agilista/Scrum Master',
     icon: 'bx bxs-business',
     source: JobSources.gupy,
-    dataSource: new Observable(),
     dataByYear: { ...yearsMap },
     searchStringKeywords: ['agilista', 'scrum', 'agile'],
     initialDailyFetchDate: '23/02/2024',
@@ -184,7 +176,6 @@ export const jobCollectionsMap: JobCollectionsMap = {
     name: 'Recrutamento',
     icon: 'bx bxs-business',
     source: JobSources.gupy,
-    dataSource: new Observable(),
     dataByYear: { ...yearsMap },
     searchStringKeywords: ['recrutador', 'recruiter', 'recrutamento', 'recursos humanos', 'RH'],
     initialDailyFetchDate: '05/03/2024',
@@ -193,7 +184,6 @@ export const jobCollectionsMap: JobCollectionsMap = {
     name: 'frontendbr/vagas',
     icon: 'bx bxl-github',
     source: JobSources.github,
-    dataSource: new Observable(),
     dataByYear: { ...yearsMap },
     searchStringKeywords: ['não se aplica'],
     initialDailyFetchDate: 'Em progresso',
@@ -202,7 +192,6 @@ export const jobCollectionsMap: JobCollectionsMap = {
     name: 'backend-br/vagas',
     icon: 'bx bxl-github',
     source: JobSources.github,
-    dataSource: new Observable(),
     dataByYear: { ...yearsMap },
     searchStringKeywords: ['não se aplica'],
     initialDailyFetchDate: 'Em progresso',
@@ -211,7 +200,6 @@ export const jobCollectionsMap: JobCollectionsMap = {
     name: 'soujava/vagas-java',
     icon: 'bx bxl-github',
     source: JobSources.github,
-    dataSource: new Observable(),
     dataByYear: { ...yearsMap },
     searchStringKeywords: ['não se aplica'],
     initialDailyFetchDate: 'Em progresso',
@@ -220,7 +208,6 @@ export const jobCollectionsMap: JobCollectionsMap = {
     name: 'react-brasil/vagas',
     icon: 'bx bxl-github',
     source: JobSources.github,
-    dataSource: new Observable(),
     dataByYear: { ...yearsMap },
     searchStringKeywords: ['não se aplica'],
     initialDailyFetchDate: 'Em progresso',
@@ -229,7 +216,6 @@ export const jobCollectionsMap: JobCollectionsMap = {
     name: 'androiddevbr/vagas',
     icon: 'bx bxl-github',
     source: JobSources.github,
-    dataSource: new Observable(),
     dataByYear: { ...yearsMap },
     searchStringKeywords: ['não se aplica'],
     initialDailyFetchDate: 'Em progresso',
@@ -238,7 +224,6 @@ export const jobCollectionsMap: JobCollectionsMap = {
     name: 'Desenvolvimento de software',
     icon: 'bx bxl-linkedin-square',
     source: JobSources.linkedin,
-    dataSource: new Observable(),
     dataByYear: { ...yearsMap },
     searchStringKeywords: ['desenvolvedor'],
     initialDailyFetchDate: '08/02/2024',

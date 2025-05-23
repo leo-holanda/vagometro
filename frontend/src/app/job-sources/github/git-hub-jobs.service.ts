@@ -5,7 +5,6 @@ import * as zip from '@zip.js/zip.js';
 import { Job } from 'src/app/job/job.types';
 import { EasySearchService } from 'src/app/job/easy-search/easy-search.service';
 import { mapGitHubJobsToJobs } from './git-hub-jobs.mapper';
-import { JobCollectionStatus } from '../job-sources.types';
 import { GitHubCollections } from './git-hub-jobs.types';
 
 @Injectable({

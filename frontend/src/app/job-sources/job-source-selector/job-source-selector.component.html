@@ -1,9 +1,6 @@
 <div *ngIf="!hasSelectedJobSource" class="join flex join-vertical gap-2 mb-4">
   <button
     class="btn join-item flex w-full items-center justify-between"
-    [ngClass]="{
-      'btn-primary': selectedJobSource === jobSources.gupy
-    }"
     (click)="setJobSource(jobSources.gupy)"
   >
     <div class="flex items-center gap-2">
@@ -15,9 +12,6 @@
   </button>
   <button
     class="btn join-item flex w-full items-center justify-between"
-    [ngClass]="{
-      'btn-primary': selectedJobSource === jobSources.github
-    }"
     (click)="setJobSource(jobSources.github)"
   >
     <div class="flex items-center gap-2">
@@ -29,9 +23,6 @@
   </button>
   <button
     class="btn join-item flex w-full items-center justify-between"
-    [ngClass]="{
-      'btn-primary': selectedJobSource === jobSources.linkedin
-    }"
     (click)="setJobSource(jobSources.linkedin)"
   >
     <div class="flex items-center gap-2">
@@ -54,53 +45,15 @@
     <div class="w-full">
       <button
         class="btn btn-accent w-full flex-nowrap justify-between"
-        (click)="toggleJobCollection(jobCollection.key)"
-        [ngClass]="{
-          'btn-warning': jobCollection.value.status.isActive,
-          'btn-disabled':
-            jobCollection.value.status.isDownloading ||
-            jobCollection.value.status.isLoading ||
-            jobCollection.value.status.hasFailedToLoad
-        }"
+        (click)="setJobCollection(jobCollection.key)"
       >
         <div class="flex items-center gap-2">
-          <span
-            class="text-balance"
-            *ngIf="
-              !jobCollection.value.status.isDownloading &&
-              !jobCollection.value.status.isLoading &&
-              !jobCollection.value.status.hasFailedToLoad
-            "
-          >
+          <span class="text-balance">
             {{ jobCollection.value.name }}
-          </span>
-
-          <span *ngIf="jobCollection.value.status.isDownloading"> Baixando vagas... </span>
-
-          <span *ngIf="jobCollection.value.status.isLoading">
-            Carregando dados... ({{ jobCollection.value.status.loadingProgress | percent }})
-          </span>
-
-          <span *ngIf="jobCollection.value.status.hasFailedToLoad">
-            Falha ao carregar - Tente mais tarde
           </span>
         </div>
 
-        <span
-          *ngIf="jobCollection.value.status.isLoading || jobCollection.value.status.isDownloading"
-          class="loading loading-spinner"
-        ></span>
-        <i
-          *ngIf="
-            jobCollection.value.status.isDownloading === false &&
-            jobCollection.value.status.isLoading === false &&
-            jobCollection.value.status.isLoaded === false &&
-            jobCollection.value.status.hasFailedToLoad === false
-          "
-          class="bx bxs-plus-circle"
-        ></i>
-        <i *ngIf="jobCollection.value.status.hasFailedToLoad" class="bx bxs-x-circle"></i>
-        <i *ngIf="jobCollection.value.status.isLoaded" class="bx bxs-check-circle"></i>
+        <i class="bx bxs-plus-circle"></i>
       </button>
     </div>
   </div>
@@ -109,13 +62,13 @@
 <div *ngIf="hasSelectedJobCollection">
   <div class="flex w-full items-center justify-between mb-4">
     <button class="btn btn-outline" [ngClass]="{
-        'btn-disabled': selectedSourceYear == 2024
+        'btn-disabled': selectedYear == 2024
       }" (click)="decreaseSourceYear()">
       <i class='bx bx-chevron-left'></i> 
     </button>
-    <span class="text-2xl font-bold"> {{ selectedSourceYear }} </span>
+    <span class="text-2xl font-bold"> {{ selectedYear }} </span>
     <button class="btn btn-outline" [ngClass]="{
-        'btn-disabled': selectedSourceYear == currentYear
+        'btn-disabled': selectedYear == currentYear
       }"
       (click)="increaseSourceYear()">
       <i class='bx bx-chevron-right'></i> 
@@ -123,22 +76,22 @@
   </div>
 
   <div class="flex flex-col gap-4 overflow-x-hidden">
-    <button class="btn btn-accent w-full flex-nowrap justify-between">
+    <button class="btn btn-accent w-full flex-nowrap justify-between" (click)="setJobCollectionQuarter(quarters.Q1)">
       <span>Q1 (Jan - Mar)</span>
       <i class="bx bxs-plus-circle"></i>
     </button>
 
-    <button class="btn btn-accent w-full flex-nowrap justify-between">
+    <button class="btn btn-accent w-full flex-nowrap justify-between" (click)="setJobCollectionQuarter(quarters.Q2)">
       <span>Q2 (Abr - Jun)</span>
       <i class="bx bxs-plus-circle"></i>
     </button>
     
-    <button class="btn btn-accent w-full flex-nowrap justify-between">
+    <button class="btn btn-accent w-full flex-nowrap justify-between" (click)="setJobCollectionQuarter(quarters.Q3)">
       <span>Q3 (Jul - Set)</span>
       <i class="bx bxs-plus-circle"></i>
     </button>
     
-    <button class="btn btn-accent w-full flex-nowrap justify-between">
+    <button class="btn btn-accent w-full flex-nowrap justify-between" (click)="setJobCollectionQuarter(quarters.Q4)">
       <span>Q4 (Out - Dez)</span>
       <i class="bx bxs-plus-circle"></i>
     </button>

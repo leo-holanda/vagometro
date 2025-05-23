@@ -6,6 +6,7 @@ import {
   JobCollections,
   JobCollectionsMap,
   JobSources,
+  Quarters,
   jobCollectionsMap,
 } from '../job-sources.types';
 
@@ -20,13 +21,19 @@ export class JobSourceSelectorComponent {
   selectedJobCollections!: JobCollectionsMap;
 
   jobCollectionsMap = jobCollectionsMap;
-  selectedJobSource?: JobSources;
-  hasSelectedJobSource = false;
-  hasSelectedJobCollection = false;
   jobSources = JobSources;
+  quarters = Quarters;
+
+  hasSelectedJobSource = false;
+
+  selectedJobCollection?: JobCollections;
+  hasSelectedJobCollection = false;
+
+  selectedQuarter?: Quarters;
+  hasSelectedQuarter = false;
 
   currentYear = new Date().getFullYear()
-  selectedSourceYear = this.currentYear;
+  selectedYear = this.currentYear;
 
   selectedJobCollectionInfo?: JobCollectionData = undefined;
 
@@ -43,17 +50,25 @@ export class JobSourceSelectorComponent {
     this.selectedJobCollections = this.gupyJobCollections;
   }
 
-  toggleJobCollection(jobCollection: string): void {
-    this.jobSourcesService.toggleJobCollection(jobCollection as JobCollections);
+  setJobCollection(jobCollection: string): void {
+    this.selectedJobCollection = jobCollection as JobCollections
     this.hasSelectedJobCollection = true;
   }
 
   setJobSource(jobSource: JobSources): void {
-    this.selectedJobSource = jobSource;
     this.hasSelectedJobSource = true;
     if (jobSource == JobSources.github) this.selectedJobCollections = this.githubJobCollections;
     else if (jobSource == JobSources.gupy) this.selectedJobCollections = this.gupyJobCollections;
     else this.selectedJobCollections = this.linkedInJobCollections;
+  }
+
+  setJobCollectionQuarter(quarter: Quarters): void {
+    this.selectedQuarter = quarter;
+
+    if(!this.selectedJobCollection) return
+    if(!this.selectedQuarter) return
+
+    this.jobSourcesService.updateJobsDataSelection(this.selectedJobCollection, this.selectedQuarter, this.selectedYear)
   }
 
   onInfoButtonClick(jobCollection: JobCollectionData): void {
@@ -62,11 +77,11 @@ export class JobSourceSelectorComponent {
   }
   
   decreaseSourceYear(): void {
-    this.selectedSourceYear -= 1
+    this.selectedYear -= 1
   }
 
   increaseSourceYear(): void {
-    this.selectedSourceYear += 1
+    this.selectedYear += 1
   }
 
   private getCollectionByJobSource(jobSource: JobSources): JobCollectionsMap {

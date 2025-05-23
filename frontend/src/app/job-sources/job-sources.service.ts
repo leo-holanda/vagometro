@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { JobCollections, jobCollectionsMap } from './job-sources.types';
+import { JobCollections, jobCollectionsMap, JobSources, Quarters } from './job-sources.types';
 import { JobService } from '../job/job.service';
 import { BehaviorSubject, first } from 'rxjs';
 import { GupyService } from './gupy/gupy.service';
@@ -28,14 +28,13 @@ export class JobSourcesService {
     this.setLinkedInJobs();
   }
 
-  toggleJobCollection(jobCollection: JobCollections): void {
-    const currentJobSourceState = this.jobCollectionsMap[jobCollection];
+  updateJobsDataSelection(selectedCollection: JobCollections, selectedQuarter: Quarters, selectedYear: number): void {
+    const selectedJobDataState = this.jobCollectionsMap[selectedCollection].dataByYear[selectedYear][selectedQuarter];
+    if (selectedJobDataState) selectedJobDataState.isActive = !selectedJobDataState.isActive;
+  }
 
-    if (currentJobSourceState)
-      this.jobCollectionsMap[jobCollection].status.isActive =
-        !currentJobSourceState.status.isActive;
-
-    this.updateJobs();
+  buildJobDataID(jobSource: JobSources, jobCollection: JobCollections, quarter: Quarters, year: number): string {
+    return `${jobSource}_${jobCollection}_${quarter}${year}`
   }
 
   private setLinkedInJobs(): void {

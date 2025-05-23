@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { JobCollections, jobCollectionsMap, JobSources, QuarterData, Quarters } from './job-sources.types';
+import { JobCollectionData, JobCollections, jobCollectionsMap, JobSources, QuarterData, Quarters } from './job-sources.types';
 import { JobService } from '../job/job.service';
 import { BehaviorSubject, first } from 'rxjs';
 import { GupyService } from './gupy/gupy.service';
@@ -23,72 +23,51 @@ export class JobSourcesService {
     private githubJobsService: GitHubJobsService,
     private linkedInService: LinkedInService,
   ) {
-    this.setGupyJobs();
-    this.setGitHubJobs();
-    this.setLinkedInJobs();
+    this.setGupyCollectionsSources();
+    this.setGitHubCollectionsSources();
+    this.setLinkedInCollectionsSources();
   }
 
-  updateJobsDataSelection(selectedCollection: JobCollections, selectedQuarter: Quarters, selectedYear: number): void {
+  updateSelectedCollections(selectedCollection: JobCollections, selectedQuarter: Quarters, selectedYear: number): void {
     const selectedJobDataState = this.jobCollectionsMap[selectedCollection].dataByYear[selectedYear][selectedQuarter];
-    if (selectedJobDataState) selectedJobDataState.isActive = !selectedJobDataState.isActive;
+    if (selectedJobDataState) selectedJobDataState.isSelected = !selectedJobDataState.isSelected;
   }
 
-  buildJobDataID(jobSource: JobSources, jobCollection: JobCollections, quarter: Quarters, year: number): string {
-    return `${jobSource}_${jobCollection}_${quarter}${year}`
+  private setLinkedInCollectionsSources(): void {
+    const linkedInYearsData = this.jobCollectionsMap.linkedinDev.dataByYear;
+    for (const year in linkedInYearsData){
+      const quarters = linkedInYearsData[year]
+      for (const quarter in quarters){
+        const quarterData = quarters[quarter as Quarters]
+        quarterData.dataSource = this.linkedInService.getJobsObservable(+year, quarter as Quarters, quarterData)
+      }
+    }
   }
 
-  private setLinkedInCollection(): void {
-    this.jobCollectionsMap.linkedinDev.dataSource = this.linkedInService.devJobs$;
-    this.linkedInService.devJobsStatus = this.jobCollectionsMap.linkedinDev.status;
+  private setGitHubCollectionsSources(): void {
+    const gitHubCollections = this.getCollectionsByJobSource(JobSources.github);
+     
+    for (const collection of gitHubCollections){
+      for(const yearKey in collection.dataByYear){
+        for(const quarterKey in collection.dataByYear[yearKey]){
+          const quarterData = collection.dataByYear[yearKey][quarterKey as Quarters]
+          quarterData.dataSource = this.githubJobsService.getJobsObservable(+yearKey, quarterKey as Quarters)     
+        }
+      }
+    }
   }
 
-  private setGitHubJobs(): void {
-    this.jobCollectionsMap.frontendbr.dataSource = this.githubJobsService.frontendJobs$;
-    this.githubJobsService.frontendJobsStatus = this.jobCollectionsMap.frontendbr.status;
-
-    this.jobCollectionsMap.backendbr.dataSource = this.githubJobsService.backendJobs$;
-    this.githubJobsService.backendJobsStatus = this.jobCollectionsMap.backendbr.status;
-
-    this.jobCollectionsMap.soujava.dataSource = this.githubJobsService.soujavaJobs$;
-    this.githubJobsService.soujavaJobsStatus = this.jobCollectionsMap.soujava.status;
-
-    this.jobCollectionsMap.reactBrasil.dataSource = this.githubJobsService.reactBrasilJobs$;
-    this.githubJobsService.reactBrasilJobsStatus = this.jobCollectionsMap.reactBrasil.status;
-
-    this.jobCollectionsMap.androidDevBr.dataSource = this.githubJobsService.androidDevBrJobs$;
-    this.githubJobsService.androidDevBrStatus = this.jobCollectionsMap.androidDevBr.status;
-  }
-
-  private setGupyJobs(): void {
-    this.jobCollectionsMap.gupyDev.dataSource = this.gupyService.devJobs$;
-    this.gupyService.devJobsStatus = this.jobCollectionsMap.gupyDev.status;
-
-    this.jobCollectionsMap.gupyMobile.dataSource = this.gupyService.mobileJobs$;
-    this.gupyService.mobileJobsStatus = this.jobCollectionsMap.gupyMobile.status;
-
-    this.jobCollectionsMap.gupyDevops.dataSource = this.gupyService.devopsJobs$;
-    this.gupyService.devopsJobsStatus = this.jobCollectionsMap.gupyDevops.status;
-
-    this.jobCollectionsMap.gupyUIUX.dataSource = this.gupyService.uiuxJobs$;
-    this.gupyService.uiuxJobsStatus = this.jobCollectionsMap.gupyUIUX.status;
-
-    this.jobCollectionsMap.gupyDados.dataSource = this.gupyService.dataJobs$;
-    this.gupyService.dataJobsStatus = this.jobCollectionsMap.gupyDados.status;
-
-    this.jobCollectionsMap.gupyQA.dataSource = this.gupyService.qaJobs$;
-    this.gupyService.qaJobsStatus = this.jobCollectionsMap.gupyQA.status;
-
-    this.jobCollectionsMap.gupyIA.dataSource = this.gupyService.aiJobs$;
-    this.gupyService.aiJobsStatus = this.jobCollectionsMap.gupyIA.status;
-
-    this.jobCollectionsMap.gupyProductManager.dataSource = this.gupyService.productManagerJobs$;
-    this.gupyService.productManagerJobsStatus = this.jobCollectionsMap.gupyProductManager.status;
-
-    this.jobCollectionsMap.gupyAgileRelated.dataSource = this.gupyService.agileRelatedJobs$;
-    this.gupyService.agileRelatedJobsStatus = this.jobCollectionsMap.gupyAgileRelated.status;
-
-    this.jobCollectionsMap.gupyRecruitment.dataSource = this.gupyService.recruitmentJobs$;
-    this.gupyService.recruitmentJobsStatus = this.jobCollectionsMap.gupyRecruitment.status;
+  private setGupyCollectionsSources(): void {
+    const gupyCollections = this.getCollectionsByJobSource(JobSources.gupy);
+        
+    for (const collection of gupyCollections){
+      for(const yearKey in collection.dataByYear){
+        for(const quarterKey in collection.dataByYear[yearKey]){
+          const quarterData = collection.dataByYear[yearKey][quarterKey as Quarters]
+          quarterData.dataSource = this.gupyService.(+yearKey, quarterKey as Quarters)     
+        }
+      }
+    }
   }
 
   private updateJobs(): void {
@@ -150,5 +129,16 @@ export class JobSourcesService {
     this.hasOneJobCollectionLoaded = quarterData.some(
       (jobSource) => jobSource.isLoaded,
     );
+  }
+
+  private getCollectionsByJobSource(jobSource: JobSources): JobCollectionData[] {
+    const collections: JobCollectionData[] = []
+    
+    for(const collectionKey in this.jobCollectionsMap){
+      const collection = this.jobCollectionsMap[collectionKey as JobCollections]
+      if(collection.source == jobSource) collections.push(collection)
+    }
+    
+    return collections
   }
 }

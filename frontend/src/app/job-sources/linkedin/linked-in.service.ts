@@ -5,34 +5,29 @@ import { Job } from 'src/app/job/job.types';
 import { mapLinkedInJobsToJobs } from './linked-in.mapper';
 import { LinkedInJob } from './linked-in.types';
 import { EasySearchService } from 'src/app/job/easy-search/easy-search.service';
-import { JobCollectionStatus } from '../job-sources.types';
+import { QuarterData, Quarters } from '../job-sources.types';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LinkedInService {
-  devJobs$: Observable<Job[]>;
-  devJobsStatus!: JobCollectionStatus;
-
   constructor(
     private atlasService: AtlasService,
     private easySearchService: EasySearchService,
-  ) {
-    this.devJobs$ = this.getDevJobsObservable();
-  }
+  ) {}
 
-  getDevJobsObservable(): Observable<Job[]> {
+  getJobsObservable(year: number, quarter: Quarters, quarterData: QuarterData): Observable<Job[]> {
     return this.atlasService.getLinkedInDevJobs().pipe(
       tap(() => {
-        this.devJobsStatus.isDownloading = false;
-        this.devJobsStatus.isLoading = true;
+        quarterData.isDownloading = false;
+        quarterData.isLoading = true;
       }),
-      switchMap((jobs) => defer(() => this.getWorkerPromise(jobs))),
+      switchMap((jobs) => defer(() => this.getWorkerPromise(jobs, quarterData))),
       shareReplay(),
     );
   }
 
-  private getWorkerPromise(jobs: LinkedInJob[]): Promise<Job[]> {
+  private getWorkerPromise(jobs: LinkedInJob[], quarterData: QuarterData): Promise<Job[]> {
     return new Promise((resolve) => {
       const worker = this.createWorker();
       const searchData = this.easySearchService.getSearchData();
@@ -45,7 +40,7 @@ export class LinkedInService {
           if (hasFinished) resolve(data);
 
           if (data.loadingProgress == 1) hasFinished = true;
-          this.devJobsStatus.loadingProgress = data.loadingProgress;
+          quarterData.loadingProgress = data.loadingProgress;
         };
 
         worker.onerror = () => resolve(mapLinkedInJobsToJobs(jobs, searchData));

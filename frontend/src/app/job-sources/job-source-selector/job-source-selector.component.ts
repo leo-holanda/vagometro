@@ -68,7 +68,7 @@ export class JobSourceSelectorComponent {
     if(!this.selectedJobCollection) return
     if(!this.selectedQuarter) return
 
-    this.jobSourcesService.updateJobsDataSelection(this.selectedJobCollection, this.selectedQuarter, this.selectedYear)
+    this.jobSourcesService.updateSelectedCollections(this.selectedJobCollection, this.selectedQuarter, this.selectedYear)
   }
 
   onInfoButtonClick(jobCollection: JobCollectionData): void {

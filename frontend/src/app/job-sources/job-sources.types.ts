@@ -1,6 +1,7 @@
 import { Observable } from 'rxjs';
 import { Job } from '../job/job.types';
 
+
 export enum JobSources {
   gupy = 'gupy',
   github = 'github',
@@ -12,6 +13,21 @@ export enum Quarters {
   Q2 = "Q2",
   Q3 = "Q3",
   Q4 = "Q4",
+}
+
+function getCurrentQuarter(): Quarters {
+  const today = new Date();
+  const month = today.getMonth(); // 0 = January, 11 = December
+
+  if (month >= 0 && month <= 2) {
+    return Quarters.Q1;
+  } else if (month >= 3 && month <= 5) {
+    return Quarters.Q2;
+  } else if (month >= 6 && month <= 8) {
+    return Quarters.Q3;
+  } else {
+    return Quarters.Q4;
+  }
 }
 
 export enum JobCollections {
@@ -40,6 +56,7 @@ export enum JobCollections {
 
 export type QuarterData = {
   dataSource: Observable<Job[]>;
+  isCurrentQuarter: boolean;
   isSelected: boolean;
   isDownloading: boolean;
   isLoading: boolean;
@@ -65,6 +82,7 @@ export type JobCollectionsMap = Record<JobCollections, JobCollectionData>;
 
 const quarterData: QuarterData = {
   dataSource: new Observable(),
+  isCurrentQuarter: false,
   isSelected: false,
   isDownloading: false,
   isLoading: false,
@@ -84,6 +102,10 @@ const yearsMap: YearsMap = {
   2024: quartersMap,
   2025: quartersMap,
 }
+
+const currentYear = new Date().getFullYear()
+const currentQuarter = getCurrentQuarter()
+yearsMap[currentYear][currentQuarter].isCurrentQuarter = true;
 
 export const jobCollectionsMap: JobCollectionsMap = {
   gupyDev: {

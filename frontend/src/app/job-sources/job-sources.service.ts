@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { JobCollectionData, JobCollections, jobCollectionsMap, JobSources, QuarterData, Quarters } from './job-sources.types';
+import { JobCollections, JobCollectionsMap, jobCollectionsMap, JobSources, QuarterData, Quarters } from './job-sources.types';
 import { JobService } from '../job/job.service';
 import { BehaviorSubject, first } from 'rxjs';
 import { GupyService } from './gupy/gupy.service';
@@ -39,7 +39,7 @@ export class JobSourcesService {
       const quarters = linkedInYearsData[year]
       for (const quarter in quarters){
         const quarterData = quarters[quarter as Quarters]
-        quarterData.dataSource = this.linkedInService.getJobsObservable(+year, quarter as Quarters, quarterData)
+        quarterData.dataSource = this.linkedInService.getJobs(JobCollections.linkedinDev, +year, quarter as Quarters, quarterData)
       }
     }
   }
@@ -47,24 +47,24 @@ export class JobSourcesService {
   private setGitHubCollectionsSources(): void {
     const gitHubCollections = this.getCollectionsByJobSource(JobSources.github);
      
-    for (const collection of gitHubCollections){
-      for(const yearKey in collection.dataByYear){
-        for(const quarterKey in collection.dataByYear[yearKey]){
-          const quarterData = collection.dataByYear[yearKey][quarterKey as Quarters]
-          quarterData.dataSource = this.githubJobsService.getJobsObservable(+yearKey, quarterKey as Quarters)     
+    for (const collectionKey in gitHubCollections){
+        for(const yearKey in gitHubCollections[collectionKey as JobCollections].dataByYear){
+          for(const quarterKey in gitHubCollections[collectionKey as JobCollections].dataByYear[yearKey]){
+            const quarterData = gitHubCollections[collectionKey as JobCollections].dataByYear[yearKey][quarterKey as Quarters]
+            quarterData.dataSource = this.githubJobsService.getJobs(collectionKey, +yearKey, quarterKey as Quarters, quarterData)     
+          } 
         }
-      }
     }
   }
 
   private setGupyCollectionsSources(): void {
     const gupyCollections = this.getCollectionsByJobSource(JobSources.gupy);
         
-    for (const collection of gupyCollections){
-      for(const yearKey in collection.dataByYear){
-        for(const quarterKey in collection.dataByYear[yearKey]){
-          const quarterData = collection.dataByYear[yearKey][quarterKey as Quarters]
-          quarterData.dataSource = this.gupyService.(+yearKey, quarterKey as Quarters)     
+    for (const collectionKey in gupyCollections){
+      for(const yearKey in gupyCollections[collectionKey as JobCollections].dataByYear){
+        for(const quarterKey in gupyCollections[collectionKey as JobCollections].dataByYear[yearKey]){
+          const quarterData = gupyCollections[collectionKey as JobCollections].dataByYear[yearKey][quarterKey as Quarters]
+          //quarterData.dataSource = this.gupyService.(+yearKey, quarterKey as Quarters)     
         }
       }
     }
@@ -131,14 +131,11 @@ export class JobSourcesService {
     );
   }
 
-  private getCollectionsByJobSource(jobSource: JobSources): JobCollectionData[] {
-    const collections: JobCollectionData[] = []
+  private getCollectionsByJobSource(jobSource: JobSources): JobCollectionsMap {
+    const jobSources = Object.entries(jobCollectionsMap).filter(
+       ([_, value]) => value.source == jobSource,
+     );
     
-    for(const collectionKey in this.jobCollectionsMap){
-      const collection = this.jobCollectionsMap[collectionKey as JobCollections]
-      if(collection.source == jobSource) collections.push(collection)
-    }
-    
-    return collections
+     return Object.fromEntries(jobSources) as JobCollectionsMap;
   }
 }

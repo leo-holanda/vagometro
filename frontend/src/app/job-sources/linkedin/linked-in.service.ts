@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Observable, defer, shareReplay, switchMap, tap } from 'rxjs';
+import { Observable, defer, first, shareReplay, switchMap, tap } from 'rxjs';
 import { AtlasService } from 'src/app/atlas/atlas.service';
 import { Job } from 'src/app/job/job.types';
 import { mapLinkedInJobsToJobs } from './linked-in.mapper';
 import { LinkedInJob } from './linked-in.types';
 import { EasySearchService } from 'src/app/job/easy-search/easy-search.service';
 import { QuarterData, Quarters } from '../job-sources.types';
+import { R2Service } from 'src/app/r2/r2.service';
 
 @Injectable({
   providedIn: 'root',
@@ -13,10 +14,16 @@ import { QuarterData, Quarters } from '../job-sources.types';
 export class LinkedInService {
   constructor(
     private atlasService: AtlasService,
+    private R2Service: R2Service,
     private easySearchService: EasySearchService,
   ) {}
 
-  getJobsObservable(year: number, quarter: Quarters, quarterData: QuarterData): Observable<Job[]> {
+  getJobs(collectionName: string, year: number, quarter: Quarters, quarterData: QuarterData): Observable<Job[]> {
+    if(quarterData.isCurrentQuarter) return this.getJobsFromAtlas(quarterData);
+    return this.getJobsFromR2(collectionName, year, quarter, quarterData);
+  }
+
+  private getJobsFromAtlas(quarterData: QuarterData): Observable<Job[]> {
     return this.atlasService.getLinkedInDevJobs().pipe(
       tap(() => {
         quarterData.isDownloading = false;
@@ -25,6 +32,26 @@ export class LinkedInService {
       switchMap((jobs) => defer(() => this.getWorkerPromise(jobs, quarterData))),
       shareReplay(),
     );
+  }
+
+  private getJobsFromR2(collectionName: string, year: number, quarter: Quarters, quarterData: QuarterData): Observable<Job[]> {
+    return defer(() => this.getJobsPromise(collectionName, year, quarter, quarterData)).pipe(
+          first(),
+          tap(() => {
+            this.sendEventToUmami(collectionName);
+          }),
+          shareReplay(),
+        );
+  }
+
+  private async getJobsPromise(
+    collectionName: string,
+    year: number,
+    quarter: Quarters,
+    quarterData: QuarterData
+  ): Promise<Job[]> {
+    const jobs = await this.R2Service.getJobs(collectionName, year, quarter) as LinkedInJob[];
+    return this.getWorkerPromise(jobs, quarterData)
   }
 
   private getWorkerPromise(jobs: LinkedInJob[], quarterData: QuarterData): Promise<Job[]> {
@@ -57,6 +84,14 @@ export class LinkedInService {
     } else {
       console.error('Web workers are not supported in this environment.');
       return undefined;
+    }
+  }
+
+  private sendEventToUmami(event: string): void {
+    try {
+      (window as any).umami.track(event);
+    } catch (error) {
+      console.warn('Umami not available');
     }
   }
 }

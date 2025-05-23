@@ -1,4 +1,4 @@
-<div class="join flex join-vertical gap-2 mb-4">
+<div *ngIf="!hasSelectedJobSource" class="join flex join-vertical gap-2 mb-4">
   <button
     class="btn join-item flex w-full items-center justify-between"
     [ngClass]="{
@@ -43,7 +43,7 @@
   </button>
 </div>
 
-<main class="flex flex-col gap-4 rounded-box overflow-y-auto overflow-x-hidden max-h-52 pr-2">
+<div *ngIf="hasSelectedJobSource && !hasSelectedJobCollection" class="flex flex-col gap-4 rounded-box overflow-y-auto overflow-x-hidden max-h-52 pr-2">
   <div
     class="flex items-center gap-2"
     *ngFor="let jobCollection of selectedJobCollections | keyvalue"
@@ -104,7 +104,46 @@
       </button>
     </div>
   </div>
-</main>
+</div>
+
+<div *ngIf="hasSelectedJobCollection">
+  <div class="flex w-full items-center justify-between mb-4">
+    <button class="btn btn-outline" [ngClass]="{
+        'btn-disabled': selectedSourceYear == 2024
+      }" (click)="decreaseSourceYear()">
+      <i class='bx bx-chevron-left'></i> 
+    </button>
+    <span class="text-2xl font-bold"> {{ selectedSourceYear }} </span>
+    <button class="btn btn-outline" [ngClass]="{
+        'btn-disabled': selectedSourceYear == currentYear
+      }"
+      (click)="increaseSourceYear()">
+      <i class='bx bx-chevron-right'></i> 
+    </button>
+  </div>
+
+  <div class="flex flex-col gap-4 overflow-x-hidden">
+    <button class="btn btn-accent w-full flex-nowrap justify-between">
+      <span>Q1 (Jan - Mar)</span>
+      <i class="bx bxs-plus-circle"></i>
+    </button>
+
+    <button class="btn btn-accent w-full flex-nowrap justify-between">
+      <span>Q2 (Abr - Jun)</span>
+      <i class="bx bxs-plus-circle"></i>
+    </button>
+    
+    <button class="btn btn-accent w-full flex-nowrap justify-between">
+      <span>Q3 (Jul - Set)</span>
+      <i class="bx bxs-plus-circle"></i>
+    </button>
+    
+    <button class="btn btn-accent w-full flex-nowrap justify-between">
+      <span>Q4 (Out - Dez)</span>
+      <i class="bx bxs-plus-circle"></i>
+    </button>
+  </div>
+</div>
 
 <dialog #jobCollectionInfoModal class="modal">
   <div class="modal-box">

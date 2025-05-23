@@ -20,8 +20,13 @@ export class JobSourceSelectorComponent {
   selectedJobCollections!: JobCollectionsMap;
 
   jobCollectionsMap = jobCollectionsMap;
-  selectedJobSource = JobSources.gupy;
+  selectedJobSource?: JobSources;
+  hasSelectedJobSource = false;
+  hasSelectedJobCollection = false;
   jobSources = JobSources;
+
+  currentYear = new Date().getFullYear()
+  selectedSourceYear = this.currentYear;
 
   selectedJobCollectionInfo?: JobCollectionData = undefined;
 
@@ -40,10 +45,12 @@ export class JobSourceSelectorComponent {
 
   toggleJobCollection(jobCollection: string): void {
     this.jobSourcesService.toggleJobCollection(jobCollection as JobCollections);
+    this.hasSelectedJobCollection = true;
   }
 
   setJobSource(jobSource: JobSources): void {
     this.selectedJobSource = jobSource;
+    this.hasSelectedJobSource = true;
     if (jobSource == JobSources.github) this.selectedJobCollections = this.githubJobCollections;
     else if (jobSource == JobSources.gupy) this.selectedJobCollections = this.gupyJobCollections;
     else this.selectedJobCollections = this.linkedInJobCollections;
@@ -52,6 +59,14 @@ export class JobSourceSelectorComponent {
   onInfoButtonClick(jobCollection: JobCollectionData): void {
     this.selectedJobCollectionInfo = jobCollection;
     if (this.jobCollectionInfoModal) this.jobCollectionInfoModal.nativeElement.showModal();
+  }
+  
+  decreaseSourceYear(): void {
+    this.selectedSourceYear -= 1
+  }
+
+  increaseSourceYear(): void {
+    this.selectedSourceYear += 1
   }
 
   private getCollectionByJobSource(jobSource: JobSources): JobCollectionsMap {

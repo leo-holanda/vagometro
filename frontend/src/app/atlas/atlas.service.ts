@@ -4,14 +4,15 @@ import { Observable, defer, shareReplay, switchMap, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { GupyJob } from '../job-sources/gupy/gupy.types';
 import { LinkedInJob } from '../job-sources/linkedin/linked-in.types';
-import { JobCollections, jobCollectionsMap } from '../job-sources/job-sources.types';
+import { JobCollections } from '../job-sources/job-sources.types';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AtlasService {
   private connectionObservable$: any;
-  private collectionsMap!: Record<JobCollections, any>
+  //TODO: Remove this service and implement another API
+  private collectionsMap: Record<any, any> = {};
 
   constructor() {
     this.connectionObservable$ = defer(() => this.openConnection()).pipe(shareReplay());
@@ -71,26 +72,19 @@ export class AtlasService {
     }
   }
 
-
   getGupyJobs(collectionName: JobCollections): Observable<GupyJob[]> {
     return this.connectionObservable$.pipe(
       switchMap(() => this.collectionsMap[collectionName].find() as Observable<GupyJob[]>),
-      tap(() =>
-        this.sendEventToUmami(
-          `${collectionName.toString()}`,
-        ),
-      ),
+      tap(() => this.sendEventToUmami(`${collectionName.toString()}`)),
     );
   }
 
   getLinkedInJobs(): Observable<LinkedInJob[]> {
     return this.connectionObservable$.pipe(
-      switchMap(() => this.collectionsMap[JobCollections.linkedinDev].find() as Observable<LinkedInJob[]>),
-      tap(() =>
-        this.sendEventToUmami(
-          `${JobCollections.linkedinDev.toString()}`,
-        ),
+      switchMap(
+        () => this.collectionsMap[JobCollections.linkedinDev].find() as Observable<LinkedInJob[]>,
       ),
+      tap(() => this.sendEventToUmami(`${JobCollections.linkedinDev.toString()}`)),
     );
   }
 

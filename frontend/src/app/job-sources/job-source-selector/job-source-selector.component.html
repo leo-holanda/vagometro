@@ -8,7 +8,7 @@
       Gupy
     </div>
 
-    <span class='bx  bxs-chevron-right-circle'></span> 
+    <span class="bx bxs-chevron-right-circle"></span>
   </button>
   <button
     class="btn join-item flex w-full items-center justify-between"
@@ -19,7 +19,7 @@
       GitHub
     </div>
 
-    <span class='bx  bxs-chevron-right-circle'></span>
+    <span class="bx bxs-chevron-right-circle"></span>
   </button>
   <button
     class="btn join-item flex w-full items-center justify-between"
@@ -30,11 +30,14 @@
       LinkedIn
     </div>
 
-    <span class='bx  bxs-chevron-right-circle'></span>
+    <span class="bx bxs-chevron-right-circle"></span>
   </button>
 </div>
 
-<div *ngIf="hasSelectedJobSource && !hasSelectedJobCollection" class="flex flex-col gap-4 rounded-box overflow-y-auto overflow-x-hidden max-h-52 pr-2">
+<div
+  *ngIf="hasSelectedJobSource && !hasSelectedJobCollection"
+  class="flex flex-col gap-4 rounded-box overflow-y-auto overflow-x-hidden max-h-52 pr-2"
+>
   <div
     class="flex items-center gap-2"
     *ngFor="let jobCollection of selectedJobCollections | keyvalue"
@@ -52,8 +55,6 @@
             {{ jobCollection.value.name }}
           </span>
         </div>
-
-        <i class="bx bxs-plus-circle"></i>
       </button>
     </div>
   </div>
@@ -61,28 +62,40 @@
 
 <div *ngIf="hasSelectedJobCollection">
   <div class="flex w-full items-center justify-between mb-4">
-    <button class="btn btn-outline" [ngClass]="{
+    <button
+      class="btn btn-outline"
+      [ngClass]="{
         'btn-disabled': selectedYear == 2024
-      }" (click)="decreaseSelectedYear()">
-      <i class='bx bx-chevron-left'></i> 
+      }"
+      (click)="decreaseSelectedYear()"
+    >
+      <i class="bx bx-chevron-left"></i>
     </button>
     <span class="text-2xl font-bold"> {{ selectedYear }} </span>
-    <button class="btn btn-outline" [ngClass]="{
+    <button
+      class="btn btn-outline"
+      [ngClass]="{
         'btn-disabled': selectedYear == currentYear
       }"
-      (click)="increaseSelectedYear()">
-      <i class='bx bx-chevron-right'></i> 
+      (click)="increaseSelectedYear()"
+    >
+      <i class="bx bx-chevron-right"></i>
     </button>
   </div>
 
   <div class="flex flex-col gap-4 overflow-x-hidden">
-    <button *ngFor="let quarter of quarters | keyvalue" class="btn btn-accent w-full flex-nowrap justify-between" [ngClass]="{
-      'btn-warning': quartersDataMap[quarter.value].isSelected,
-      'btn-disabled':
-        quartersDataMap[quarter.value].isDownloading ||
-        quartersDataMap[quarter.value].isLoading ||
-        quartersDataMap[quarter.value].hasFailedToLoad
-    }" (click)="setJobCollectionQuarter(quarter.value)">
+    <button
+      *ngFor="let quarter of quarters | keyvalue"
+      class="btn btn-accent w-full flex-nowrap justify-between"
+      [ngClass]="{
+        'btn-warning': quartersDataMap[quarter.value].isSelected,
+        'btn-disabled':
+          quartersDataMap[quarter.value].isDownloading ||
+          quartersDataMap[quarter.value].isLoading ||
+          quartersDataMap[quarter.value].hasFailedToLoad
+      }"
+      (click)="setJobCollectionQuarter(quarter.value)"
+    >
       <div class="flex items-center gap-2">
         <span
           class="text-balance"
@@ -98,7 +111,6 @@
             <span *ngSwitchCase="quarters.Q3">Q3 (Jul - Set)</span>
             <span *ngSwitchCase="quarters.Q4">Q4 (Out - Dez)</span>
           </ng-container>
-
         </span>
 
         <span *ngIf="quartersDataMap[quarter.value].isDownloading"> Baixando vagas... </span>
@@ -113,7 +125,9 @@
       </div>
 
       <span
-        *ngIf="quartersDataMap[quarter.value].isLoading || quartersDataMap[quarter.value].isDownloading"
+        *ngIf="
+          quartersDataMap[quarter.value].isLoading || quartersDataMap[quarter.value].isDownloading
+        "
         class="loading loading-spinner"
       ></span>
       <i

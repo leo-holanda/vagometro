@@ -64,7 +64,7 @@ export class JobSourcesService {
       for(const yearKey in gupyCollections[collectionKey as JobCollections].dataByYear){
         for(const quarterKey in gupyCollections[collectionKey as JobCollections].dataByYear[yearKey]){
           const quarterData = gupyCollections[collectionKey as JobCollections].dataByYear[yearKey][quarterKey as Quarters]
-          //quarterData.dataSource = this.gupyService.(+yearKey, quarterKey as Quarters)     
+          quarterData.dataSource = this.gupyService.getJobs(collectionKey as JobCollections, +yearKey, quarterKey as Quarters, quarterData)     
         }
       }
     }

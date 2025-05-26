@@ -24,7 +24,7 @@ export class LinkedInService {
   }
 
   private getJobsFromAtlas(quarterData: QuarterData): Observable<Job[]> {
-    return this.atlasService.getLinkedInDevJobs().pipe(
+    return this.atlasService.getLinkedInJobs().pipe(
       tap(() => {
         quarterData.isDownloading = false;
         quarterData.isLoading = true;

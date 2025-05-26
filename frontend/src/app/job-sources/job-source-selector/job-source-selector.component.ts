@@ -7,7 +7,7 @@ import {
   JobCollectionsMap,
   JobSources,
   Quarters,
-  defaultQuarterData,
+  createQuarterData,
   jobCollectionsMap,
 } from '../job-sources.types';
 
@@ -30,16 +30,16 @@ export class JobSourceSelectorComponent {
   selectedJobCollection?: JobCollections;
   hasSelectedJobCollection = false;
   quartersDataMap = {
-    "Q1": defaultQuarterData,
-    "Q2": defaultQuarterData,
-    "Q3": defaultQuarterData,
-    "Q4": defaultQuarterData,
+    Q1: createQuarterData(),
+    Q2: createQuarterData(),
+    Q3: createQuarterData(),
+    Q4: createQuarterData(),
   };
 
   selectedQuarter?: Quarters;
   hasSelectedQuarter = false;
 
-  currentYear = new Date().getFullYear()
+  currentYear = new Date().getFullYear();
   selectedYear = this.currentYear;
 
   selectedJobCollectionInfo?: JobCollectionData = undefined;
@@ -58,9 +58,9 @@ export class JobSourceSelectorComponent {
   }
 
   setJobCollection(jobCollection: string): void {
-    this.selectedJobCollection = jobCollection as JobCollections
+    this.selectedJobCollection = jobCollection as JobCollections;
     this.hasSelectedJobCollection = true;
-    this.updateQuartersDataMap()
+    this.updateQuartersDataMap();
   }
 
   setJobSource(jobSource: JobSources): void {
@@ -73,23 +73,29 @@ export class JobSourceSelectorComponent {
   setJobCollectionQuarter(quarter: Quarters): void {
     this.selectedQuarter = quarter;
 
-    if(!this.selectedJobCollection) return
-    if(!this.selectedQuarter) return
+    if (!this.selectedJobCollection) return;
+    if (!this.selectedQuarter) return;
 
-    this.jobSourcesService.updateSelectedCollections(this.selectedJobCollection, this.selectedQuarter, this.selectedYear)
+    this.jobSourcesService.updateSelectedCollections(
+      this.selectedJobCollection,
+      this.selectedQuarter,
+      this.selectedYear,
+    );
   }
 
   onInfoButtonClick(jobCollection: JobCollectionData): void {
     this.selectedJobCollectionInfo = jobCollection;
     if (this.jobCollectionInfoModal) this.jobCollectionInfoModal.nativeElement.showModal();
   }
-  
+
   decreaseSelectedYear(): void {
-    this.selectedYear -= 1
+    this.selectedYear -= 1;
+    this.updateQuartersDataMap();
   }
 
   increaseSelectedYear(): void {
-    this.selectedYear += 1
+    this.selectedYear += 1;
+    this.updateQuartersDataMap();
   }
 
   private getCollectionByJobSource(jobSource: JobSources): JobCollectionsMap {
@@ -100,10 +106,14 @@ export class JobSourceSelectorComponent {
   }
 
   private updateQuartersDataMap(): void {
-    if(!this.selectedJobCollection) return
-    this.quartersDataMap[Quarters.Q1] = this.jobCollectionsMap[this.selectedJobCollection].dataByYear[this.selectedYear].Q1
-    this.quartersDataMap[Quarters.Q2] = this.jobCollectionsMap[this.selectedJobCollection].dataByYear[this.selectedYear].Q2
-    this.quartersDataMap[Quarters.Q3] = this.jobCollectionsMap[this.selectedJobCollection].dataByYear[this.selectedYear].Q3
-    this.quartersDataMap[Quarters.Q4] = this.jobCollectionsMap[this.selectedJobCollection].dataByYear[this.selectedYear].Q4
+    if (!this.selectedJobCollection) return;
+    this.quartersDataMap[Quarters.Q1] =
+      this.jobCollectionsMap[this.selectedJobCollection].dataByYear[this.selectedYear].Q1;
+    this.quartersDataMap[Quarters.Q2] =
+      this.jobCollectionsMap[this.selectedJobCollection].dataByYear[this.selectedYear].Q2;
+    this.quartersDataMap[Quarters.Q3] =
+      this.jobCollectionsMap[this.selectedJobCollection].dataByYear[this.selectedYear].Q3;
+    this.quartersDataMap[Quarters.Q4] =
+      this.jobCollectionsMap[this.selectedJobCollection].dataByYear[this.selectedYear].Q4;
   }
 }

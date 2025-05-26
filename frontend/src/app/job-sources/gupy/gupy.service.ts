@@ -18,12 +18,20 @@ export class GupyService {
     private R2Service: R2Service,
   ) {}
 
-  getJobs(collectionName: JobCollections, year: number, quarter: Quarters, quarterData: QuarterData): Observable<Job[]> {
-    if(quarterData.isCurrentQuarter) return this.getJobsFromAtlas(collectionName, quarterData);
+  getJobs(
+    collectionName: JobCollections,
+    year: number,
+    quarter: Quarters,
+    quarterData: QuarterData,
+  ): Observable<Job[]> {
+    if (quarterData.isCurrentQuarter) return this.getJobsFromAtlas(collectionName, quarterData);
     return this.getJobsFromR2(collectionName, year, quarter, quarterData);
   }
 
-  private getJobsFromAtlas(collectionName: JobCollections, quarterData: QuarterData): Observable<Job[]> {
+  private getJobsFromAtlas(
+    collectionName: JobCollections,
+    quarterData: QuarterData,
+  ): Observable<Job[]> {
     return this.atlasService.getGupyJobs(collectionName).pipe(
       tap(() => {
         quarterData.isDownloading = false;
@@ -35,30 +43,29 @@ export class GupyService {
   }
 
   private getJobsFromR2(
-      collectionName: string,
-      year: number,
-      quarter: Quarters,
-      quarterData: QuarterData
-    ): Observable<Job[]> {
-        return defer(() => this.getJobsPromise(collectionName, year, quarter, quarterData)).pipe(
-          first(),
-          tap(() => {
-            this.sendEventToUmami(collectionName);
-          }),
-          shareReplay(),
-        );
-    }
-
+    collectionName: string,
+    year: number,
+    quarter: Quarters,
+    quarterData: QuarterData,
+  ): Observable<Job[]> {
+    return defer(() => this.getJobsPromise(collectionName, year, quarter, quarterData)).pipe(
+      first(),
+      tap(() => {
+        this.sendEventToUmami(collectionName);
+      }),
+      shareReplay(),
+    );
+  }
 
   private async getJobsPromise(
-      collectionName: string,
-      year: number,
-      quarter: Quarters,
-      quarterData: QuarterData
-    ): Promise<Job[]> {
-      const jobs = await this.R2Service.getJobs(collectionName, year, quarter) as GupyJob[];
-      return this.getWorkerPromise(jobs, quarterData)
-    }
+    collectionName: string,
+    year: number,
+    quarter: Quarters,
+    quarterData: QuarterData,
+  ): Promise<Job[]> {
+    const jobs = (await this.R2Service.getJobs(collectionName, year, quarter)) as GupyJob[];
+    return this.getWorkerPromise(jobs, quarterData);
+  }
 
   private getWorkerPromise(jobs: GupyJob[], quarterData: QuarterData): Promise<Job[]> {
     return new Promise((resolve) => {
@@ -83,8 +90,6 @@ export class GupyService {
       }
     });
   }
-
-
 
   private createWorker(): Worker | undefined {
     if (typeof Worker !== 'undefined') {

@@ -1,7 +1,6 @@
 import { Observable } from 'rxjs';
 import { Job } from '../job/job.types';
 
-
 export enum JobSources {
   gupy = 'gupy',
   github = 'github',
@@ -9,10 +8,10 @@ export enum JobSources {
 }
 
 export enum Quarters {
-  Q1 = "Q1",
-  Q2 = "Q2",
-  Q3 = "Q3",
-  Q4 = "Q4",
+  Q1 = 'Q1',
+  Q2 = 'Q2',
+  Q3 = 'Q3',
+  Q4 = 'Q4',
 }
 
 function getCurrentQuarter(): Quarters {
@@ -65,9 +64,8 @@ export type QuarterData = {
   loadingProgress: number;
 };
 
-
-export type QuartersMap = Record<Quarters, QuarterData>
-export type YearsMap = Record<number, QuartersMap>
+export type QuartersMap = Record<Quarters, QuarterData>;
+export type YearsMap = Record<number, QuartersMap>;
 
 export type JobCollectionData = {
   name: string;
@@ -80,39 +78,45 @@ export type JobCollectionData = {
 
 export type JobCollectionsMap = Record<JobCollections, JobCollectionData>;
 
-export const defaultQuarterData: QuarterData = {
-  dataSource: new Observable(),
-  isCurrentQuarter: false,
-  isSelected: false,
-  isDownloading: false,
-  isLoading: false,
-  isLoaded: false,
-  hasFailedToLoad: false,
-  loadingProgress: 0,
-};
-
-const quartersMap: QuartersMap = {
-  Q1: {...defaultQuarterData},
-  Q2: {...defaultQuarterData},
-  Q3: {...defaultQuarterData},
-  Q4: {...defaultQuarterData},
+export function createQuarterData(): QuarterData {
+  return {
+    dataSource: new Observable(),
+    isCurrentQuarter: false,
+    isSelected: false,
+    isDownloading: false,
+    isLoading: false,
+    isLoaded: false,
+    hasFailedToLoad: false,
+    loadingProgress: 0,
+  };
 }
 
-const yearsMap: YearsMap = {
-  2024: quartersMap,
-  2025: quartersMap,
+function createQuartersMap(): QuartersMap {
+  const quartersMap = {
+    Q1: createQuarterData(),
+    Q2: createQuarterData(),
+    Q3: createQuarterData(),
+    Q4: createQuarterData(),
+  };
+
+  const currentQuarter = getCurrentQuarter();
+  quartersMap[currentQuarter].isCurrentQuarter = true;
+  return quartersMap;
 }
 
-const currentYear = new Date().getFullYear()
-const currentQuarter = getCurrentQuarter()
-yearsMap[currentYear][currentQuarter].isCurrentQuarter = true;
+function createYearsMap(): YearsMap {
+  return {
+    2024: createQuartersMap(),
+    2025: createQuartersMap(),
+  };
+}
 
 export const jobCollectionsMap: JobCollectionsMap = {
   gupyDev: {
     name: 'Desenvolvimento Web',
     icon: 'bx bxs-business',
     source: JobSources.gupy,
-    dataByYear: { ...yearsMap },
+    dataByYear: createYearsMap(),
     searchStringKeywords: [
       'desenvolvedor',
       'dev',
@@ -128,7 +132,7 @@ export const jobCollectionsMap: JobCollectionsMap = {
     name: 'Mobile',
     icon: 'bx bxs-business',
     source: JobSources.gupy,
-    dataByYear: { ...yearsMap },
+    dataByYear: createYearsMap(),
     searchStringKeywords: ['mobile', 'android', 'ios'],
     initialDailyFetchDate: '05/02/2024',
   },
@@ -136,7 +140,7 @@ export const jobCollectionsMap: JobCollectionsMap = {
     name: 'DevOps',
     icon: 'bx bxs-business',
     source: JobSources.gupy,
-    dataByYear: { ...yearsMap },
+    dataByYear: createYearsMap(),
     searchStringKeywords: ['devops', 'sre', 'devsecops', 'cloud'],
     initialDailyFetchDate: '05/02/2024',
   },
@@ -144,7 +148,7 @@ export const jobCollectionsMap: JobCollectionsMap = {
     name: 'UI/UX',
     icon: 'bx bxs-business',
     source: JobSources.gupy,
-    dataByYear: { ...yearsMap },
+    dataByYear: createYearsMap(),
     searchStringKeywords: ['ui', 'ux'],
     initialDailyFetchDate: '05/02/2024',
   },
@@ -152,7 +156,7 @@ export const jobCollectionsMap: JobCollectionsMap = {
     name: 'Dados',
     icon: 'bx bxs-business',
     source: JobSources.gupy,
-    dataByYear: { ...yearsMap },
+    dataByYear: createYearsMap(),
     searchStringKeywords: ['data', 'dados'],
     initialDailyFetchDate: '05/02/2024',
   },
@@ -160,7 +164,7 @@ export const jobCollectionsMap: JobCollectionsMap = {
     name: 'QA',
     icon: 'bx bxs-business',
     source: JobSources.gupy,
-    dataByYear: { ...yearsMap },
+    dataByYear: createYearsMap(),
     searchStringKeywords: ['qa', 'teste', 'quality assurance'],
     initialDailyFetchDate: '09/02/2024',
   },
@@ -168,7 +172,7 @@ export const jobCollectionsMap: JobCollectionsMap = {
     name: 'IA',
     icon: 'bx bxs-business',
     source: JobSources.gupy,
-    dataByYear: { ...yearsMap },
+    dataByYear: createYearsMap(),
     searchStringKeywords: [
       'ia',
       'ai',
@@ -182,7 +186,7 @@ export const jobCollectionsMap: JobCollectionsMap = {
     name: 'Product Manager',
     icon: 'bx bxs-business',
     source: JobSources.gupy,
-    dataByYear: { ...yearsMap },
+    dataByYear: createYearsMap(),
     searchStringKeywords: ['product manager'],
     initialDailyFetchDate: '22/02/2024',
   },
@@ -190,7 +194,7 @@ export const jobCollectionsMap: JobCollectionsMap = {
     name: 'Agilista/Scrum Master',
     icon: 'bx bxs-business',
     source: JobSources.gupy,
-    dataByYear: { ...yearsMap },
+    dataByYear: createYearsMap(),
     searchStringKeywords: ['agilista', 'scrum', 'agile'],
     initialDailyFetchDate: '23/02/2024',
   },
@@ -198,7 +202,7 @@ export const jobCollectionsMap: JobCollectionsMap = {
     name: 'Recrutamento',
     icon: 'bx bxs-business',
     source: JobSources.gupy,
-    dataByYear: { ...yearsMap },
+    dataByYear: createYearsMap(),
     searchStringKeywords: ['recrutador', 'recruiter', 'recrutamento', 'recursos humanos', 'RH'],
     initialDailyFetchDate: '05/03/2024',
   },
@@ -206,7 +210,7 @@ export const jobCollectionsMap: JobCollectionsMap = {
     name: 'frontendbr/vagas',
     icon: 'bx bxl-github',
     source: JobSources.github,
-    dataByYear: { ...yearsMap },
+    dataByYear: createYearsMap(),
     searchStringKeywords: ['não se aplica'],
     initialDailyFetchDate: 'Em progresso',
   },
@@ -214,7 +218,7 @@ export const jobCollectionsMap: JobCollectionsMap = {
     name: 'backend-br/vagas',
     icon: 'bx bxl-github',
     source: JobSources.github,
-    dataByYear: { ...yearsMap },
+    dataByYear: createYearsMap(),
     searchStringKeywords: ['não se aplica'],
     initialDailyFetchDate: 'Em progresso',
   },
@@ -222,7 +226,7 @@ export const jobCollectionsMap: JobCollectionsMap = {
     name: 'soujava/vagas-java',
     icon: 'bx bxl-github',
     source: JobSources.github,
-    dataByYear: { ...yearsMap },
+    dataByYear: createYearsMap(),
     searchStringKeywords: ['não se aplica'],
     initialDailyFetchDate: 'Em progresso',
   },
@@ -230,7 +234,7 @@ export const jobCollectionsMap: JobCollectionsMap = {
     name: 'react-brasil/vagas',
     icon: 'bx bxl-github',
     source: JobSources.github,
-    dataByYear: { ...yearsMap },
+    dataByYear: createYearsMap(),
     searchStringKeywords: ['não se aplica'],
     initialDailyFetchDate: 'Em progresso',
   },
@@ -238,7 +242,7 @@ export const jobCollectionsMap: JobCollectionsMap = {
     name: 'androiddevbr/vagas',
     icon: 'bx bxl-github',
     source: JobSources.github,
-    dataByYear: { ...yearsMap },
+    dataByYear: createYearsMap(),
     searchStringKeywords: ['não se aplica'],
     initialDailyFetchDate: 'Em progresso',
   },
@@ -246,8 +250,13 @@ export const jobCollectionsMap: JobCollectionsMap = {
     name: 'Desenvolvimento de software',
     icon: 'bx bxl-linkedin-square',
     source: JobSources.linkedin,
-    dataByYear: { ...yearsMap },
+    dataByYear: createYearsMap(),
     searchStringKeywords: ['desenvolvedor'],
     initialDailyFetchDate: '08/02/2024',
   },
 };
+
+console.log(
+  jobCollectionsMap['gupyDev'].dataByYear[2024]['Q1'] ==
+    jobCollectionsMap['gupyDev'].dataByYear[2025]['Q1'],
+);

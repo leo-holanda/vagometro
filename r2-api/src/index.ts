@@ -11,8 +11,26 @@
  * Learn more at https://developers.cloudflare.com/workers/
  */
 
+export interface Env {
+	vagometroBucket: R2Bucket;
+	APP_URL: string;
+}
+
 export default {
 	async fetch(request, env, ctx): Promise<Response> {
-		return new Response('Hello World!');
+		const url = new URL(request.url);
+		const key = url.pathname.slice(1);
+		if (!key) return new Response('Job Data ID Not Provided', { status: 400 });
+
+		const data = await env.vagometroBucket.get(key);
+		if (data === null || data === undefined) return new Response('Data Not Found', { status: 404 });
+
+		const headers = new Headers();
+		data.writeHttpMetadata(headers);
+		headers.set('etag', data.httpEtag);
+		headers.set('Access-Control-Allow-Origin', env.APP_URL);
+		headers.set('Access-Control-Allow-Methods', 'GET');
+
+		return new Response(data.body, { headers });
 	},
 } satisfies ExportedHandler<Env>;

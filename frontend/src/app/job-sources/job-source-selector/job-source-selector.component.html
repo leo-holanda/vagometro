@@ -65,7 +65,7 @@
     <button
       class="btn btn-outline"
       [ngClass]="{
-        'btn-disabled': selectedYear == 2024
+        'btn-disabled': selectedYear === 2024
       }"
       (click)="decreaseSelectedYear()"
     >
@@ -75,7 +75,7 @@
     <button
       class="btn btn-outline"
       [ngClass]="{
-        'btn-disabled': selectedYear == currentYear
+        'btn-disabled': selectedYear === currentYear
       }"
       (click)="increaseSelectedYear()"
     >
@@ -92,7 +92,8 @@
         'btn-disabled':
           quartersDataMap[quarter.value].isDownloading ||
           quartersDataMap[quarter.value].isLoading ||
-          quartersDataMap[quarter.value].hasFailedToLoad
+          quartersDataMap[quarter.value].hasFailedToLoad ||
+          quartersDataMap[quarter.value].isUpcomingQuarter
       }"
       (click)="setJobCollectionQuarter(quarter.value)"
     >
@@ -135,7 +136,8 @@
           quartersDataMap[quarter.value].isDownloading === false &&
           quartersDataMap[quarter.value].isLoading === false &&
           quartersDataMap[quarter.value].isLoaded === false &&
-          quartersDataMap[quarter.value].hasFailedToLoad === false
+          quartersDataMap[quarter.value].hasFailedToLoad === false &&
+          quartersDataMap[quarter.value].isUpcomingQuarter === false
         "
         class="bx bxs-plus-circle"
       ></i>

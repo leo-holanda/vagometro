@@ -2,17 +2,19 @@ import { Injectable } from '@angular/core';
 import {
   JobCollections,
   JobCollectionsMap,
-  jobCollectionsMap,
   JobSources,
   QuarterData,
   Quarters,
+  QuartersMap,
+  YearsMap,
 } from './job-sources.types';
 import { JobService } from '../job/job.service';
-import { BehaviorSubject, first } from 'rxjs';
+import { BehaviorSubject, first, Observable } from 'rxjs';
 import { GupyService } from './gupy/gupy.service';
 import { GitHubJobsService } from './github/git-hub-jobs.service';
 import { Job } from '../job/job.types';
 import { LinkedInService } from './linkedin/linked-in.service';
+import { jobCollectionsMap } from './job-sources.data';
 
 @Injectable({
   providedIn: 'root',
@@ -21,8 +23,10 @@ export class JobSourcesService {
   private _hasOneActiveJobSource$ = new BehaviorSubject(false);
   hasOneActiveJobSource$ = this._hasOneActiveJobSource$.asObservable();
 
-  jobCollectionsMap = { ...jobCollectionsMap };
+  jobCollectionsMap = jobCollectionsMap;
   hasOneJobCollectionLoaded = false;
+
+  private today = new Date();
 
   constructor(
     private jobService: JobService,
@@ -30,6 +34,7 @@ export class JobSourcesService {
     private githubJobsService: GitHubJobsService,
     private linkedInService: LinkedInService,
   ) {
+    this.initJobCollectionsMap();
     this.setGupyCollectionsSources();
     this.setGitHubCollectionsSources();
     this.setLinkedInCollectionsSources();
@@ -171,5 +176,73 @@ export class JobSourcesService {
     );
 
     return Object.fromEntries(jobSources) as JobCollectionsMap;
+  }
+
+  private initJobCollectionsMap(): void {
+    for (const key in jobCollectionsMap) {
+      const jobCollection = jobCollectionsMap[key as JobCollections];
+      jobCollection.dataByYear = this.createYearsMap();
+    }
+  }
+
+  private createQuarterData(): QuarterData {
+    return {
+      dataSource: new Observable(),
+      isCurrentQuarter: false,
+      isUpcomingQuarter: false,
+      isSelected: false,
+      isDownloading: false,
+      isLoading: false,
+      isLoaded: false,
+      hasFailedToLoad: false,
+      loadingProgress: 0,
+    };
+  }
+
+  private getCurrentQuarter(): Quarters {
+    const month = this.today.getMonth();
+
+    if (month >= 0 && month <= 2) {
+      return Quarters.Q1;
+    } else if (month >= 3 && month <= 5) {
+      return Quarters.Q2;
+    } else if (month >= 6 && month <= 8) {
+      return Quarters.Q3;
+    } else {
+      return Quarters.Q4;
+    }
+  }
+
+  createQuartersMap(year = this.today.getFullYear()): QuartersMap {
+    const quartersMap = {
+      Q1: this.createQuarterData(),
+      Q2: this.createQuarterData(),
+      Q3: this.createQuarterData(),
+      Q4: this.createQuarterData(),
+    };
+
+    if (this.today.getFullYear() !== year) return quartersMap;
+
+    const currentQuarter = this.getCurrentQuarter();
+    quartersMap[currentQuarter].isCurrentQuarter = true;
+
+    const upcomingQuarters: Quarters[] = [];
+    for (const quarter of Object.values(Quarters).reverse()) {
+      if (quarter != currentQuarter) upcomingQuarters.push(quarter as Quarters);
+      else break;
+    }
+
+    for (const quarter of upcomingQuarters) {
+      quartersMap[quarter].isUpcomingQuarter = true;
+    }
+
+    return quartersMap;
+  }
+
+  private createYearsMap(): YearsMap {
+    return {
+      2024: this.createQuartersMap(2024),
+      2025: this.createQuartersMap(2025),
+    };
   }
 }

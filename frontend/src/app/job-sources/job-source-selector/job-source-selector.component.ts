@@ -7,9 +7,9 @@ import {
   JobCollectionsMap,
   JobSources,
   Quarters,
-  createQuarterData,
-  jobCollectionsMap,
+  QuartersMap,
 } from '../job-sources.types';
+import { defaultQuarterData, jobCollectionsMap } from '../job-sources.data';
 
 @Component({
   selector: 'vgm-job-source-selector',
@@ -29,11 +29,11 @@ export class JobSourceSelectorComponent {
 
   selectedJobCollection?: JobCollections;
   hasSelectedJobCollection = false;
-  quartersDataMap = {
-    Q1: createQuarterData(),
-    Q2: createQuarterData(),
-    Q3: createQuarterData(),
-    Q4: createQuarterData(),
+  quartersDataMap: QuartersMap = {
+    Q1: defaultQuarterData,
+    Q2: defaultQuarterData,
+    Q3: defaultQuarterData,
+    Q4: defaultQuarterData,
   };
 
   selectedQuarter?: Quarters;
@@ -55,6 +55,7 @@ export class JobSourceSelectorComponent {
     this.githubJobCollections = this.getCollectionByJobSource(JobSources.github);
     this.linkedInJobCollections = this.getCollectionByJobSource(JobSources.linkedin);
     this.selectedJobCollections = this.gupyJobCollections;
+    this.quartersDataMap = this.jobSourcesService.createQuartersMap();
   }
 
   setJobCollection(jobCollection: string): void {

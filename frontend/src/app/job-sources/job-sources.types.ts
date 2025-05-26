@@ -80,7 +80,7 @@ export type JobCollectionData = {
 
 export type JobCollectionsMap = Record<JobCollections, JobCollectionData>;
 
-const quarterData: QuarterData = {
+export const defaultQuarterData: QuarterData = {
   dataSource: new Observable(),
   isCurrentQuarter: false,
   isSelected: false,
@@ -92,10 +92,10 @@ const quarterData: QuarterData = {
 };
 
 const quartersMap: QuartersMap = {
-  Q1: {...quarterData},
-  Q2: {...quarterData},
-  Q3: {...quarterData},
-  Q4: {...quarterData},
+  Q1: {...defaultQuarterData},
+  Q2: {...defaultQuarterData},
+  Q3: {...defaultQuarterData},
+  Q4: {...defaultQuarterData},
 }
 
 const yearsMap: YearsMap = {

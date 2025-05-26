@@ -7,6 +7,7 @@ import {
   JobCollectionsMap,
   JobSources,
   Quarters,
+  defaultQuarterData,
   jobCollectionsMap,
 } from '../job-sources.types';
 
@@ -28,6 +29,12 @@ export class JobSourceSelectorComponent {
 
   selectedJobCollection?: JobCollections;
   hasSelectedJobCollection = false;
+  quartersDataMap = {
+    "Q1": defaultQuarterData,
+    "Q2": defaultQuarterData,
+    "Q3": defaultQuarterData,
+    "Q4": defaultQuarterData,
+  };
 
   selectedQuarter?: Quarters;
   hasSelectedQuarter = false;
@@ -53,6 +60,7 @@ export class JobSourceSelectorComponent {
   setJobCollection(jobCollection: string): void {
     this.selectedJobCollection = jobCollection as JobCollections
     this.hasSelectedJobCollection = true;
+    this.updateQuartersDataMap()
   }
 
   setJobSource(jobSource: JobSources): void {
@@ -76,11 +84,11 @@ export class JobSourceSelectorComponent {
     if (this.jobCollectionInfoModal) this.jobCollectionInfoModal.nativeElement.showModal();
   }
   
-  decreaseSourceYear(): void {
+  decreaseSelectedYear(): void {
     this.selectedYear -= 1
   }
 
-  increaseSourceYear(): void {
+  increaseSelectedYear(): void {
     this.selectedYear += 1
   }
 
@@ -89,5 +97,13 @@ export class JobSourceSelectorComponent {
       ([_, value]) => value.source == jobSource,
     );
     return Object.fromEntries(jobSources) as JobCollectionsMap;
+  }
+
+  private updateQuartersDataMap(): void {
+    if(!this.selectedJobCollection) return
+    this.quartersDataMap[Quarters.Q1] = this.jobCollectionsMap[this.selectedJobCollection].dataByYear[this.selectedYear].Q1
+    this.quartersDataMap[Quarters.Q2] = this.jobCollectionsMap[this.selectedJobCollection].dataByYear[this.selectedYear].Q2
+    this.quartersDataMap[Quarters.Q3] = this.jobCollectionsMap[this.selectedJobCollection].dataByYear[this.selectedYear].Q3
+    this.quartersDataMap[Quarters.Q4] = this.jobCollectionsMap[this.selectedJobCollection].dataByYear[this.selectedYear].Q4
   }
 }

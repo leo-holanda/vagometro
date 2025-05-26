@@ -63,37 +63,70 @@
   <div class="flex w-full items-center justify-between mb-4">
     <button class="btn btn-outline" [ngClass]="{
         'btn-disabled': selectedYear == 2024
-      }" (click)="decreaseSourceYear()">
+      }" (click)="decreaseSelectedYear()">
       <i class='bx bx-chevron-left'></i> 
     </button>
     <span class="text-2xl font-bold"> {{ selectedYear }} </span>
     <button class="btn btn-outline" [ngClass]="{
         'btn-disabled': selectedYear == currentYear
       }"
-      (click)="increaseSourceYear()">
+      (click)="increaseSelectedYear()">
       <i class='bx bx-chevron-right'></i> 
     </button>
   </div>
 
   <div class="flex flex-col gap-4 overflow-x-hidden">
-    <button class="btn btn-accent w-full flex-nowrap justify-between" (click)="setJobCollectionQuarter(quarters.Q1)">
-      <span>Q1 (Jan - Mar)</span>
-      <i class="bx bxs-plus-circle"></i>
-    </button>
+    <button *ngFor="let quarter of quarters | keyvalue" class="btn btn-accent w-full flex-nowrap justify-between" [ngClass]="{
+      'btn-warning': quartersDataMap[quarter.value].isSelected,
+      'btn-disabled':
+        quartersDataMap[quarter.value].isDownloading ||
+        quartersDataMap[quarter.value].isLoading ||
+        quartersDataMap[quarter.value].hasFailedToLoad
+    }" (click)="setJobCollectionQuarter(quarter.value)">
+      <div class="flex items-center gap-2">
+        <span
+          class="text-balance"
+          *ngIf="
+            !quartersDataMap[quarter.value].isDownloading &&
+            !quartersDataMap[quarter.value].isLoading &&
+            !quartersDataMap[quarter.value].hasFailedToLoad
+          "
+        >
+          <ng-container [ngSwitch]="quarter.value">
+            <span *ngSwitchCase="quarters.Q1">Q1 (Jan - Mar)</span>
+            <span *ngSwitchCase="quarters.Q2">Q2 (Abr - Jun)</span>
+            <span *ngSwitchCase="quarters.Q3">Q3 (Jul - Set)</span>
+            <span *ngSwitchCase="quarters.Q4">Q4 (Out - Dez)</span>
+          </ng-container>
 
-    <button class="btn btn-accent w-full flex-nowrap justify-between" (click)="setJobCollectionQuarter(quarters.Q2)">
-      <span>Q2 (Abr - Jun)</span>
-      <i class="bx bxs-plus-circle"></i>
-    </button>
-    
-    <button class="btn btn-accent w-full flex-nowrap justify-between" (click)="setJobCollectionQuarter(quarters.Q3)">
-      <span>Q3 (Jul - Set)</span>
-      <i class="bx bxs-plus-circle"></i>
-    </button>
-    
-    <button class="btn btn-accent w-full flex-nowrap justify-between" (click)="setJobCollectionQuarter(quarters.Q4)">
-      <span>Q4 (Out - Dez)</span>
-      <i class="bx bxs-plus-circle"></i>
+        </span>
+
+        <span *ngIf="quartersDataMap[quarter.value].isDownloading"> Baixando vagas... </span>
+
+        <span *ngIf="quartersDataMap[quarter.value].isLoading">
+          Carregando dados... ({{ quartersDataMap[quarter.value].loadingProgress | percent }})
+        </span>
+
+        <span *ngIf="quartersDataMap[quarter.value].hasFailedToLoad">
+          Falha ao carregar - Tente mais tarde
+        </span>
+      </div>
+
+      <span
+        *ngIf="quartersDataMap[quarter.value].isLoading || quartersDataMap[quarter.value].isDownloading"
+        class="loading loading-spinner"
+      ></span>
+      <i
+        *ngIf="
+          quartersDataMap[quarter.value].isDownloading === false &&
+          quartersDataMap[quarter.value].isLoading === false &&
+          quartersDataMap[quarter.value].isLoaded === false &&
+          quartersDataMap[quarter.value].hasFailedToLoad === false
+        "
+        class="bx bxs-plus-circle"
+      ></i>
+      <i *ngIf="quartersDataMap[quarter.value].hasFailedToLoad" class="bx bxs-x-circle"></i>
+      <i *ngIf="quartersDataMap[quarter.value].isLoaded" class="bx bxs-check-circle"></i>
     </button>
   </div>
 </div>

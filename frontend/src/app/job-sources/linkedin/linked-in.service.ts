@@ -18,8 +18,13 @@ export class LinkedInService {
     private easySearchService: EasySearchService,
   ) {}
 
-  getJobs(collectionName: string, year: number, quarter: Quarters, quarterData: QuarterData): Observable<Job[]> {
-    if(quarterData.isCurrentQuarter) return this.getJobsFromAtlas(quarterData);
+  getJobs(
+    collectionName: string,
+    year: number,
+    quarter: Quarters,
+    quarterData: QuarterData,
+  ): Observable<Job[]> {
+    if (quarterData.isCurrentQuarter) return this.getJobsFromAtlas(quarterData);
     return this.getJobsFromR2(collectionName, year, quarter, quarterData);
   }
 
@@ -34,24 +39,31 @@ export class LinkedInService {
     );
   }
 
-  private getJobsFromR2(collectionName: string, year: number, quarter: Quarters, quarterData: QuarterData): Observable<Job[]> {
+  private getJobsFromR2(
+    collectionName: string,
+    year: number,
+    quarter: Quarters,
+    quarterData: QuarterData,
+  ): Observable<Job[]> {
     return defer(() => this.getJobsPromise(collectionName, year, quarter, quarterData)).pipe(
-          first(),
-          tap(() => {
-            this.sendEventToUmami(collectionName);
-          }),
-          shareReplay(),
-        );
+      first(),
+      tap(() => {
+        this.sendEventToUmami(collectionName);
+      }),
+      shareReplay(),
+    );
   }
 
   private async getJobsPromise(
     collectionName: string,
     year: number,
     quarter: Quarters,
-    quarterData: QuarterData
+    quarterData: QuarterData,
   ): Promise<Job[]> {
-    const jobs = await this.R2Service.getJobs(collectionName, year, quarter) as LinkedInJob[];
-    return this.getWorkerPromise(jobs, quarterData)
+    const jobs = (await this.R2Service.getJobs(collectionName, year, quarter)) as LinkedInJob[];
+    quarterData.isDownloading = false;
+    quarterData.isLoading = true;
+    return this.getWorkerPromise(jobs, quarterData);
   }
 
   private getWorkerPromise(jobs: LinkedInJob[], quarterData: QuarterData): Promise<Job[]> {

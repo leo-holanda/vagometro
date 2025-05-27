@@ -86,7 +86,7 @@
   <div class="flex flex-col gap-4 overflow-x-hidden">
     <button
       *ngFor="let quarter of quarters | keyvalue"
-      class="btn btn-accent w-full flex-nowrap justify-between"
+      class="btn btn-accent w-full flex-nowrap justify-between relative"
       [ngClass]="{
         'btn-warning': quartersDataMap[quarter.value].isSelected,
         'btn-disabled':
@@ -97,6 +97,21 @@
       }"
       (click)="setJobCollectionQuarter(quarter.value)"
     >
+      <div
+        *ngIf="
+          quartersDataMap[quarter.value].isDownloading &&
+          quartersDataMap[quarter.value].canTrackDownloadProgress
+        "
+        class="absolute top-0 left-0 z-0 bg-accent h-full opacity-20 rounded-box"
+        [ngStyle]="{ width: quartersDataMap[quarter.value].downloadingProgress | percent: '1.0-0' }"
+      ></div>
+
+      <div
+        *ngIf="quartersDataMap[quarter.value].isLoading"
+        class="absolute top-0 left-0 z-0 bg-warning h-full opacity-20 rounded-box"
+        [ngStyle]="{ width: quartersDataMap[quarter.value].loadingProgress | percent: '1.0-0' }"
+      ></div>
+
       <div class="flex items-center gap-2">
         <span
           class="text-balance"

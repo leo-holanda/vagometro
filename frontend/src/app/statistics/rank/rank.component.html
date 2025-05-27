@@ -13,7 +13,7 @@
               <tr>
                 <th>#</th>
                 <th class="text-balance">{{ rankMetaData.dataColumnName }}</th>
-                <th>Vagas</th>
+                <th>{{ rankMetaData.valueColumnLabel || "Vagas" }}</th>
               </tr>
             </thead>
             <tbody>
@@ -94,7 +94,15 @@
                 </td>
 
                 <td class="flex items-center flex-wrap gap-2">
-                  <span>{{ item.count | number }}</span>
+                  <span>{{
+                    item.count
+                      | number
+                        : (rankType == rankTypes.months
+                            ? item.count < 10
+                              ? "1.2-2"
+                              : "1.0-1"
+                            : "1.0-0")
+                  }}</span>
                   <span class="text-gray-600"
                     >({{
                       item.percentage | percent: (item.percentage < 0.01 ? "1.1-2" : "1.0-0")

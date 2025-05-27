@@ -52,8 +52,9 @@ export class RankComponent implements OnInit, OnChanges {
         name: 'Meses com mais vagas publicadas',
         icon: 'bx bxs-calendar',
         dataColumnName: 'Mês',
+        valueColumnLabel: 'Vagas/dia',
         routerLink: '/stats/meses',
-        getRank: this.statisticsService.getMonthsRank.bind(this.statisticsService),
+        getRank: this.statisticsService.getMonthlyAverageRank.bind(this.statisticsService),
       },
       education: {
         name: 'Ranking de Grau de Escolaridade',

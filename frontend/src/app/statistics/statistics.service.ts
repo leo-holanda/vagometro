@@ -374,6 +374,44 @@ export class StatisticsService {
     );
   }
 
+  getMonthlyAverageRank(
+    jobs$: Observable<Job[] | undefined> = this.jobService.jobs$,
+  ): Observable<RankData[]> {
+    return jobs$.pipe(
+      filter((jobs): jobs is Job[] => jobs != undefined),
+      map((jobs) => {
+        const monthsAndYearMap = new Map<string, number>();
+
+        jobs.forEach((job) => {
+          const monthAndYearWhenJobWasPublished = this.jobService.getJobMonthAndYear(job);
+          const currentMonthCount = monthsAndYearMap.get(monthAndYearWhenJobWasPublished) || 0;
+          monthsAndYearMap.set(monthAndYearWhenJobWasPublished, currentMonthCount + 1);
+        });
+
+        const monthsMap = new Map<string, number>();
+        const monthsOcurrenceMap = new Map<string, number>();
+
+        Array.from(monthsAndYearMap.entries()).forEach(([key, value]) => {
+          const monthName = key.split('/')[0];
+          const currentMonthCount = monthsMap.get(monthName) || 0;
+          monthsMap.set(monthName, currentMonthCount + value);
+
+          const currentMonthOcurrenceCount = monthsOcurrenceMap.get(monthName) || 0;
+          monthsOcurrenceMap.set(monthName, currentMonthOcurrenceCount + 1);
+        });
+
+        const daysPerMonth = this.getDaysPerMonth();
+        const sortedRankObjects = Array.from(monthsMap.entries()).map(([key, value]) => ({
+          name: key,
+          count: value / (daysPerMonth[key] * (monthsOcurrenceMap.get(key) || 1)),
+          percentage: value / jobs.length,
+        }));
+
+        return sortedRankObjects;
+      }),
+    );
+  }
+
   getCertificationsRank(
     jobs$: Observable<Job[] | undefined> = this.jobService.jobs$,
   ): Observable<RankData[]> {
@@ -557,5 +595,32 @@ export class StatisticsService {
         return yearlyComparativeData;
       }),
     );
+  }
+
+  private getDaysPerMonth() {
+    const monthsName = [
+      'Janeiro',
+      'Fevereiro',
+      'Março',
+      'Abril',
+      'Maio',
+      'Junho',
+      'Julho',
+      'Agosto',
+      'Setembro',
+      'Outubro',
+      'Novembro',
+      'Dezembro',
+    ];
+
+    const currentYear = new Date().getFullYear();
+    const daysPerMonth: Record<string, number> = {};
+    monthsName.forEach((month, index) => {
+      // The zero day of the following month returns the last day of the current month
+      const lastDay = new Date(currentYear, index + 1, 0).getDate();
+      daysPerMonth[month] = lastDay;
+    });
+
+    return daysPerMonth;
   }
 }

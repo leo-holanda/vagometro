@@ -107,11 +107,13 @@
           "
         >
           <ng-container [ngSwitch]="quarter.value">
-            <span *ngSwitchCase="quarters.Q1">Q1 (Jan - Mar)</span>
-            <span *ngSwitchCase="quarters.Q2">Q2 (Abr - Jun)</span>
-            <span *ngSwitchCase="quarters.Q3">Q3 (Jul - Set)</span>
-            <span *ngSwitchCase="quarters.Q4">Q4 (Out - Dez)</span>
+            <span *ngSwitchCase="quarters.Q1">1º Trimestre</span>
+            <span *ngSwitchCase="quarters.Q2">2º Trimestre</span>
+            <span *ngSwitchCase="quarters.Q3">3º Trimestre</span>
+            <span *ngSwitchCase="quarters.Q4">4º Trimestre</span>
           </ng-container>
+
+          <span *ngIf="quartersDataMap[quarter.value].isCurrentQuarter"> (Atual) </span>
         </span>
 
         <span *ngIf="quartersDataMap[quarter.value].isDownloading"> Baixando vagas... </span>

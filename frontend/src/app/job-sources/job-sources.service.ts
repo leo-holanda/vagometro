@@ -196,6 +196,8 @@ export class JobSourcesService {
       isLoaded: false,
       hasFailedToLoad: false,
       loadingProgress: 0,
+      canTrackDownloadProgress: false,
+      downloadingProgress: 0,
     };
   }
 

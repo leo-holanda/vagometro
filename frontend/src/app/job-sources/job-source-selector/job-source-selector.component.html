@@ -116,7 +116,23 @@
           <span *ngIf="quartersDataMap[quarter.value].isCurrentQuarter"> (Atual) </span>
         </span>
 
-        <span *ngIf="quartersDataMap[quarter.value].isDownloading"> Baixando vagas... </span>
+        <span
+          *ngIf="
+            quartersDataMap[quarter.value].isDownloading &&
+            quartersDataMap[quarter.value].canTrackDownloadProgress
+          "
+        >
+          Baixando vagas... ({{ quartersDataMap[quarter.value].downloadingProgress | percent }})
+        </span>
+
+        <span
+          *ngIf="
+            quartersDataMap[quarter.value].isDownloading &&
+            !quartersDataMap[quarter.value].canTrackDownloadProgress
+          "
+        >
+          Baixando vagas...
+        </span>
 
         <span *ngIf="quartersDataMap[quarter.value].isLoading">
           Carregando dados... ({{ quartersDataMap[quarter.value].loadingProgress | percent }})

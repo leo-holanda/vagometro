@@ -60,7 +60,12 @@ export class LinkedInService {
     quarter: Quarters,
     quarterData: QuarterData,
   ): Promise<Job[]> {
-    const jobs = (await this.R2Service.getJobs(collectionName, year, quarter)) as LinkedInJob[];
+    const jobs = (await this.R2Service.getJobs(
+      collectionName,
+      year,
+      quarter,
+      quarterData,
+    )) as LinkedInJob[];
     quarterData.isDownloading = false;
     quarterData.isLoading = true;
     return this.getWorkerPromise(jobs, quarterData);

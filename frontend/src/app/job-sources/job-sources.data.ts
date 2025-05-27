@@ -156,4 +156,6 @@ export const defaultQuarterData: QuarterData = {
   isLoaded: false,
   hasFailedToLoad: false,
   loadingProgress: 0,
+  canTrackDownloadProgress: false,
+  downloadingProgress: 0,
 };

@@ -48,6 +48,9 @@ export type QuarterData = {
   isLoaded: boolean;
   hasFailedToLoad: boolean;
   loadingProgress: number;
+
+  canTrackDownloadProgress: boolean;
+  downloadingProgress: number;
 };
 
 export type QuartersMap = Record<Quarters, QuarterData>;

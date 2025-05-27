@@ -11,9 +11,17 @@ import { GitHubJob } from './git-hub-jobs.types';
   providedIn: 'root',
 })
 export class GitHubJobsService {
-  constructor(private R2Service: R2Service,  private easySearchService: EasySearchService) {}
+  constructor(
+    private R2Service: R2Service,
+    private easySearchService: EasySearchService,
+  ) {}
 
-   getJobs(collectionName: string, year: number, quarter: Quarters, quarterData: QuarterData): Observable<Job[]> {
+  getJobs(
+    collectionName: string,
+    year: number,
+    quarter: Quarters,
+    quarterData: QuarterData,
+  ): Observable<Job[]> {
     return defer(() => this.getJobsPromise(collectionName, year, quarter, quarterData)).pipe(
       first(),
       tap(() => {
@@ -27,9 +35,9 @@ export class GitHubJobsService {
     collectionName: string,
     year: number,
     quarter: Quarters,
-    quarterData: QuarterData
+    quarterData: QuarterData,
   ): Promise<Job[]> {
-    const jobs = await this.R2Service.getJobs(collectionName, year, quarter);
+    const jobs = await this.R2Service.getJobs(collectionName, year, quarter, quarterData);
 
     return new Promise((resolve) => {
       const worker = this.createWorker();

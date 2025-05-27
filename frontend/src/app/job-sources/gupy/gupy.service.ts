@@ -63,7 +63,12 @@ export class GupyService {
     quarter: Quarters,
     quarterData: QuarterData,
   ): Promise<Job[]> {
-    const jobs = (await this.R2Service.getJobs(collectionName, year, quarter)) as GupyJob[];
+    const jobs = (await this.R2Service.getJobs(
+      collectionName,
+      year,
+      quarter,
+      quarterData,
+    )) as GupyJob[];
     quarterData.isDownloading = false;
     quarterData.isLoading = true;
     return this.getWorkerPromise(jobs, quarterData);

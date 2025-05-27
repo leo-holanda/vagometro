@@ -14,7 +14,14 @@ export class AtlasService {
   //TODO: Remove this service and implement another API
   private collectionsMap: Record<any, any> = {};
 
+  private startDate!: Date;
+  private endDate!: Date;
+
   constructor() {
+    const { startDate, endDate } = this.getCurrentQuarterInfo();
+    this.startDate = startDate;
+    this.endDate = endDate;
+
     this.connectionObservable$ = defer(() => this.openConnection()).pipe(shareReplay());
   }
 
@@ -74,7 +81,15 @@ export class AtlasService {
 
   getGupyJobs(collectionName: JobCollections): Observable<GupyJob[]> {
     return this.connectionObservable$.pipe(
-      switchMap(() => this.collectionsMap[collectionName].find() as Observable<GupyJob[]>),
+      switchMap(
+        () =>
+          this.collectionsMap[collectionName].find({
+            publishedDate: {
+              $gte: this.startDate.toISOString(),
+              $lte: this.endDate.toISOString(),
+            },
+          }) as Observable<GupyJob[]>,
+      ),
       tap(() => this.sendEventToUmami(`${collectionName.toString()}`)),
     );
   }
@@ -82,7 +97,13 @@ export class AtlasService {
   getLinkedInJobs(): Observable<LinkedInJob[]> {
     return this.connectionObservable$.pipe(
       switchMap(
-        () => this.collectionsMap[JobCollections.linkedinDev].find() as Observable<LinkedInJob[]>,
+        () =>
+          this.collectionsMap[JobCollections.linkedinDev].find({
+            created_at: {
+              $gte: this.toLinkedInDateFormat(this.startDate),
+              $lte: this.toLinkedInDateFormat(this.endDate),
+            },
+          }) as Observable<LinkedInJob[]>,
       ),
       tap(() => this.sendEventToUmami(`${JobCollections.linkedinDev.toString()}`)),
     );
@@ -94,5 +115,28 @@ export class AtlasService {
     } catch (error) {
       console.warn('Umami not available');
     }
+  }
+
+  private getCurrentQuarterInfo(): { startDate: Date; endDate: Date } {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth();
+
+    const quarter = Math.floor(month / 3) + 1;
+
+    const startMonth = (quarter - 1) * 3;
+    const startDate = new Date(Date.UTC(year, startMonth, 1));
+
+    const endMonth = startMonth + 2;
+    const endDate = new Date(Date.UTC(year, endMonth + 1, 0, 23, 59, 59));
+
+    return { startDate, endDate };
+  }
+
+  private toLinkedInDateFormat(date: Date): string {
+    const year = date.getUTCFullYear();
+    const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+    const day = String(date.getUTCDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
   }
 }

@@ -401,13 +401,15 @@ export class StatisticsService {
         });
 
         const daysPerMonth = this.getDaysPerMonth();
-        const sortedRankObjects = Array.from(monthsMap.entries()).map(([key, value]) => ({
+        const rankObjects = Array.from(monthsMap.entries()).map(([key, value]) => ({
           name: key,
           count: value / (daysPerMonth[key] * (monthsOcurrenceMap.get(key) || 1)),
           percentage: value / jobs.length,
         }));
 
-        return sortedRankObjects;
+        rankObjects.sort((a, b) => b.count - a.count);
+
+        return rankObjects;
       }),
     );
   }

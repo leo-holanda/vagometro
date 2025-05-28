@@ -125,10 +125,10 @@ export class AtlasService {
     const quarter = Math.floor(month / 3) + 1;
 
     const startMonth = (quarter - 1) * 3;
-    const startDate = new Date(Date.UTC(year, startMonth, 1));
+    const startDate = new Date(year, startMonth, 1);
 
     const endMonth = startMonth + 2;
-    const endDate = new Date(Date.UTC(year, endMonth + 1, 0, 23, 59, 59));
+    const endDate = new Date(year, endMonth + 1, 0, 23, 59, 59);
 
     return { startDate, endDate };
   }

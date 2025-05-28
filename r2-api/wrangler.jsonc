@@ -4,7 +4,7 @@
  */
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "r2-api",
+	"name": "vagometro-api",
 	"main": "src/index.ts",
 	"compatibility_date": "2025-05-25",
 	"observability": {

@@ -48,7 +48,7 @@ export class LinkedInService {
     return defer(() => this.getJobsPromise(collectionName, year, quarter, quarterData)).pipe(
       first(),
       tap(() => {
-        this.sendEventToUmami(collectionName);
+        this.sendEventToUmami(`${collectionName} - ${quarter}/${year}`);
       }),
       shareReplay(),
     );

@@ -25,7 +25,7 @@ export class GitHubJobsService {
     return defer(() => this.getJobsPromise(collectionName, year, quarter, quarterData)).pipe(
       first(),
       tap(() => {
-        this.sendEventToUmami(collectionName);
+        this.sendEventToUmami(`${collectionName} - ${quarter}/${year}`);
       }),
       shareReplay(),
     );
@@ -65,9 +65,9 @@ export class GitHubJobsService {
     });
   }
 
-  private sendEventToUmami(jobCollection: string): void {
+  private sendEventToUmami(event: string): void {
     try {
-      (window as any).umami.track(`GitHub - ${jobCollection}`);
+      (window as any).umami.track(event);
     } catch (error) {
       console.warn('Umami not available');
     }

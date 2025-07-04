@@ -5,6 +5,7 @@ import { QuarterData, Quarters } from '../job-sources/job-sources.types';
 import { GitHubJob } from '../job-sources/github/git-hub-jobs.types';
 import { GupyJob } from '../job-sources/gupy/gupy.types';
 import { LinkedInJob } from '../job-sources/linkedin/linked-in.types';
+import { collectionMap } from '../mongo/mongo.data';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +22,7 @@ export class R2Service {
     // Try catch is not necessary. Errors are handled in Job Source Service.
 
     const key = this.buildKey(collectionName, year, quarter);
-    const jobsFileResponse = await fetch(`${environment.GITHUB_WORKER_URL}/${key}.zip`);
+    const jobsFileResponse = await fetch(`${environment.GITHUB_WORKER_URL}/${key}`);
 
     try {
       quarterData.canTrackDownloadProgress = true;
@@ -34,8 +35,8 @@ export class R2Service {
     }
   }
 
-  private buildKey(collectionName: string, year: number, quarter: Quarters): string {
-    return `${collectionName}_${year}_${quarter}`;
+  private buildKey(collectionKey: string, year: number, quarter: Quarters): string {
+    return `${collectionMap[collectionKey].dbName}/${year}/${collectionMap[collectionKey].collectionName}/${quarter}.zip`;
   }
 
   private async unzipJobsFile(jobsFile: Blob): Promise<string> {

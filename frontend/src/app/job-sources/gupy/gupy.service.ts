@@ -1,21 +1,21 @@
 import { Injectable } from '@angular/core';
 import { Observable, defer, first, shareReplay, switchMap, tap } from 'rxjs';
-import { AtlasService } from 'src/app/atlas/atlas.service';
 import { Job } from 'src/app/job/job.types';
 import { mapGupyJobsToJobs } from './gupy.mapper';
 import { GupyJob } from './gupy.types';
 import { EasySearchService } from 'src/app/job/easy-search/easy-search.service';
 import { JobCollections, QuarterData, Quarters } from '../job-sources.types';
 import { R2Service } from 'src/app/r2/r2.service';
+import { MongoService } from 'src/app/mongo/mongo.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GupyService {
   constructor(
-    private atlasService: AtlasService,
     private easySearchService: EasySearchService,
     private R2Service: R2Service,
+    private mongoService: MongoService,
   ) {}
 
   getJobs(
@@ -24,15 +24,12 @@ export class GupyService {
     quarter: Quarters,
     quarterData: QuarterData,
   ): Observable<Job[]> {
-    if (quarterData.isCurrentQuarter) return this.getJobsFromAtlas(collectionName, quarterData);
+    if (quarterData.isCurrentQuarter) return this.getJobsFromMongo(collectionName, quarterData);
     return this.getJobsFromR2(collectionName, year, quarter, quarterData);
   }
 
-  private getJobsFromAtlas(
-    collectionName: JobCollections,
-    quarterData: QuarterData,
-  ): Observable<Job[]> {
-    return this.atlasService.getGupyJobs(collectionName).pipe(
+  private getJobsFromMongo(collectionName: string, quarterData: QuarterData): Observable<Job[]> {
+    return this.mongoService.getJobs<GupyJob[]>(collectionName).pipe(
       tap(() => {
         quarterData.isDownloading = false;
         quarterData.isLoading = true;

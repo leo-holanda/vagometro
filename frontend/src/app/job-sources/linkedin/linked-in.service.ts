@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Observable, defer, first, shareReplay, switchMap, tap } from 'rxjs';
-import { AtlasService } from 'src/app/atlas/atlas.service';
 import { Job } from 'src/app/job/job.types';
 import { mapLinkedInJobsToJobs } from './linked-in.mapper';
 import { LinkedInJob } from './linked-in.types';
 import { EasySearchService } from 'src/app/job/easy-search/easy-search.service';
 import { QuarterData, Quarters } from '../job-sources.types';
 import { R2Service } from 'src/app/r2/r2.service';
+import { MongoService } from 'src/app/mongo/mongo.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LinkedInService {
   constructor(
-    private atlasService: AtlasService,
+    private mongoService: MongoService,
     private R2Service: R2Service,
     private easySearchService: EasySearchService,
   ) {}
@@ -24,12 +24,12 @@ export class LinkedInService {
     quarter: Quarters,
     quarterData: QuarterData,
   ): Observable<Job[]> {
-    if (quarterData.isCurrentQuarter) return this.getJobsFromAtlas(quarterData);
+    if (quarterData.isCurrentQuarter) return this.getJobsFromMongo(collectionName, quarterData);
     return this.getJobsFromR2(collectionName, year, quarter, quarterData);
   }
 
-  private getJobsFromAtlas(quarterData: QuarterData): Observable<Job[]> {
-    return this.atlasService.getLinkedInJobs().pipe(
+  private getJobsFromMongo(collectionName: string, quarterData: QuarterData): Observable<Job[]> {
+    return this.mongoService.getJobs<LinkedInJob[]>(collectionName).pipe(
       tap(() => {
         quarterData.isDownloading = false;
         quarterData.isLoading = true;

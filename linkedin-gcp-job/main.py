@@ -47,10 +47,10 @@ def get_unique_jobs(jobs):
 
 def get_parsed_jobs(session):
     all_jobs = []
-    search_queries = ["Desenvolvedor"]
+    search_queries = os.getenv("SEARCH_QUERY").split(",")
 
-    # defined by linkedin
-    brazilian_geoid = 106057199
+    # externally defined by linkedin
+    geo_id = os.getenv("GEO_ID")
 
     # 3 days = 60 * 60 * 24 * 3
     timespan = "r259200"
@@ -60,7 +60,7 @@ def get_parsed_jobs(session):
         page = 0
 
         while (True):
-            url = f"https://www.linkedin.com/jobs-guest/jobs/api/seeMoreJobPostings/search?keywords={keywords}&geoId={brazilian_geoid}&f_TPR={timespan}&start={25*page}"
+            url = f"https://www.linkedin.com/jobs-guest/jobs/api/seeMoreJobPostings/search?keywords={keywords}&geoId={geo_id}&f_TPR={timespan}&start={25*page}"
             print(f"Sending a request with start = {page * 25}")
             soup = get_with_retry(url, session)
             jobs = parse_jobs_data(soup)
@@ -188,16 +188,17 @@ def main():
     print(f"Starting Task #{TASK_INDEX}, Attempt #{TASK_ATTEMPT}...")
 
     try:
-        MONGO_URI = os.getenv("MONGO_URI", 0)
-        DB_NAME = os.getenv("DB_NAME", 0)
-        COLLECTION_NAME = os.getenv("COLLECTION_NAME", 0)
+        MONGO_URI = os.getenv("MONGO_URI")
+        DB_NAME = os.getenv("DB_NAME")
+        COLLECTION_NAME = os.getenv("COLLECTION_NAME")
 
         mongo_uri = MONGO_URI
         client = MongoClient(mongo_uri)
         db = client[DB_NAME]
         collection = db[COLLECTION_NAME]
     except Exception as e:
-        print("Connection with Atlas has failed")
+        print("Connection with Mongo has failed")
+        print(f"Error: {str(e)}")
         sys.exit(1)
 
     session = requests.Session()
@@ -238,7 +239,7 @@ def main():
             save_jobs_in_database(collection, jobs_to_save)
             jobs_to_save = []
 
-
+    session.close()
     if(len(jobs_to_save) > 0): save_jobs_in_database(collection, jobs_to_save)
     client.close()
     print(f"Completed Task #{TASK_INDEX}.")

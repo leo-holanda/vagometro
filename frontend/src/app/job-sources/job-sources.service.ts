@@ -52,17 +52,24 @@ export class JobSourcesService {
   }
 
   private setLinkedInCollectionsSources(): void {
-    const linkedInYearsData = this.jobCollectionsMap.linkedinDev.dataByYear;
-    for (const year in linkedInYearsData) {
-      const quarters = linkedInYearsData[year];
-      for (const quarter in quarters) {
-        const quarterData = quarters[quarter as Quarters];
-        quarterData.dataSource = this.linkedInService.getJobs(
-          JobCollections.linkedinDev,
-          +year,
-          quarter as Quarters,
-          quarterData,
-        );
+    const linkedInCollections = this.getCollectionsByJobSource(JobSources.linkedin);
+
+    for (const collectionKey in linkedInCollections) {
+      for (const yearKey in linkedInCollections[collectionKey as JobCollections].dataByYear) {
+        for (const quarterKey in linkedInCollections[collectionKey as JobCollections].dataByYear[
+          yearKey
+        ]) {
+          const quarterData =
+            linkedInCollections[collectionKey as JobCollections].dataByYear[yearKey][
+              quarterKey as Quarters
+            ];
+          quarterData.dataSource = this.linkedInService.getJobs(
+            collectionKey,
+            +yearKey,
+            quarterKey as Quarters,
+            quarterData,
+          );
+        }
       }
     }
   }

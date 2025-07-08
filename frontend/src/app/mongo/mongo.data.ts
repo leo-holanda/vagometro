@@ -48,4 +48,8 @@ export const collectionMap: Record<string, CollectionData> = {
     collectionName: 'dev',
     dbName: 'linkedin',
   },
+  linkedinDevOpsBr: {
+    collectionName: 'devops_br',
+    dbName: 'linkedin',
+  },
 };

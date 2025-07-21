@@ -8,6 +8,7 @@ import {
   JobSources,
   Quarters,
   QuartersMap,
+  VisualizationModes,
 } from '../job-sources.types';
 import { defaultQuarterData, jobCollectionsMap } from '../job-sources.data';
 
@@ -29,13 +30,17 @@ export class JobSourceSelectorComponent {
 
   selectedJobCollection?: JobCollections;
   hasSelectedJobCollection = false;
+
+  visualizationModes = VisualizationModes;
+  hasSelectedVisualizationMode = false;
+  selectedVisualizationMode?: VisualizationModes;
+
   quartersDataMap: QuartersMap = {
     Q1: defaultQuarterData,
     Q2: defaultQuarterData,
     Q3: defaultQuarterData,
     Q4: defaultQuarterData,
   };
-
   selectedQuarter?: Quarters;
   hasSelectedQuarter = false;
 
@@ -82,6 +87,11 @@ export class JobSourceSelectorComponent {
       this.selectedQuarter,
       this.selectedYear,
     );
+  }
+
+  setVisualizationMode(visualizationMode: VisualizationModes): void {
+    this.selectedVisualizationMode = visualizationMode;
+    this.hasSelectedVisualizationMode = true;
   }
 
   onInfoButtonClick(jobCollection: JobCollectionData): void {

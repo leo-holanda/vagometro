@@ -67,3 +67,8 @@ export type JobCollectionData = {
 };
 
 export type JobCollectionsMap = Record<JobCollections, JobCollectionData>;
+
+export enum VisualizationModes {
+  newJobs = 'newJobs',
+  oldJobs = 'oldJobs',
+}

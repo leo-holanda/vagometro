@@ -60,7 +60,35 @@
   </div>
 </div>
 
-<div *ngIf="hasSelectedJobCollection">
+<div *ngIf="hasSelectedJobSource && hasSelectedJobCollection && !hasSelectedVisualizationMode">
+  <div class="flex w-full flex-col gap-4">
+    <button
+      class="btn join-item flex w-full items-center justify-between"
+      (click)="setVisualizationMode(visualizationModes.newJobs)"
+    >
+      <div class="flex items-center gap-2">
+        <i class="bx bxs-hot"></i>
+        <span>Vagas recentes</span>
+      </div>
+
+      <span class="bx bxs-chevron-right-circle"></span>
+    </button>
+
+    <button
+      class="btn join-item flex w-full items-center justify-between"
+      (click)="setVisualizationMode(visualizationModes.oldJobs)"
+    >
+      <div class="flex items-center gap-2">
+        <i class="bx bx-line-chart"></i>
+        <span>Histórico de vagas</span>
+      </div>
+
+      <span class="bx bxs-chevron-right-circle"></span>
+    </button>
+  </div>
+</div>
+
+<div *ngIf="selectedVisualizationMode === visualizationModes.oldJobs">
   <div class="flex w-full items-center justify-between mb-4">
     <button
       class="btn btn-outline"

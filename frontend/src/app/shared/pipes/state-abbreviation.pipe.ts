@@ -39,8 +39,9 @@ export class StateAbbreviationPipe implements PipeTransform {
     'Distrito Federal': 'DF',
   };
 
-  transform(value: string | undefined, ...args: unknown[]): unknown {
-    if (value == undefined) return 'Desconhecido';
-    return this.states[value] || 'Desconhecido';
+  transform(stateName: string | undefined, ...args: unknown[]): unknown {
+    if (stateName == 'Desconhecido') return '';
+    if (stateName == undefined) return ', Desconhecido';
+    return `, ${this.states[stateName]}` || ', Desconhecido';
   }
 }

@@ -11,6 +11,7 @@ import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-c
 import { RankData, RankTypes } from '../../rank/rank.types';
 import { RankComponent } from '../../rank/rank.component';
 import { MatchesChartComponent } from '../../charts/matches-chart/matches-chart.component';
+import { WorkplaceTypes } from 'src/app/shared/keywords-matcher/workplace.data';
 
 @Component({
   selector: 'vgm-workplaces-overview',
@@ -42,9 +43,12 @@ export class WorkplacesOverviewComponent {
   ) {
     this.workplacesRank$ = this.statisticsService.getWorkplaceRank();
 
+    // TODO: Use generic type on Rank Data
     this.workplacesRank$.subscribe((workplacesRank) => {
       this.selectedWorkplace = workplacesRank[0].name;
-      this.jobsByWorkplace$ = this.jobService.getJobsByWorkplace(this.selectedWorkplace);
+      this.jobsByWorkplace$ = this.jobService.getJobsByWorkplace(
+        this.selectedWorkplace as WorkplaceTypes,
+      );
     });
 
     this.jobService.jobs$.subscribe((jobs) => {
@@ -54,6 +58,8 @@ export class WorkplacesOverviewComponent {
 
   onWorkplaceClick(workplace: string): void {
     this.selectedWorkplace = workplace;
-    this.jobsByWorkplace$ = this.jobService.getJobsByWorkplace(this.selectedWorkplace);
+    this.jobsByWorkplace$ = this.jobService.getJobsByWorkplace(
+      this.selectedWorkplace as WorkplaceTypes,
+    );
   }
 }

@@ -14,7 +14,7 @@ import {
 } from './experience-levels.data';
 import { InclusionTypes, inclusionRelatedTerms } from './inclusion.data';
 import { Languages, languageRelatedTerms } from './languages.data';
-import { oneWordKeywords, multiWordKeywords, KeywordData } from './technologies.data';
+import { oneWordTechnologies, multiWordTechnologies, Technology } from './technologies.data';
 import { WorkplaceTypes, workplaceTypeRelatedTerms } from './workplace.data';
 
 export type MatcherInput = {
@@ -84,15 +84,15 @@ export function matchExperienceLevel(content: MatcherInput): ExperienceLevels[] 
   return uniqueMatchedExperienceLevels;
 }
 
-export function matchKeywords(content: MatcherInput): KeywordData[] {
-  const jobKeywords: KeywordData[] = [];
+export function matchTechnologies(content: MatcherInput): Technology[] {
+  const jobTechnologies: Technology[] = [];
 
   if (content.title) {
     const sanitizedTitle = sanitizeString(content.title).split(' ');
     sanitizedTitle.forEach((substring: string) => {
       // The typeof check is necessary to prevent the keywords constructor being matched.
-      if (oneWordKeywords[substring] && typeof oneWordKeywords[substring] !== 'function')
-        jobKeywords.push(oneWordKeywords[substring]);
+      if (oneWordTechnologies[substring] && typeof oneWordTechnologies[substring] !== 'function')
+        jobTechnologies.push(oneWordTechnologies[substring]);
     });
   }
 
@@ -100,26 +100,27 @@ export function matchKeywords(content: MatcherInput): KeywordData[] {
     const sanitizedSplittedDescription = sanitizeString(content.description).split(' ');
     sanitizedSplittedDescription.forEach((substring: string) => {
       // The typeof check is necessary to prevent the keywords constructor being matched.
-      if (oneWordKeywords[substring] && typeof oneWordKeywords[substring] !== 'function')
-        jobKeywords.push(oneWordKeywords[substring]);
+      if (oneWordTechnologies[substring] && typeof oneWordTechnologies[substring] !== 'function')
+        jobTechnologies.push(oneWordTechnologies[substring]);
     });
 
     const sanitizedDescription = sanitizeString(content.description);
-    Object.keys(multiWordKeywords).forEach((keyword) => {
-      if (sanitizedDescription.includes(keyword)) jobKeywords.push(multiWordKeywords[keyword]);
+    Object.keys(multiWordTechnologies).forEach((keyword) => {
+      if (sanitizedDescription.includes(keyword))
+        jobTechnologies.push(multiWordTechnologies[keyword]);
     });
   }
 
   if (content.labels) {
     const sanitizedDescription = sanitizeString(content.labels.join(' ')).split(' ');
     sanitizedDescription.forEach((substring: string) => {
-      // The typeof check is necessary to prevent the keywords constructor being matched.
-      if (oneWordKeywords[substring] && typeof oneWordKeywords[substring] !== 'function')
-        jobKeywords.push(oneWordKeywords[substring]);
+      // The typeof check is necessary to prevent the keyword constructor being matched.
+      if (oneWordTechnologies[substring] && typeof oneWordTechnologies[substring] !== 'function')
+        jobTechnologies.push(oneWordTechnologies[substring]);
     });
   }
 
-  return getUniqueTechKeywords(jobKeywords).sort((a, b) =>
+  return getUniqueTechnologies(jobTechnologies).sort((a, b) =>
     a.category.name > b.category.name ? 1 : -1,
   );
 }
@@ -349,14 +350,14 @@ function getUniqueStrings(strings: string[]): string[] {
   return uniqueArray;
 }
 
-function getUniqueTechKeywords(keywords: KeywordData[]): KeywordData[] {
+function getUniqueTechnologies(technologies: Technology[]): Technology[] {
   const uniqueSet = new Set();
-  const uniqueArray: KeywordData[] = [];
+  const uniqueArray: Technology[] = [];
 
-  keywords.forEach((keyword) => {
-    if (!uniqueSet.has(keyword.name)) {
-      uniqueSet.add(keyword.name);
-      uniqueArray.push(keyword);
+  technologies.forEach((technology) => {
+    if (!uniqueSet.has(technology.name)) {
+      uniqueSet.add(technology.name);
+      uniqueArray.push(technology);
     }
   });
 

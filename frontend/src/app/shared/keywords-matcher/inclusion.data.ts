@@ -9,8 +9,8 @@ export enum InclusionTypes {
 }
 
 export type InclusionData = {
-  name: InclusionTypes;
-  count: number;
+  type: InclusionTypes;
+  matchesSearchParameters: boolean;
 };
 
 interface InclusionRelatedTerms {

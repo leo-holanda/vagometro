@@ -55,7 +55,7 @@ export class EasySearchService {
     if (data) {
       const storedSearchData = JSON.parse(data);
       const searchDataKeys: (keyof SearchData)[] = [
-        'keywords',
+        'technologies',
         'experienceLevels',
         'workplaceTypes',
         'contractTypes',

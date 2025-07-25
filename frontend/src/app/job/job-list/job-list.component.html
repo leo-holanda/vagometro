@@ -407,7 +407,7 @@
 
             <div *ngIf="job.experienceLevels.length > 0" class="flex flex-wrap gap-2">
               <div class="badge badge-neutral" *ngFor="let experienceLevel of job.experienceLevels">
-                {{ experienceLevel }}
+                {{ experienceLevel.name }}
               </div>
             </div>
           </div>
@@ -420,7 +420,7 @@
 
             <div *ngIf="job.workplaceTypes.length > 0" class="flex flex-wrap gap-2">
               <div class="badge badge-neutral" *ngFor="let workplaceType of job.workplaceTypes">
-                {{ workplaceType }}
+                {{ workplaceType.type }}
               </div>
             </div>
           </div>
@@ -433,7 +433,7 @@
 
             <div class="flex flex-wrapitems-center gap-2">
               <div class="badge badge-neutral" *ngFor="let contractType of job.contractTypes">
-                {{ contractType }}
+                {{ contractType.type }}
               </div>
             </div>
           </div>
@@ -468,7 +468,7 @@
 
             <div class="flex flex-wrap items-center gap-2">
               <div class="badge badge-neutral" *ngFor="let inclusionType of job.inclusionTypes">
-                {{ inclusionType }}
+                {{ inclusionType.type }}
               </div>
             </div>
           </div>

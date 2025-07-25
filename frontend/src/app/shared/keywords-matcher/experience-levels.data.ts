@@ -9,9 +9,9 @@ export enum ExperienceLevels {
   unknown = 'Totalmente desconhecido',
 }
 
-export type ExperienceLevelData = {
-  level: ExperienceLevels;
-  count: number;
+export type ExperienceData = {
+  name: ExperienceLevels;
+  matchesSearchParameters: boolean;
 };
 
 export const internLevelRelatedTypes = ['vacancy_type_internship'];

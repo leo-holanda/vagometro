@@ -7,36 +7,51 @@ export function getJobMatchPercentage(
 ): number | undefined {
   if (searchData == undefined) return undefined;
 
-  const searchDataKeywords = searchData.keywords.map((keyword) => keyword.name);
-  const matchedKeywords = job.keywords.filter((keyword) =>
-    searchDataKeywords.includes(keyword.name),
-  );
+  let matchedTechnologiesQuantity = 0;
+  job.keywords.forEach((keyword) => {
+    keyword.matchesSearchParameters = searchData.technologies.some(
+      (technology) => technology.name == keyword.name,
+    );
+    if (keyword.matchesSearchParameters) matchedTechnologiesQuantity++;
+  });
 
-  const hasMatchedExperienceLevels = job.experienceLevels.some((experienceLevel) =>
-    searchData.experienceLevels.includes(experienceLevel),
-  );
+  let hasMatchedExperienceLevels = false;
+  job.experienceLevels.forEach((experienceLevel) => {
+    experienceLevel.matchesSearchParameters = searchData.experienceLevels.includes(
+      experienceLevel.name,
+    );
 
-  const hasMatchedWorkplaceTypes = job.workplaceTypes.some((workplaceType) =>
-    searchData.workplaceTypes.includes(workplaceType),
-  );
+    hasMatchedExperienceLevels =
+      experienceLevel.matchesSearchParameters || hasMatchedExperienceLevels;
+  });
 
-  const hasMatchedContractTypes = job.contractTypes.some((contractType) =>
-    searchData.contractTypes.includes(contractType),
-  );
+  let hasMatchedWorkplaceTypes = false;
+  job.workplaceTypes.forEach((workplaceType) => {
+    workplaceType.matchesSearchParameters = searchData.workplaceTypes.includes(workplaceType.type);
+    hasMatchedWorkplaceTypes = workplaceType.matchesSearchParameters || hasMatchedWorkplaceTypes;
+  });
 
-  const hasMatchedInclusionTypes = job.inclusionTypes.some((inclusionType) =>
-    searchData.inclusionTypes.includes(inclusionType),
-  );
+  let hasMatchedContractTypes = false;
+  job.contractTypes.forEach((contractType) => {
+    contractType.matchesSearchParameters = searchData.contractTypes.includes(contractType.type);
+    hasMatchedContractTypes = contractType.matchesSearchParameters || hasMatchedContractTypes;
+  });
+
+  let hasMatchedInclusionTypes = false;
+  job.inclusionTypes.forEach((inclusionType) => {
+    inclusionType.matchesSearchParameters = searchData.inclusionTypes.includes(inclusionType.type);
+    hasMatchedInclusionTypes = inclusionType.matchesSearchParameters || hasMatchedInclusionTypes;
+  });
 
   const howManyItemsWereMatched =
-    matchedKeywords.length +
+    matchedTechnologiesQuantity +
     (hasMatchedExperienceLevels ? 1 : 0) +
     (hasMatchedWorkplaceTypes ? 1 : 0) +
     (hasMatchedContractTypes ? 1 : 0) +
     (hasMatchedInclusionTypes ? 1 : 0);
 
   const howManyItemsWereSelected =
-    searchDataKeywords.length +
+    searchData.technologies.length +
     (searchData.experienceLevels.length ? 1 : 0) +
     (searchData.workplaceTypes.length ? 1 : 0) +
     (searchData.contractTypes.length ? 1 : 0) +

@@ -114,13 +114,17 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
 
     if (this.filters['experienceLevel']) {
       this.filteredJobs = this.filteredJobs.filter((job) =>
-        job.experienceLevels.includes(this.filters['experienceLevel'] as ExperienceLevels),
+        job.experienceLevels.some((experienceLevel) =>
+          this.filters['experienceLevel']?.includes(experienceLevel.name),
+        ),
       );
     }
 
     if (this.filters['workplaceTypes']) {
       this.filteredJobs = this.filteredJobs.filter((job) =>
-        job.workplaceTypes.includes(this.filters['workplaceTypes'] as WorkplaceTypes),
+        job.workplaceTypes.some((workplaceType) =>
+          this.filters['workplaceTypes']?.includes(workplaceType.type),
+        ),
       );
     }
 
@@ -135,7 +139,9 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
 
     if (this.filters['jobContractType']) {
       this.filteredJobs = this.filteredJobs.filter((job) =>
-        job.contractTypes.includes(this.filters['jobContractType'] as ContractTypes),
+        job.contractTypes.some((jobContractType) =>
+          this.filters['jobContractType']?.includes(jobContractType.type),
+        ),
       );
     }
 
@@ -151,7 +157,9 @@ export class JobListComponent implements OnInit, OnDestroy, OnChanges {
 
     if (this.filters['inclusionType']) {
       this.filteredJobs = this.filteredJobs.filter((job) =>
-        job.inclusionTypes.includes(this.filters['inclusionType'] as InclusionTypes),
+        job.inclusionTypes.some((inclusionType) =>
+          this.filters['inclusionType']?.includes(inclusionType.type),
+        ),
       );
     }
 

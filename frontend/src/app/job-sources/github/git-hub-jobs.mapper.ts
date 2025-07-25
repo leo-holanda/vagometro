@@ -1,22 +1,22 @@
 import { Job } from 'src/app/job/job.types';
 import { CertificationStatus } from 'src/app/shared/keywords-matcher/certification.data';
-import { ContractTypes } from 'src/app/shared/keywords-matcher/contract-types.data';
+import { ContractData } from 'src/app/shared/keywords-matcher/contract-types.data';
 import { EducationalData } from 'src/app/shared/keywords-matcher/education.data';
-import { ExperienceLevels } from 'src/app/shared/keywords-matcher/experience-levels.data';
-import { InclusionTypes } from 'src/app/shared/keywords-matcher/inclusion.data';
+import { ExperienceData } from 'src/app/shared/keywords-matcher/experience-levels.data';
+import { InclusionData } from 'src/app/shared/keywords-matcher/inclusion.data';
 import {
   matchCertificationStatus,
   matchInclusionTypes,
   matchWorkplaceTypes,
   matchExperienceLevel,
-  matchKeywords,
+  matchTechnologies,
   matchEducationalTerms,
   matchLanguages,
   matchContractTypes,
 } from 'src/app/shared/keywords-matcher/keywords-matcher';
-import { WorkplaceTypes } from 'src/app/shared/keywords-matcher/workplace.data';
+import { WorkplaceData } from 'src/app/shared/keywords-matcher/workplace.data';
 import { GitHubJob } from './git-hub-jobs.types';
-import { KeywordData } from 'src/app/shared/keywords-matcher/technologies.data';
+import { TechnologyData } from 'src/app/shared/keywords-matcher/technologies.data';
 import { SearchData } from 'src/app/job/easy-search/easy-search.types';
 import { getJobMatchPercentage } from 'src/app/job/easy-search/easy-search.mapper';
 
@@ -74,6 +74,7 @@ export function mapToJob(
     certificationStatuses: findCertificationStatuses(job),
     repostings: [],
     timeInDaysBetweenRepostings: 0,
+    interactionStatus: { applied: false, discarded: false, viewed: false },
   };
 
   const jobsByCompany = jobsByCompanyMap.get(mappedJob.companyName) || [];
@@ -150,20 +151,65 @@ function findCompanyName(job: GitHubJob): string {
   return 'Desconhecido';
 }
 
-function findInclusionTypes(job: GitHubJob): InclusionTypes[] {
-  return matchInclusionTypes({ title: job.title, description: job.body, labels: job.labels });
+function findInclusionTypes(job: GitHubJob): InclusionData[] {
+  const matchedInclusionTypes = matchInclusionTypes({
+    title: job.title,
+    description: job.body,
+    labels: job.labels,
+  });
+
+  return matchedInclusionTypes.map((inclusionType) => {
+    return {
+      type: inclusionType,
+      matchesSearchParameters: false,
+    };
+  });
 }
 
-function findJobWorkplaceTypes(job: GitHubJob): WorkplaceTypes[] {
-  return matchWorkplaceTypes({ title: job.title, description: job.body, labels: job.labels });
+function findJobWorkplaceTypes(job: GitHubJob): WorkplaceData[] {
+  const matchedWorkplaceTypes = matchWorkplaceTypes({
+    title: job.title,
+    description: job.body,
+    labels: job.labels,
+  });
+
+  return matchedWorkplaceTypes.map((workplaceType) => {
+    return {
+      type: workplaceType,
+      matchesSearchParameters: false,
+    };
+  });
 }
 
-function findJobExperienceLevel(job: GitHubJob): ExperienceLevels[] {
-  return matchExperienceLevel({ title: job.title, description: job.body, labels: job.labels });
+function findJobExperienceLevel(job: GitHubJob): ExperienceData[] {
+  const matchedExperienceLevels = matchExperienceLevel({
+    title: job.title,
+    description: job.body,
+    labels: job.labels,
+  });
+
+  return matchedExperienceLevels.map((experienceLevel) => {
+    return {
+      name: experienceLevel,
+      matchesSearchParameters: false,
+    };
+  });
 }
 
-function findJobKeywords(job: GitHubJob): KeywordData[] {
-  return matchKeywords({ title: job.title, description: job.body, labels: job.labels });
+function findJobKeywords(job: GitHubJob): TechnologyData[] {
+  const matchedTechnologies = matchTechnologies({
+    title: job.title,
+    description: job.body,
+    labels: job.labels,
+  });
+
+  return matchedTechnologies.map((technology) => {
+    return {
+      name: technology.name,
+      category: technology.category,
+      matchesSearchParameters: false,
+    };
+  });
 }
 
 function findEducationalData(job: GitHubJob): EducationalData {
@@ -174,6 +220,17 @@ function findJobLanguages(job: GitHubJob): string[] {
   return matchLanguages({ description: job.body });
 }
 
-function findContractTypesCitedInJob(job: GitHubJob): ContractTypes[] {
-  return matchContractTypes({ title: job.title, description: job.body, labels: job.labels });
+function findContractTypesCitedInJob(job: GitHubJob): ContractData[] {
+  const matchedContractTypes = matchContractTypes({
+    title: job.title,
+    description: job.body,
+    labels: job.labels,
+  });
+
+  return matchedContractTypes.map((contractType) => {
+    return {
+      type: contractType,
+      matchesSearchParameters: false,
+    };
+  });
 }

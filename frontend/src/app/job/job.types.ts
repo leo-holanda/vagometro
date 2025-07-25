@@ -1,9 +1,19 @@
-import { ContractTypes } from '../shared/keywords-matcher/contract-types.data';
-import { ExperienceLevels } from '../shared/keywords-matcher/experience-levels.data';
-import { WorkplaceTypes } from '../shared/keywords-matcher/workplace.data';
-import { InclusionTypes } from '../shared/keywords-matcher/inclusion.data';
+import { ContractData } from '../shared/keywords-matcher/contract-types.data';
+import { ExperienceData } from '../shared/keywords-matcher/experience-levels.data';
+import { WorkplaceData } from '../shared/keywords-matcher/workplace.data';
+import { InclusionData } from '../shared/keywords-matcher/inclusion.data';
 import { CertificationStatus } from '../shared/keywords-matcher/certification.data';
-import { KeywordData } from '../shared/keywords-matcher/technologies.data';
+import { TechnologyData } from '../shared/keywords-matcher/technologies.data';
+
+export enum InteractionStatuses {
+  APPLIED = 'applied',
+  VIEWED = 'viewed',
+  DISCARDED = 'discarded',
+}
+
+export type InteractionStatus = {
+  [key in InteractionStatuses]: boolean;
+};
 
 export type Job = {
   id: number;
@@ -12,15 +22,15 @@ export type Job = {
   title: string;
   description: string;
   jobUrl: string;
-  workplaceTypes: WorkplaceTypes[];
+  workplaceTypes: WorkplaceData[];
   country: string;
   state: string;
   city: string;
-  inclusionTypes: InclusionTypes[];
+  inclusionTypes: InclusionData[];
   publishedDate: Date;
-  contractTypes: ContractTypes[];
-  experienceLevels: ExperienceLevels[];
-  keywords: KeywordData[];
+  contractTypes: ContractData[];
+  experienceLevels: ExperienceData[];
+  keywords: TechnologyData[];
   educationTerms: string[];
   educationalLevelTerms: string[];
   languages: string[];
@@ -28,6 +38,7 @@ export type Job = {
   matchPercentage?: number;
   repostings: Job[];
   timeInDaysBetweenRepostings: number;
+  interactionStatus: InteractionStatus;
 };
 
 export enum TimeWindows {

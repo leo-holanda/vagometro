@@ -1,25 +1,26 @@
 import { Job } from 'src/app/job/job.types';
 import { CertificationStatus } from 'src/app/shared/keywords-matcher/certification.data';
-import { ContractTypes } from 'src/app/shared/keywords-matcher/contract-types.data';
+import { ContractData } from 'src/app/shared/keywords-matcher/contract-types.data';
 import { EducationalData } from 'src/app/shared/keywords-matcher/education.data';
 import {
   ExperienceLevels,
   internLevelRelatedTypes,
   traineeLevelRelatedTypes,
   juniorLevelRelatedTypes,
+  ExperienceData,
 } from 'src/app/shared/keywords-matcher/experience-levels.data';
-import { InclusionTypes } from 'src/app/shared/keywords-matcher/inclusion.data';
+import { InclusionData, InclusionTypes } from 'src/app/shared/keywords-matcher/inclusion.data';
 import {
   matchCertificationStatus,
   matchInclusionTypes,
   matchLanguages,
   matchExperienceLevel,
-  matchKeywords,
+  matchTechnologies,
   matchEducationalTerms,
 } from 'src/app/shared/keywords-matcher/keywords-matcher';
-import { WorkplaceTypes } from 'src/app/shared/keywords-matcher/workplace.data';
+import { WorkplaceData, WorkplaceTypes } from 'src/app/shared/keywords-matcher/workplace.data';
 import { GupyJob, gupyContractTypeMap } from './gupy.types';
-import { KeywordData } from 'src/app/shared/keywords-matcher/technologies.data';
+import { TechnologyData } from 'src/app/shared/keywords-matcher/technologies.data';
 import { SearchData } from 'src/app/job/easy-search/easy-search.types';
 import { getJobMatchPercentage } from 'src/app/job/easy-search/easy-search.mapper';
 
@@ -70,12 +71,13 @@ export function mapToJob(
     contractTypes: findJobContractType(job),
     experienceLevels: findExperienceLevel(job),
     inclusionTypes: findJobInclusionTypes(job),
-    keywords: getJobKeywords(job),
+    keywords: getJobTechnologies(job),
     languages: findJobLanguages(job),
     workplaceTypes: getJobWorkplaceType(job),
     certificationStatuses: findCertificationStatuses(job),
     repostings: [],
     timeInDaysBetweenRepostings: 0,
+    interactionStatus: { applied: false, discarded: false, viewed: false },
   };
 
   const jobsByCompany = jobsByCompanyMap.get(mappedJob.companyName) || [];
@@ -114,11 +116,16 @@ function findCertificationStatuses(job: GupyJob): CertificationStatus[] {
   return matchCertificationStatus({ description: job.description });
 }
 
-function findJobContractType(job: GupyJob): ContractTypes[] {
-  return [gupyContractTypeMap[job.type]];
+function findJobContractType(job: GupyJob): ContractData[] {
+  const contractData: ContractData = {
+    type: gupyContractTypeMap[job.type],
+    matchesSearchParameters: false,
+  };
+
+  return [contractData];
 }
 
-function findJobInclusionTypes(job: GupyJob): InclusionTypes[] {
+function findJobInclusionTypes(job: GupyJob): InclusionData[] {
   let matchedInclusionTypes = matchInclusionTypes({
     title: job.name,
     description: job.description,
@@ -132,31 +139,75 @@ function findJobInclusionTypes(job: GupyJob): InclusionTypes[] {
     }
   }
 
-  return matchedInclusionTypes;
+  return matchedInclusionTypes.map((inclusionType) => {
+    return {
+      type: inclusionType,
+      matchesSearchParameters: false,
+    };
+  });
 }
 
-function getJobWorkplaceType(gupyJob: GupyJob): WorkplaceTypes[] {
-  if (gupyJob.workplaceType == 'remote') return [WorkplaceTypes.remote];
-  if (gupyJob.workplaceType == 'on-site') return [WorkplaceTypes['on-site']];
-  if (gupyJob.workplaceType == 'hybrid') return [WorkplaceTypes.hybrid];
+function getJobWorkplaceType(gupyJob: GupyJob): WorkplaceData[] {
+  const workplaceData: WorkplaceData = {
+    type: WorkplaceTypes.unknown,
+    matchesSearchParameters: false,
+  };
 
-  return [WorkplaceTypes.unknown];
+  if (gupyJob.workplaceType == 'remote') workplaceData.type = WorkplaceTypes.remote;
+  if (gupyJob.workplaceType == 'on-site') workplaceData.type = WorkplaceTypes['on-site'];
+  if (gupyJob.workplaceType == 'hybrid') workplaceData.type = WorkplaceTypes.hybrid;
+
+  return [workplaceData];
 }
 
 function findJobLanguages(job: GupyJob): string[] {
   return matchLanguages({ description: job.description });
 }
 
-function findExperienceLevel(job: GupyJob): ExperienceLevels[] {
-  if (internLevelRelatedTypes.includes(job.type)) return [ExperienceLevels.intern];
-  if (traineeLevelRelatedTypes.includes(job.type)) return [ExperienceLevels.trainee];
-  if (juniorLevelRelatedTypes.includes(job.type)) return [ExperienceLevels.junior];
+function findExperienceLevel(job: GupyJob): ExperienceData[] {
+  const experienceData: ExperienceData = {
+    name: ExperienceLevels.unknown,
+    matchesSearchParameters: false,
+  };
 
-  return matchExperienceLevel({ title: job.name, description: job.description });
+  if (internLevelRelatedTypes.includes(job.type)) {
+    experienceData.name = ExperienceLevels.intern;
+    return [experienceData];
+  }
+
+  if (traineeLevelRelatedTypes.includes(job.type)) {
+    experienceData.name = ExperienceLevels.trainee;
+    return [experienceData];
+  }
+
+  if (juniorLevelRelatedTypes.includes(job.type)) {
+    experienceData.name = ExperienceLevels.junior;
+    return [experienceData];
+  }
+
+  const matchedExperienceLevels = matchExperienceLevel({
+    title: job.name,
+    description: job.description,
+  });
+
+  return matchedExperienceLevels.map((experienceLevel) => {
+    return {
+      name: experienceLevel,
+      matchesSearchParameters: false,
+    };
+  });
 }
 
-function getJobKeywords(job: GupyJob): KeywordData[] {
-  return matchKeywords({ title: job.name, description: job.description });
+function getJobTechnologies(job: GupyJob): TechnologyData[] {
+  const matchedTechnologies = matchTechnologies({ title: job.name, description: job.description });
+
+  return matchedTechnologies.map((technology) => {
+    return {
+      name: technology.name,
+      category: technology.category,
+      matchesSearchParameters: false,
+    };
+  });
 }
 
 function findEducationalData(job: GupyJob): EducationalData {

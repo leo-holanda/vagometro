@@ -1,7 +1,7 @@
 import { ContractTypes } from 'src/app/shared/keywords-matcher/contract-types.data';
 import { ExperienceLevels } from 'src/app/shared/keywords-matcher/experience-levels.data';
 import { InclusionTypes } from 'src/app/shared/keywords-matcher/inclusion.data';
-import { KeywordCategoryData } from 'src/app/shared/keywords-matcher/technologies.data';
+import { TechnologyCategory } from 'src/app/shared/keywords-matcher/technologies.data';
 import { WorkplaceTypes } from 'src/app/shared/keywords-matcher/workplace.data';
 
 interface SearchFormData {
@@ -10,7 +10,7 @@ interface SearchFormData {
 
 export interface KeywordOnSearchForm extends SearchFormData {
   name: string;
-  category: KeywordCategoryData;
+  category: TechnologyCategory;
 }
 
 export interface ExperienceLevelOnSearchForm extends SearchFormData {

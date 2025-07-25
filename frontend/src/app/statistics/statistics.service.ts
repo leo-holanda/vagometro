@@ -85,8 +85,8 @@ export class StatisticsService {
 
         jobs.forEach((job) => {
           job.workplaceTypes.forEach((workplaceType) => {
-            const currentWorkplaceCount = workplaceMap.get(workplaceType) || 0;
-            workplaceMap.set(workplaceType, currentWorkplaceCount + 1);
+            const currentWorkplaceCount = workplaceMap.get(workplaceType.type) || 0;
+            workplaceMap.set(workplaceType.type, currentWorkplaceCount + 1);
           });
         });
 
@@ -113,8 +113,8 @@ export class StatisticsService {
 
         jobs.forEach((job) => {
           job.contractTypes.forEach((contractType) => {
-            const currentWorkplaceCount = contractTypesMap.get(contractType) || 0;
-            contractTypesMap.set(contractType, currentWorkplaceCount + 1);
+            const currentWorkplaceCount = contractTypesMap.get(contractType.type) || 0;
+            contractTypesMap.set(contractType.type, currentWorkplaceCount + 1);
           });
         });
 
@@ -201,9 +201,9 @@ export class StatisticsService {
 
         jobs.forEach((job) => {
           job.experienceLevels.forEach((experienceLevel) => {
-            const currentExperienceLevelCount = experienceLevelsMap.get(experienceLevel) || 0;
+            const currentExperienceLevelCount = experienceLevelsMap.get(experienceLevel.name) || 0;
 
-            experienceLevelsMap.set(experienceLevel, currentExperienceLevelCount + 1);
+            experienceLevelsMap.set(experienceLevel.name, currentExperienceLevelCount + 1);
           });
         });
 
@@ -230,8 +230,8 @@ export class StatisticsService {
 
         jobs.forEach((job) => {
           job.inclusionTypes.forEach((inclusionType) => {
-            const currentInclusionTypeCount = inclusionTypeMap.get(inclusionType) || 0;
-            inclusionTypeMap.set(inclusionType, currentInclusionTypeCount + 1);
+            const currentInclusionTypeCount = inclusionTypeMap.get(inclusionType.type) || 0;
+            inclusionTypeMap.set(inclusionType.type, currentInclusionTypeCount + 1);
           });
         });
 

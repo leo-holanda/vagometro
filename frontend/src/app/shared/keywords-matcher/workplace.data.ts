@@ -5,6 +5,11 @@ export enum WorkplaceTypes {
   unknown = 'Desconhecido',
 }
 
+export type WorkplaceData = {
+  type: WorkplaceTypes;
+  matchesSearchParameters: boolean;
+};
+
 interface workplaceTypeRelatedTerms {
   [key: string]: WorkplaceTypes;
 }

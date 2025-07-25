@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
-  KeywordData,
-  oneWordKeywords,
-  multiWordKeywords,
+  Technology,
+  oneWordTechnologies,
+  multiWordTechnologies,
 } from 'src/app/shared/keywords-matcher/technologies.data';
 import { trackByKeyword } from 'src/app/shared/track-by-functions';
 import { SearchData } from '../easy-search.types';
@@ -39,7 +39,7 @@ export class SearchFormComponent {
   contractTypes: ContractTypesOnSearchForm[] = [];
   inclusionTypes: InclusionTypesOnSearchForm[] = [];
 
-  private selectedKeywords: KeywordData[] = [];
+  private selectedKeywords: Technology[] = [];
   private keywords: KeywordOnSearchForm[] = [];
 
   trackByKeyword = trackByKeyword;
@@ -75,7 +75,7 @@ export class SearchFormComponent {
       keyword.isSelected = true;
     }
 
-    this.searchData.keywords = this.selectedKeywords;
+    this.searchData.technologies = this.selectedKeywords;
   }
 
   onExperienceLevelClick(experienceLevel: ExperienceLevelOnSearchForm): void {
@@ -125,7 +125,7 @@ export class SearchFormComponent {
   }
 
   private loadKeywords(): void {
-    const keywordsMap = { ...oneWordKeywords, ...multiWordKeywords };
+    const keywordsMap = { ...oneWordTechnologies, ...multiWordTechnologies };
     const keywordSet = new Set();
 
     for (const keyword in keywordsMap) {
@@ -170,7 +170,7 @@ export class SearchFormComponent {
   }
 
   private selectKeywordsFromSearchData(): void {
-    this.selectedKeywords = this.searchData.keywords;
+    this.selectedKeywords = this.searchData.technologies;
     const selectedKeywordsNames = this.selectedKeywords.map((keyword) => keyword.name);
 
     this.filteredKeywords.forEach((filteredKeyword) => {
@@ -226,7 +226,7 @@ export class SearchFormComponent {
     const searchData = this.easySearchService.getSearchData();
     if (!searchData)
       this.searchData = {
-        keywords: [],
+        technologies: [],
         experienceLevels: [],
         workplaceTypes: [],
         contractTypes: [],

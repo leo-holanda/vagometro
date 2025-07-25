@@ -47,12 +47,10 @@ export class JobService {
     );
   }
 
-  getJobsByWorkplace(workplace: string): Observable<Job[]> {
+  getJobsByWorkplace(workplace: WorkplaceTypes): Observable<Job[]> {
     return this.jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
-      map((jobs) => {
-        return jobs.filter((job) => job.workplaceTypes.includes(workplace as WorkplaceTypes));
-      }),
+      map((jobs) => this.filterJobsByWorkplaceType(jobs, workplace)),
     );
   }
 
@@ -80,21 +78,17 @@ export class JobService {
     );
   }
 
-  getJobsByContractType(contracType: ContractTypes): Observable<Job[]> {
+  getJobsByContractType(contractType: ContractTypes): Observable<Job[]> {
     return this.jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
-      map((jobs) => {
-        return jobs.filter((job) => job.contractTypes.includes(contracType));
-      }),
+      map((jobs) => this.filterJobsByContractType(jobs, contractType)),
     );
   }
 
   getJobsByExperienceLevel(experienceLevel: ExperienceLevels): Observable<Job[]> {
     return this.jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
-      map((jobs) => {
-        return jobs.filter((job) => job.experienceLevels.includes(experienceLevel));
-      }),
+      map((jobs) => this.filterJobsByExperienceLevel(jobs, experienceLevel)),
     );
   }
 
@@ -155,7 +149,9 @@ export class JobService {
     return this.jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
-        return jobs.filter((job) => job.inclusionTypes.includes(inclusionType));
+        return jobs.filter((job) =>
+          job.inclusionTypes.some((jobInclusionType) => jobInclusionType.type == inclusionType),
+        );
       }),
     );
   }
@@ -250,5 +246,23 @@ export class JobService {
     // Deep cloning the oldest date is necessary to prevent the reference being used further.
     // Removing this deep clone will bring back the annoying monthly difference bug
     return new Date(oldestDate.getTime());
+  }
+
+  private filterJobsByWorkplaceType(jobs: Job[], workplaceType: WorkplaceTypes): Job[] {
+    return jobs.filter((job) =>
+      job.workplaceTypes.some((jobWorkplace) => workplaceType == jobWorkplace.type),
+    );
+  }
+
+  private filterJobsByContractType(jobs: Job[], contractType: ContractTypes): Job[] {
+    return jobs.filter((job) =>
+      job.contractTypes.some((jobContractType) => contractType == jobContractType.type),
+    );
+  }
+
+  private filterJobsByExperienceLevel(jobs: Job[], experienceLevel: ExperienceLevels): Job[] {
+    return jobs.filter((job) =>
+      job.experienceLevels.some((jobExperienceLevel) => experienceLevel == jobExperienceLevel.name),
+    );
   }
 }

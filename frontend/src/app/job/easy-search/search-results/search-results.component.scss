@@ -1,0 +1,23 @@
+.virtual-scroll-viewport {
+  height: 180dvh;
+
+  @media (min-width: 768px) {
+    height: 100dvh;
+  }
+}
+
+.repostings-virtual-scroll-viewport {
+  height: 50dvh;
+}
+
+:host ::ng-deep .cdk-virtual-scroll-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+  width: 100%;
+}
+
+.header-row {
+  top: -16px;
+}

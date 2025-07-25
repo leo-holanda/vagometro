@@ -17,6 +17,11 @@ export enum ContractTypes {
   unknown = 'Desconhecido',
 }
 
+export type ContractData = {
+  type: ContractTypes;
+  matchesSearchParameters: boolean;
+};
+
 interface contractTypesRelatedTerms {
   [key: string]: ContractTypes;
 }

@@ -8,12 +8,19 @@ import { TechnologyData } from '../shared/keywords-matcher/technologies.data';
 export enum InteractionStatuses {
   APPLIED = 'applied',
   VIEWED = 'viewed',
+  ACCESSED = 'accessed',
   DISCARDED = 'discarded',
 }
 
 export type InteractionStatus = {
   [key in InteractionStatuses]: boolean;
 };
+
+export enum JobLists {
+  TO_DECIDE = 'to_decide',
+  APPLIED = 'applied',
+  DISCARDED = 'discarded',
+}
 
 export type Job = {
   id: number;

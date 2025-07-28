@@ -1,4 +1,4 @@
-<main class="grid grid-rows-[1fr_auto] p-4 w-full">
+<main class="grid grid-rows-[1fr_auto] px-4 pb-4 w-full">
   <section class="flex flex-col gap-4 my-4 lg:self-start lg:flex-row lg:rounded-lg">
     <button
       class="btn flex-nowrap"
@@ -31,20 +31,22 @@
   </section>
 
   <ng-container *ngIf="selectedDataType === 'jobs'">
-    <ng-container *ngIf="((jobs$ | async) || []).length; else emptyResultsTemplate">
-      <ng-container *ngIf="matchesMobileBreakpoint$ | async; else desktopTemplate">
-        <section class="w-full lg:w-1/2">
-          <div class="card card-bordered card-compact bg-base-300">
-            <div class="card-title justify-between p-4">
-              <h1>Vagas encontradas</h1>
-              <span>Total: {{ ((jobs$ | async) || []).length }} vagas</span>
-            </div>
+    <ng-container *ngIf="hasFoundJobs; else emptyResultsTemplate">
+      <ng-container *ngIf="!isJobsListEmpty; else emptyJobListTemplate">
+        <ng-container *ngIf="matchesMobileBreakpoint$ | async; else desktopTemplate">
+          <section class="w-full lg:w-1/2">
+            <div class="card card-bordered card-compact bg-base-300 h-fit">
+              <div class="card-title justify-between p-4">
+                <h1>Vagas encontradas</h1>
+                <span>Total: {{ ((filteredJobs$ | async) || []).length }} vagas</span>
+              </div>
 
-            <div class="card-body overflow-y-hidden">
-              <vgm-job-list [jobs$]="jobs$" [sortBy]="'matchPercentage'"></vgm-job-list>
+              <div class="card-body overflow-y-hidden">
+                <vgm-job-list [jobs$]="filteredJobs$" [sortBy]="'matchPercentage'"></vgm-job-list>
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        </ng-container>
       </ng-container>
     </ng-container>
 
@@ -69,12 +71,68 @@
         </div>
       </section>
     </ng-template>
+
+    <ng-template #emptyJobListTemplate>
+      <section class="w-full lg:w-1/2">
+        <div class="card card-bordered card-compact bg-base-300">
+          <div class="card-body">
+            <div class="card-title">
+              <div class="flex flex-col gap-2">
+                <div class="flex items-center gap-2">
+                  <i class="bx bxs-party"></i>
+                  <span *ngIf="(selectedJobList$ | async) === jobLists.TO_DECIDE">
+                    Você conferiu todas as vagas encontradas.
+                  </span>
+                </div>
+              </div>
+
+              <span *ngIf="(selectedJobList$ | async) === jobLists.APPLIED">
+                Não há nenhuma vaga aplicada ainda.
+              </span>
+
+              <span *ngIf="(selectedJobList$ | async) === jobLists.DISCARDED">
+                Não há nenhuma vaga descartada ainda.
+              </span>
+            </div>
+
+            <span *ngIf="(selectedJobList$ | async) === jobLists.TO_DECIDE" class="mb-2"
+              >Buscar novas oportunidades pode ser algo bastante exaustivo e desgastante, mas você
+              está fazendo um ótimo progresso. Parabéns e boa sorte! 🙏</span
+            >
+
+            <div class="card-actions flex flex-col gap-2">
+              <button
+                *ngIf="(selectedJobList$ | async) !== jobLists.TO_DECIDE"
+                class="btn w-full"
+                (click)="setJobsListType(jobLists.TO_DECIDE)"
+              >
+                Ver vagas a decidir
+              </button>
+              <button
+                *ngIf="(selectedJobList$ | async) !== jobLists.APPLIED"
+                class="btn w-full"
+                (click)="setJobsListType(jobLists.APPLIED)"
+              >
+                Ver vagas aplicadas
+              </button>
+              <button
+                *ngIf="(selectedJobList$ | async) !== jobLists.DISCARDED"
+                class="btn w-full"
+                (click)="setJobsListType(jobLists.DISCARDED)"
+              >
+                Ver vagas descartadas
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </ng-template>
   </ng-container>
 
   <ng-container *ngIf="selectedDataType === 'stats'">
     <section class="grid grid-cols-1 lg:grid-cols-3 gap-4 w-full">
       <div class="lg:col-span-3">
-        <vgm-matches-chart [jobs$]="jobs$"></vgm-matches-chart>
+        <vgm-matches-chart [jobs$]="filteredJobs$"></vgm-matches-chart>
       </div>
 
       <div class="card card-bordered card-compact w-full h-full bg-base-300 lg:col-span-2">
@@ -84,35 +142,35 @@
         </div>
 
         <div class="card-body">
-          <vgm-publication-chart [jobs$]="jobs$"></vgm-publication-chart>
+          <vgm-publication-chart [jobs$]="filteredJobs$"></vgm-publication-chart>
         </div>
       </div>
 
-      <vgm-job-postings-comparison [jobs$]="jobs$"></vgm-job-postings-comparison>
+      <vgm-job-postings-comparison [jobs$]="filteredJobs$"></vgm-job-postings-comparison>
 
-      <vgm-rank [rankType]="rankTypes.experience" [jobs$]="jobs$"></vgm-rank>
+      <vgm-rank [rankType]="rankTypes.experience" [jobs$]="filteredJobs$"></vgm-rank>
 
-      <vgm-rank [rankType]="rankTypes.technology" [jobs$]="jobs$"></vgm-rank>
+      <vgm-rank [rankType]="rankTypes.technology" [jobs$]="filteredJobs$"></vgm-rank>
 
-      <vgm-rank [rankType]="rankTypes.workplace" [jobs$]="jobs$"></vgm-rank>
+      <vgm-rank [rankType]="rankTypes.workplace" [jobs$]="filteredJobs$"></vgm-rank>
 
-      <vgm-rank [rankType]="rankTypes.companies" [jobs$]="jobs$"></vgm-rank>
+      <vgm-rank [rankType]="rankTypes.companies" [jobs$]="filteredJobs$"></vgm-rank>
 
-      <vgm-rank [rankType]="rankTypes.inclusion" [jobs$]="jobs$"></vgm-rank>
+      <vgm-rank [rankType]="rankTypes.inclusion" [jobs$]="filteredJobs$"></vgm-rank>
 
-      <vgm-rank [rankType]="rankTypes.repostings" [jobs$]="jobs$"></vgm-rank>
+      <vgm-rank [rankType]="rankTypes.repostings" [jobs$]="filteredJobs$"></vgm-rank>
 
-      <vgm-rank [rankType]="rankTypes.contractTypes" [jobs$]="jobs$"></vgm-rank>
+      <vgm-rank [rankType]="rankTypes.contractTypes" [jobs$]="filteredJobs$"></vgm-rank>
 
-      <vgm-rank [rankType]="rankTypes.education" [jobs$]="jobs$"></vgm-rank>
+      <vgm-rank [rankType]="rankTypes.education" [jobs$]="filteredJobs$"></vgm-rank>
 
-      <vgm-rank [rankType]="rankTypes.languages" [jobs$]="jobs$"></vgm-rank>
+      <vgm-rank [rankType]="rankTypes.languages" [jobs$]="filteredJobs$"></vgm-rank>
 
-      <vgm-rank [rankType]="rankTypes.cities" [jobs$]="jobs$"></vgm-rank>
+      <vgm-rank [rankType]="rankTypes.cities" [jobs$]="filteredJobs$"></vgm-rank>
 
-      <vgm-rank [rankType]="rankTypes.months" [jobs$]="jobs$"></vgm-rank>
+      <vgm-rank [rankType]="rankTypes.months" [jobs$]="filteredJobs$"></vgm-rank>
 
-      <vgm-rank [rankType]="rankTypes.certification" [jobs$]="jobs$"></vgm-rank>
+      <vgm-rank [rankType]="rankTypes.certification" [jobs$]="filteredJobs$"></vgm-rank>
     </section>
   </ng-container>
 </main>
@@ -128,15 +186,22 @@
         [appendOnly]="true"
       >
         <button
-          *ngFor="let job of jobs$ | async; index as i; trackBy: trackByJobId"
+          *ngFor="let job of filteredJobs$ | async; index as jobIndex; trackBy: trackByJobId"
           class="btn grid grid-cols-[1fr_4fr] w-full h-full p-3 bg-base-100 border-l-4 rounded-l-none hover:border-l-4"
-          [ngClass]="{
-            'border-l-primary hover:border-l-primary': selectedJob.id === job.id,
-            'border-l-info hover:border-l-info': job.interactionStatus.viewed,
-            'border-l-success hover:border-l-success': job.interactionStatus.applied,
-            'border-l-error hover:border-l-error': job.interactionStatus.discarded
-          }"
-          (click)="selectJob(job)"
+          [ngClass]="
+            selectedJob.id === job.id
+              ? 'border-l-primary hover:border-l-primary'
+              : job.interactionStatus.applied
+                ? 'border-l-success hover:border-l-success'
+                : job.interactionStatus.discarded
+                  ? 'border-l-error hover:border-l-error'
+                  : job.interactionStatus.accessed
+                    ? 'border-l-info hover:border-l-info'
+                    : job.interactionStatus.viewed
+                      ? 'border-l-neutral-content hover:border-l-neutral-content'
+                      : ''
+          "
+          (click)="selectJob(job, jobIndex)"
         >
           <div
             *ngIf="job.matchPercentage !== undefined; else jobWithoutMatchPercentageTemplate"
@@ -198,11 +263,35 @@
           </div>
         </button>
       </cdk-virtual-scroll-viewport>
+
+      <div class="flex flex-col gap-2 p-4">
+        <button
+          *ngIf="(selectedJobList$ | async) !== jobLists.TO_DECIDE"
+          class="btn btn-sm"
+          (click)="setJobsListType(jobLists.TO_DECIDE)"
+        >
+          Ver vagas a decidir
+        </button>
+        <button
+          *ngIf="(selectedJobList$ | async) !== jobLists.APPLIED"
+          class="btn btn-sm"
+          (click)="setJobsListType(jobLists.APPLIED)"
+        >
+          Ver vagas aplicadas
+        </button>
+        <button
+          *ngIf="(selectedJobList$ | async) !== jobLists.DISCARDED"
+          class="btn btn-sm"
+          (click)="setJobsListType(jobLists.DISCARDED)"
+        >
+          Ver vagas descartadas
+        </button>
+      </div>
     </div>
 
-    <div class="card bg-base-300 rounded-lg p-4">
-      <header class="flex justify-around mb-4 card-title">
-        <div class="w-full">
+    <div class="card bg-base-300 rounded-lg p-4 h-fit">
+      <header class="flex justify-between mb-4 card-title">
+        <div>
           <div class="flex items-center w-full gap-4 flex-wrap lg:flex-nowrap">
             <div
               *ngIf="
@@ -276,35 +365,37 @@
                 </ng-template>
               </div>
             </div>
-
-            <div
-              *ngIf="selectedJob.publishedDate.toDateString() === today.toDateString()"
-              class="badge badge-success gap-1 p-4 self-start ml-auto order-1 lg:order-2"
-            >
-              <i class="bx bx-brightness"></i>
-              <span> Nova </span>
-            </div>
           </div>
         </div>
 
-        <button
-          *ngIf="selectedJob.repostings.length > 0"
-          class="btn btn-xs lg:btn-sm btn-outline btn-warning mb-4 self-start"
-        >
-          <i class="bx bx-refresh"></i>
-          <span>
-            <ng-container
-              *ngIf="selectedJob.timeInDaysBetweenRepostings > 1; else singleDayRepostingTemplate"
-            >
-              Postada {{ selectedJob.repostings.length + 1 }} vezes durante
-              {{ selectedJob.timeInDaysBetweenRepostings | number }} dias
-            </ng-container>
+        <div class="flex flex-col gap-2 self-start">
+          <button
+            *ngIf="selectedJob.repostings.length > 0"
+            class="btn btn-xs lg:btn-sm btn-outline btn-warning flex-nowrap"
+          >
+            <i class="bx bx-refresh"></i>
+            <span>
+              <ng-container
+                *ngIf="selectedJob.timeInDaysBetweenRepostings > 1; else singleDayRepostingTemplate"
+              >
+                Postada {{ selectedJob.repostings.length + 1 }} vezes durante
+                {{ selectedJob.timeInDaysBetweenRepostings | number }} dias
+              </ng-container>
 
-            <ng-template #singleDayRepostingTemplate>
-              Postada {{ selectedJob.repostings.length + 1 }} vezes no mesmo dia
-            </ng-template>
-          </span>
-        </button>
+              <ng-template #singleDayRepostingTemplate>
+                Postada {{ selectedJob.repostings.length + 1 }} vezes no mesmo dia
+              </ng-template>
+            </span>
+          </button>
+
+          <div
+            *ngIf="selectedJob.publishedDate.toDateString() !== today.toDateString()"
+            class="badge badge-warning gap-1 p-4 ml-auto rounded"
+          >
+            <i class="bx bx-brightness"></i>
+            <span> Nova </span>
+          </div>
+        </div>
       </header>
 
       <ng-container *ngIf="selectedJob.matchPercentage === undefined">
@@ -320,7 +411,10 @@
         </div>
       </ng-container>
 
-      <div *ngIf="selectedJob.keywords.length > 0" class="flex flex-wrap pb-4 gap-2">
+      <div
+        *ngIf="selectedJob.keywords.length > 0; else noKeywordsTemplate"
+        class="flex flex-wrap pb-4 gap-2"
+      >
         <div
           *ngFor="let keyword of sortedKeywords"
           class="gap-1 badge badge-outline p-3"
@@ -332,6 +426,12 @@
           {{ keyword.name }}
         </div>
       </div>
+
+      <ng-template #noKeywordsTemplate>
+        <div class="gap-1 badge badge-ghost badge-outline p-3">
+          <span>Nenhuma tecnologia identificada</span>
+        </div>
+      </ng-template>
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <div>
@@ -362,7 +462,7 @@
 
           <div *ngIf="selectedJob.workplaceTypes.length > 0" class="flex flex-wrap gap-2">
             <div
-              class="badge badge-neutral p-4 font-bold rounded"
+              class="badge badge-neutral p-4 font-bold rounded gap-1"
               *ngFor="let workplaceType of selectedJob.workplaceTypes"
               [ngClass]="{
                 'badge-warning': workplaceType.matchesSearchParameters
@@ -382,7 +482,7 @@
 
           <div class="flex flex-wrap items-center gap-2">
             <div
-              class="badge badge-neutral p-4 font-bold rounded"
+              class="badge badge-neutral p-4 font-bold rounded gap-1"
               *ngFor="let contractType of selectedJob.contractTypes"
               [ngClass]="{
                 'badge-warning': contractType.matchesSearchParameters
@@ -400,7 +500,7 @@
             <span>Local</span>
           </div>
 
-          <span class="badge badge-neutral p-4 font-bold rounded">
+          <span class="badge badge-neutral p-4 font-bold rounded gap-1">
             {{
               selectedJob.city ? selectedJob.city + (selectedJob.state | stateAbbreviation) : "N/A"
             }}
@@ -413,7 +513,7 @@
             <span>Data de publicação</span>
           </div>
 
-          <span class="badge badge-neutral p-4 font-bold rounded">
+          <span class="badge badge-neutral p-4 font-bold rounded gap-1">
             {{ selectedJob.publishedDate | date: "dd/MM/yyyy" }}
           </span>
         </div>
@@ -426,7 +526,7 @@
 
           <div class="flex flex-wrap items-center gap-2">
             <div
-              class="badge badge-neutral p-4 font-bold rounded"
+              class="badge badge-neutral p-4 font-bold rounded gap-1"
               *ngFor="let inclusionType of selectedJob.inclusionTypes"
               [ngClass]="{
                 'badge-warning': inclusionType.matchesSearchParameters
@@ -452,7 +552,7 @@
           >
             <div class="flex flex-wrap items-center gap-2">
               <div
-                class="badge badge-neutral p-4 font-bold rounded"
+                class="badge badge-neutral p-4 font-bold rounded gap-1"
                 *ngFor="let educacionalLevelTerm of selectedJob.educationalLevelTerms"
               >
                 {{ educacionalLevelTerm }}
@@ -474,7 +574,7 @@
           <ng-container *ngIf="selectedJob.languages.length > 0; else emptyLanguagesTemplate">
             <div class="flex items-center gap-2">
               <div
-                class="badge badge-neutral p-4 font-bold rounded"
+                class="badge badge-neutral p-4 font-bold rounded gap-1"
                 *ngFor="let language of selectedJob.languages"
               >
                 {{ language }}
@@ -483,7 +583,7 @@
           </ng-container>
 
           <ng-template #emptyLanguagesTemplate>
-            <span class="badge badge-neutral p-4 font-bold rounded">Desconhecido</span>
+            <span class="badge badge-neutral p-4 font-bold rounded gap-1">Desconhecido</span>
           </ng-template>
         </div>
 
@@ -495,31 +595,75 @@
 
           <div class="flex items-center gap-2">
             <div
-              class="badge badge-neutral p-4 font-bold rounded"
+              class="badge badge-neutral p-4 font-bold rounded gap-1"
               *ngFor="let certificationStatus of selectedJob.certificationStatuses"
             >
               {{ certificationStatus }}
             </div>
           </div>
         </div>
+
+        <div>
+          <div class="flex flex-wrap items-center gap-1 mb-1 text-sm">
+            <i class="bx bxs-info-circle text-sm"></i>
+            <span>Status</span>
+          </div>
+
+          <div class="flex flex-wrap pb-4 gap-2">
+            <div
+              *ngIf="selectedJob.interactionStatus.viewed"
+              class="gap-1 badge badge-neutral p-4 font-bold rounded"
+            >
+              <span>Vista</span>
+            </div>
+
+            <div
+              *ngIf="selectedJob.interactionStatus.accessed"
+              class="gap-1 badge badge-info p-4 font-bold rounded"
+            >
+              <span>Acessada</span>
+            </div>
+
+            <div
+              *ngIf="selectedJob.interactionStatus.applied"
+              class="gap-1 badge badge-success p-4 font-bold rounded"
+            >
+              <span>Aplicada</span>
+            </div>
+
+            <div
+              *ngIf="selectedJob.interactionStatus.discarded"
+              class="gap-1 badge badge-error p-4 font-bold rounded"
+            >
+              <span>Descartada</span>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div class="card-actions mt-4">
-        <a class="flex items-center gap-2 w-full" [href]="selectedJob.jobUrl" target="_blank">
-          <button class="btn btn-primary w-full" (click)="setJobAsViewed()">
-            <i class="bx bx-link-external"></i>
-            <span>Acessar vaga</span>
+      <div class="card-actions flex-col mt-4">
+        <div class="flex w-full gap-2">
+          <a class="flex items-center gap-2 flex-1" [href]="selectedJob.jobUrl" target="_blank">
+            <button class="btn btn-info flex-1" (click)="setJobAsAccessed()">
+              <i class="bx bx-link-external"></i>
+              <span>Acessar vaga</span>
+            </button>
+          </a>
+
+          <button class="btn btn-success flex-1" (click)="setJobAsApplied()">
+            <i class="bx bxs-check-square"></i>
+            <span>Marcar como aplicada</span>
           </button>
-        </a>
 
-        <button class="btn btn-primary w-full" (click)="setJobAsApplied()">
-          <i class="bx bxs-check-square"></i>
-          <span>Me candidatei à vaga</span>
-        </button>
+          <button class="btn btn-error flex-1" (click)="setJobAsDiscarded()">
+            <i class="bx bxs-x-square"></i>
+            <span>Marcar como descartada</span>
+          </button>
+        </div>
 
-        <button class="btn btn-primary w-full" (click)="setJobAsDiscarded()">
-          <i class="bx bx-link-external"></i>
-          <span>Descartar</span>
+        <button class="btn w-full flex-1">
+          <span>Próxima vaga</span>
+          <i class="bx bx-chevrons-right"></i>
         </button>
       </div>
     </div>

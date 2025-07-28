@@ -77,7 +77,7 @@ export function mapToJob(
     certificationStatuses: findCertificationStatuses(job),
     repostings: [],
     timeInDaysBetweenRepostings: 0,
-    interactionStatus: { applied: false, discarded: false, viewed: false },
+    interactionStatus: { applied: false, discarded: false, viewed: false, accessed: false },
   };
 
   const jobsByCompany = jobsByCompanyMap.get(mappedJob.companyName) || [];

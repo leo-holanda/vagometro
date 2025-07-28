@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { JobListComponent } from '../../job-list/job-list.component';
-import { Observable, Subject, combineLatest, filter, map, tap } from 'rxjs';
-import { Job } from '../../job.types';
+import { BehaviorSubject, Observable, Subject, combineLatest, filter, map, startWith } from 'rxjs';
+import { Job, JobLists } from '../../job.types';
 import { JobService } from '../../job.service';
 import { PublicationChartComponent } from 'src/app/statistics/charts/publication-chart/publication-chart.component';
 import { JobPostingsComparisonComponent } from 'src/app/statistics/comparisons/job-postings-comparison/job-postings-comparison.component';
@@ -13,7 +13,7 @@ import { MatchesChartComponent } from 'src/app/statistics/charts/matches-chart/m
 import { EasySearchService } from '../easy-search.service';
 import { WindowResolutionObserverService } from 'src/app/shared/window-resolution-observer.service';
 import { StateAbbreviationPipe } from 'src/app/shared/pipes/state-abbreviation.pipe';
-import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import { trackByJobId } from 'src/app/shared/track-by-functions';
 import { TimeAgoPipe } from 'src/app/shared/pipes/time-ago.pipe';
 import { TechnologyData } from 'src/app/shared/keywords-matcher/technologies.data';
@@ -41,15 +41,22 @@ export class SearchResultsComponent implements OnInit {
   matchesMobileBreakpoint$: Observable<boolean>;
   selectedDataType: 'jobs' | 'stats' = 'jobs';
 
-  jobs$!: Observable<Job[]>;
+  filteredJobs$!: Observable<Job[]>;
   selectedJob!: Job;
+  jobIndex = 0;
+  hasFoundJobs = true;
+  isJobsListEmpty = false;
 
   rankTypes = RankTypes;
-  searchedKeywords: string[] = [];
   sortedKeywords: TechnologyData[] = [];
   today = new Date();
 
   searchData: SearchData | undefined;
+
+  selectedJobList$ = new BehaviorSubject<JobLists>(JobLists.TO_DECIDE);
+  jobLists = JobLists;
+
+  jobInterationStatusChanged$ = new Subject<void>();
 
   trackByJobId = trackByJobId;
 
@@ -63,18 +70,42 @@ export class SearchResultsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.jobs$ = this.jobService.jobs$.pipe(
+    const jobs$ = this.jobService.jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
-      map(this.filterJobsBySearchData),
+      map(this.easySearchService.filterJobsBySearchData),
+      map(this.easySearchService.sortByMatchPercentage),
+      map((jobs) => jobs.slice(0, 10)),
     );
 
-    this.jobs$.subscribe((jobs) => {
-      this.selectJob(jobs[0]);
+    jobs$.subscribe((jobs) => {
+      // When the observable emits, the first job of the list is selected by default.
+      this.jobIndex = 0;
+
+      if (jobs.length == 0) this.hasFoundJobs = false;
+      else this.hasFoundJobs = true;
+    });
+
+    this.filteredJobs$ = combineLatest([
+      jobs$,
+      this.selectedJobList$,
+      this.jobInterationStatusChanged$.pipe(startWith(null)),
+    ]).pipe(
+      map(([jobs, selectedJobList]) =>
+        this.easySearchService.filterJobsByListType(jobs, selectedJobList),
+      ),
+    );
+
+    this.filteredJobs$.subscribe((jobs) => {
+      this.isJobsListEmpty = jobs.length === 0;
+      const index = Math.min(this.jobIndex, jobs.length - 1);
+      this.selectJob(jobs[index], index);
     });
   }
 
-  selectJob(job: Job): void {
+  selectJob(job: Job, index: number): void {
     this.selectedJob = job;
+    this.jobIndex = index;
+    this.setJobAsViewed();
     this.sortedKeywords = [...job.keywords].sort((a, b) => (a.matchesSearchParameters ? -1 : 1));
   }
 
@@ -84,6 +115,12 @@ export class SearchResultsComponent implements OnInit {
 
   setJobAsApplied(): void {
     this.selectedJob.interactionStatus.applied = true;
+    this.selectedJob.interactionStatus.discarded = false;
+    this.jobInterationStatusChanged$.next();
+  }
+
+  setJobAsAccessed(): void {
+    this.selectedJob.interactionStatus.accessed = true;
   }
 
   setJobAsViewed(): void {
@@ -92,52 +129,16 @@ export class SearchResultsComponent implements OnInit {
 
   setJobAsDiscarded(): void {
     this.selectedJob.interactionStatus.discarded = true;
+    this.selectedJob.interactionStatus.applied = false;
+    this.jobInterationStatusChanged$.next();
   }
 
-  //TODO: Move this to jobService
-  private filterJobsBySearchData = (jobs: Job[]): Job[] => {
-    const searchData = this.easySearchService.getSearchData();
-    this.searchedKeywords = searchData?.technologies.map((keyword) => keyword.name) || [];
-    if (!searchData) return jobs;
+  setJobsListType(type: JobLists): void {
+    this.jobIndex = 0;
+    this.selectedJobList$.next(type);
+  }
 
-    return jobs.filter((job) => {
-      if (searchData.experienceLevels.length > 0) {
-        const hasExperienceLevel = job.experienceLevels.some((experienceLevel) =>
-          searchData.experienceLevels.includes(experienceLevel.name),
-        );
-        if (!hasExperienceLevel) return false;
-      }
-
-      if (searchData.workplaceTypes.length > 0) {
-        const hasWorkPlaceType = job.workplaceTypes.some((workplaceType) =>
-          searchData.workplaceTypes.includes(workplaceType.type),
-        );
-        if (!hasWorkPlaceType) return false;
-      }
-
-      if (searchData.technologies.length > 0) {
-        const hasKeywords = job.keywords.some((keyword) => {
-          const keywordsName = searchData.technologies.map((keyword) => keyword.name);
-          return keywordsName.includes(keyword.name);
-        });
-        if (!hasKeywords) return false;
-      }
-
-      if (searchData.contractTypes.length > 0) {
-        const hasContractTypes = job.contractTypes.some((contractType) =>
-          searchData.contractTypes.includes(contractType.type),
-        );
-        if (!hasContractTypes) return false;
-      }
-
-      if (searchData.inclusionTypes.length > 0) {
-        const hasInclusionTypes = job.inclusionTypes.some((inclusionType) =>
-          searchData.inclusionTypes.includes(inclusionType.type),
-        );
-        if (!hasInclusionTypes) return false;
-      }
-
-      return true;
-    });
-  };
+  selectNextJob(job: Job): void {
+    this.selectJob(job, this.jobIndex + 1);
+  }
 }

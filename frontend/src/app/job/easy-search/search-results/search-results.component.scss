@@ -1,9 +1,5 @@
 .virtual-scroll-viewport {
-  height: 180dvh;
-
-  @media (min-width: 768px) {
-    height: 100dvh;
-  }
+  height: 100%;
 }
 
 .repostings-virtual-scroll-viewport {

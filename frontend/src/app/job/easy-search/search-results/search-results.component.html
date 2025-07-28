@@ -412,22 +412,22 @@
       </ng-container>
 
       <div
-        *ngIf="selectedJob.keywords.length > 0; else noKeywordsTemplate"
+        *ngIf="selectedJob.keywords.length > 0; else noTechnologiesTemplate"
         class="flex flex-wrap pb-4 gap-2"
       >
         <div
-          *ngFor="let keyword of sortedKeywords"
+          *ngFor="let technology of sortedTechnologies"
           class="gap-1 badge badge-outline p-3"
           [ngClass]="
-            keyword.matchesSearchParameters ? 'badge-warning' : keyword.category.badgeClass
+            technology.matchesSearchParameters ? 'badge-warning' : technology.category.badgeClass
           "
         >
-          <i *ngIf="keyword.matchesSearchParameters" class="bx bxs-star text-sm"></i>
-          {{ keyword.name }}
+          <i *ngIf="technology.matchesSearchParameters" class="bx bxs-star text-sm"></i>
+          {{ technology.name }}
         </div>
       </div>
 
-      <ng-template #noKeywordsTemplate>
+      <ng-template #noTechnologiesTemplate>
         <div class="gap-1 badge badge-ghost badge-outline p-3">
           <span>Nenhuma tecnologia identificada</span>
         </div>

@@ -48,7 +48,7 @@ export class SearchResultsComponent implements OnInit {
   isJobsListEmpty = false;
 
   rankTypes = RankTypes;
-  sortedKeywords: TechnologyData[] = [];
+  sortedTechnologies: TechnologyData[] = [];
   today = new Date();
 
   searchData: SearchData | undefined;
@@ -102,10 +102,12 @@ export class SearchResultsComponent implements OnInit {
   }
 
   selectJob(job: Job, index: number): void {
+    this.sortedTechnologies = [...job.keywords].sort((a, b) =>
+      a.matchesSearchParameters ? -1 : 1,
+    );
     this.selectedJob = job;
     this.jobIndex = index;
     this.setJobAsViewed();
-    this.sortedKeywords = [...job.keywords].sort((a, b) => (a.matchesSearchParameters ? -1 : 1));
   }
 
   setDataType(dataType: 'jobs' | 'stats'): void {

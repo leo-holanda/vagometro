@@ -74,7 +74,6 @@ export class SearchResultsComponent implements OnInit {
       filter((jobs): jobs is Job[] => jobs != undefined),
       map(this.easySearchService.filterJobsBySearchData),
       map(this.easySearchService.sortByMatchPercentage),
-      map((jobs) => jobs.slice(0, 10)),
     );
 
     jobs$.subscribe((jobs) => {

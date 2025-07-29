@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { JobSourcesService } from '../job-sources/job-sources.service';
 import { LoadingDirective } from '../shared/directives/loading.directive';
 import { FooterComponent } from '../shared/footer/footer.component';
+import { VisualizationModes } from '../job-sources/job-sources.types';
 
 @Component({
   selector: 'vgm-landing-page',
@@ -23,6 +24,9 @@ import { FooterComponent } from '../shared/footer/footer.component';
 export class LandingPageComponent {
   hasOneActiveJobSource$: Observable<boolean>;
   isFinalSelectionStep = false;
+  visualizationMode = VisualizationModes.newJobs;
+
+  visualizationModes = VisualizationModes;
 
   constructor(private jobSourcesService: JobSourcesService) {
     this.hasOneActiveJobSource$ = this.jobSourcesService.hasOneActiveJobSource$;

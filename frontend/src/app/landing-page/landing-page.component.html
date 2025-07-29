@@ -131,25 +131,33 @@
       <vgm-job-source-selector
         [compactMode]="false"
         (isFinalSelectionStep)="isFinalSelectionStep = $event"
+        (visualizationMode)="visualizationMode = $event"
       ></vgm-job-source-selector>
 
       <button
         *ngIf="isFinalSelectionStep"
-        class="btn btn-primary flex items-center mt-4 w-full"
+        class="btn btn-primary flex items-center mt-4 w-full gap-1"
         [ngClass]="{ 'btn-disabled': (hasOneActiveJobSource$ | async) === false }"
-        [routerLink]="['stats']"
+        [routerLink]="[visualizationMode === visualizationModes.oldJobs ? 'stats' : 'busca-facil']"
         vgmLoading
       >
         <span
-          class="flex items-center gap-2"
+          class="flex items-center"
           *ngIf="(hasOneActiveJobSource$ | async) === false; else hasOneActiveJobSourceTemplate"
         >
           <i class="bx bxs-info-circle"></i>
           Adicione uma fonte de vagas para começar</span
         >
         <ng-template #hasOneActiveJobSourceTemplate>
-          <i class="bx bx-stats"></i>
-          <span> Iniciar análise </span>
+          <ng-container *ngIf="visualizationMode === visualizationModes.newJobs">
+            <i class="bx bx-show"></i>
+            <span> Ver vagas </span>
+          </ng-container>
+
+          <ng-container *ngIf="visualizationMode === visualizationModes.oldJobs">
+            <i class="bx bx-stats"></i>
+            <span *ngIf="visualizationMode === visualizationModes.oldJobs"> Iniciar análise </span>
+          </ng-container>
         </ng-template>
       </button>
     </div>

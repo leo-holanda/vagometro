@@ -22,6 +22,7 @@ import { defaultQuarterData, jobCollectionsMap } from '../job-sources.data';
 export class JobSourceSelectorComponent {
   @Input() compactMode = true;
   @Output() isFinalSelectionStep = new EventEmitter<boolean>(false);
+  @Output() visualizationMode = new EventEmitter<VisualizationModes>();
 
   selectedJobCollections!: JobCollectionsMap;
 
@@ -108,6 +109,7 @@ export class JobSourceSelectorComponent {
   setVisualizationMode(visualizationMode: VisualizationModes): void {
     this.selectedVisualizationMode = visualizationMode;
     this.hasSelectedVisualizationMode = true;
+    this.visualizationMode.emit(this.selectedVisualizationMode);
   }
 
   onInfoButtonClick(jobCollection: JobCollectionData): void {

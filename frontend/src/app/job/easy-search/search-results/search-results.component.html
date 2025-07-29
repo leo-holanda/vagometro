@@ -389,7 +389,7 @@
           </button>
 
           <div
-            *ngIf="selectedJob.publishedDate.toDateString() !== today.toDateString()"
+            *ngIf="selectedJob.publishedDate.toDateString() === today.toDateString()"
             class="badge badge-warning gap-1 p-4 ml-auto rounded"
           >
             <i class="bx bx-brightness"></i>

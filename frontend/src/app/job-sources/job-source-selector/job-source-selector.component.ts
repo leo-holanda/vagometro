@@ -6,6 +6,7 @@ import {
   JobCollections,
   JobCollectionsMap,
   JobSources,
+  QuarterData,
   Quarters,
   QuartersMap,
   VisualizationModes,
@@ -63,30 +64,34 @@ export class JobSourceSelectorComponent {
     this.quartersDataMap = this.jobSourcesService.createQuartersMap();
   }
 
-  setJobCollection(jobCollection: string): void {
-    this.selectedJobCollection = jobCollection as JobCollections;
-    this.hasSelectedJobCollection = true;
-    this.updateQuartersDataMap();
-  }
-
-  setJobSource(jobSource: JobSources): void {
+  setSource(jobSource: JobSources): void {
     this.hasSelectedJobSource = true;
     if (jobSource == JobSources.github) this.selectedJobCollections = this.githubJobCollections;
     else if (jobSource == JobSources.gupy) this.selectedJobCollections = this.gupyJobCollections;
     else this.selectedJobCollections = this.linkedInJobCollections;
   }
 
-  setJobCollectionQuarter(quarter: Quarters): void {
+  setCollection(jobCollection: string): void {
+    this.selectedJobCollection = jobCollection as JobCollections;
+    this.hasSelectedJobCollection = true;
+    this.updateQuartersDataMap();
+  }
+
+  toggleQuarter(quarter: Quarters): void {
     this.selectedQuarter = quarter;
 
     if (!this.selectedJobCollection) return;
     if (!this.selectedQuarter) return;
 
-    this.jobSourcesService.updateSelectedCollections(
+    this.jobSourcesService.toggleQuarter(
       this.selectedJobCollection,
       this.selectedQuarter,
       this.selectedYear,
     );
+  }
+
+  toggleCollection(collection: string): void {
+    this.jobSourcesService.toggleCollection(collection as JobCollections);
   }
 
   setVisualizationMode(visualizationMode: VisualizationModes): void {

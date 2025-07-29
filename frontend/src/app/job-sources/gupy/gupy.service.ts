@@ -4,7 +4,7 @@ import { Job } from 'src/app/job/job.types';
 import { mapGupyJobsToJobs } from './gupy.mapper';
 import { GupyJob } from './gupy.types';
 import { EasySearchService } from 'src/app/job/easy-search/easy-search.service';
-import { JobCollections, QuarterData, Quarters } from '../job-sources.types';
+import { QuarterData, Quarters } from '../job-sources.types';
 import { R2Service } from 'src/app/r2/r2.service';
 import { MongoService } from 'src/app/mongo/mongo.service';
 
@@ -18,17 +18,7 @@ export class GupyService {
     private mongoService: MongoService,
   ) {}
 
-  getJobs(
-    collectionName: JobCollections,
-    year: number,
-    quarter: Quarters,
-    quarterData: QuarterData,
-  ): Observable<Job[]> {
-    if (quarterData.isCurrentQuarter) return this.getJobsFromMongo(collectionName, quarterData);
-    return this.getJobsFromR2(collectionName, year, quarter, quarterData);
-  }
-
-  private getJobsFromMongo(collectionName: string, quarterData: QuarterData): Observable<Job[]> {
+  getJobsFromMongo(collectionName: string, quarterData: QuarterData): Observable<Job[]> {
     return this.mongoService.getJobs<GupyJob[]>(collectionName).pipe(
       tap(() => {
         quarterData.isDownloading = false;
@@ -39,7 +29,7 @@ export class GupyService {
     );
   }
 
-  private getJobsFromR2(
+  getJobsFromR2(
     collectionName: string,
     year: number,
     quarter: Quarters,

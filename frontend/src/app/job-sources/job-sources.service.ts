@@ -40,7 +40,7 @@ export class JobSourcesService {
     this.setLinkedInCollectionsSources();
   }
 
-  updateSelectedCollections(
+  toggleQuarter(
     selectedCollection: JobCollections,
     selectedQuarter: Quarters,
     selectedYear: number,
@@ -48,6 +48,14 @@ export class JobSourcesService {
     const selectedJobDataState =
       this.jobCollectionsMap[selectedCollection].dataByYear[selectedYear][selectedQuarter];
     selectedJobDataState.isSelected = !selectedJobDataState.isSelected;
+
+    this.updateJobs();
+  }
+
+  toggleCollection(collection: JobCollections): void {
+    this.jobCollectionsMap[collection].newJobs.isSelected =
+      !this.jobCollectionsMap[collection].newJobs.isSelected;
+
     this.updateJobs();
   }
 
@@ -55,15 +63,18 @@ export class JobSourcesService {
     const linkedInCollections = this.getCollectionsByJobSource(JobSources.linkedin);
 
     for (const collectionKey in linkedInCollections) {
-      for (const yearKey in linkedInCollections[collectionKey as JobCollections].dataByYear) {
-        for (const quarterKey in linkedInCollections[collectionKey as JobCollections].dataByYear[
-          yearKey
-        ]) {
-          const quarterData =
-            linkedInCollections[collectionKey as JobCollections].dataByYear[yearKey][
-              quarterKey as Quarters
-            ];
-          quarterData.dataSource = this.linkedInService.getJobs(
+      const collection = linkedInCollections[collectionKey as JobCollections];
+
+      collection.newJobs.dataSource = this.linkedInService.getJobsFromMongo(
+        collectionKey as JobCollections,
+        collection.newJobs,
+      );
+
+      for (const yearKey in collection.dataByYear) {
+        for (const quarterKey in collection.dataByYear[yearKey]) {
+          const quarterData = collection.dataByYear[yearKey][quarterKey as Quarters];
+
+          quarterData.dataSource = this.linkedInService.getJobsFromR2(
             collectionKey,
             +yearKey,
             quarterKey as Quarters,
@@ -78,14 +89,12 @@ export class JobSourcesService {
     const gitHubCollections = this.getCollectionsByJobSource(JobSources.github);
 
     for (const collectionKey in gitHubCollections) {
-      for (const yearKey in gitHubCollections[collectionKey as JobCollections].dataByYear) {
-        for (const quarterKey in gitHubCollections[collectionKey as JobCollections].dataByYear[
-          yearKey
-        ]) {
-          const quarterData =
-            gitHubCollections[collectionKey as JobCollections].dataByYear[yearKey][
-              quarterKey as Quarters
-            ];
+      const collection = gitHubCollections[collectionKey as JobCollections];
+
+      for (const yearKey in collection.dataByYear) {
+        for (const quarterKey in collection.dataByYear[yearKey]) {
+          const quarterData = collection.dataByYear[yearKey][quarterKey as Quarters];
+
           quarterData.dataSource = this.githubJobsService.getJobs(
             collectionKey,
             +yearKey,
@@ -101,15 +110,18 @@ export class JobSourcesService {
     const gupyCollections = this.getCollectionsByJobSource(JobSources.gupy);
 
     for (const collectionKey in gupyCollections) {
-      for (const yearKey in gupyCollections[collectionKey as JobCollections].dataByYear) {
-        for (const quarterKey in gupyCollections[collectionKey as JobCollections].dataByYear[
-          yearKey
-        ]) {
-          const quarterData =
-            gupyCollections[collectionKey as JobCollections].dataByYear[yearKey][
-              quarterKey as Quarters
-            ];
-          quarterData.dataSource = this.gupyService.getJobs(
+      const collection = gupyCollections[collectionKey as JobCollections];
+
+      collection.newJobs.dataSource = this.gupyService.getJobsFromMongo(
+        collectionKey as JobCollections,
+        collection.newJobs,
+      );
+
+      for (const yearKey in collection.dataByYear) {
+        for (const quarterKey in collection.dataByYear[yearKey]) {
+          const quarterData = collection.dataByYear[yearKey][quarterKey as Quarters];
+
+          quarterData.dataSource = this.gupyService.getJobsFromR2(
             collectionKey as JobCollections,
             +yearKey,
             quarterKey as Quarters,
@@ -132,6 +144,8 @@ export class JobSourcesService {
           if (quarterData.isSelected) selectedQuarters.push(quarterData);
         }
       }
+
+      if (jobSource.newJobs.isSelected) selectedQuarters.push(jobSource.newJobs);
     });
 
     selectedQuarters.forEach((quarterData) => {

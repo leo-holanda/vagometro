@@ -62,6 +62,7 @@ export type JobCollectionData = {
   icon: string;
   source: string;
   dataByYear: YearsMap;
+  newJobs: QuarterData;
   searchStringKeywords: string[];
   initialDailyFetchDate: string;
 };

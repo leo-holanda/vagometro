@@ -18,17 +18,7 @@ export class LinkedInService {
     private easySearchService: EasySearchService,
   ) {}
 
-  getJobs(
-    collectionName: string,
-    year: number,
-    quarter: Quarters,
-    quarterData: QuarterData,
-  ): Observable<Job[]> {
-    if (quarterData.isCurrentQuarter) return this.getJobsFromMongo(collectionName, quarterData);
-    return this.getJobsFromR2(collectionName, year, quarter, quarterData);
-  }
-
-  private getJobsFromMongo(collectionName: string, quarterData: QuarterData): Observable<Job[]> {
+  getJobsFromMongo(collectionName: string, quarterData: QuarterData): Observable<Job[]> {
     return this.mongoService.getJobs<LinkedInJob[]>(collectionName).pipe(
       tap(() => {
         quarterData.isDownloading = false;
@@ -39,7 +29,7 @@ export class LinkedInService {
     );
   }
 
-  private getJobsFromR2(
+  getJobsFromR2(
     collectionName: string,
     year: number,
     quarter: Quarters,

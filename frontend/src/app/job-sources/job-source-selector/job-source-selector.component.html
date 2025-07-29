@@ -1,7 +1,48 @@
-<div *ngIf="!hasSelectedJobSource" class="join flex join-vertical gap-2 mb-4">
+<div *ngIf="!hasSelectedVisualizationMode">
+  <div class="flex w-full flex-col gap-4">
+    <button
+      class="btn btn-lg btn-outline flex w-full items-center justify-between flex-nowrap p-12"
+      (click)="setVisualizationMode(visualizationModes.newJobs)"
+    >
+      <div class="flex flex-col gap-2">
+        <div class="flex items-center gap-2">
+          <i class="bx bxs-hot"></i>
+          <span class="text-xl">Vagas recentes</span>
+        </div>
+
+        <span class="text-sm"
+          >Quero ver as vagas récem-publicadas e usar a Busca Fácil para submeter candidaturas
+          rapidamente</span
+        >
+      </div>
+    </button>
+
+    <button
+      class="btn btn-lg btn-outline flex w-full items-center justify-between flex-nowrap p-12"
+      (click)="setVisualizationMode(visualizationModes.oldJobs)"
+    >
+      <div class="flex flex-col gap-2">
+        <div class="flex items-center gap-2">
+          <i class="bx bx-line-chart"></i>
+          <span class="text-xl">Histórico de vagas</span>
+        </div>
+
+        <span class="text-sm"
+          >Quero consultar o histórico de vagas para investigar padrões e tendências, além de
+          compreender o momento do mercado</span
+        >
+      </div>
+    </button>
+  </div>
+</div>
+
+<div
+  *ngIf="hasSelectedVisualizationMode && !hasSelectedJobSource"
+  class="join flex join-vertical gap-2 mb-4"
+>
   <button
     class="btn join-item flex w-full items-center justify-between"
-    (click)="setJobSource(jobSources.gupy)"
+    (click)="setSource(jobSources.gupy)"
   >
     <div class="flex items-center gap-2">
       <i class="bx bxs-business"></i>
@@ -12,7 +53,7 @@
   </button>
   <button
     class="btn join-item flex w-full items-center justify-between"
-    (click)="setJobSource(jobSources.github)"
+    (click)="setSource(jobSources.github)"
   >
     <div class="flex items-center gap-2">
       <i class="bx bxl-github"></i>
@@ -23,7 +64,7 @@
   </button>
   <button
     class="btn join-item flex w-full items-center justify-between"
-    (click)="setJobSource(jobSources.linkedin)"
+    (click)="setSource(jobSources.linkedin)"
   >
     <div class="flex items-center gap-2">
       <i class="bx bxl-linkedin-square"></i>
@@ -35,7 +76,117 @@
 </div>
 
 <div
-  *ngIf="hasSelectedJobSource && !hasSelectedJobCollection"
+  *ngIf="
+    hasSelectedJobSource &&
+    !hasSelectedJobCollection &&
+    selectedVisualizationMode === visualizationModes.newJobs
+  "
+  class="flex flex-col gap-4 rounded-box overflow-y-auto overflow-x-hidden max-h-52 pr-2"
+>
+  <div
+    class="flex items-center gap-2"
+    *ngFor="let jobCollection of selectedJobCollections | keyvalue"
+  >
+    <button class="btn btn-info btn-square" (click)="onInfoButtonClick(jobCollection.value)">
+      <i class="bx bxs-info-circle"></i>
+    </button>
+
+    <div class="w-full">
+      <button
+        class="btn btn-accent w-full flex-nowrap justify-between relative"
+        [ngClass]="{
+          'btn-warning': jobCollection.value.newJobs.isSelected,
+          'btn-disabled':
+            jobCollection.value.newJobs.isDownloading ||
+            jobCollection.value.newJobs.isLoading ||
+            jobCollection.value.newJobs.hasFailedToLoad ||
+            jobCollection.value.newJobs.isUpcomingQuarter
+        }"
+        (click)="toggleCollection(jobCollection.key)"
+      >
+        <div
+          *ngIf="
+            jobCollection.value.newJobs.isDownloading &&
+            jobCollection.value.newJobs.canTrackDownloadProgress
+          "
+          class="absolute top-0 left-0 z-0 bg-accent h-full opacity-20 rounded-box"
+          [ngStyle]="{
+            width: jobCollection.value.newJobs.downloadingProgress | percent: '1.0-0'
+          }"
+        ></div>
+
+        <div
+          *ngIf="jobCollection.value.newJobs.isLoading"
+          class="absolute top-0 left-0 z-0 bg-warning h-full opacity-20 rounded-box"
+          [ngStyle]="{ width: jobCollection.value.newJobs.loadingProgress | percent: '1.0-0' }"
+        ></div>
+
+        <div class="flex items-center gap-2">
+          <span
+            *ngIf="
+              !jobCollection.value.newJobs.isDownloading &&
+              !jobCollection.value.newJobs.isLoading &&
+              !jobCollection.value.newJobs.hasFailedToLoad
+            "
+            class="text-balance"
+          >
+            {{ jobCollection.value.name }}
+          </span>
+
+          <span
+            *ngIf="
+              jobCollection.value.newJobs.isDownloading &&
+              jobCollection.value.newJobs.canTrackDownloadProgress
+            "
+          >
+            Baixando vagas... ({{ jobCollection.value.newJobs.downloadingProgress | percent }})
+          </span>
+
+          <span
+            *ngIf="
+              jobCollection.value.newJobs.isDownloading &&
+              !jobCollection.value.newJobs.canTrackDownloadProgress
+            "
+          >
+            Baixando vagas...
+          </span>
+
+          <span *ngIf="jobCollection.value.newJobs.isLoading">
+            Carregando dados... ({{ jobCollection.value.newJobs.loadingProgress | percent }})
+          </span>
+
+          <span *ngIf="jobCollection.value.newJobs.hasFailedToLoad">
+            Falha ao carregar - Tente mais tarde
+          </span>
+        </div>
+
+        <span
+          *ngIf="jobCollection.value.newJobs.isLoading || jobCollection.value.newJobs.isDownloading"
+          class="loading loading-spinner"
+        ></span>
+        <i
+          *ngIf="
+            jobCollection.value.newJobs.isDownloading === false &&
+            jobCollection.value.newJobs.isLoading === false &&
+            jobCollection.value.newJobs.isLoaded === false &&
+            jobCollection.value.newJobs.hasFailedToLoad === false &&
+            jobCollection.value.newJobs.isUpcomingQuarter === false
+          "
+          class="bx bxs-plus-circle"
+        ></i>
+        <i *ngIf="jobCollection.value.newJobs.hasFailedToLoad" class="bx bxs-x-circle"></i>
+        <i *ngIf="jobCollection.value.newJobs.isLoaded" class="bx bxs-check-circle"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div
+  *ngIf="
+    hasSelectedJobSource &&
+    !hasSelectedJobCollection &&
+    selectedVisualizationMode === visualizationModes.oldJobs
+  "
   class="flex flex-col gap-4 rounded-box overflow-y-auto overflow-x-hidden max-h-52 pr-2"
 >
   <div
@@ -48,7 +199,7 @@
     <div class="w-full">
       <button
         class="btn btn-accent w-full flex-nowrap justify-between"
-        (click)="setJobCollection(jobCollection.key)"
+        (click)="setCollection(jobCollection.key)"
       >
         <div class="flex items-center gap-2">
           <span class="text-balance">
@@ -60,35 +211,7 @@
   </div>
 </div>
 
-<div *ngIf="hasSelectedJobSource && hasSelectedJobCollection && !hasSelectedVisualizationMode">
-  <div class="flex w-full flex-col gap-4">
-    <button
-      class="btn join-item flex w-full items-center justify-between"
-      (click)="setVisualizationMode(visualizationModes.newJobs)"
-    >
-      <div class="flex items-center gap-2">
-        <i class="bx bxs-hot"></i>
-        <span>Vagas recentes</span>
-      </div>
-
-      <span class="bx bxs-chevron-right-circle"></span>
-    </button>
-
-    <button
-      class="btn join-item flex w-full items-center justify-between"
-      (click)="setVisualizationMode(visualizationModes.oldJobs)"
-    >
-      <div class="flex items-center gap-2">
-        <i class="bx bx-line-chart"></i>
-        <span>Histórico de vagas</span>
-      </div>
-
-      <span class="bx bxs-chevron-right-circle"></span>
-    </button>
-  </div>
-</div>
-
-<div *ngIf="selectedVisualizationMode === visualizationModes.oldJobs">
+<div *ngIf="hasSelectedJobCollection && selectedVisualizationMode === visualizationModes.oldJobs">
   <div class="flex w-full items-center justify-between mb-4">
     <button
       class="btn btn-outline"
@@ -123,7 +246,7 @@
           quartersDataMap[quarter.value].hasFailedToLoad ||
           quartersDataMap[quarter.value].isUpcomingQuarter
       }"
-      (click)="setJobCollectionQuarter(quarter.value)"
+      (click)="toggleQuarter(quarter.value)"
     >
       <div
         *ngIf="

@@ -40,24 +40,22 @@ import { SearchData } from '../easy-search.types';
 export class SearchResultsComponent implements OnInit {
   matchesMobileBreakpoint$: Observable<boolean>;
   selectedDataType: 'jobs' | 'stats' = 'jobs';
+  rankTypes = RankTypes;
 
+  allJobs$!: Observable<Job[]>;
   filteredJobs$!: Observable<Job[]>;
+  jobInterationStatusChanged$ = new Subject<void>();
+  selectedJobList$ = new BehaviorSubject<JobLists>(JobLists.TO_DECIDE);
   selectedJob!: Job;
   jobIndex = 0;
   isJobsListEmpty = false;
   jobsCount = 0;
   markedJobsCount = 0;
-
-  rankTypes = RankTypes;
-  sortedTechnologies: TechnologyData[] = [];
-  today = new Date();
-
-  searchData: SearchData | undefined;
-
-  selectedJobList$ = new BehaviorSubject<JobLists>(JobLists.TO_DECIDE);
   jobLists = JobLists;
 
-  jobInterationStatusChanged$ = new Subject<void>();
+  sortedTechnologies: TechnologyData[] = [];
+  today = new Date();
+  searchData: SearchData | undefined;
 
   trackByJobId = trackByJobId;
 
@@ -71,20 +69,20 @@ export class SearchResultsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const jobs$ = this.jobService.jobs$.pipe(
+    this.allJobs$ = this.jobService.jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map(this.easySearchService.filterJobsBySearchData),
       map(this.easySearchService.sortByMatchPercentage),
     );
 
-    jobs$.subscribe((jobs) => {
+    this.allJobs$.subscribe((jobs) => {
       // When the observable emits, the first job of the list is selected by default.
       this.jobIndex = 0;
       this.jobsCount = jobs.length;
     });
 
     this.filteredJobs$ = combineLatest([
-      jobs$,
+      this.allJobs$,
       this.selectedJobList$,
       this.jobInterationStatusChanged$.pipe(startWith(null)),
     ]).pipe(
@@ -99,12 +97,13 @@ export class SearchResultsComponent implements OnInit {
       this.selectJob(jobs[index], index);
     });
 
-    combineLatest([jobs$, this.jobInterationStatusChanged$.pipe(startWith(null))]).subscribe(
-      ([jobs, _]) => {
-        const jobsToDecide = this.easySearchService.filterJobsByListType(jobs, JobLists.TO_DECIDE);
-        this.markedJobsCount = this.jobsCount - jobsToDecide.length;
-      },
-    );
+    combineLatest([
+      this.allJobs$,
+      this.jobInterationStatusChanged$.pipe(startWith(null)),
+    ]).subscribe(([jobs, _]) => {
+      const jobsToDecide = this.easySearchService.filterJobsByListType(jobs, JobLists.TO_DECIDE);
+      this.markedJobsCount = this.jobsCount - jobsToDecide.length;
+    });
   }
 
   selectJob(job: Job, index: number): void {

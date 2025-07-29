@@ -132,7 +132,7 @@
   <ng-container *ngIf="selectedDataType === 'stats'">
     <section class="grid grid-cols-1 lg:grid-cols-3 gap-4 w-full">
       <div class="lg:col-span-3">
-        <vgm-matches-chart [jobs$]="filteredJobs$"></vgm-matches-chart>
+        <vgm-matches-chart [jobs$]="allJobs$"></vgm-matches-chart>
       </div>
 
       <div class="card card-bordered card-compact w-full h-full bg-base-300 lg:col-span-2">
@@ -142,35 +142,35 @@
         </div>
 
         <div class="card-body">
-          <vgm-publication-chart [jobs$]="filteredJobs$"></vgm-publication-chart>
+          <vgm-publication-chart [jobs$]="allJobs$"></vgm-publication-chart>
         </div>
       </div>
 
-      <vgm-job-postings-comparison [jobs$]="filteredJobs$"></vgm-job-postings-comparison>
+      <vgm-job-postings-comparison [jobs$]="allJobs$"></vgm-job-postings-comparison>
 
-      <vgm-rank [rankType]="rankTypes.experience" [jobs$]="filteredJobs$"></vgm-rank>
+      <vgm-rank [rankType]="rankTypes.experience" [jobs$]="allJobs$"></vgm-rank>
 
-      <vgm-rank [rankType]="rankTypes.technology" [jobs$]="filteredJobs$"></vgm-rank>
+      <vgm-rank [rankType]="rankTypes.technology" [jobs$]="allJobs$"></vgm-rank>
 
-      <vgm-rank [rankType]="rankTypes.workplace" [jobs$]="filteredJobs$"></vgm-rank>
+      <vgm-rank [rankType]="rankTypes.workplace" [jobs$]="allJobs$"></vgm-rank>
 
-      <vgm-rank [rankType]="rankTypes.companies" [jobs$]="filteredJobs$"></vgm-rank>
+      <vgm-rank [rankType]="rankTypes.companies" [jobs$]="allJobs$"></vgm-rank>
 
-      <vgm-rank [rankType]="rankTypes.inclusion" [jobs$]="filteredJobs$"></vgm-rank>
+      <vgm-rank [rankType]="rankTypes.inclusion" [jobs$]="allJobs$"></vgm-rank>
 
-      <vgm-rank [rankType]="rankTypes.repostings" [jobs$]="filteredJobs$"></vgm-rank>
+      <vgm-rank [rankType]="rankTypes.repostings" [jobs$]="allJobs$"></vgm-rank>
 
-      <vgm-rank [rankType]="rankTypes.contractTypes" [jobs$]="filteredJobs$"></vgm-rank>
+      <vgm-rank [rankType]="rankTypes.contractTypes" [jobs$]="allJobs$"></vgm-rank>
 
-      <vgm-rank [rankType]="rankTypes.education" [jobs$]="filteredJobs$"></vgm-rank>
+      <vgm-rank [rankType]="rankTypes.education" [jobs$]="allJobs$"></vgm-rank>
 
-      <vgm-rank [rankType]="rankTypes.languages" [jobs$]="filteredJobs$"></vgm-rank>
+      <vgm-rank [rankType]="rankTypes.languages" [jobs$]="allJobs$"></vgm-rank>
 
-      <vgm-rank [rankType]="rankTypes.cities" [jobs$]="filteredJobs$"></vgm-rank>
+      <vgm-rank [rankType]="rankTypes.cities" [jobs$]="allJobs$"></vgm-rank>
 
-      <vgm-rank [rankType]="rankTypes.months" [jobs$]="filteredJobs$"></vgm-rank>
+      <vgm-rank [rankType]="rankTypes.months" [jobs$]="allJobs$"></vgm-rank>
 
-      <vgm-rank [rankType]="rankTypes.certification" [jobs$]="filteredJobs$"></vgm-rank>
+      <vgm-rank [rankType]="rankTypes.certification" [jobs$]="allJobs$"></vgm-rank>
     </section>
   </ng-container>
 </main>

@@ -31,7 +31,7 @@
   </section>
 
   <ng-container *ngIf="selectedDataType === 'jobs'">
-    <ng-container *ngIf="hasFoundJobs; else emptyResultsTemplate">
+    <ng-container *ngIf="jobsCount !== 0; else emptyResultsTemplate">
       <ng-container *ngIf="!isJobsListEmpty; else emptyJobListTemplate">
         <ng-container *ngIf="matchesMobileBreakpoint$ | async; else desktopTemplate">
           <section class="w-full lg:w-1/2">
@@ -106,7 +106,7 @@
                 class="btn w-full"
                 (click)="setJobsListType(jobLists.TO_DECIDE)"
               >
-                Ver vagas a decidir
+                Ver vagas a considerar
               </button>
               <button
                 *ngIf="(selectedJobList$ | async) !== jobLists.APPLIED"
@@ -178,6 +178,22 @@
 <ng-template #desktopTemplate>
   <section class="grid grid-cols-[1fr_2fr] gap-4">
     <div class="flex flex-col gap-2 bg-base-300 rounded-lg">
+      <div
+        *ngIf="(selectedJobList$ | async) === jobLists.TO_DECIDE"
+        class="flex flex-col gap-2 mx-4 mt-4"
+      >
+        <div class="flex items-center gap-1">
+          <i class="bx bx-show"></i>
+          <span class="font-bold">{{ jobsCount - markedJobsCount }} vagas a considerar</span>
+        </div>
+
+        <progress
+          class="progress progress-primary w-full"
+          [value]="markedJobsCount"
+          [max]="jobsCount"
+        ></progress>
+      </div>
+
       <cdk-virtual-scroll-viewport
         class="virtual-scroll-viewport"
         itemSize="500"
@@ -270,7 +286,7 @@
           class="btn btn-sm"
           (click)="setJobsListType(jobLists.TO_DECIDE)"
         >
-          Ver vagas a decidir
+          Ver vagas a considerar
         </button>
         <button
           *ngIf="(selectedJobList$ | async) !== jobLists.APPLIED"
@@ -660,11 +676,6 @@
             <span>Marcar como descartada</span>
           </button>
         </div>
-
-        <button class="btn w-full flex-1">
-          <span>Próxima vaga</span>
-          <i class="bx bx-chevrons-right"></i>
-        </button>
       </div>
     </div>
   </section>

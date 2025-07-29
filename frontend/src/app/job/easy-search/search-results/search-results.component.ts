@@ -44,8 +44,9 @@ export class SearchResultsComponent implements OnInit {
   filteredJobs$!: Observable<Job[]>;
   selectedJob!: Job;
   jobIndex = 0;
-  hasFoundJobs = true;
   isJobsListEmpty = false;
+  jobsCount = 0;
+  markedJobsCount = 0;
 
   rankTypes = RankTypes;
   sortedTechnologies: TechnologyData[] = [];
@@ -79,9 +80,7 @@ export class SearchResultsComponent implements OnInit {
     jobs$.subscribe((jobs) => {
       // When the observable emits, the first job of the list is selected by default.
       this.jobIndex = 0;
-
-      if (jobs.length == 0) this.hasFoundJobs = false;
-      else this.hasFoundJobs = true;
+      this.jobsCount = jobs.length;
     });
 
     this.filteredJobs$ = combineLatest([
@@ -99,6 +98,13 @@ export class SearchResultsComponent implements OnInit {
       const index = Math.min(this.jobIndex, jobs.length - 1);
       this.selectJob(jobs[index], index);
     });
+
+    combineLatest([jobs$, this.jobInterationStatusChanged$.pipe(startWith(null))]).subscribe(
+      ([jobs, _]) => {
+        const jobsToDecide = this.easySearchService.filterJobsByListType(jobs, JobLists.TO_DECIDE);
+        this.markedJobsCount = this.jobsCount - jobsToDecide.length;
+      },
+    );
   }
 
   selectJob(job: Job, index: number): void {
@@ -137,9 +143,5 @@ export class SearchResultsComponent implements OnInit {
   setJobsListType(type: JobLists): void {
     this.jobIndex = 0;
     this.selectedJobList$.next(type);
-  }
-
-  selectNextJob(job: Job): void {
-    this.selectJob(job, this.jobIndex + 1);
   }
 }

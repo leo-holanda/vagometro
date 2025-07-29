@@ -1,7 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { JobListComponent } from '../../job-list/job-list.component';
-import { BehaviorSubject, Observable, Subject, combineLatest, filter, map, startWith } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  Subject,
+  combineLatest,
+  filter,
+  map,
+  startWith,
+  takeUntil,
+} from 'rxjs';
 import { Job, JobLists } from '../../job.types';
 import { JobService } from '../../job.service';
 import { PublicationChartComponent } from 'src/app/statistics/charts/publication-chart/publication-chart.component';
@@ -37,7 +46,7 @@ import { SearchData } from '../easy-search.types';
   templateUrl: './search-results.component.html',
   styleUrls: ['./search-results.component.scss'],
 })
-export class SearchResultsComponent implements OnInit {
+export class SearchResultsComponent implements OnInit, OnDestroy {
   matchesMobileBreakpoint$: Observable<boolean>;
   selectedDataType: 'jobs' | 'stats' = 'jobs';
   rankTypes = RankTypes;
@@ -59,6 +68,8 @@ export class SearchResultsComponent implements OnInit {
 
   trackByJobId = trackByJobId;
 
+  private destroy$ = new Subject<void>();
+
   constructor(
     private jobService: JobService,
     private easySearchService: EasySearchService,
@@ -73,6 +84,7 @@ export class SearchResultsComponent implements OnInit {
       filter((jobs): jobs is Job[] => jobs != undefined),
       map(this.easySearchService.filterJobsBySearchData),
       map(this.easySearchService.sortByMatchPercentage),
+      takeUntil(this.destroy$),
     );
 
     this.allJobs$.subscribe((jobs) => {
@@ -89,6 +101,7 @@ export class SearchResultsComponent implements OnInit {
       map(([jobs, selectedJobList]) =>
         this.easySearchService.filterJobsByListType(jobs, selectedJobList),
       ),
+      takeUntil(this.destroy$),
     );
 
     this.filteredJobs$.subscribe((jobs) => {
@@ -97,13 +110,17 @@ export class SearchResultsComponent implements OnInit {
       this.selectJob(jobs[index], index);
     });
 
-    combineLatest([
-      this.allJobs$,
-      this.jobInterationStatusChanged$.pipe(startWith(null)),
-    ]).subscribe(([jobs, _]) => {
-      const jobsToDecide = this.easySearchService.filterJobsByListType(jobs, JobLists.TO_DECIDE);
-      this.markedJobsCount = this.jobsCount - jobsToDecide.length;
-    });
+    combineLatest([this.allJobs$, this.jobInterationStatusChanged$.pipe(startWith(null))])
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(([jobs, _]) => {
+        const jobsToDecide = this.easySearchService.filterJobsByListType(jobs, JobLists.TO_DECIDE);
+        this.markedJobsCount = this.jobsCount - jobsToDecide.length;
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   selectJob(job: Job, index: number): void {

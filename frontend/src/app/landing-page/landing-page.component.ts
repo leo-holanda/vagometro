@@ -22,6 +22,7 @@ import { FooterComponent } from '../shared/footer/footer.component';
 })
 export class LandingPageComponent {
   hasOneActiveJobSource$: Observable<boolean>;
+  isFinalSelectionStep = false;
 
   constructor(private jobSourcesService: JobSourcesService) {
     this.hasOneActiveJobSource$ = this.jobSourcesService.hasOneActiveJobSource$;

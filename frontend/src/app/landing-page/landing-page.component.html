@@ -128,17 +128,21 @@
         esperados.</a
       >
 
-      <vgm-job-source-selector></vgm-job-source-selector>
+      <vgm-job-source-selector
+        [compactMode]="false"
+        (isFinalSelectionStep)="isFinalSelectionStep = $event"
+      ></vgm-job-source-selector>
 
       <button
+        *ngIf="isFinalSelectionStep"
         class="btn btn-primary flex items-center mt-4 w-full"
-        [ngClass]="{ 'btn-disabled': !(hasOneActiveJobSource$ | async) }"
+        [ngClass]="{ 'btn-disabled': (hasOneActiveJobSource$ | async) === false }"
         [routerLink]="['stats']"
         vgmLoading
       >
         <span
           class="flex items-center gap-2"
-          *ngIf="!(hasOneActiveJobSource$ | async); else hasOneActiveJobSourceTemplate"
+          *ngIf="(hasOneActiveJobSource$ | async) === false; else hasOneActiveJobSourceTemplate"
         >
           <i class="bx bxs-info-circle"></i>
           Adicione uma fonte de vagas para começar</span

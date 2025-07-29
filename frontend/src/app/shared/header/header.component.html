@@ -207,12 +207,13 @@
       </h1>
     </header>
 
-    <vgm-job-source-selector></vgm-job-source-selector>
+    <vgm-job-source-selector [compactMode]="true"></vgm-job-source-selector>
+
     <div class="modal-action w-full">
       <form method="dialog" class="w-full">
         <button
           class="btn w-full"
-          [ngClass]="{ 'btn-disabled': !(hasOneJobSourceActive$ | async) }"
+          [ngClass]="{ 'btn-disabled': (hasOneJobSourceActive$ | async) === false }"
         >
           <i class="bx bx-stats"></i>
           Retornar para análise

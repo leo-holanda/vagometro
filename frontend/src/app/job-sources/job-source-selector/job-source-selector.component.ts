@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { JobSourcesService } from '../job-sources.service';
 import {
@@ -6,7 +6,6 @@ import {
   JobCollections,
   JobCollectionsMap,
   JobSources,
-  QuarterData,
   Quarters,
   QuartersMap,
   VisualizationModes,
@@ -21,6 +20,9 @@ import { defaultQuarterData, jobCollectionsMap } from '../job-sources.data';
   styleUrls: ['./job-source-selector.component.scss'],
 })
 export class JobSourceSelectorComponent {
+  @Input() compactMode = true;
+  @Output() isFinalSelectionStep = new EventEmitter<boolean>(false);
+
   selectedJobCollections!: JobCollectionsMap;
 
   jobCollectionsMap = jobCollectionsMap;
@@ -65,16 +67,25 @@ export class JobSourceSelectorComponent {
   }
 
   setSource(jobSource: JobSources): void {
-    this.hasSelectedJobSource = true;
     if (jobSource == JobSources.github) this.selectedJobCollections = this.githubJobCollections;
     else if (jobSource == JobSources.gupy) this.selectedJobCollections = this.gupyJobCollections;
     else this.selectedJobCollections = this.linkedInJobCollections;
+
+    this.hasSelectedJobSource = true;
+
+    if (this.selectedVisualizationMode === this.visualizationModes.newJobs) {
+      this.isFinalSelectionStep.emit(true);
+    }
   }
 
   setCollection(jobCollection: string): void {
     this.selectedJobCollection = jobCollection as JobCollections;
-    this.hasSelectedJobCollection = true;
     this.updateQuartersDataMap();
+
+    this.hasSelectedJobCollection = true;
+    if (this.selectedVisualizationMode === this.visualizationModes.oldJobs) {
+      this.isFinalSelectionStep.emit(true);
+    }
   }
 
   toggleQuarter(quarter: Quarters): void {

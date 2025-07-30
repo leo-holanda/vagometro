@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { JobService } from '../job/job.service';
 import { Observable, filter, map } from 'rxjs';
-import { Job } from '../job/job.types';
+import { Job, monthsMap } from '../job/job.types';
 import { InclusionTypes } from '../shared/keywords-matcher/inclusion.data';
 import { ContractTypes } from '../shared/keywords-matcher/contract-types.data';
 import { CertificationStatus } from '../shared/keywords-matcher/certification.data';
@@ -507,18 +507,27 @@ export class StatisticsService {
     return jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map((jobs) => {
-        const monthsMap = new Map<string, number>();
+        const monthAndYearMap = new Map<string, number>();
 
         jobs.forEach((job) => {
-          const monthAndYearWhenJobWasPublished = this.jobService.getJobMonthAndYear(job);
-          const currentMonthCount = monthsMap.get(monthAndYearWhenJobWasPublished) || 0;
-          monthsMap.set(monthAndYearWhenJobWasPublished, currentMonthCount + 1);
+          const jobMonth = job.publishedDate.getMonth();
+          const jobYear = job.publishedDate.getFullYear();
+          const jobTimeString = new Date(jobYear, jobMonth, 1).getTime().toString();
+          const currentMonthCount = monthAndYearMap.get(jobTimeString) || 0;
+          monthAndYearMap.set(jobTimeString, currentMonthCount + 1);
         });
 
-        const sortedObjects = Array.from(monthsMap.entries()).map(([key, value]) => ({
-          name: key,
-          count: value,
-        }));
+        const sortedObjects = Array.from(monthAndYearMap.entries())
+          .sort((a, b) => (a[0] > b[0] ? -1 : 1))
+          .map(([key, value]) => {
+            const date = new Date(parseInt(key));
+            const jobMonthAndYear = `${monthsMap[date.getMonth()]}/${date.getFullYear()}`;
+
+            return {
+              name: jobMonthAndYear,
+              count: value,
+            };
+          });
 
         return sortedObjects;
       }),

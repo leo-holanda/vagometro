@@ -166,7 +166,11 @@ export class SearchFormComponent {
   }
 
   private sortKeywords(): void {
-    this.filteredKeywords.sort((a, b) => (a.isSelected ? -1 : 0));
+    this.filteredKeywords.sort((a, b) => {
+      if (a.isSelected && !b.isSelected) return -1;
+      if (!a.isSelected && b.isSelected) return 1;
+      return 0;
+    });
   }
 
   private selectKeywordsFromSearchData(): void {

@@ -389,9 +389,10 @@
             </span>
           </div>
         </ng-container>
+
         <div *ngIf="job.keywords.length > 0" class="flex flex-wrap pb-4 gap-2">
           <div
-            [class]="'badge ' + keyword.category.badgeClass"
+            [class]="'badge badge-outline p-3 ' + keyword.category.badgeClass"
             *ngFor="let keyword of job.keywords"
           >
             {{ keyword.name }}
@@ -400,82 +401,94 @@
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <div>
-            <div class="flex items-center gap-1 mb-1">
-              <i class="bx bxs-user-detail"></i>
+            <div class="flex items-center gap-1 mb-1 text-sm">
+              <i class="bx bxs-user-detail text-sm"></i>
               <span> Nível de experiência </span>
             </div>
 
             <div *ngIf="job.experienceLevels.length > 0" class="flex flex-wrap gap-2">
-              <div class="badge badge-neutral" *ngFor="let experienceLevel of job.experienceLevels">
+              <div
+                class="badge badge-neutral p-4 rounded font-bold"
+                *ngFor="let experienceLevel of job.experienceLevels"
+              >
                 {{ experienceLevel.name }}
               </div>
             </div>
           </div>
 
           <div>
-            <div class="flex items-center gap-1 mb-1">
-              <i class="bx bxs-home"></i>
+            <div class="flex items-center gap-1 mb-1 text-sm">
+              <i class="bx bxs-home text-sm"></i>
               <span>Modalidade</span>
             </div>
 
             <div *ngIf="job.workplaceTypes.length > 0" class="flex flex-wrap gap-2">
-              <div class="badge badge-neutral" *ngFor="let workplaceType of job.workplaceTypes">
+              <div
+                class="badge badge-neutral p-4 rounded font-bold"
+                *ngFor="let workplaceType of job.workplaceTypes"
+              >
                 {{ workplaceType.type }}
               </div>
             </div>
           </div>
 
           <div>
-            <div class="flex items-center gap-1 mb-1">
-              <i class="bx bxs-briefcase"></i>
+            <div class="flex items-center gap-1 mb-1 text-sm">
+              <i class="bx bxs-briefcase text-sm"></i>
               <span>Tipo</span>
             </div>
 
             <div class="flex flex-wrapitems-center gap-2">
-              <div class="badge badge-neutral" *ngFor="let contractType of job.contractTypes">
+              <div
+                class="badge badge-neutral p-4 rounded font-bold"
+                *ngFor="let contractType of job.contractTypes"
+              >
                 {{ contractType.type }}
               </div>
             </div>
           </div>
 
           <div>
-            <div class="flex items-center gap-1 mb-1">
-              <i class="bx bxs-map"></i>
+            <div class="flex items-center gap-1 mb-1 text-sm">
+              <i class="bx bxs-map text-sm"></i>
               <span>Local</span>
             </div>
 
-            <span class="font-bold">
+            <span class="badge badge-neutral p-4 rounded font-bold">
               {{ job.city ? job.city + (job.state | stateAbbreviation) : "N/A" }}
             </span>
           </div>
 
           <div>
-            <div class="flex items-center gap-1 mb-1">
-              <i class="bx bxs-calendar"></i>
+            <div class="flex items-center gap-1 mb-1 text-sm">
+              <i class="bx bxs-calendar text-sm"></i>
               <span>Data de publicação</span>
             </div>
 
-            <span class="font-bold">
+            <span class="badge badge-neutral p-4 rounded font-bold">
               {{ job.publishedDate | date: "dd/MM/yyyy" }}
             </span>
           </div>
 
           <div>
-            <div class="flex items-center gap-1 mb-1">
-              <i class="bx bx-accessibility"></i>
+            <div class="flex items-center gap-1 mb-1 text-sm">
+              <i class="bx bx-accessibility text-sm"></i>
               <span>Inclusão</span>
             </div>
 
             <div class="flex flex-wrap items-center gap-2">
-              <div class="badge badge-neutral" *ngFor="let inclusionType of job.inclusionTypes">
+              <div
+                class="badge badge-neutral p-4 rounded font-bold"
+                *ngFor="let inclusionType of job.inclusionTypes"
+              >
                 {{ inclusionType.type }}
               </div>
             </div>
           </div>
 
           <div>
-            <div class="flex items-center gap-1 mb-1">
-              <i class="bx bxs-graduation"></i>
+            <div class="flex items-center gap-1 mb-1 text-sm">
+              <i class="bx bxs-graduation text-sm"></i>
               <span>Nível educacional</span>
             </div>
 
@@ -484,7 +497,7 @@
             >
               <div class="flex flex-wrap items-center gap-2">
                 <div
-                  class="badge badge-neutral"
+                  class="badge badge-neutral p-4 rounded font-bold"
                   *ngFor="let educacionalLevelTerm of job.educationalLevelTerms"
                 >
                   {{ educacionalLevelTerm }}
@@ -498,34 +511,37 @@
           </div>
 
           <div>
-            <div class="flex items-center gap-1 mb-1">
-              <i class="bx bx-globe"></i>
+            <div class="flex items-center gap-1 mb-1 text-sm">
+              <i class="bx bx-globe text-sm"></i>
               <span>Idiomas</span>
             </div>
 
             <ng-container *ngIf="job.languages.length > 0; else emptyLanguagesTemplate">
               <div class="flex items-center gap-2">
-                <div class="badge badge-neutral" *ngFor="let language of job.languages">
+                <div
+                  class="badge badge-neutral p-4 rounded font-bold"
+                  *ngFor="let language of job.languages"
+                >
                   {{ language }}
                 </div>
               </div>
             </ng-container>
 
             <ng-template #emptyLanguagesTemplate>
-              <span class="font-bold">Desconhecido</span>
+              <span class="badge badge-neutral p-4 rounded font-bold">Desconhecido</span>
             </ng-template>
           </div>
         </div>
 
         <div class="mt-2">
-          <div class="flex flex-wrap items-center gap-1 mb-1">
-            <i class="bx bxs-award"></i>
+          <div class="flex flex-wrap items-center gap-1 mb-1 text-sm">
+            <i class="bx bxs-award text-sm"></i>
             <span>Certificações</span>
           </div>
 
           <div class="flex items-center gap-2">
             <div
-              class="badge badge-neutral"
+              class="badge badge-neutral p-4 rounded font-bold"
               *ngFor="let certificationStatus of job.certificationStatuses"
             >
               {{ certificationStatus }}

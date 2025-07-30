@@ -1,7 +1,7 @@
 <div *ngIf="!hasSelectedVisualizationMode">
   <div class="flex w-full flex-col gap-4">
     <button
-      class="btn btn-outline flex w-full items-center justify-between flex-nowrap"
+      class="btn btn-outline flex w-full h-auto items-center justify-between flex-nowrap"
       [ngClass]="{ 'btn-lg p-12': compactMode === false }"
       (click)="setVisualizationMode(visualizationModes.newJobs)"
     >
@@ -11,7 +11,7 @@
           <span class="text-xl">Vagas recentes</span>
         </div>
 
-        <span *ngIf="compactMode === false" class="text-sm"
+        <span *ngIf="compactMode === false" class="text-sm text-start"
           >Quero ver as vagas récem-publicadas e usar a Busca Fácil para submeter candidaturas
           rapidamente</span
         >
@@ -19,7 +19,7 @@
     </button>
 
     <button
-      class="btn btn-outline flex w-full items-center justify-between flex-nowrap"
+      class="btn btn-outline flex w-full h-auto items-center justify-between flex-nowrap"
       [ngClass]="{ 'btn-lg p-12': compactMode === false }"
       (click)="setVisualizationMode(visualizationModes.oldJobs)"
     >
@@ -29,7 +29,7 @@
           <span class="text-xl">Histórico de vagas</span>
         </div>
 
-        <span *ngIf="compactMode === false" class="text-sm"
+        <span *ngIf="compactMode === false" class="text-sm text-start"
           >Quero consultar o histórico de vagas para investigar padrões e tendências, além de
           compreender o momento do mercado</span
         >

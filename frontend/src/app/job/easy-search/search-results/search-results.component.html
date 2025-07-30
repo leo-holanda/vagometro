@@ -388,6 +388,7 @@
           <button
             *ngIf="selectedJob.repostings.length > 0"
             class="btn btn-xs lg:btn-sm btn-outline btn-warning flex-nowrap"
+            (click)="openRepostingsDialog(selectedJob)"
           >
             <i class="bx bx-refresh"></i>
             <span>
@@ -680,3 +681,90 @@
     </div>
   </section>
 </ng-template>
+
+<dialog #repostingsList class="modal">
+  <div class="modal-box overflow-y-hidden">
+    <header class="flex items-center gap-2 font-bold text-xl mb-4">
+      <i class="bx bx-refresh"></i>
+      <h2>Repostagens da vaga</h2>
+    </header>
+
+    <cdk-virtual-scroll-viewport
+      class="repostings-virtual-scroll-viewport"
+      itemSize="210"
+      minBufferPx="420"
+      maxBufferPx="840"
+      [appendOnly]="true"
+    >
+      <div
+        class="card card-bordered card-compact bg-base-300 -xl mr-4"
+        *cdkVirtualFor="let job of repostingsFromSelectedJob; trackBy: trackByJobId"
+      >
+        <div class="card-body">
+          <header class="card-title flex flex-col items-start">
+            <div class="w-full">
+              <div class="flex items-center w-full gap-4 flex-wrap lg:flex-nowrap">
+                <div class="order-2 lg:order-1">
+                  <h1>{{ job.title }}</h1>
+                  <div class="flex items-center gap-2">
+                    <i class="bx bxs-business text-sm"></i>
+
+                    <a
+                      *ngIf="job.companyUrl; else jobWithoutCompanyUrlTemplate"
+                      class="text-slate-300 text-sm link"
+                      [href]="job.companyUrl"
+                      >{{ job.companyName }}</a
+                    >
+
+                    <ng-template #jobWithoutCompanyUrlTemplate>
+                      <a class="text-slate-300 text-sm">{{ job.companyName }}</a>
+                    </ng-template>
+                  </div>
+                </div>
+
+                <div
+                  *ngIf="job.publishedDate.toDateString() === today.toDateString()"
+                  class="badge badge-success gap-1 p-4 self-start ml-auto order-1 lg:order-2"
+                >
+                  <i class="bx bx-brightness"></i>
+                  <span> Nova </span>
+                </div>
+              </div>
+            </div>
+          </header>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div>
+              <div class="flex items-center gap-1 mb-1 text-sm">
+                <i class="bx bxs-calendar text-sm"></i>
+                <span>Data de publicação</span>
+              </div>
+
+              <span class="badge badge-neutral p-4 font-bold rounded gap-">
+                {{ job.publishedDate | date: "dd/MM/yyyy" }}
+              </span>
+            </div>
+          </div>
+
+          <div class="card-actions mt-2">
+            <a class="flex items-center gap-2 w-full" [href]="job.jobUrl" target="_blank">
+              <button class="btn w-full">
+                <i class="bx bx-link-external"></i>
+                <span>Acessar vaga</span>
+              </button>
+            </a>
+          </div>
+        </div>
+      </div>
+    </cdk-virtual-scroll-viewport>
+
+    <div class="modal-action">
+      <form method="dialog" class="w-full">
+        <button class="btn w-full">
+          <i class="bx bx-arrow-back"></i>
+          Voltar
+        </button>
+      </form>
+    </div>
+  </div>
+</dialog>

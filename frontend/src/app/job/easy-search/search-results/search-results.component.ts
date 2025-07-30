@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { JobListComponent } from '../../job-list/job-list.component';
 import {
@@ -47,6 +47,8 @@ import { SearchData } from '../easy-search.types';
   styleUrls: ['./search-results.component.scss'],
 })
 export class SearchResultsComponent implements OnInit, OnDestroy {
+  @ViewChild('repostingsList') repostingsListModal: ElementRef | undefined;
+
   matchesMobileBreakpoint$: Observable<boolean>;
   selectedDataType: 'jobs' | 'stats' = 'jobs';
   rankTypes = RankTypes;
@@ -61,6 +63,7 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
   jobsCount = 0;
   markedJobsCount = 0;
   jobLists = JobLists;
+  repostingsFromSelectedJob: Job[] = [];
 
   sortedTechnologies: TechnologyData[] = [];
   today = new Date();
@@ -159,5 +162,10 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
   setJobsListType(type: JobLists): void {
     this.jobIndex = 0;
     this.selectedJobList$.next(type);
+  }
+
+  openRepostingsDialog(job: Job): void {
+    this.repostingsFromSelectedJob = job.repostings;
+    if (this.repostingsListModal) this.repostingsListModal.nativeElement.showModal();
   }
 }

@@ -103,6 +103,48 @@ export class EasySearchService {
     });
   };
 
+  setJobsInteractionStatus(jobs: Job[]): Job[] {
+    const appliedJobsIds = localStorage.getItem(JobLists.APPLIED)?.split(',') || [];
+    const discardedJobsIds = localStorage.getItem(JobLists.DISCARDED)?.split(',') || [];
+
+    jobs.forEach((job) => {
+      job.interactionStatus.applied = appliedJobsIds.includes(job.id.toString());
+      job.interactionStatus.discarded = discardedJobsIds.includes(job.id.toString());
+    });
+
+    return jobs;
+  }
+
+  saveMarkedJobsOnLocalStorage(jobs: Job[]): void {
+    const appliedJobsIds = this.filterJobsByListType(jobs, JobLists.APPLIED).map((job) => job.id);
+    const discardedJobsIds = this.filterJobsByListType(jobs, JobLists.DISCARDED).map(
+      (job) => job.id,
+    );
+
+    const savedAppliedJobsIds = localStorage.getItem(JobLists.APPLIED)?.split(',') || [];
+    const savedDiscardedJobsIds = localStorage.getItem(JobLists.DISCARDED)?.split(',') || [];
+
+    const appliedJobsIdsSet = new Set([
+      ...savedAppliedJobsIds,
+      ...appliedJobsIds.map((id) => id.toString()),
+    ]);
+
+    const discardedJobsIdsSet = new Set([
+      ...savedDiscardedJobsIds,
+      ...discardedJobsIds.map((id) => id.toString()),
+    ]);
+
+    localStorage.setItem(JobLists.APPLIED, [...appliedJobsIdsSet].join(','));
+    localStorage.setItem(JobLists.DISCARDED, [...discardedJobsIdsSet].join(','));
+  }
+
+  removeFromMarkedJobs(jobId: number, listType: JobLists): void {
+    const savedJobsIds = localStorage.getItem(listType)?.split(',') || [];
+    const jobIdString = jobId.toString();
+    const updatedJobsIds = savedJobsIds.filter((id) => id !== jobIdString);
+    localStorage.setItem(listType, updatedJobsIds.join(','));
+  }
+
   private updateJobsMatchPercentage(): void {
     this.jobService.jobs$
       .pipe(

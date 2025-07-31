@@ -86,6 +86,7 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
     this.allJobs$ = this.jobService.jobs$.pipe(
       filter((jobs): jobs is Job[] => jobs != undefined),
       map(this.easySearchService.filterJobsBySearchData),
+      map(this.easySearchService.setJobsInteractionStatus),
       map(this.easySearchService.sortByMatchPercentage),
       takeUntil(this.destroy$),
     );
@@ -101,9 +102,10 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
       this.selectedJobList$,
       this.jobInterationStatusChanged$.pipe(startWith(null)),
     ]).pipe(
-      map(([jobs, selectedJobList]) =>
-        this.easySearchService.filterJobsByListType(jobs, selectedJobList),
-      ),
+      map(([jobs, selectedJobList]) => {
+        this.easySearchService.saveMarkedJobsOnLocalStorage(jobs);
+        return this.easySearchService.filterJobsByListType(jobs, selectedJobList);
+      }),
       takeUntil(this.destroy$),
     );
 
@@ -140,6 +142,9 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
   }
 
   setJobAsApplied(): void {
+    if (this.selectedJob.interactionStatus.discarded)
+      this.easySearchService.removeFromMarkedJobs(this.selectedJob.id, JobLists.DISCARDED);
+
     this.selectedJob.interactionStatus.applied = true;
     this.selectedJob.interactionStatus.discarded = false;
     this.jobInterationStatusChanged$.next();
@@ -154,6 +159,9 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
   }
 
   setJobAsDiscarded(): void {
+    if (this.selectedJob.interactionStatus.applied)
+      this.easySearchService.removeFromMarkedJobs(this.selectedJob.id, JobLists.APPLIED);
+
     this.selectedJob.interactionStatus.discarded = true;
     this.selectedJob.interactionStatus.applied = false;
     this.jobInterationStatusChanged$.next();

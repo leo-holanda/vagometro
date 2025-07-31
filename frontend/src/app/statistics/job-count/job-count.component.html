@@ -1,6 +1,6 @@
 <ng-container *ngIf="(jobsCount$ | async) !== undefined; else loading">
   <div class="stats stats-vertical lg:stats-horizontal gap-4 m-4">
-    <ng-container *ngIf="selectedMovingAverageData$ | async">
+    <ng-container *ngIf="regressionData$ | async as regressionData">
       <div class="stat bg-base-300 rounded-2xl">
         <div class="stat-title text-balance">Status do mercado</div>
 
@@ -31,13 +31,13 @@
     <ng-container *ngIf="selectedMovingAverageData$ | async as selectedMovingAverageData">
       <div class="stat bg-base-300 rounded-2xl gap-4">
         <div class="stat-title flex justify-between flex-wrap gap-2">
-          <span> Média móvel ({{ selectedMovingAverageType }}) </span>
+          <span> Média móvel ({{ selectedMovingAverageType$ | async }}) </span>
 
           <div class="join">
             <button
               class="btn btn-xs join-item"
               [ngClass]="{
-                'btn-primary': selectedMovingAverageType === movingAverageTypes.oneWeek
+                'btn-primary': (selectedMovingAverageType$ | async) === movingAverageTypes.oneWeek
               }"
               (click)="setMovingAverageType(movingAverageTypes.oneWeek)"
             >
@@ -47,7 +47,7 @@
             <button
               class="btn btn-xs join-item"
               [ngClass]="{
-                'btn-primary': selectedMovingAverageType === movingAverageTypes.oneMonth
+                'btn-primary': (selectedMovingAverageType$ | async) === movingAverageTypes.oneMonth
               }"
               (click)="setMovingAverageType(movingAverageTypes.oneMonth)"
             >
@@ -57,7 +57,7 @@
             <button
               class="btn btn-xs join-item"
               [ngClass]="{
-                'btn-primary': selectedMovingAverageType === movingAverageTypes.oneYear
+                'btn-primary': (selectedMovingAverageType$ | async) === movingAverageTypes.oneYear
               }"
               (click)="setMovingAverageType(movingAverageTypes.oneYear)"
             >
@@ -81,6 +81,7 @@
         </div>
 
         <div
+          *ngIf="shouldShowMovingAverageComparison; else insufficientMovingAverageDataTemplate"
           class="stat-desc flex items-center gap-2"
           [ngClass]="{
             'text-green-500': selectedMovingAverageData.comparedValue > 0,
@@ -112,17 +113,21 @@
               comparação com
             </span>
 
-            <span *ngIf="selectedMovingAverageType === movingAverageTypes.oneWeek"
+            <span *ngIf="(selectedMovingAverageType$ | async) === movingAverageTypes.oneWeek"
               >a semana passada
             </span>
-            <span *ngIf="selectedMovingAverageType === movingAverageTypes.oneMonth"
+            <span *ngIf="(selectedMovingAverageType$ | async) === movingAverageTypes.oneMonth"
               >o mês passado
             </span>
-            <span *ngIf="selectedMovingAverageType === movingAverageTypes.oneYear"
+            <span *ngIf="(selectedMovingAverageType$ | async) === movingAverageTypes.oneYear"
               >o ano passado
             </span>
           </div>
         </div>
+
+        <ng-template #insufficientMovingAverageDataTemplate>
+          <span class="stat-desc">Não há dados suficientes para a comparação de média móvel</span>
+        </ng-template>
       </div>
     </ng-container>
 

@@ -1,12 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Observable, map } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, map, switchMap, takeUntil } from 'rxjs';
 import { StatisticsService } from '../statistics.service';
 import { JobService } from 'src/app/job/job.service';
 import { TimeWindows } from 'src/app/job/job.types';
 import { RouterModule } from '@angular/router';
 import { ChartService } from '../charts/chart.service';
-import { MovingAverageTypes } from '../charts/publication-chart/publication-chart.model';
+import {
+  MovingAverageTypes,
+  ShortTermSeriesData,
+} from '../charts/publication-chart/publication-chart.model';
 import { MovingAverageStatData } from './job-count.types';
 import { SimpleLinearRegression } from 'ml-regression-simple-linear';
 
@@ -17,7 +20,7 @@ import { SimpleLinearRegression } from 'ml-regression-simple-linear';
   templateUrl: './job-count.component.html',
   styleUrls: ['./job-count.component.scss'],
 })
-export class JobCountComponent implements OnInit {
+export class JobCountComponent implements OnInit, OnDestroy {
   jobsCount$!: Observable<number>;
   oldestJobPublishedDate$!: Observable<Date | undefined>;
 
@@ -25,11 +28,14 @@ export class JobCountComponent implements OnInit {
   timeWindows = TimeWindows;
 
   movingAverageTypes = MovingAverageTypes;
-  selectedMovingAverageType = MovingAverageTypes.oneMonth;
-
+  selectedMovingAverageType$ = new BehaviorSubject<MovingAverageTypes>(MovingAverageTypes.oneMonth);
   selectedMovingAverageData$!: Observable<MovingAverageStatData>;
 
-  regressionData!: SimpleLinearRegression;
+  regressionData$!: Observable<SimpleLinearRegression>;
+
+  shouldShowMovingAverageComparison = true;
+
+  private destroy$ = new Subject<void>();
 
   constructor(
     private statisticsService: StatisticsService,
@@ -41,25 +47,33 @@ export class JobCountComponent implements OnInit {
     this.currentTimeWindow$ = this.jobService.currentTimeWindow$;
     this.jobsCount$ = this.statisticsService.getJobsCount();
     this.oldestJobPublishedDate$ = this.jobService.oldestJobPublishedDate$;
-    this.setMovingAverageType(MovingAverageTypes.oneMonth);
-  }
 
-  setMovingAverageType(movingAverageType: MovingAverageTypes): void {
-    this.selectedMovingAverageType = movingAverageType;
+    const movingAverageData = this.selectedMovingAverageType$.pipe(
+      takeUntil(this.destroy$),
+      switchMap(this.getMovingAverageSource),
+    );
 
-    let movingAverageSource$ = this.chartService.getWeeklyMovingAverage();
-    if (this.selectedMovingAverageType == MovingAverageTypes.oneMonth)
-      movingAverageSource$ = this.chartService.getMonthlyMovingAverage();
-    if (this.selectedMovingAverageType == MovingAverageTypes.oneYear)
-      movingAverageSource$ = this.chartService.getYearlyMovingAverage();
+    movingAverageData.subscribe((movingAverageData) => {
+      this.shouldShowMovingAverageComparison = movingAverageData.length > 3;
+    });
 
-    this.selectedMovingAverageData$ = movingAverageSource$.pipe(
+    this.selectedMovingAverageData$ = movingAverageData.pipe(
       map((movingAverageData) => {
-        const value = movingAverageData.at(-1)?.value[1] || 0;
-        const comparedValue =
-          ((movingAverageData.at(-1)?.value[1] || 0) - (movingAverageData.at(-2)?.value[1] || 0)) /
-          (movingAverageData.at(-2)?.value[1] || 1);
+        const currentMovingAverage = movingAverageData.at(-1)?.value[1] || 0;
+        const previousMovingAverage = movingAverageData.at(-2)?.value[1] || 0;
 
+        const differenceBetweenMovingAverages =
+          (currentMovingAverage - previousMovingAverage) / (previousMovingAverage || 1);
+
+        return {
+          value: currentMovingAverage,
+          comparedValue: differenceBetweenMovingAverages,
+        };
+      }),
+    );
+
+    this.regressionData$ = this.chartService.getDailyPostingsSeries().pipe(
+      map((movingAverageData) => {
         const x: number[] = [];
         const y: number[] = [];
 
@@ -68,13 +82,30 @@ export class JobCountComponent implements OnInit {
           y.push(movingAverageItem.value[1]);
         });
 
-        this.regressionData = new SimpleLinearRegression(x, y);
-
-        return {
-          value,
-          comparedValue,
-        };
+        return new SimpleLinearRegression(x, y);
       }),
     );
   }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  setMovingAverageType(movingAverageType: MovingAverageTypes): void {
+    this.selectedMovingAverageType$.next(movingAverageType);
+  }
+
+  private getMovingAverageSource = (
+    movingAverageType: MovingAverageTypes,
+  ): Observable<ShortTermSeriesData[]> => {
+    let movingAverageSource$ = this.chartService.getWeeklyMovingAverage();
+
+    if (movingAverageType == MovingAverageTypes.oneMonth)
+      movingAverageSource$ = this.chartService.getMonthlyMovingAverage();
+    else if (movingAverageType == MovingAverageTypes.oneYear)
+      movingAverageSource$ = this.chartService.getYearlyMovingAverage();
+
+    return movingAverageSource$;
+  };
 }

@@ -136,13 +136,13 @@
 
       <button
         *ngIf="isFinalSelectionStep"
-        class="btn btn-primary flex items-center mt-4 w-full gap-1"
+        class="btn btn-primary flex items-center mt-4 w-full"
         [ngClass]="{ 'btn-disabled': (hasOneActiveJobSource$ | async) === false }"
         [routerLink]="[visualizationMode === visualizationModes.oldJobs ? 'stats' : 'busca-facil']"
         vgmLoading
       >
         <span
-          class="flex items-center"
+          class="flex items-center gap-2"
           *ngIf="(hasOneActiveJobSource$ | async) === false; else hasOneActiveJobSourceTemplate"
         >
           <i class="bx bxs-info-circle"></i>

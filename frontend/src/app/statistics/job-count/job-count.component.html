@@ -1,24 +1,34 @@
 <ng-container *ngIf="(jobsCount$ | async) !== undefined; else loading">
   <div class="stats stats-vertical lg:stats-horizontal gap-4 m-4">
-    <ng-container *ngIf="regressionData$ | async as regressionData">
+    <ng-container *ngIf="trendStatus$ | async as trendStatus">
       <div class="stat bg-base-300 rounded-2xl">
-        <div class="stat-title text-balance">Status do mercado</div>
+        <div class="stat-title text-balance">Tendência das vagas</div>
 
-        <div class="tooltip" data-tip="Obtido através da inclinação da reta de regressão">
+        <div
+          class="tooltip"
+          data-tip="Obtido através da inclinação da reta de regressão. Considera somente as vagas selecionadas."
+        >
+          <!-- TODO: Define a better threshold -->
           <div class="stat-value">
-            <span class="text-green-500 flex items-center gap-2" *ngIf="regressionData.slope > 0">
+            <span
+              class="text-green-500 flex items-center gap-2"
+              *ngIf="trendStatus === trendStatuses.INCREASING"
+            >
               <i class="bx bx-up-arrow-circle text-4xl"></i>
-              <span> Em alta </span>
+              <span> Crescimento </span>
             </span>
 
-            <span class="text-red-500 flex items-center gap-2" *ngIf="regressionData.slope < 0">
+            <span
+              class="text-red-500 flex items-center gap-2"
+              *ngIf="trendStatus === trendStatuses.DECREASING"
+            >
               <i class="bx bx-down-arrow-circle text-4xl"></i>
-              <span> Em queda </span>
+              <span> Queda </span>
             </span>
 
             <span
               class="text-yellow-500 flex items-center gap-2"
-              *ngIf="regressionData.slope === 0"
+              *ngIf="trendStatus === trendStatuses.STABLE"
             >
               <i class="bx bx-minus-circle text-4xl"></i>
               <span>Estável</span>

@@ -10,7 +10,7 @@ import {
   MovingAverageTypes,
   ShortTermSeriesData,
 } from '../charts/publication-chart/publication-chart.model';
-import { MovingAverageStatData } from './job-count.types';
+import { MovingAverageStatData, TrendStatuses } from './job-count.types';
 import { SimpleLinearRegression } from 'ml-regression-simple-linear';
 
 @Component({
@@ -31,7 +31,8 @@ export class JobCountComponent implements OnInit, OnDestroy {
   selectedMovingAverageType$ = new BehaviorSubject<MovingAverageTypes>(MovingAverageTypes.oneMonth);
   selectedMovingAverageData$!: Observable<MovingAverageStatData>;
 
-  regressionData$!: Observable<SimpleLinearRegression>;
+  trendStatus$!: Observable<TrendStatuses>;
+  trendStatuses = TrendStatuses;
 
   shouldShowMovingAverageComparison = true;
 
@@ -72,17 +73,31 @@ export class JobCountComponent implements OnInit, OnDestroy {
       }),
     );
 
-    this.regressionData$ = this.chartService.getDailyPostingsSeries().pipe(
-      map((movingAverageData) => {
+    this.trendStatus$ = this.chartService.getDailyPostingsSeries().pipe(
+      map((dailyPostings) => {
         const x: number[] = [];
         const y: number[] = [];
 
-        movingAverageData.forEach((movingAverageItem) => {
-          x.push(movingAverageItem.value[0].getTime());
-          y.push(movingAverageItem.value[1]);
+        dailyPostings.forEach((postingsPerDay) => {
+          x.push(postingsPerDay.value[0].getTime());
+          y.push(postingsPerDay.value[1]); //How many jobs were posted
         });
 
-        return new SimpleLinearRegression(x, y);
+        const results = new SimpleLinearRegression(x, y);
+
+        //TODO: Find a more robust way to define the percentage threshold for significant change
+        //      Now it's 10% for everyone. It doesn't consider each data set dynamically
+        const percentageThreshold = 10;
+
+        const daysRange = Math.max(...x) - Math.min(...x);
+        const postingsAverage = y.reduce((a, b) => a + b, 0) / y.length;
+
+        const totalChange = results.slope * daysRange;
+        const percentageChange = Math.abs((totalChange / postingsAverage) * 100);
+
+        if (percentageChange < percentageThreshold) return TrendStatuses.STABLE;
+        if (results.slope > 0) return TrendStatuses.INCREASING;
+        return TrendStatuses.DECREASING;
       }),
     );
   }

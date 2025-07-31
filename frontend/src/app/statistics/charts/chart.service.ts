@@ -178,12 +178,12 @@ export class ChartService {
     number
   > => {
     const minDate = this.jobService.createDateByTimeWindow(currentTimeWindow);
+    const maxDate = this.jobService.findNewestJobDate(jobs);
 
     const publicationMap = new Map<string, number>();
     publicationMap.set(minDate.toDateString(), 0);
 
-    const today = new Date();
-    while (minDate.toDateString() != today.toDateString()) {
+    while (minDate.toDateString() != maxDate.toDateString()) {
       minDate.setDate(minDate.getDate() + 1);
       publicationMap.set(minDate.toDateString(), 0);
     }
@@ -202,14 +202,12 @@ export class ChartService {
     number
   > => {
     const minDate = this.jobService.createDateByTimeWindow(currentTimeWindow);
+    const maxDate = this.jobService.findNewestJobDate(jobs);
 
     const postingsMap = new Map<string, number>();
     postingsMap.set(this.getDateMonthAndYear(minDate), 0);
 
-    const today = new Date();
-    today.setDate(1);
-
-    while (this.getDateMonthAndYear(minDate) != this.getDateMonthAndYear(today)) {
+    while (this.getDateMonthAndYear(minDate) != this.getDateMonthAndYear(maxDate)) {
       minDate.setMonth(minDate.getMonth() + 1);
       postingsMap.set(this.getDateMonthAndYear(minDate), 0);
     }
@@ -228,15 +226,12 @@ export class ChartService {
     number
   > => {
     const minDate = this.jobService.createDateByTimeWindow(currentTimeWindow);
+    const maxDate = this.jobService.findNewestJobDate(jobs);
 
     const postingsMap = new Map<string, number>();
     postingsMap.set(this.getDateYear(minDate), 0);
 
-    const today = new Date();
-    today.setDate(1);
-    today.setMonth(1);
-
-    while (this.getDateYear(minDate) != this.getDateYear(today)) {
+    while (this.getDateYear(minDate) != this.getDateYear(maxDate)) {
       minDate.setFullYear(minDate.getFullYear() + 1);
       postingsMap.set(this.getDateYear(minDate), 0);
     }

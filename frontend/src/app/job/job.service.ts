@@ -232,6 +232,10 @@ export class JobService {
     return `${this.getJobMonth(job)}/${this.getJobYear(job)}`;
   }
 
+  findNewestJobDate(jobs: Job[]): Date {
+    return jobs[0].publishedDate;
+  }
+
   private findOldestJobDate(jobs: Job[]): Date {
     let oldestDate = new Date();
     oldestDate.setHours(0);

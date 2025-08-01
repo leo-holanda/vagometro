@@ -10,6 +10,7 @@ import {
   LongTermSeriesData,
   MatchData,
 } from './publication-chart/publication-chart.model';
+import { AccumulatedPostings } from './chart.types';
 
 @Injectable({
   providedIn: 'root',
@@ -165,9 +166,9 @@ export class ChartService {
     return mapEntries;
   }
 
-  private mapToLongTermSeries(postingsMap: Map<string, number>): LongTermSeriesData[] {
-    const mapEntries = Array.from(postingsMap.entries()).map((entries): LongTermSeriesData => {
-      return { value: [entries[0], entries[1]] };
+  private mapToLongTermSeries(postingsMap: AccumulatedPostings[]): LongTermSeriesData[] {
+    const mapEntries = postingsMap.map((posting): LongTermSeriesData => {
+      return { value: [posting.date, posting.count] };
     });
 
     return mapEntries;
@@ -197,52 +198,61 @@ export class ChartService {
     return publicationMap;
   };
 
-  private getMonthlyAccumulatedJobPostings = ([jobs, currentTimeWindow]: [Job[], TimeWindows]): Map<
-    string,
-    number
-  > => {
-    const minDate = this.jobService.createDateByTimeWindow(currentTimeWindow);
-    const maxDate = this.jobService.findNewestJobDate(jobs);
-
-    const postingsMap = new Map<string, number>();
-    postingsMap.set(this.getDateMonthAndYear(minDate), 0);
-
-    while (this.getDateMonthAndYear(minDate) != this.getDateMonthAndYear(maxDate)) {
-      minDate.setMonth(minDate.getMonth() + 1);
-      postingsMap.set(this.getDateMonthAndYear(minDate), 0);
-    }
+  private getMonthlyAccumulatedJobPostings = ([jobs, currentTimeWindow]: [
+    Job[],
+    TimeWindows,
+  ]): AccumulatedPostings[] => {
+    const postingsMap = new Map<number, number>();
 
     jobs.forEach((job) => {
-      const jobPostingMonth = this.jobService.getJobMonthAndYear(job);
-      const currentDateCount = postingsMap.get(jobPostingMonth) || 0;
-      postingsMap.set(jobPostingMonth, currentDateCount + 1);
+      const jobMonth = job.publishedDate.getMonth();
+      const jobYear = job.publishedDate.getFullYear();
+      const monthAndYearAsTime = new Date(jobYear, jobMonth, 1).getTime();
+      const currentDateCount = postingsMap.get(monthAndYearAsTime) || 0;
+      postingsMap.set(monthAndYearAsTime, currentDateCount + 1);
     });
 
-    return postingsMap;
+    const sortedObjects = Array.from(postingsMap.entries())
+      .sort((a, b) => (a[0] > b[0] ? 1 : -1))
+      .map(([key, value]) => {
+        const date = new Date(key);
+        const jobMonthAndYear = `${monthsMap[date.getMonth()]}/${date.getFullYear()}`;
+
+        return {
+          date: jobMonthAndYear,
+          count: value,
+        };
+      });
+
+    return sortedObjects;
   };
 
-  private getAnnualAccumulatedJobPostings = ([jobs, currentTimeWindow]: [Job[], TimeWindows]): Map<
-    string,
-    number
-  > => {
-    const minDate = this.jobService.createDateByTimeWindow(currentTimeWindow);
-    const maxDate = this.jobService.findNewestJobDate(jobs);
-
-    const postingsMap = new Map<string, number>();
-    postingsMap.set(this.getDateYear(minDate), 0);
-
-    while (this.getDateYear(minDate) != this.getDateYear(maxDate)) {
-      minDate.setFullYear(minDate.getFullYear() + 1);
-      postingsMap.set(this.getDateYear(minDate), 0);
-    }
+  private getAnnualAccumulatedJobPostings = ([jobs, currentTimeWindow]: [
+    Job[],
+    TimeWindows,
+  ]): AccumulatedPostings[] => {
+    const postingsMap = new Map<number, number>();
 
     jobs.forEach((job) => {
-      const jobPostingYear = this.jobService.getJobYear(job);
-      const currentDateCount = postingsMap.get(jobPostingYear) || 0;
-      postingsMap.set(jobPostingYear, currentDateCount + 1);
+      const jobYear = job.publishedDate.getFullYear();
+      const monthAndYearAsTime = new Date(jobYear, 1, 1).getTime();
+      const currentDateCount = postingsMap.get(monthAndYearAsTime) || 0;
+      postingsMap.set(monthAndYearAsTime, currentDateCount + 1);
     });
 
-    return postingsMap;
+    const sortedObjects = Array.from(postingsMap.entries())
+      .sort((a, b) => (a[0] > b[0] ? 1 : -1))
+      .map(([key, value]) => {
+        const date = new Date(key);
+        const jobMonthAndYear = `${monthsMap[date.getMonth()]}/${date.getFullYear()}`;
+
+        return {
+          date: jobMonthAndYear,
+          count: value,
+        };
+      });
+
+    return sortedObjects;
   };
 
   //TODO: Move all the moving average logic to statistics service and just do the map here

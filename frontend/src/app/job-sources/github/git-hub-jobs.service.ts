@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Observable, defer, first, shareReplay, tap } from 'rxjs';
+import { Observable, catchError, defer, finalize, first, shareReplay } from 'rxjs';
 import { Job } from 'src/app/job/job.types';
 import { EasySearchService } from 'src/app/job/easy-search/easy-search.service';
 import { mapGitHubJobsToJobs } from './git-hub-jobs.mapper';
 import { R2Service } from 'src/app/r2/r2.service';
 import { QuarterData, Quarters } from '../job-sources.types';
 import { GitHubJob } from './git-hub-jobs.types';
+import { trackError, trackJobCollection } from 'src/app/shared/umami';
 
 @Injectable({
   providedIn: 'root',
@@ -22,10 +23,17 @@ export class GitHubJobsService {
     quarter: Quarters,
     quarterData: QuarterData,
   ): Observable<Job[]> {
+    let hasError = false;
+
     return defer(() => this.getJobsPromise(collectionName, year, quarter, quarterData)).pipe(
       first(),
-      tap(() => {
-        this.sendEventToUmami(`${collectionName} - ${quarter}/${year}`);
+      catchError((error) => {
+        hasError = true;
+        trackError(`${collectionName} - ${quarter}/${year}`, error.message);
+        throw error;
+      }),
+      finalize(() => {
+        if (!hasError) trackJobCollection(`${collectionName} - ${quarter}/${year}`);
       }),
       shareReplay(),
     );
@@ -63,14 +71,6 @@ export class GitHubJobsService {
         resolve(mapGitHubJobsToJobs(jobs as GitHubJob[], searchData));
       }
     });
-  }
-
-  private sendEventToUmami(event: string): void {
-    try {
-      (window as any).umami.track(event);
-    } catch (error) {
-      console.warn('Umami not available');
-    }
   }
 
   private createWorker(): Worker | undefined {

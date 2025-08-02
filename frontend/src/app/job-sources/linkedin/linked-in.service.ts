@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, defer, first, shareReplay, switchMap, tap } from 'rxjs';
+import { Observable, catchError, defer, finalize, first, shareReplay, switchMap, tap } from 'rxjs';
 import { Job } from 'src/app/job/job.types';
 import { mapLinkedInJobsToJobs } from './linked-in.mapper';
 import { LinkedInJob } from './linked-in.types';
@@ -7,6 +7,7 @@ import { EasySearchService } from 'src/app/job/easy-search/easy-search.service';
 import { QuarterData, Quarters } from '../job-sources.types';
 import { R2Service } from 'src/app/r2/r2.service';
 import { MongoService } from 'src/app/mongo/mongo.service';
+import { trackError, trackJobCollection } from 'src/app/shared/umami';
 
 @Injectable({
   providedIn: 'root',
@@ -19,10 +20,20 @@ export class LinkedInService {
   ) {}
 
   getJobsFromMongo(collectionName: string, quarterData: QuarterData): Observable<Job[]> {
+    let hasError = false;
+
     return this.mongoService.getJobs<LinkedInJob[]>(collectionName).pipe(
       tap(() => {
         quarterData.isDownloading = false;
         quarterData.isLoading = true;
+      }),
+      catchError((error) => {
+        hasError = true;
+        trackError(`${collectionName}  - New jobs`, error.message);
+        throw error;
+      }),
+      finalize(() => {
+        if (!hasError) trackJobCollection(`${collectionName} - New Jobs`);
       }),
       switchMap((jobs) => defer(() => this.getWorkerPromise(jobs, quarterData))),
       shareReplay(),
@@ -35,10 +46,17 @@ export class LinkedInService {
     quarter: Quarters,
     quarterData: QuarterData,
   ): Observable<Job[]> {
+    let hasError = false;
+
     return defer(() => this.getJobsPromise(collectionName, year, quarter, quarterData)).pipe(
       first(),
-      tap(() => {
-        this.sendEventToUmami(`${collectionName} - ${quarter}/${year}`);
+      catchError((error) => {
+        hasError = true;
+        trackError(`${collectionName} - ${quarter}/${year}`, error.message);
+        throw error;
+      }),
+      finalize(() => {
+        if (!hasError) trackJobCollection(`${collectionName} - ${quarter}/${year}`);
       }),
       shareReplay(),
     );
@@ -91,14 +109,6 @@ export class LinkedInService {
     } else {
       console.error('Web workers are not supported in this environment.');
       return undefined;
-    }
-  }
-
-  private sendEventToUmami(event: string): void {
-    try {
-      (window as any).umami.track(event);
-    } catch (error) {
-      console.warn('Umami not available');
     }
   }
 }

@@ -209,8 +209,7 @@ export class JobSourcesService {
   private createQuarterData(): QuarterData {
     return {
       dataSource: new Observable(),
-      isCurrentQuarter: false,
-      isUpcomingQuarter: false,
+      isQuarterAvailable: true,
       isSelected: false,
       isDownloading: false,
       isLoading: false,
@@ -247,16 +246,11 @@ export class JobSourcesService {
     if (this.today.getFullYear() !== year) return quartersMap;
 
     const currentQuarter = this.getCurrentQuarter();
-    quartersMap[currentQuarter].isCurrentQuarter = true;
 
-    const upcomingQuarters: Quarters[] = [];
-    for (const quarter of Object.values(Quarters).reverse()) {
-      if (quarter != currentQuarter) upcomingQuarters.push(quarter as Quarters);
-      else break;
-    }
-
-    for (const quarter of upcomingQuarters) {
-      quartersMap[quarter].isUpcomingQuarter = true;
+    let isQuarterAvailable = true;
+    for (const quarter of Object.values(Quarters)) {
+      if (quarter == currentQuarter) isQuarterAvailable = false;
+      quartersMap[quarter].isQuarterAvailable = isQuarterAvailable;
     }
 
     return quartersMap;

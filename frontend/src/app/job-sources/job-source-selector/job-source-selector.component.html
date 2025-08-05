@@ -102,7 +102,7 @@
             jobCollection.value.newJobs.isDownloading ||
             jobCollection.value.newJobs.isLoading ||
             jobCollection.value.newJobs.hasFailedToLoad ||
-            jobCollection.value.newJobs.isUpcomingQuarter
+            !jobCollection.value.newJobs.isQuarterAvailable
         }"
         (click)="toggleCollection(jobCollection.key)"
       >
@@ -172,7 +172,7 @@
             jobCollection.value.newJobs.isLoading === false &&
             jobCollection.value.newJobs.isLoaded === false &&
             jobCollection.value.newJobs.hasFailedToLoad === false &&
-            jobCollection.value.newJobs.isUpcomingQuarter === false
+            jobCollection.value.newJobs.isQuarterAvailable
           "
           class="bx bxs-plus-circle"
         ></i>
@@ -246,7 +246,7 @@
           quartersDataMap[quarter.value].isDownloading ||
           quartersDataMap[quarter.value].isLoading ||
           quartersDataMap[quarter.value].hasFailedToLoad ||
-          quartersDataMap[quarter.value].isUpcomingQuarter
+          !quartersDataMap[quarter.value].isQuarterAvailable
       }"
       (click)="toggleQuarter(quarter.value)"
     >
@@ -280,8 +280,6 @@
             <span *ngSwitchCase="quarters.Q3">3º Trimestre</span>
             <span *ngSwitchCase="quarters.Q4">4º Trimestre</span>
           </ng-container>
-
-          <span *ngIf="quartersDataMap[quarter.value].isCurrentQuarter"> (Atual) </span>
         </span>
 
         <span
@@ -323,7 +321,7 @@
           quartersDataMap[quarter.value].isLoading === false &&
           quartersDataMap[quarter.value].isLoaded === false &&
           quartersDataMap[quarter.value].hasFailedToLoad === false &&
-          quartersDataMap[quarter.value].isUpcomingQuarter === false
+          quartersDataMap[quarter.value].isQuarterAvailable
         "
         class="bx bxs-plus-circle"
       ></i>

@@ -174,8 +174,7 @@ export const jobCollectionsMap: JobCollectionsMap = {
 function getDefaultQuarterData(): QuarterData {
   const quarterData: QuarterData = {
     dataSource: new Observable(),
-    isCurrentQuarter: false,
-    isUpcomingQuarter: false,
+    isQuarterAvailable: true,
     isSelected: false,
     isDownloading: false,
     isLoading: false,
@@ -191,8 +190,7 @@ function getDefaultQuarterData(): QuarterData {
 
 export const defaultQuarterData: QuarterData = {
   dataSource: new Observable(),
-  isCurrentQuarter: false,
-  isUpcomingQuarter: false,
+  isQuarterAvailable: true,
   isSelected: false,
   isDownloading: false,
   isLoading: false,

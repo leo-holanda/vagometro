@@ -41,8 +41,7 @@ export enum JobCollections {
 
 export type QuarterData = {
   dataSource: Observable<Job[]>;
-  isCurrentQuarter: boolean;
-  isUpcomingQuarter: boolean;
+  isQuarterAvailable: boolean;
   isSelected: boolean;
   isDownloading: boolean;
   isLoading: boolean;

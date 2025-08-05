@@ -28,3 +28,7 @@ export interface ContractTypesOnSearchForm extends SearchFormData {
 export interface InclusionTypesOnSearchForm extends SearchFormData {
   name: InclusionTypes;
 }
+
+export interface CompaniesOnSearchForm extends SearchFormData {
+  name: string;
+}

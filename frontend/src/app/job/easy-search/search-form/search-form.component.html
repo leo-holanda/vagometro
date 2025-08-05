@@ -122,6 +122,42 @@
     </div>
   </section>
 
+  <section class="card card-bordered card-compact w-full lg:w-1/2 bg-base-300">
+    <header class="card-title items-center p-4">
+      <i class="bx bxs-minus-circle"></i>
+      <h1>Marque as empresas que você quer <strong>excluir</strong></h1>
+    </header>
+
+    <label class="form-control w-full px-4 pr-6 pb-2">
+      <div class="label">
+        <span class="label-text">Buscar por empresas</span>
+      </div>
+      <input
+        [(ngModel)]="companySearchString"
+        (ngModelChange)="filterCompanies()"
+        id="keywordSearchString"
+        name="keywordSearchString"
+        type="text"
+        placeholder="Siri Cascudo"
+        class="input input-bordered w-full placeholder:italic"
+      />
+    </label>
+
+    <section class="card-body max-h-64 overflow-y-auto">
+      <button
+        class="btn p-2"
+        *ngFor="let company of filteredCompanies$ | async; index as i; trackBy: trackByName"
+        [ngClass]="{ 'btn-error': company.isSelected }"
+        (click)="onCompanyClick(company)"
+      >
+        <div class="w-full flex items-center gap-2">
+          <i *ngIf="company.isSelected" class="bx bxs-minus-square"></i>
+          <span>{{ company.name }}</span>
+        </div>
+      </button>
+    </section>
+  </section>
+
   <section class="flex items-center justify-end gap-4 w-full lg:w-1/2 mt-4">
     <button [routerLink]="['/busca-facil']" class="btn btn-outline btn-error items-center flex-1">
       <i class="bx bxs-trash"></i>

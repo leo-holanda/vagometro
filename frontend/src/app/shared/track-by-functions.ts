@@ -18,3 +18,7 @@ export function trackByRankData(index: number, item: RankData): string {
 export function trackByComparisonData(index: number, item: ComparisonData | MonthData): string {
   return item.name;
 }
+
+export function trackByName(index: number, item: { name: string }): string {
+  return item.name;
+}

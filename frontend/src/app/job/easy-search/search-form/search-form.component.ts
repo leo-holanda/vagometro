@@ -5,7 +5,7 @@ import {
   oneWordTechnologies,
   multiWordTechnologies,
 } from 'src/app/shared/keywords-matcher/technologies.data';
-import { trackByKeyword } from 'src/app/shared/track-by-functions';
+import { trackByKeyword, trackByName } from 'src/app/shared/track-by-functions';
 import { SearchData } from '../easy-search.types';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
@@ -15,12 +15,14 @@ import {
   WorkplaceTypeOnSearchForm,
   ContractTypesOnSearchForm,
   InclusionTypesOnSearchForm,
+  CompaniesOnSearchForm,
 } from './search-form.types';
 import { ExperienceLevels } from 'src/app/shared/keywords-matcher/experience-levels.data';
 import { EasySearchService } from '../easy-search.service';
 import { WorkplaceTypes } from 'src/app/shared/keywords-matcher/workplace.data';
 import { ContractTypes } from 'src/app/shared/keywords-matcher/contract-types.data';
 import { InclusionTypes } from 'src/app/shared/keywords-matcher/inclusion.data';
+import { combineLatest, map, Observable, startWith, Subject, take } from 'rxjs';
 
 @Component({
   selector: 'vgm-search-form',
@@ -32,28 +34,40 @@ import { InclusionTypes } from 'src/app/shared/keywords-matcher/inclusion.data';
 export class SearchFormComponent {
   searchData!: SearchData;
   keywordSearchString = '';
+  companySearchString = '';
+  private companySearchStringChanged$ = new Subject<void>();
 
   filteredKeywords: KeywordOnSearchForm[] = [];
+  filteredCompanies$!: Observable<CompaniesOnSearchForm[]>;
+
   experienceLevels: ExperienceLevelOnSearchForm[] = [];
   workplaceTypes: WorkplaceTypeOnSearchForm[] = [];
   contractTypes: ContractTypesOnSearchForm[] = [];
   inclusionTypes: InclusionTypesOnSearchForm[] = [];
+  private companies$!: Observable<CompaniesOnSearchForm[]>;
 
   private selectedKeywords: Technology[] = [];
   private keywords: KeywordOnSearchForm[] = [];
 
   trackByKeyword = trackByKeyword;
+  trackByName = trackByName;
 
   constructor(
     private router: Router,
     private easySearchService: EasySearchService,
   ) {
+    this.setSearchData();
     this.loadKeywords();
     this.loadExperienceLevels();
     this.loadWorkplaceTypes();
     this.loadContractTypes();
     this.loadInclusionTypes();
-    this.setSearchData();
+    this.loadCompanies();
+    this.toggleSelectedItems();
+  }
+
+  filterCompanies(): void {
+    this.companySearchStringChanged$.next();
   }
 
   filterKeywords(): void {
@@ -62,6 +76,18 @@ export class SearchFormComponent {
     );
 
     this.sortKeywords();
+  }
+
+  onCompanyClick(clickedCompany: CompaniesOnSearchForm): void {
+    if (clickedCompany.isSelected) {
+      this.searchData.excludedCompanies = this.searchData.excludedCompanies.filter(
+        (companyName) => companyName != clickedCompany.name,
+      );
+    } else {
+      this.searchData.excludedCompanies.push(clickedCompany.name);
+    }
+
+    clickedCompany.isSelected = !clickedCompany.isSelected;
   }
 
   onKeywordClick(keyword: KeywordOnSearchForm): void {
@@ -124,6 +150,20 @@ export class SearchFormComponent {
     });
   }
 
+  private loadCompanies(): void {
+    this.companies$ = this.easySearchService
+      .getCompaniesForSearchForm()
+      .pipe(map(this.toggleExcludedCompanies), map(this.sortCompanies));
+
+    this.filteredCompanies$ = combineLatest([
+      this.companies$,
+      this.companySearchStringChanged$.pipe(startWith(null)),
+    ]).pipe(
+      map(([companies]) => this.filterCompaniesBySearchString(companies)),
+      map((companies) => this.sortCompanies(companies)),
+    );
+  }
+
   private loadKeywords(): void {
     const keywordsMap = { ...oneWordTechnologies, ...multiWordTechnologies };
     const keywordSet = new Set();
@@ -163,6 +203,24 @@ export class SearchFormComponent {
         isSelected: false,
       };
     });
+  }
+
+  private filterCompaniesBySearchString(
+    companies: CompaniesOnSearchForm[],
+  ): CompaniesOnSearchForm[] {
+    return companies.filter((company) =>
+      company.name.toLowerCase().includes(this.companySearchString.toLowerCase()),
+    );
+  }
+
+  private sortCompanies(companies: CompaniesOnSearchForm[]): CompaniesOnSearchForm[] {
+    companies.sort((a, b) => {
+      if (a.isSelected && !b.isSelected) return -1;
+      if (!a.isSelected && b.isSelected) return 1;
+      return 0;
+    });
+
+    return companies;
   }
 
   private sortKeywords(): void {
@@ -226,6 +284,15 @@ export class SearchFormComponent {
     });
   }
 
+  private toggleExcludedCompanies = (
+    companies: CompaniesOnSearchForm[],
+  ): CompaniesOnSearchForm[] => {
+    return companies.map((company) => {
+      if (this.searchData.excludedCompanies.includes(company.name)) company.isSelected = true;
+      return company;
+    });
+  };
+
   private setSearchData(): void {
     const searchData = this.easySearchService.getSearchData();
     if (!searchData)
@@ -235,9 +302,12 @@ export class SearchFormComponent {
         workplaceTypes: [],
         contractTypes: [],
         inclusionTypes: [],
+        excludedCompanies: [],
       };
     else this.searchData = searchData;
+  }
 
+  private toggleSelectedItems(): void {
     this.selectKeywordsFromSearchData();
     this.selectExperienceLevelsFromSearchData();
     this.selectWorkplaceTypesFromSearchData();

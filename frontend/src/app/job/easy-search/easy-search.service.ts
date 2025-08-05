@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { SearchData } from './easy-search.types';
 import { Job, JobLists } from '../job.types';
 import { JobService } from '../job.service';
-import { filter, take } from 'rxjs';
+import { filter, map, Observable, take } from 'rxjs';
 import { getJobMatchPercentage } from './easy-search.mapper';
+import { CompaniesOnSearchForm } from './search-form/search-form.types';
 
 @Injectable({
   providedIn: 'root',
@@ -99,6 +100,11 @@ export class EasySearchService {
         if (!hasInclusionTypes) return false;
       }
 
+      if (searchData.excludedCompanies.length > 0) {
+        const hasExcludedCompanies = searchData.excludedCompanies.includes(job.companyName);
+        if (hasExcludedCompanies) return false;
+      }
+
       return true;
     });
   };
@@ -145,6 +151,17 @@ export class EasySearchService {
     localStorage.setItem(listType, updatedJobsIds.join(','));
   }
 
+  getCompaniesForSearchForm(): Observable<CompaniesOnSearchForm[]> {
+    return this.jobService.getCompaniesNames().pipe(map(this.mapToCompaniesOnSearchForm));
+  }
+
+  private mapToCompaniesOnSearchForm(companiesNames: string[]): CompaniesOnSearchForm[] {
+    return companiesNames.map((company) => ({
+      isSelected: false,
+      name: company,
+    }));
+  }
+
   private updateJobsMatchPercentage(): void {
     this.jobService.jobs$
       .pipe(
@@ -172,6 +189,7 @@ export class EasySearchService {
         'workplaceTypes',
         'contractTypes',
         'inclusionTypes',
+        'excludedCompanies',
       ];
 
       searchDataKeys.forEach((key) => {

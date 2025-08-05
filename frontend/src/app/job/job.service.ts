@@ -236,6 +236,21 @@ export class JobService {
     return jobs[0].publishedDate;
   }
 
+  getCompaniesNames(): Observable<string[]> {
+    return this.jobs$.pipe(
+      filter((jobs): jobs is Job[] => jobs != undefined),
+      map((jobs) => {
+        const companiesSet = new Set();
+
+        jobs.forEach((job) => {
+          companiesSet.add(job.companyName);
+        });
+
+        return [...companiesSet] as string[];
+      }),
+    );
+  }
+
   private findOldestJobDate(jobs: Job[]): Date {
     let oldestDate = new Date();
     oldestDate.setHours(0);

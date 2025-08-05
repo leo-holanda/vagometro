@@ -10,4 +10,5 @@ export type SearchData = {
   workplaceTypes: WorkplaceTypes[];
   contractTypes: ContractTypes[];
   inclusionTypes: InclusionTypes[];
+  excludedCompanies: string[];
 };

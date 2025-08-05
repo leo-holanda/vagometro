@@ -61,9 +61,7 @@
                 (click)="onCityClicked(city.name)"
               >
                 <div class="w-full flex justify-between">
-                  <span>{{
-                    i + 1 + ". " + city.name + ", " + (city.state | stateAbbreviation)
-                  }}</span>
+                  <span>{{ i + 1 + ". " + city.name + (city.state | stateAbbreviation) }}</span>
                   <div class="flex gap-2">
                     <span>{{ city.count | number }}</span>
                     <span class="text-gray-600"

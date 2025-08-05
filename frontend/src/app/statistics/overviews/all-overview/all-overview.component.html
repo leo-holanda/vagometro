@@ -25,7 +25,7 @@
 
   <div class="flex items-center justify-center">
     <div class="card card-bordered card-compact w-full lg:w-1/2 bg-base-300">
-      <div class="card-title justify-between p-4">
+      <div class="card-title justify-between p-4 flex-wrap">
         <h1>Vagas consideradas nos dados acima</h1>
         <span>Total: {{ ((jobs$ | async) || []).length }} vagas</span>
       </div>

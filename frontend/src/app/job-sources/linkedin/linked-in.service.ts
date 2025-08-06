@@ -1,5 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Observable, catchError, defer, finalize, first, shareReplay, switchMap, tap } from 'rxjs';
+import {
+  Observable,
+  catchError,
+  defer,
+  filter,
+  finalize,
+  first,
+  map,
+  shareReplay,
+  switchMap,
+  tap,
+} from 'rxjs';
 import { Job } from 'src/app/job/job.types';
 import { mapLinkedInJobsToJobs } from './linked-in.mapper';
 import { LinkedInJob } from './linked-in.types';
@@ -8,6 +19,7 @@ import { QuarterData, Quarters } from '../job-sources.types';
 import { R2Service } from 'src/app/r2/r2.service';
 import { MongoService } from 'src/app/mongo/mongo.service';
 import { trackError, trackJobCollection } from 'src/app/shared/umami';
+import { HttpEvent, HttpEventType, HttpResponse } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -23,10 +35,10 @@ export class LinkedInService {
     let hasError = false;
 
     return this.mongoService.getJobs<LinkedInJob[]>(collectionName).pipe(
-      tap(() => {
-        quarterData.isDownloading = false;
-        quarterData.isLoading = true;
-      }),
+      tap((event) => this.updateDownloadProgress(event, quarterData)),
+      filter((event) => event.type === HttpEventType.Response),
+      map((event) => (event as HttpResponse<LinkedInJob[]>).body),
+      switchMap((jobs) => this.mapJobsWithWorker(jobs, quarterData)),
       catchError((error) => {
         hasError = true;
         trackError(`${collectionName}  - New jobs`, error.message);
@@ -35,7 +47,6 @@ export class LinkedInService {
       finalize(() => {
         if (!hasError) trackJobCollection(`${collectionName} - New Jobs`);
       }),
-      switchMap((jobs) => defer(() => this.getWorkerPromise(jobs, quarterData))),
       shareReplay(),
     );
   }
@@ -60,6 +71,33 @@ export class LinkedInService {
       }),
       shareReplay(),
     );
+  }
+
+  private mapJobsWithWorker(
+    jobs: LinkedInJob[] | null,
+    quarterData: QuarterData,
+  ): Observable<Job[]> {
+    return defer(() => {
+      if (jobs == null) throw new Error('No jobs were returned');
+      quarterData.isDownloading = false;
+      quarterData.isLoading = true;
+      return this.getWorkerPromise(jobs, quarterData);
+    });
+  }
+
+  private updateDownloadProgress(event: HttpEvent<LinkedInJob[]>, quarterData: QuarterData): void {
+    if (event.type === HttpEventType.ResponseHeader) {
+      quarterData.canTrackDownloadProgress = true;
+    }
+
+    if (event.type === HttpEventType.DownloadProgress) {
+      if (event.loaded == undefined || event.total == undefined) {
+        quarterData.canTrackDownloadProgress = false;
+        throw new Error('Download progress tracking has failed');
+      }
+      const percentDone = event.loaded / (event.total || 1);
+      quarterData.downloadingProgress = percentDone;
+    }
   }
 
   private async getJobsPromise(

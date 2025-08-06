@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpEvent } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
@@ -10,10 +10,14 @@ import { collectionMap } from './mongo.data';
 export class MongoService {
   constructor(private http: HttpClient) {}
 
-  getJobs<T>(collectionKey: string): Observable<T> {
-    return this.http.post<T>(environment.MONGO_LAMBDA_URL, {
-      collectionName: collectionMap[collectionKey].collectionName,
-      dbName: collectionMap[collectionKey].dbName,
-    });
+  getJobs<T>(collectionKey: string): Observable<HttpEvent<T>> {
+    return this.http.post<T>(
+      environment.MONGO_LAMBDA_URL,
+      {
+        collectionName: collectionMap[collectionKey].collectionName,
+        dbName: collectionMap[collectionKey].dbName,
+      },
+      { reportProgress: true, observe: 'events', responseType: 'json' },
+    );
   }
 }

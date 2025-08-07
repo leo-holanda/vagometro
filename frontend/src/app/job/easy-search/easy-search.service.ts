@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { SearchData, SortOrders } from './easy-search.types';
+import { SearchData, SortOrders, TIP_TOAST_FLAG } from './easy-search.types';
 import { Job, JobLists } from '../job.types';
 import { JobService } from '../job.service';
 import { filter, map, Observable, take } from 'rxjs';
@@ -169,6 +169,16 @@ export class EasySearchService {
 
   getCompaniesForSearchForm(): Observable<CompaniesOnSearchForm[]> {
     return this.jobService.getCompaniesNames().pipe(map(this.mapToCompaniesOnSearchForm));
+  }
+
+  getTipToastFlag(): boolean {
+    const flag = localStorage.getItem(TIP_TOAST_FLAG);
+    if (flag === null) return true;
+    return flag === 'true';
+  }
+
+  setTipToastFlag(): void {
+    localStorage.setItem(TIP_TOAST_FLAG, 'false');
   }
 
   private mapToCompaniesOnSearchForm(companiesNames: string[]): CompaniesOnSearchForm[] {

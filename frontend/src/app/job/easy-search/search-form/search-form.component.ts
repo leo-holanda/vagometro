@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   Technology,
@@ -22,7 +22,7 @@ import { EasySearchService } from '../easy-search.service';
 import { WorkplaceTypes } from 'src/app/shared/keywords-matcher/workplace.data';
 import { ContractTypes } from 'src/app/shared/keywords-matcher/contract-types.data';
 import { InclusionTypes } from 'src/app/shared/keywords-matcher/inclusion.data';
-import { combineLatest, map, Observable, startWith, Subject, take } from 'rxjs';
+import { combineLatest, map, Observable, startWith, Subject } from 'rxjs';
 import { Job } from '../../job.types';
 
 @Component({
@@ -32,7 +32,7 @@ import { Job } from '../../job.types';
   templateUrl: './search-form.component.html',
   styleUrls: ['./search-form.component.scss'],
 })
-export class SearchFormComponent {
+export class SearchFormComponent implements OnInit {
   searchData!: SearchData;
   keywordSearchString = '';
   companySearchString = '';
@@ -54,6 +54,9 @@ export class SearchFormComponent {
   sortOrder: SortOrders = SortOrders.descending;
   SortOrders = SortOrders;
 
+  shouldShowTipToast = false;
+  progressToHideTipToast = 0;
+
   trackByKeyword = trackByKeyword;
   trackByName = trackByName;
 
@@ -69,6 +72,10 @@ export class SearchFormComponent {
     this.loadInclusionTypes();
     this.loadCompanies();
     this.toggleSelectedItems();
+  }
+
+  ngOnInit(): void {
+    this.handleTipToast();
   }
 
   filterCompanies(): void {
@@ -149,6 +156,38 @@ export class SearchFormComponent {
   setSortingSettings(): void {
     this.searchData.sortBy = this.sortBy;
     this.searchData.sortOrder = this.sortOrder;
+  }
+
+  onTipToastClick(): void {
+    this.shouldShowTipToast = false;
+    this.easySearchService.setTipToastFlag();
+  }
+
+  private handleTipToast(): void {
+    const delayToShowTipToast = 3000;
+
+    setTimeout(() => {
+      this.shouldShowTipToast = this.easySearchService.getTipToastFlag();
+
+      if (this.shouldShowTipToast) {
+        const startTime = new Date();
+        const delayToHideTipToast = 8000;
+
+        setTimeout(() => {
+          this.shouldShowTipToast = false;
+        }, delayToHideTipToast);
+
+        const updateInterval = 100;
+        const progressToHideToast = setInterval(() => {
+          const elapsedTime = Date.now() - startTime.getTime();
+          this.progressToHideTipToast = (elapsedTime / delayToHideTipToast) * 100;
+
+          if (elapsedTime >= delayToHideTipToast) {
+            clearInterval(progressToHideToast);
+          }
+        }, updateInterval);
+      }
+    }, delayToShowTipToast);
   }
 
   private loadExperienceLevels(): void {

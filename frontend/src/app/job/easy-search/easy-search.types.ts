@@ -5,6 +5,8 @@ import { Technology } from 'src/app/shared/keywords-matcher/technologies.data';
 import { WorkplaceTypes } from 'src/app/shared/keywords-matcher/workplace.data';
 import { Job } from '../job.types';
 
+export const TIP_TOAST_FLAG = 'shouldShowTipToast';
+
 export enum SortOrders {
   ascending = 'ascending',
   descending = 'descending',

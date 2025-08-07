@@ -158,6 +158,34 @@
     </section>
   </section>
 
+  <section class="card card-bordered card-compact w-full lg:w-1/2 bg-base-300">
+    <header class="card-title items-center p-4">
+      <i class="bx bx-sort"></i>
+      <h1>Ordenar por...</h1>
+    </header>
+
+    <div class="form-control gap-2 w-full md:w-fit md:gap-0 flex flex-row flex-wrap px-4 pb-4">
+      <select
+        [(ngModel)]="sortBy"
+        (ngModelChange)="setSortingSettings()"
+        class="select select-bordered w-full md:w-fit md:rounded-r-none"
+      >
+        <option value="publishedDate">Data de publicação</option>
+        <option value="matchPercentage">Porcentagem de match</option>
+        <option value="repostings">Repostagens</option>
+      </select>
+
+      <select
+        [(ngModel)]="sortOrder"
+        (ngModelChange)="setSortingSettings()"
+        class="select select-bordered w-full md:w-fit md:rounded-l-none"
+      >
+        <option [value]="SortOrders.ascending">Ascendente</option>
+        <option [value]="SortOrders.descending">Descendente</option>
+      </select>
+    </div>
+  </section>
+
   <section class="flex items-center justify-end gap-4 w-full lg:w-1/2 mt-4">
     <button [routerLink]="['/busca-facil']" class="btn btn-outline btn-error items-center flex-1">
       <i class="bx bxs-trash"></i>

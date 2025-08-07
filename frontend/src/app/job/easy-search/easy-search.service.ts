@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { SearchData } from './easy-search.types';
+import { SearchData, SortOrders } from './easy-search.types';
 import { Job, JobLists } from '../job.types';
 import { JobService } from '../job.service';
 import { filter, map, Observable, take } from 'rxjs';
@@ -34,18 +34,34 @@ export class EasySearchService {
     return getJobMatchPercentage(job, this.searchData);
   }
 
-  sortByMatchPercentage(jobs: Job[]): Job[] {
-    return jobs.sort((a, b) => {
-      const aMatchPercentage = a.matchPercentage || 0;
-      const bMatchPercentage = b.matchPercentage || 0;
+  sortJobs = (jobs: Job[]): Job[] => {
+    const searchData = this.getSearchData();
+    const sortBy: keyof Job = searchData ? searchData.sortBy : 'matchPercentage';
+    const sortOrder: SortOrders = searchData ? searchData.sortOrder : SortOrders.descending;
 
-      if (aMatchPercentage === bMatchPercentage) {
-        return b.publishedDate.getTime() - a.publishedDate.getTime();
+    return jobs.sort((a, b) => {
+      let aValue = a[sortBy] || 0;
+      let bValue = b[sortBy] || 0;
+
+      if (typeof aValue == 'string' && typeof bValue == 'string') {
+        aValue = aValue.toString().toLowerCase();
+        bValue = bValue.toString().toLowerCase();
       }
 
-      return bMatchPercentage - aMatchPercentage;
+      if (aValue instanceof Date && bValue instanceof Date) {
+        aValue = new Date(aValue).getTime();
+        bValue = new Date(bValue).getTime();
+      }
+
+      if (aValue === bValue) {
+        if (sortOrder == SortOrders.ascending) return a.publishedDate > b.publishedDate ? 1 : -1;
+        return a.publishedDate < b.publishedDate ? 1 : -1;
+      }
+
+      if (sortOrder == SortOrders.ascending) return aValue > bValue ? 1 : -1;
+      return aValue < bValue ? 1 : -1;
     });
-  }
+  };
 
   filterJobsByListType(jobs: Job[], listType: JobLists): Job[] {
     if (listType == JobLists.APPLIED) {

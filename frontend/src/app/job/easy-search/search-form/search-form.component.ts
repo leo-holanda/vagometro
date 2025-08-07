@@ -6,7 +6,7 @@ import {
   multiWordTechnologies,
 } from 'src/app/shared/keywords-matcher/technologies.data';
 import { trackByKeyword, trackByName } from 'src/app/shared/track-by-functions';
-import { SearchData } from '../easy-search.types';
+import { SearchData, SortOrders } from '../easy-search.types';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import {
@@ -23,6 +23,7 @@ import { WorkplaceTypes } from 'src/app/shared/keywords-matcher/workplace.data';
 import { ContractTypes } from 'src/app/shared/keywords-matcher/contract-types.data';
 import { InclusionTypes } from 'src/app/shared/keywords-matcher/inclusion.data';
 import { combineLatest, map, Observable, startWith, Subject, take } from 'rxjs';
+import { Job } from '../../job.types';
 
 @Component({
   selector: 'vgm-search-form',
@@ -48,6 +49,10 @@ export class SearchFormComponent {
 
   private selectedKeywords: Technology[] = [];
   private keywords: KeywordOnSearchForm[] = [];
+
+  sortBy: keyof Job = 'matchPercentage';
+  sortOrder: SortOrders = SortOrders.descending;
+  SortOrders = SortOrders;
 
   trackByKeyword = trackByKeyword;
   trackByName = trackByName;
@@ -139,6 +144,11 @@ export class SearchFormComponent {
   saveSearchData(): void {
     this.easySearchService.saveSearchData(this.searchData);
     this.router.navigate(['busca-facil']);
+  }
+
+  setSortingSettings(): void {
+    this.searchData.sortBy = this.sortBy;
+    this.searchData.sortOrder = this.sortOrder;
   }
 
   private loadExperienceLevels(): void {
@@ -303,6 +313,8 @@ export class SearchFormComponent {
         contractTypes: [],
         inclusionTypes: [],
         excludedCompanies: [],
+        sortBy: 'matchPercentage',
+        sortOrder: SortOrders.descending,
       };
     else this.searchData = searchData;
   }

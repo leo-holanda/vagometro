@@ -87,7 +87,7 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
       filter((jobs): jobs is Job[] => jobs != undefined),
       map(this.easySearchService.filterJobsBySearchData),
       map(this.easySearchService.setJobsInteractionStatus),
-      map(this.easySearchService.sortByMatchPercentage),
+      map(this.easySearchService.sortJobs),
       takeUntil(this.destroy$),
     );
 

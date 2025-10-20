@@ -55,7 +55,7 @@ export class JobCountComponent implements OnInit, OnDestroy {
     );
 
     movingAverageData.subscribe((movingAverageData) => {
-      this.shouldShowMovingAverageComparison = movingAverageData.length > 3;
+      this.shouldShowMovingAverageComparison = movingAverageData.length > 2;
     });
 
     this.selectedMovingAverageData$ = movingAverageData.pipe(

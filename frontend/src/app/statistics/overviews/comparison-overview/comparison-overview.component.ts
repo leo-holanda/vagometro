@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { JobPostingsComparisonComponent } from '../../comparisons/job-postings-comparison/job-postings-comparison.component';
 import { PublicationChartComponent } from '../../charts/publication-chart/publication-chart.component';
 import { IntervalTypes } from '../../charts/publication-chart/publication-chart.model';
+import { ComparisonTypes } from '../../comparisons/comparisons.types';
 
 @Component({
   selector: 'vgm-comparison-overview',
@@ -12,17 +13,22 @@ import { IntervalTypes } from '../../charts/publication-chart/publication-chart.
   styleUrls: ['./comparison-overview.component.scss'],
 })
 export class ComparisonOverviewComponent {
-  shouldShowMonthly = true;
+  comparisonType: ComparisonTypes = ComparisonTypes.monthly;
   chartIntervalType: IntervalTypes = 'monthly';
 
-  onDataTypeChange(shouldShowMonthly: boolean): void {
-    this.shouldShowMonthly = shouldShowMonthly;
-    if (shouldShowMonthly) this.chartIntervalType = 'monthly';
-    else this.chartIntervalType = 'annual';
+  onComparisonTypeChange(comparisonType: ComparisonTypes): void {
+    this.comparisonType = comparisonType;
+
+    //TODO: Adapt chart interval to allow quarterly
+    if (comparisonType !== ComparisonTypes.quarterly) {
+      this.chartIntervalType = comparisonType;
+    }
   }
 
   onIntervalTypeChange(intervalType: IntervalTypes): void {
-    if (intervalType == 'monthly') this.shouldShowMonthly = true;
-    else this.shouldShowMonthly = false;
+    //TODO: Adapt IntervalTypes to new ComparisonTypes
+    if (intervalType == 'daily') return;
+    if (intervalType == 'monthly') this.comparisonType = ComparisonTypes.monthly;
+    if (intervalType == 'annual') this.comparisonType = ComparisonTypes.annual;
   }
 }

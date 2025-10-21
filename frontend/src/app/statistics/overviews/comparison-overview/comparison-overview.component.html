@@ -3,8 +3,8 @@
     <div class="order-1 lg:order-2 overflow-x-auto">
       <!-- TODO: consider using cards instead of table when screen is small -->
       <vgm-job-postings-comparison
-        [shouldShowMonthly]="shouldShowMonthly"
-        (dataTypeChanged)="onDataTypeChange($event)"
+        [comparisonType]="comparisonType"
+        (comparisonTypeChanged)="onComparisonTypeChange($event)"
       ></vgm-job-postings-comparison>
     </div>
 

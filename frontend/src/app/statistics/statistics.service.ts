@@ -7,6 +7,7 @@ import { ContractTypes } from '../shared/keywords-matcher/contract-types.data';
 import { CertificationStatus } from '../shared/keywords-matcher/certification.data';
 import { RankData } from './rank/rank.types';
 import { ComparisonData } from './comparisons/comparisons.types';
+import { Quarters } from '../job-sources/job-sources.types';
 
 @Injectable({
   providedIn: 'root',
@@ -559,6 +560,59 @@ export class StatisticsService {
     );
   }
 
+  getQuarterlyComparison(
+    jobs$: Observable<Job[] | undefined> = this.jobService.jobs$,
+  ): Observable<ComparisonData[]> {
+    return jobs$.pipe(
+      filter((jobs): jobs is Job[] => jobs != undefined),
+      map((jobs) => {
+        const quarterMap = new Map<number, number>();
+
+        jobs.forEach((job) => {
+          const jobQuarterFirstDay = this.getFirstDayOfQuarter(job.publishedDate).getTime();
+          const currentQuarterCount = quarterMap.get(jobQuarterFirstDay) || 0;
+          quarterMap.set(jobQuarterFirstDay, currentQuarterCount + 1);
+        });
+
+        const sortedObjects = Array.from(quarterMap.entries())
+          .sort((a, b) => (a[0] > b[0] ? -1 : 1))
+          .map(([key, value]) => {
+            return {
+              name: this.getQuarter(key),
+              count: value,
+            };
+          });
+
+        return sortedObjects;
+      }),
+      map((data) => {
+        const quartelyComparativeData: ComparisonData[] = [];
+
+        for (let i = 0; i < data.length; i++) {
+          let difference;
+          let differenceAsPercentage;
+
+          if (i + 1 == data.length) {
+            difference = data[i].count;
+            differenceAsPercentage = 100;
+          } else {
+            difference = data[i].count - data[i + 1].count;
+            differenceAsPercentage = (difference / data[i + 1].count) * 100;
+          }
+
+          quartelyComparativeData.push({
+            name: data[i].name,
+            count: data[i].count,
+            difference: difference,
+            differenceAsPercentage: differenceAsPercentage,
+          });
+        }
+
+        return quartelyComparativeData;
+      }),
+    );
+  }
+
   getAnnualComparison(
     jobs$: Observable<Job[] | undefined> = this.jobService.jobs$,
   ): Observable<ComparisonData[]> {
@@ -633,5 +687,22 @@ export class StatisticsService {
     });
 
     return daysPerMonth;
+  }
+
+  //TODO: Extract these functions to shared file
+  private getFirstDayOfQuarter(date: Date) {
+    const month = date.getMonth();
+    const year = date.getFullYear();
+
+    const quarterStartMonth = Math.floor(month / 3) * 3;
+    const firstDay = new Date(year, quarterStartMonth, 1, 0, 0, 0, 0);
+
+    return firstDay;
+  }
+
+  private getQuarter(dateNumber: number) {
+    const date = new Date(dateNumber);
+    const quarter = Math.ceil((date.getMonth() + 1) / 3);
+    return `${Object.values(Quarters)[quarter - 1]}/${date.getFullYear() % 1000}`;
   }
 }

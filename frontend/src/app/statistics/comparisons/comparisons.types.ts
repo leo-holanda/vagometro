@@ -1,3 +1,9 @@
+export enum ComparisonTypes {
+  monthly = 'monthly',
+  quarterly = 'quarterly',
+  annual = 'annual',
+}
+
 export type MonthData = {
   name: string;
   count: number;

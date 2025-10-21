@@ -4,26 +4,43 @@
       <h2 class="card-title justify-between flex-wrap gap-4">
         <div>
           <i class="bx bxs-chart"></i>
-          Comparativo {{ shouldShowMonthly ? "Mensal" : "Anual" }}
+          Comparativo
+          {{
+            comparisonType === comparisonTypes.monthly
+              ? "Mensal"
+              : comparisonType === comparisonTypes.quarterly
+                ? "Trimestral"
+                : "Anual"
+          }}
         </div>
 
         <section class="flex flex-col gap-2">
           <div class="flex flex-wrap gap-2">
             <button
               [ngClass]="{
-                'btn-active': shouldShowMonthly
+                'btn-active': comparisonType === comparisonTypes.monthly
               }"
-              (click)="onDataTypeClick(true)"
+              (click)="onComparisonTypeClick(comparisonTypes.monthly)"
               class="btn btn-outline"
             >
-              Ver mensamente
+              Ver mensalmente
             </button>
 
             <button
               [ngClass]="{
-                'btn-active': !shouldShowMonthly
+                'btn-active': comparisonType === comparisonTypes.quarterly
               }"
-              (click)="onDataTypeClick(false)"
+              (click)="onComparisonTypeClick(comparisonTypes.quarterly)"
+              class="btn btn-outline"
+            >
+              Ver trimestralmente
+            </button>
+
+            <button
+              [ngClass]="{
+                'btn-active': comparisonType === comparisonTypes.annual
+              }"
+              (click)="onComparisonTypeClick(comparisonTypes.annual)"
               class="btn btn-outline"
             >
               Ver anualmente
@@ -33,7 +50,7 @@
       </h2>
 
       <div class="overflow-x-auto max-h-96 mt-4">
-        <ng-container *ngIf="shouldShowMonthly; else annualDataTemplate">
+        <ng-container *ngIf="comparisonType === comparisonTypes.monthly">
           <table class="table table-sm table-zebra table-pin-rows">
             <thead>
               <tr>
@@ -76,7 +93,56 @@
           </table>
         </ng-container>
 
-        <ng-template #annualDataTemplate>
+        <ng-container *ngIf="comparisonType === comparisonTypes.quarterly">
+          <table class="table table-sm table-zebra table-pin-rows">
+            <thead>
+              <tr>
+                <th>Trimestre</th>
+                <th>Vagas</th>
+                <th>Diferença</th>
+                <th>Diferença (%)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="
+                  let quarter of quarterlyComparativeData$ | async;
+                  index as i;
+                  trackBy: trackByComparisonData
+                "
+              >
+                <td>{{ quarter.name | titlecase }}</td>
+                <td>{{ quarter.count | number }}</td>
+                <td
+                  [ngClass]="{
+                    'text-green-500': quarter.difference > 0,
+                    'text-red-500': quarter.difference < 0
+                  }"
+                >
+                  {{
+                    quarter.difference > 0
+                      ? "+" + (quarter.difference | number)
+                      : (quarter.difference | number)
+                  }}
+                </td>
+                <td
+                  [ngClass]="{
+                    'text-green-500': quarter.difference > 0,
+                    'text-red-500': quarter.difference < 0
+                  }"
+                >
+                  {{
+                    (quarter.differenceAsPercentage > 0
+                      ? "+" + (quarter.differenceAsPercentage | number: "1.2-2")
+                      : (quarter.differenceAsPercentage | number: "1.2-2")) + "%"
+                  }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </ng-container>
+
+        <ng-container *ngIf="comparisonType === comparisonTypes.annual">
           <table class="table table-sm table-zebra table-pin-rows">
             <thead>
               <tr>
@@ -123,7 +189,7 @@
               </tr>
             </tbody>
           </table>
-        </ng-template>
+        </ng-container>
       </div>
     </div>
   </div>

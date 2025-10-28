@@ -36,7 +36,6 @@ export enum JobCollections {
 
   //LinkedIn
   linkedinDev = 'linkedinDev',
-  linkedinDevOpsBr = 'linkedinDevOpsBr',
 }
 
 export type QuarterData = {

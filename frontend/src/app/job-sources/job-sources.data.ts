@@ -160,15 +160,6 @@ export const jobCollectionsMap: JobCollectionsMap = {
     searchStringKeywords: ['desenvolvedor'],
     initialDailyFetchDate: '08/02/2024',
   },
-  linkedinDevOpsBr: {
-    name: 'DevOps (BR)',
-    icon: 'bx bxl-linkedin-square',
-    source: JobSources.linkedin,
-    dataByYear: {},
-    newJobs: getDefaultQuarterData(),
-    searchStringKeywords: ['devops', 'cloud', 'sre'],
-    initialDailyFetchDate: '08/07/2025',
-  },
 };
 
 function getDefaultQuarterData(): QuarterData {

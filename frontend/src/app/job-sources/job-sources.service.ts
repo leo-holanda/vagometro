@@ -260,6 +260,7 @@ export class JobSourcesService {
     return {
       2024: this.createQuartersMap(2024),
       2025: this.createQuartersMap(2025),
+      2026: this.createQuartersMap(2026),
     };
   }
 }

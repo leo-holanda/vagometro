@@ -14,7 +14,7 @@ def request_api(params, session):
     delay = 1
     while (delay < 120):
         try:
-            url = "https://portal.api.gupy.io/api/job"
+            url = "https://employability-portal.gupy.io/api/v1/jobs"
             current_offset = params["offset"]
             print(f"Sending a request with offset = {current_offset}")
             response = session.get(url, params=params)
@@ -41,7 +41,7 @@ def get_unique_jobs(jobs):
 
 def is_job_old(job):
     current_datetime = datetime.now()
-    two_days_ago = current_datetime.replace(hour=12, minute=0, second=0, microsecond=0) - timedelta(days=1)
+    two_days_ago = current_datetime.replace(hour=0, minute=0, second=0, microsecond=0) - timedelta(days=1)
     published_date = datetime.strptime(job.get("publishedDate"), "%Y-%m-%dT%H:%M:%S.%fZ")
 
     return published_date <= two_days_ago
@@ -73,7 +73,7 @@ def get_jobs_from_api(event):
     keywords = event["keywords"]
     for keyword in keywords:
         print(f'Starting search for jobs where name = {keyword}')
-        params = {"name": keyword, "offset": 0}
+        params = {"jobName": keyword, "offset": 0}
         has_collected_all_new_jobs = False
 
         while(True):
